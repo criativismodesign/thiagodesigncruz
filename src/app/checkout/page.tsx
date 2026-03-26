@@ -66,13 +66,70 @@ export default function CheckoutPage() {
       toast.error("Carrinho vazio");
       return;
     }
+
+    if (!form.name || !form.email || !form.cpf || !form.cep || !form.street || !form.number || !form.neighborhood || !form.city || !form.state) {
+      toast.error("Preencha todos os campos obrigatórios");
+      return;
+    }
+
     setLoading(true);
-    // Simular processamento
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    toast.success("Pedido realizado com sucesso!");
-    clearCart();
-    router.push("/pedido-confirmado");
-    setLoading(false);
+
+    try {
+      const res = await fetch("/api/payments/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((item) => ({
+            productId: item.productId,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            size: item.size,
+            color: item.color,
+            customDesign: item.customDesign,
+          })),
+          payer: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            cpf: form.cpf,
+          },
+          shippingAddress: {
+            street: form.street,
+            number: form.number,
+            complement: form.complement,
+            neighborhood: form.neighborhood,
+            city: form.city,
+            state: form.state,
+            zipCode: form.cep,
+          },
+          shippingCost: shipping,
+          discount,
+          paymentMethod,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Erro ao processar pagamento");
+      }
+
+      // Redirect to MercadoPago checkout
+      clearCart();
+      if (data.initPoint) {
+        window.location.href = data.initPoint;
+      } else if (data.sandboxInitPoint) {
+        window.location.href = data.sandboxInitPoint;
+      } else {
+        toast.error("Erro ao gerar link de pagamento");
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Erro ao processar pagamento"
+      );
+      setLoading(false);
+    }
   };
 
   if (items.length === 0) {
