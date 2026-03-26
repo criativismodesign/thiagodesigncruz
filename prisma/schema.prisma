@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  phone         String?
+  role          String    @default("customer") // customer | admin
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  addresses     Address[]
+  orders        Order[]
+  cartItems     CartItem[]
+  reviews       Review[]
+}
+
+model Address {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label         String   @default("Casa")
+  street        String
+  number        String
+  complement    String?
+  neighborhood  String
+  city          String
+  state         String
+  zipCode       String
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?   @db.Text
+  image       String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+}
+
+model Product {
+  id            String      @id @default(cuid())
+  name          String
+  slug          String      @unique
+  description   String      @db.Text
+  price         Float
+  comparePrice  Float?
+  images        String      @db.Text // JSON array of image URLs
+  categoryId    String
+  category      Category    @relation(fields: [categoryId], references: [id])
+  type          String      // "camiseta" | "mousepad"
+  sizes         String?     @db.Text // JSON array: ["P","M","G","GG"] for camisetas
+  colors        String?     @db.Text // JSON array of available colors
+  stock         Int         @default(0)
+  featured      Boolean     @default(false)
+  active        Boolean     @default(true)
+  customizable  Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  orderItems    OrderItem[]
+  cartItems     CartItem[]
+  reviews       Review[]
+  analytics     ProductAnalytics[]
+
+  @@index([categoryId])
+  @@index([type])
+  @@index([featured])
+}
+
+model CartItem {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity      Int      @default(1)
+  size          String?
+  color         String?
+  customDesign  String?  @db.Text // JSON with custom design data
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  status          String      @default("pending") // pending | paid | processing | shipped | delivered | cancelled
+  total           Float
+  subtotal        Float
+  shipping        Float       @default(0)
+  discount        Float       @default(0)
+  paymentMethod   String?
+  paymentId       String?
+  trackingCode    String?
+  shippingAddress String      @db.Text // JSON
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id])
+  quantity      Int
+  price         Float
+  size          String?
+  color         String?
+  customDesign  String?  @db.Text
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  rating    Int
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([userId])
+}
+
+model ProductAnalytics {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  event     String   // "view" | "click" | "add_to_cart" | "purchase" | "cart_abandon"
+  sessionId String?
+  userId    String?
+  metadata  String?  @db.Text // JSON extra data
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([event])
+  @@index([createdAt])
+}
+
+model SiteAnalytics {
+  id        String   @id @default(cuid())
+  event     String   // "page_view" | "session_start" | "newsletter_signup"
+  page      String?
+  sessionId String?
+  userId    String?
+  metadata  String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([event])
+  @@index([createdAt])
+}
+
+model Newsletter {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
