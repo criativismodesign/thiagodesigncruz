@@ -1,5 +1,21 @@
 import Link from "next/link";
 import { Palette, Heart, Award, Users } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sobre Nós",
+  description:
+    "Conheça a Thiago Design Cruz. Criamos camisetas e mouse pads com designs exclusivos e personalizados. Qualidade premium e arte em cada peça.",
+  alternates: {
+    canonical: "https://thiagodesigncruz.com.br/sobre",
+  },
+  openGraph: {
+    title: "Sobre a Thiago Design Cruz",
+    description:
+      "Criamos camisetas e mouse pads com designs exclusivos e personalizados. Qualidade premium e arte em cada peça.",
+    url: "https://thiagodesigncruz.com.br/sobre",
+  },
+};
 
 export default function AboutPage() {
   return (
