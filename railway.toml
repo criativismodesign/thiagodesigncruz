@@ -2,8 +2,11 @@
 builder = "NIXPACKS"
 
 [deploy]
-startCommand = "npm install && npx prisma generate && npm run build && npm run start"
+startCommand = "npm install && npx prisma generate && NODE_OPTIONS='--max-old-space-size=2048' npm run build && npm run start"
 restartPolicyType = "ON_FAILURE"
 
 [services.web]
 name = "app"
+
+[[services.web.build.args]]
+NIXPACKS_NODE_VERSION = "20"
