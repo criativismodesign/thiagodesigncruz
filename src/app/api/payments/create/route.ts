@@ -48,23 +48,33 @@ export async function POST(request: NextRequest) {
       paymentMethod: paymentMethod || "mercadopago",
       shippingAddress: JSON.stringify(shippingAddress),
       items: {
-        create: items.map(
-          (item: {
-            productId: string;
-            name: string;
-            quantity: number;
-            price: number;
-            size?: string;
-            color?: string;
-            customDesign?: string;
-          }) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            price: item.price,
-            size: item.size || null,
-            color: item.color || null,
-            customDesign: item.customDesign || null,
-          })
+        create: await Promise.all(
+          items.map(
+            async (item: {
+              productId: string;
+              name: string;
+              quantity: number;
+              price: number;
+              size?: string;
+              color?: string;
+              customDesign?: string;
+            }) => {
+              // Find real product by slug
+              const realProduct = await prisma.product.findUnique({
+                where: { slug: item.productId },
+                select: { id: true },
+              });
+              
+              return {
+                productId: realProduct?.id || item.productId,
+                quantity: item.quantity,
+                price: item.price,
+                size: item.size || null,
+                color: item.color || null,
+                customDesign: item.customDesign || null,
+              };
+            }
+          )
         ),
       },
     };
@@ -142,9 +152,9 @@ export async function POST(request: NextRequest) {
       orderId: order.id,
     });
   } catch (error) {
-    console.error("Erro ao criar pagamento:", error);
+    console.error("Payment creation error:", error);
     return NextResponse.json(
-      { error: "Erro ao processar pagamento" },
+      { error: error instanceof Error ? error.message : "Erro ao processar pagamento" },
       { status: 500 }
     );
   }

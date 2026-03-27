@@ -80,7 +80,7 @@ export default function ProductDetailPage() {
     }
     addItem({
       id: "",
-      productId: product.id,
+      productId: product.slug,
       name: product.name,
       price: product.price,
       image: "",
