@@ -4,6 +4,11 @@ import { prisma } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
+    // Return early if database is disabled
+    if (!prisma) {
+      return NextResponse.json({ received: true });
+    }
+
     const body = await request.json();
 
     // MercadoPago sends different notification types

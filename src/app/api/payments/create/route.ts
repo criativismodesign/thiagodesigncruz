@@ -6,6 +6,13 @@ import { authOptions } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
+    // Return early if database is disabled
+    if (!prisma) {
+      return NextResponse.json({ 
+        error: "Pagamentos temporariamente desabilitados. Tente novamente mais tarde." 
+      }, { status: 503 });
+    }
+
     const body = await request.json();
     const {
       items,

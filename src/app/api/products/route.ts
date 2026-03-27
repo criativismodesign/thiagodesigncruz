@@ -3,6 +3,13 @@ import { prisma } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   try {
+    // Return early if database is disabled
+    if (!prisma) {
+      return NextResponse.json({ 
+        message: "Produtos temporariamente desabilitados. Usando dados estáticos." 
+      }, { status: 503 });
+    }
+
     const { searchParams } = new URL(request.url);
     const categoria = searchParams.get("categoria");
     const featured = searchParams.get("featured");

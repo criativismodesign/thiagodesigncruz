@@ -3,6 +3,11 @@ import { prisma } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
+    // Return early if database is disabled
+    if (!prisma) {
+      return NextResponse.json({ message: "Database temporarily disabled" }, { status: 503 });
+    }
+
     const body = await request.json();
     const { event, productId, sessionId, userId, metadata, page } = body;
 
@@ -20,9 +25,9 @@ export async function POST(request: NextRequest) {
       await prisma.siteAnalytics.create({
         data: {
           event,
-          page,
           sessionId,
           userId,
+          page,
           metadata: metadata ? JSON.stringify(metadata) : null,
         },
       });
@@ -39,6 +44,11 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    // Return early if database is disabled
+    if (!prisma) {
+      return NextResponse.json({ message: "Database temporarily disabled" }, { status: 503 });
+    }
+
     const { searchParams } = new URL(request.url);
     const period = searchParams.get("period") || "30d";
 
