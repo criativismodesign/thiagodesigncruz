@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
               customDesign?: string;
             }) => {
               // Find real product by slug
-              const realProduct = await prisma.product.findUnique({
+              const realProduct = await prisma!.product.findUnique({
                 where: { slug: item.productId },
                 select: { id: true },
               });
