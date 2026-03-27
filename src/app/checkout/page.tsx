@@ -156,7 +156,9 @@ export default function CheckoutPage() {
   };
 
   if (items.length === 0) {
-    router.push("/carrinho");
+    if (typeof window !== 'undefined') {
+      router.push("/carrinho");
+    }
     return null;
   }
 
