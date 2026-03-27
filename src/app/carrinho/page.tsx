@@ -45,8 +45,21 @@ export default function CartPage() {
   }
 
   const subtotal = getTotal();
-  const shipping = subtotal >= 250 ? 0 : 19.9;
-  const pixDiscount = subtotal * 0.1;
+  
+  // Check if cart contains only test product
+  const isTestProductOnly = items.every(item => 
+    item.name === "Camiseta e Mouse Pad Teste"
+  );
+  
+  let shipping = subtotal >= 250 ? 0 : 19.9;
+  let pixDiscount = subtotal * 0.1;
+  
+  // Special pricing for test product only
+  if (isTestProductOnly && items.length > 0) {
+    shipping = 0; // Free shipping
+    pixDiscount = subtotal + 19.90 - 0.10; // Discount to make total exactly R$0.10
+  }
+  
   const total = subtotal + shipping;
 
   return (
