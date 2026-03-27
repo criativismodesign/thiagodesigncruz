@@ -1,12 +1,3 @@
 {
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "https://www.thiagodesigncruz.com.br"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "https://www.thiagodesigncruz.com.br/$1"
-    }
-  ]
+  "redirects": []
 }
