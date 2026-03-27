@@ -9,5 +9,5 @@ restartPolicyMaxRetries = 10
 
 [services.web]
 name = "app"
-command = "npm run start"
-port = 3000
+command = "npm run build && npm run start"
+port = 8080
