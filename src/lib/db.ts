@@ -33,6 +33,13 @@ const mockPrisma = {
   $disconnect: async () => {},
 };
 
-export const prisma = process.env.NODE_ENV === "production" ? (mockPrisma as any) : undefined;
+// Enable database in production to test connection
+export const prisma = process.env.NODE_ENV === "production" 
+  ? new PrismaClient({
+      log: ["error", "warn"],
+    })
+  : (globalForPrisma.prisma ?? new PrismaClient({
+      log: ["query", "error", "warn"],
+    }));
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
