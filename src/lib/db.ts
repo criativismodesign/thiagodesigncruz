@@ -33,10 +33,15 @@ const mockPrisma = {
   $disconnect: async () => {},
 };
 
-// Enable database in production to test connection
+// Enable database in production with DIRECT_URL
 export const prisma = process.env.NODE_ENV === "production" 
   ? new PrismaClient({
       log: ["error", "warn"],
+      datasources: {
+        db: {
+          url: process.env.DIRECT_URL || process.env.DATABASE_URL
+        }
+      }
     })
   : (globalForPrisma.prisma ?? new PrismaClient({
       log: ["query", "error", "warn"],
