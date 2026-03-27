@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
 
     const topProductDetails = await Promise.all(
       topProducts.map(async (item: { productId: string; _count: { id: number } }) => {
-        const product = await prisma.product.findUnique({
+        const product = await prisma!.product.findUnique({
           where: { id: item.productId },
           select: { name: true, slug: true },
         });
