@@ -2,13 +2,11 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "https://www.thiagodesigncruz.com.br",
-      "hasExternalRedirect": true
+      "destination": "https://www.thiagodesigncruz.com.br"
     },
     {
       "source": "/(.*)",
-      "destination": "https://www.thiagodesigncruz.com.br/$1",
-      "hasExternalRedirect": true
+      "destination": "https://www.thiagodesigncruz.com.br/$1"
     }
   ]
 }
