@@ -33,7 +33,13 @@ const mockPrisma = {
   $disconnect: async () => {},
 };
 
-// Safe mode: use mock until database connection is fixed
-export const prisma = process.env.NODE_ENV === "production" ? (mockPrisma as any) : undefined;
+// Production mode: use real database (Railway will provide DATABASE_URL)
+export const prisma = process.env.NODE_ENV === "production" 
+  ? new PrismaClient({
+      log: ["error", "warn"],
+    })
+  : (globalForPrisma.prisma ?? new PrismaClient({
+      log: ["query", "error", "warn"],
+    }));
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
