@@ -24,19 +24,19 @@ const productsDB: Record<string, {
 }> = {
   "camiseta-nebulosa-cosmica": {
     id: "1", name: "Camiseta Nebulosa Cósmica", slug: "camiseta-nebulosa-cosmica",
-    price: 89.9, comparePrice: 119.9, type: "camiseta",
+    price: 0.1, comparePrice: null, type: "camiseta",
     description: "Camiseta premium com estampa exclusiva de nebulosa cósmica. Tecido 100% algodão penteado, estampa em DTG de alta resolução que não desbota. Perfeita para quem ama o universo e quer um visual único.",
     sizes: ["P", "M", "G", "GG"], colors: ["Preto", "Branco", "Azul Marinho"],
   },
   "mousepad-aurora-boreal": {
     id: "2", name: "Mouse Pad Aurora Boreal", slug: "mousepad-aurora-boreal",
-    price: 59.9, comparePrice: 79.9, type: "mousepad",
+    price: 0.1, comparePrice: null, type: "mousepad",
     description: "Mouse pad gamer com design exclusivo de aurora boreal. Superfície de microfibra premium, base de borracha antiderrapante. Ideal para gaming e uso profissional.",
     sizes: [], colors: [],
   },
   "camiseta-dragao-oriental": {
     id: "3", name: "Camiseta Dragão Oriental", slug: "camiseta-dragao-oriental",
-    price: 99.9, comparePrice: 129.9, type: "camiseta",
+    price: 0.1, comparePrice: null, type: "camiseta",
     description: "Camiseta com arte de dragão oriental em estilo tradicional japonês. Impressão DTG de alta qualidade em algodão premium. Design exclusivo feito à mão.",
     sizes: ["P", "M", "G", "GG"], colors: ["Preto", "Vermelho"],
   },
