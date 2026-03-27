@@ -11,14 +11,15 @@ import {
 } from "lucide-react";
 
 const allProducts = [
-  { id: "1", name: "Camiseta Nebulosa Cósmica", slug: "camiseta-nebulosa-cosmica", price: 0.1, comparePrice: null, type: "camiseta", tag: "Novo", sizes: ["P", "M", "G", "GG"] },
-  { id: "2", name: "Mouse Pad Aurora Boreal", slug: "mousepad-aurora-boreal", price: 0.1, comparePrice: null, type: "mousepad", tag: "Mais Vendido", sizes: [] },
-  { id: "3", name: "Camiseta Dragão Oriental", slug: "camiseta-dragao-oriental", price: 0.1, comparePrice: null, type: "camiseta", tag: "Destaque", sizes: ["P", "M", "G", "GG"] },
-  { id: "4", name: "Mouse Pad Galáxia Neon", slug: "mousepad-galaxia-neon", price: 0.1, comparePrice: null, type: "mousepad", tag: null, sizes: [] },
-  { id: "5", name: "Camiseta Samurai Cyber", slug: "camiseta-samurai-cyber", price: 0.1, comparePrice: null, type: "camiseta", tag: "Edição Limitada", sizes: ["P", "M", "G", "GG"] },
-  { id: "6", name: "Mouse Pad Floresta Mística", slug: "mousepad-floresta-mistica", price: 0.1, comparePrice: null, type: "mousepad", tag: null, sizes: [] },
-  { id: "7", name: "Camiseta Lobo Geométrico", slug: "camiseta-lobo-geometrico", price: 0.1, comparePrice: null, type: "camiseta", tag: null, sizes: ["P", "M", "G", "GG"] },
-  { id: "8", name: "Mouse Pad Oceano Digital", slug: "mousepad-oceano-digital", price: 0.1, comparePrice: null, type: "mousepad", tag: "Promoção", sizes: [] },
+  { id: "1", name: "Camiseta Nebulosa Cósmica", slug: "camiseta-nebulosa-cosmica", price: 89.9, comparePrice: 119.9, type: "camiseta", tag: "Novo", sizes: ["P", "M", "G", "GG"] },
+  { id: "2", name: "Mouse Pad Aurora Boreal", slug: "mousepad-aurora-boreal", price: 59.9, comparePrice: 79.9, type: "mousepad", tag: "Mais Vendido", sizes: [] },
+  { id: "3", name: "Camiseta Dragão Oriental", slug: "camiseta-dragao-oriental", price: 99.9, comparePrice: 129.9, type: "camiseta", tag: "Destaque", sizes: ["P", "M", "G", "GG"] },
+  { id: "4", name: "Mouse Pad Galáxia Neon", slug: "mousepad-galaxia-neon", price: 69.9, comparePrice: null, type: "mousepad", tag: null, sizes: [] },
+  { id: "5", name: "Camiseta Samurai Cyber", slug: "camiseta-samurai-cyber", price: 109.9, comparePrice: 139.9, type: "camiseta", tag: "Edição Limitada", sizes: ["P", "M", "G", "GG"] },
+  { id: "6", name: "Mouse Pad Floresta Mística", slug: "mousepad-floresta-mistica", price: 54.9, comparePrice: null, type: "mousepad", tag: null, sizes: [] },
+  { id: "7", name: "Camiseta Lobo Geométrico", slug: "camiseta-lobo-geometrico", price: 94.9, comparePrice: null, type: "camiseta", tag: null, sizes: ["P", "M", "G", "GG"] },
+  { id: "8", name: "Mouse Pad Oceano Digital", slug: "mousepad-oceano-digital", price: 64.9, comparePrice: 84.9, type: "mousepad", tag: "Promoção", sizes: [] },
+  { id: "test", name: "Camiseta e Mouse Pad Teste", slug: "camiseta-teste-pagamento", price: 0.1, comparePrice: null, type: "camiseta", tag: "Teste Pagamento", sizes: ["P", "M", "G", "GG"] },
 ];
 
 function formatCurrency(value: number) {
