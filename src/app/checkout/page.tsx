@@ -35,8 +35,21 @@ export default function CheckoutPage() {
   });
 
   const subtotal = getTotal();
-  const shipping = subtotal >= 250 ? 0 : 19.9;
-  const discount = paymentMethod === "pix" ? subtotal * 0.1 : 0;
+  
+  // Check if cart contains only test product
+  const isTestProductOnly = items.every(item => 
+    item.name === "Camiseta e Mouse Pad Teste"
+  );
+  
+  let shipping = subtotal >= 250 ? 0 : 19.9;
+  let discount = paymentMethod === "pix" ? subtotal * 0.1 : 0;
+  
+  // Special pricing for test product only
+  if (isTestProductOnly && items.length > 0) {
+    shipping = 0; // Free shipping
+    discount = subtotal + 19.90 - 0.10; // Discount to make total exactly R$0.10
+  }
+  
   const total = subtotal + shipping - discount;
 
   const handleCepLookup = async () => {
@@ -110,18 +123,23 @@ export default function CheckoutPage() {
       });
 
       const data = await res.json();
+      console.log("Payment API response:", data);
 
       if (!res.ok) {
+        console.error("Payment API error:", data);
         throw new Error(data.error || "Erro ao processar pagamento");
       }
 
       // Redirect to MercadoPago checkout
       clearCart();
+      console.log("Redirecting to:", data.initPoint || data.sandboxInitPoint);
+      
       if (data.initPoint) {
         window.location.href = data.initPoint;
       } else if (data.sandboxInitPoint) {
         window.location.href = data.sandboxInitPoint;
       } else {
+        console.error("No payment URL returned:", data);
         toast.error("Erro ao gerar link de pagamento");
       }
     } catch (error) {
