@@ -134,13 +134,18 @@ export default function CheckoutPage() {
       clearCart();
       console.log("Redirecting to:", data.initPoint || data.sandboxInitPoint);
       
-      if (data.initPoint) {
-        window.location.href = data.initPoint;
-      } else if (data.sandboxInitPoint) {
-        window.location.href = data.sandboxInitPoint;
+      if (typeof window !== 'undefined') {
+        if (data.initPoint) {
+          window.location.href = data.initPoint;
+        } else if (data.sandboxInitPoint) {
+          window.location.href = data.sandboxInitPoint;
+        } else {
+          console.error("No payment URL returned:", data);
+          toast.error("Erro ao gerar link de pagamento");
+        }
       } else {
-        console.error("No payment URL returned:", data);
-        toast.error("Erro ao gerar link de pagamento");
+        console.error("Window not available");
+        toast.error("Erro ao redirecionar para pagamento");
       }
     } catch (error) {
       toast.error(
