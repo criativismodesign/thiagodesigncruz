@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import { Providers } from "@/components/providers";
 import { Toaster } from "sonner";
 import { WebsiteJsonLd, OrganizationJsonLd } from "@/components/seo/json-ld";
@@ -83,6 +84,7 @@ export default function RootLayout({
           <Header />
           <main className="min-h-screen">{children}</main>
           <Footer />
+          <WhatsAppButton />
           <Toaster position="top-right" richColors />
         </Providers>
       </body>

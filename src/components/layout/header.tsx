@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useCartStore } from "@/store/cart-store";
 import {
   ShoppingCart,
@@ -12,13 +12,20 @@ import {
   Search,
   Palette,
   ChevronDown,
+  LogOut,
+  Settings,
 } from "lucide-react";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { data: session } = useSession();
   const itemCount = useCartStore((state) => state.getItemCount());
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
     <header className="glass-effect sticky top-0 z-50">
@@ -104,12 +111,48 @@ export function Header() {
             </Link>
 
             {session ? (
-              <Link
-                href="/minha-conta"
-                className="rounded-lg p-2 text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] transition-colors"
-              >
-                <User className="h-5 w-5" />
-              </Link>
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 rounded-lg p-2 text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] transition-colors"
+                >
+                  <User className="h-5 w-5" />
+                  <span className="hidden sm:block text-sm">
+                    {session.user?.name?.split(" ")[0] || "Minha Conta"}
+                  </span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
+                </button>
+                
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 rounded-lg bg-[var(--card)] border border-[var(--border)] shadow-xl animate-fade-in">
+                    <div className="border-b border-[var(--border)] p-3">
+                      <p className="text-sm font-medium text-white truncate">
+                        {session.user?.name}
+                      </p>
+                      <p className="text-xs text-[var(--muted-foreground)] truncate">
+                        {session.user?.email}
+                      </p>
+                    </div>
+                    <div className="p-1">
+                      <Link
+                        href="/minha-conta"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] rounded transition-colors"
+                      >
+                        <Settings className="h-4 w-4" />
+                        Minha Conta
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] rounded transition-colors text-left"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sair
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link
                 href="/login"

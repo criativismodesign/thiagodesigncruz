@@ -17,6 +17,9 @@ import {
   Check,
 } from "lucide-react";
 import { toast } from "sonner";
+import ProductGallery from "@/components/product/ProductGallery";
+import ProductDetails from "@/components/product/ProductDetails";
+import RelatedProducts from "@/components/product/RelatedProducts";
 
 const productsDB: Record<string, {
   id: string; name: string; slug: string; price: number; comparePrice: number | null;
@@ -103,13 +106,14 @@ export default function ProductDetailPage() {
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
         {/* Product Image */}
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--secondary)] aspect-square flex items-center justify-center">
-          {product.type === "camiseta" ? (
-            <Shirt className="h-48 w-48 text-[var(--muted-foreground)]/20" />
-          ) : (
-            <Mouse className="h-48 w-48 text-[var(--muted-foreground)]/20" />
-          )}
-        </div>
+        <ProductGallery 
+          images={[
+            `/placeholder-${product.type}-1.svg`,
+            `/placeholder-${product.type}-2.svg`,
+            `/placeholder-${product.type}-3.svg`,
+          ]}
+          productName={product.name}
+        />
 
         {/* Product Info */}
         <div>
@@ -236,6 +240,15 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Product Details */}
+      <ProductDetails type={product.type as "camiseta" | "mousepad"} />
+
+      {/* Related Products */}
+      <RelatedProducts 
+        currentProductType={product.type}
+        currentProductId={product.id}
+      />
     </div>
   );
 }

@@ -1,15 +1,6 @@
 import Link from "next/link";
-import {
-  Palette,
-  Truck,
-  Shield,
-  CreditCard,
-  Star,
-  ArrowRight,
-  Sparkles,
-  Shirt,
-  Mouse,
-} from "lucide-react";
+import { ArrowRight, Sparkles, Palette, Shirt, Mouse, ChevronRight, Star, Truck, CreditCard, Shield } from "lucide-react";
+import HeroBanner from "@/components/hero/HeroBanner";
 
 const featuredProducts = [
   {
@@ -115,51 +106,8 @@ function formatCurrency(value: number) {
 export default function HomePage() {
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/20 via-transparent to-[var(--accent)]/10" />
-        <div className="absolute top-20 left-10 w-72 h-72 bg-[var(--primary)]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-3xl" />
-
-        <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8 lg:py-40">
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--secondary)] px-4 py-1.5 mb-6">
-              <Sparkles className="h-4 w-4 text-[var(--accent)]" />
-              <span className="text-sm text-[var(--muted-foreground)]">
-                Crie designs únicos do seu jeito
-              </span>
-            </div>
-
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
-              <span className="block text-white">Sua Arte,</span>
-              <span className="block gradient-text mt-2">Seu Estilo</span>
-            </h1>
-
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-[var(--muted-foreground)] leading-relaxed">
-              Camisetas e mouse pads com estampas personalizadas. Use nosso
-              editor para criar sua própria arte ou escolha entre nossos designs
-              exclusivos feitos à mão.
-            </p>
-
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/produtos"
-                className="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[var(--primary)]/25 hover:shadow-[var(--primary)]/40 transition-all duration-300 hover:-translate-y-0.5"
-              >
-                Ver Produtos
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link
-                href="/criar-design"
-                className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--secondary)] px-8 py-3.5 text-base font-semibold text-white hover:bg-[var(--border)] transition-all duration-300"
-              >
-                <Palette className="h-5 w-5 text-[var(--accent)]" />
-                Crie Sua Arte
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Banner */}
+      <HeroBanner />
 
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
