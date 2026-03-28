@@ -1,11 +1,11 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { QrCode, Copy, CheckCircle, Clock } from "lucide-react";
 import { toast } from "sonner";
 
-export default function PagamentoPixPage() {
+function PagamentoPixContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [copied, setCopied] = useState(false);
@@ -170,5 +170,17 @@ export default function PagamentoPixPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function PagamentoPixPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+        <div className="text-white">Carregando...</div>
+      </div>
+    }>
+      <PagamentoPixContent />
+    </Suspense>
   );
 }
