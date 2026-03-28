@@ -136,15 +136,7 @@ export default function CheckoutPage() {
         throw new Error(data.error || "Erro ao processar pagamento");
       }
 
-      // Handle Pix payment with QR code
-      if (data.paymentMethod === "pix" && data.qrCode) {
-        clearCart();
-        // Show QR code modal or redirect to Pix payment page
-        router.push(`/pagamento-pix?order=${data.orderId}&qr=${encodeURIComponent(data.qrCode)}&qrBase64=${encodeURIComponent(data.qrCodeBase64 || '')}`);
-        return;
-      }
-      
-      // Redirect to MercadoPago checkout for other methods
+      // Redirect to MercadoPago checkout for all payment methods
       clearCart();
       console.log("Redirecting to:", data.initPoint || data.sandboxInitPoint);
       
