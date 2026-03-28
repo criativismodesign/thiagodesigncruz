@@ -50,6 +50,12 @@ export default function CheckoutPage() {
     discount = subtotal + 19.90 - 0.10; // Discount to make total exactly R$0.10
   }
   
+  // Ensure discount never exceeds subtotal - minimum payment (R$0.10)
+  const maxDiscount = subtotal - 0.10;
+  if (discount > maxDiscount) {
+    discount = maxDiscount;
+  }
+  
   const total = subtotal + shipping - discount;
 
   const handleCepLookup = async () => {
