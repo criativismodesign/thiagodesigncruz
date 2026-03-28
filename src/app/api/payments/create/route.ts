@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { preference } from "@/lib/mercadopago";
+import { preference, payment } from "@/lib/mercadopago";
 import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -123,6 +123,52 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Handle Pix payment directly
+    if (paymentMethod === "pix") {
+      try {
+        const paymentData = {
+          transaction_amount: Number(total),
+          description: `Pedido ${order.id}`,
+          payment_method_id: "pix",
+          payer: {
+            email: payer.email,
+            identification: {
+              type: "CPF",
+              number: payer.cpf?.replace(/\D/g, ""),
+            },
+            first_name: payer.name.split(" ")[0],
+            last_name: payer.name.split(" ").slice(1).join(" "),
+          },
+          external_reference: order.id,
+          notification_url: `${siteUrl}/api/payments/webhook`,
+        };
+
+        const paymentResponse = await payment.create({ body: paymentData });
+
+        // Update order with payment ID
+        await prisma.order.update({
+          where: { id: order.id },
+          data: { 
+            paymentId: paymentResponse.id?.toString() || "",
+            status: "pending"
+          }
+        });
+
+        return NextResponse.json({
+          orderId: order.id,
+          paymentId: paymentResponse.id,
+          qrCode: paymentResponse.point_of_interaction?.transaction_data?.qr_code,
+          qrCodeBase64: paymentResponse.point_of_interaction?.transaction_data?.qr_code_base64,
+          status: paymentResponse.status,
+          paymentMethod: "pix"
+        });
+      } catch (pixError) {
+        console.error("Pix payment error:", pixError);
+        // Fallback to preference if Pix fails
+      }
+    }
+
+    // Create MercadoPago preference for other payment methods
     const preferenceData = await preference.create({
       body: {
         items: mpItems,
