@@ -33,10 +33,15 @@ const mockPrisma = {
   $disconnect: async () => {},
 };
 
-// Production mode: use real database (Railway will provide DATABASE_URL)
+// Production mode: use real database with proper configuration for Vercel
 export const prisma = process.env.NODE_ENV === "production" 
   ? new PrismaClient({
       log: ["error", "warn"],
+      datasources: {
+        db: {
+          url: process.env.DIRECT_URL || process.env.DATABASE_URL
+        }
+      }
     })
   : (globalForPrisma.prisma ?? new PrismaClient({
       log: ["query", "error", "warn"],
