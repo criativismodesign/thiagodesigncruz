@@ -33,13 +33,13 @@ const mockPrisma = {
   $disconnect: async () => {},
 };
 
-// Production mode: use real database with proper configuration for Vercel
+// Production mode: use real database with DATABASE_URL for Vercel
 export const prisma = process.env.NODE_ENV === "production" 
   ? new PrismaClient({
       log: ["error", "warn"],
       datasources: {
         db: {
-          url: process.env.DIRECT_URL || process.env.DATABASE_URL
+          url: process.env.DATABASE_URL
         }
       }
     })
