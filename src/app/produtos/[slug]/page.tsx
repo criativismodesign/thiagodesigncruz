@@ -42,8 +42,8 @@ const productsDB: Record<string, {
   },
   "camiseta-teste-pagamento": {
     id: "test", name: "Camiseta e Mouse Pad Teste", slug: "camiseta-teste-pagamento",
-    price: 0.1, comparePrice: null, type: "camiseta",
-    description: "Produto de teste para validar sistema de pagamento MercadoPago. Valor simbólico de R$0,10 com frete grátis para testar checkout completo.",
+    price: 1.0, comparePrice: null, type: "camiseta",
+    description: "Produto de teste para validar sistema de pagamento MercadoPago. Valor simbólico de R$1,00 com frete grátis para testar checkout completo.",
     sizes: ["P", "M", "G", "GG"], colors: ["Preto", "Branco"],
   },
 };

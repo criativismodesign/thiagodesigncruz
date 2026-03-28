@@ -76,7 +76,7 @@ const featuredProducts = [
     id: "test",
     name: "Camiseta e Mouse Pad Teste",
     slug: "camiseta-teste-pagamento",
-    price: 0.1,
+    price: 1.0,
     comparePrice: null,
     image: "/placeholder-test.svg",
     type: "camiseta",

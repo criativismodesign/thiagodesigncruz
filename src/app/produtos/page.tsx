@@ -19,7 +19,7 @@ const allProducts = [
   { id: "6", name: "Mouse Pad Floresta Mística", slug: "mousepad-floresta-mistica", price: 54.9, comparePrice: null, type: "mousepad", tag: null, sizes: [] },
   { id: "7", name: "Camiseta Lobo Geométrico", slug: "camiseta-lobo-geometrico", price: 94.9, comparePrice: null, type: "camiseta", tag: null, sizes: ["P", "M", "G", "GG"] },
   { id: "8", name: "Mouse Pad Oceano Digital", slug: "mousepad-oceano-digital", price: 64.9, comparePrice: 84.9, type: "mousepad", tag: "Promoção", sizes: [] },
-  { id: "test", name: "Camiseta e Mouse Pad Teste", slug: "camiseta-teste-pagamento", price: 0.1, comparePrice: null, type: "camiseta", tag: "Teste Pagamento", sizes: ["P", "M", "G", "GG"] },
+  { id: "test", name: "Camiseta e Mouse Pad Teste", slug: "camiseta-teste-pagamento", price: 1.0, comparePrice: null, type: "camiseta", tag: "Teste Pagamento", sizes: ["P", "M", "G", "GG"] },
 ];
 
 function formatCurrency(value: number) {
