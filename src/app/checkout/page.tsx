@@ -47,11 +47,11 @@ export default function CheckoutPage() {
   // Special pricing for test product only
   if (isTestProductOnly && items.length > 0) {
     shipping = 0; // Free shipping
-    discount = subtotal + 19.90 - 0.10; // Discount to make total exactly R$0.10
+    discount = subtotal + 19.90 - 1.00; // Discount to make total exactly R$1.00
   }
   
-  // Ensure discount never exceeds subtotal - minimum payment (R$0.10)
-  const maxDiscount = subtotal - 0.10;
+  // Ensure discount never exceeds subtotal - minimum payment (R$1.00)
+  const maxDiscount = subtotal - 1.00;
   if (discount > maxDiscount) {
     discount = maxDiscount;
   }

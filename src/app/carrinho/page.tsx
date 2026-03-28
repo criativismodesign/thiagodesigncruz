@@ -57,7 +57,7 @@ export default function CartPage() {
   // Special pricing for test product only
   if (isTestProductOnly && items.length > 0) {
     shipping = 0; // Free shipping
-    pixDiscount = subtotal + 19.90 - 0.10; // Discount to make total exactly R$0.10
+    pixDiscount = subtotal + 19.90 - 1.00; // Discount to make total exactly R$1.00
   }
   
   const total = subtotal + shipping;
