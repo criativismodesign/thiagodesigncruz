@@ -182,7 +182,7 @@ export default function OriginalCollectionSection() {
               {/* Buy Button */}
               <Link
                 href={product.href}
-                className="block w-full text-center font-bold text-white rounded-full transition-all hover:brightness-110"
+                className="block text-center font-bold text-white rounded-full transition-all hover:brightness-110"
                 style={{ 
                   fontSize: '15px',
                   fontFamily: 'Inter, sans-serif',
@@ -190,7 +190,10 @@ export default function OriginalCollectionSection() {
                   backgroundColor: '#DAA520',
                   padding: '14px',
                   borderRadius: '999px',
-                  marginTop: '16px',
+                  width: 'fit-content',
+                  minWidth: '45%',
+                  maxWidth: '50%',
+                  margin: '16px 0 0 0',
                   textDecoration: 'none'
                 }}
               >
