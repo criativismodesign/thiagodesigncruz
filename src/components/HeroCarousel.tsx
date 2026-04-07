@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const slides = [
   {
     id: 1,
-    image: '/images/hero/placeholder-1920x832.jpg',
+    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
     supertitle: 'Coleção os "Immortals" 2026',
     title: 'Camisetas STYLE',
     description: 'VISTA O ESTILO DOS SOBREVIVENTES MAIS INSANOS DESSE DE TODOS OS TEMPOS. OS IMMORTALS AQUELES QUE SEMPRE SE LEVANTAM.',
@@ -16,7 +16,7 @@ const slides = [
   },
   {
     id: 2,
-    image: '/images/hero/placeholder-1920x832.jpg',
+    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
     supertitle: 'Slide 2 - Supertítulo',
     title: 'Título do Slide 2',
     description: 'DESCRIÇÃO DO SLIDE 2 EM CAIXA ALTA.',
@@ -24,7 +24,7 @@ const slides = [
   },
   {
     id: 3,
-    image: '/images/hero/placeholder-1920x832.jpg',
+    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
     supertitle: 'Slide 3 - Supertítulo',
     title: 'Título do Slide 3',
     description: 'DESCRIÇÃO DO SLIDE 3 EM CAIXA ALTA.',
@@ -32,7 +32,7 @@ const slides = [
   },
   {
     id: 4,
-    image: '/images/hero/placeholder-1920x832.jpg',
+    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
     supertitle: 'Slide 4 - Supertítulo',
     title: 'Título do Slide 4',
     description: 'DESCRIÇÃO DO SLIDE 4 EM CAIXA ALTA.',
@@ -40,7 +40,7 @@ const slides = [
   },
   {
     id: 5,
-    image: '/images/hero/placeholder-1920x832.jpg',
+    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
     supertitle: 'Slide 5 - Supertítulo',
     title: 'Título do Slide 5',
     description: 'DESCRIÇÃO DO SLIDE 5 EM CAIXA ALTA.',
@@ -94,10 +94,11 @@ export default function HeroCarousel() {
         <Image
           src={currentSlideData.image}
           alt={currentSlideData.title}
-          fill
-          className="object-cover"
+          width={1920}
+          height={832}
+          className="w-full h-full object-cover"
           priority={currentSlide === 0}
-          sizes="100vw"
+          unoptimized
         />
       </div>
 
