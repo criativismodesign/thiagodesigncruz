@@ -43,7 +43,7 @@ export default function BannerBoxSection() {
 
               {/* Bloco de conteúdo */}
               <div
-                className="relative flex flex-col justify-center"
+                className="relative flex flex-col justify-center items-center"
                 style={{
                   zIndex: 1,
                   padding: '65px',
@@ -132,7 +132,7 @@ export default function BannerBoxSection() {
 
               {/* Bloco de conteúdo */}
               <div
-                className="relative flex flex-col justify-center"
+                className="relative flex flex-col justify-center items-center"
                 style={{
                   zIndex: 1,
                   padding: '40px',
