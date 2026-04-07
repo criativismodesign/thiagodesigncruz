@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface CollectionPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 const collections: { [key: string]: { title: string; description: string } } = {
@@ -28,7 +28,8 @@ const collections: { [key: string]: { title: string; description: string } } = {
 };
 
 export async function generateMetadata({ params }: CollectionPageProps): Promise<Metadata> {
-  const collection = collections[params.slug];
+  const resolvedParams = await params;
+  const collection = collections[resolvedParams.slug];
   
   if (!collection) {
     return {
@@ -42,8 +43,9 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   };
 }
 
-export default function CollectionPage({ params }: CollectionPageProps) {
-  const collection = collections[params.slug];
+export default async function CollectionPage({ params }: CollectionPageProps) {
+  const resolvedParams = await params;
+  const collection = collections[resolvedParams.slug];
 
   if (!collection) {
     notFound();
