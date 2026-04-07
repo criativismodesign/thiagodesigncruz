@@ -89,7 +89,7 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
           <div 
             className="font-light uppercase"
             style={{ 
-              fontSize: "36px",
+              fontSize: "26px",
               color: "#F0484A",
               fontFamily: "Inter, sans-serif",
               fontWeight: 300,
@@ -103,7 +103,7 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
           <h2 
             className="font-semibold uppercase"
             style={{ 
-              fontSize: "60px",
+              fontSize: "40px",
               color: "#292929",
               fontFamily: "Inter, sans-serif",
               fontWeight: 600,
