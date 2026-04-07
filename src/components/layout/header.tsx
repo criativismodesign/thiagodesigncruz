@@ -4,251 +4,384 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useCartStore } from "@/store/cart-store";
-import {
-  ShoppingCart,
-  User,
-  Menu,
-  X,
-  Search,
-  Palette,
-  ChevronDown,
-  LogOut,
-  Settings,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const [collectionsDropdownOpen, setCollectionsDropdownOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { data: session } = useSession();
   const itemCount = useCartStore((state) => state.getItemCount());
+  const pathname = usePathname();
 
   const handleLogout = () => {
     signOut({ callbackUrl: "/" });
   };
 
-  return (
-    <header className="glass-effect sticky top-0 z-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--primary)] to-[var(--accent)]">
-              <Palette className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-lg font-bold gradient-text hidden sm:block">
-              Thiago Design Cruz
-            </span>
-          </Link>
+  const isActiveLink = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6">
+  return (
+    <header className="sticky top-0 z-50 bg-white" style={{ height: "120px" }}>
+      <div className="h-full flex items-center justify-between px-[120px] max-w-[1920px] mx-auto">
+        
+        {/* Logo - Coluna Esquerda */}
+        <div className="flex-shrink-0">
+          <Link href="/" className="flex items-center">
+            <img 
+              src="/icons/logo.svg" 
+              alt="Use KIN Logo" 
+              style={{ width: "205.57px", height: "74.75px" }}
+            />
+          </Link>
+        </div>
+
+        {/* Menu de Navegação - Coluna Centro */}
+        <nav className="hidden lg:flex items-center justify-center flex-1">
+          <div className="flex items-center gap-8 font-inter">
             <Link
-              href="/produtos"
-              className="text-sm font-medium text-[var(--muted-foreground)] hover:text-white transition-colors"
+              href="/"
+              className={`text-sm font-medium transition-colors ${
+                isActiveLink("/") ? "text-[#DAA520]" : "text-[#292929] hover:text-[#D8D8D8]"
+              }`}
             >
-              Produtos
+              HOME
             </Link>
-            <div className="group relative">
-              <button className="flex items-center gap-1 text-sm font-medium text-[var(--muted-foreground)] hover:text-white transition-colors">
-                Categorias
+            
+            {/* Dropdown PRODUTOS */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setProductsDropdownOpen(true)}
+              onMouseLeave={() => setProductsDropdownOpen(false)}
+            >
+              <button className="flex items-center gap-1 text-sm font-medium text-[#292929] hover:text-[#D8D8D8] transition-colors">
+                PRODUTOS
                 <ChevronDown className="h-4 w-4" />
               </button>
-              <div className="absolute top-full left-0 mt-2 w-48 rounded-lg bg-[var(--card)] border border-[var(--border)] shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <Link
-                  href="/produtos?categoria=camisetas"
-                  className="block px-4 py-2.5 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] first:rounded-t-lg transition-colors"
-                >
-                  Camisetas
-                </Link>
-                <Link
-                  href="/produtos?categoria=mousepads"
-                  className="block px-4 py-2.5 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] last:rounded-b-lg transition-colors"
-                >
-                  Mouse Pads
-                </Link>
-              </div>
+              
+              {productsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]">
+                  <Link
+                    href="/produtos/camisetas"
+                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                  >
+                    Camisetas Oversizeds
+                  </Link>
+                  <Link
+                    href="/produtos/mousepad"
+                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                  >
+                    Mouse Pad / Desckpad
+                  </Link>
+                </div>
+              )}
             </div>
-            <Link
-              href="/criar-design"
-              className="text-sm font-medium text-[var(--accent)] hover:text-white transition-colors"
+
+            {/* Dropdown COLEÇÕES */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setCollectionsDropdownOpen(true)}
+              onMouseLeave={() => setCollectionsDropdownOpen(false)}
             >
-              Crie Sua Arte
+              <button className="flex items-center gap-1 text-sm font-medium text-[#292929] hover:text-[#D8D8D8] transition-colors">
+                COLEÇÕES
+                <ChevronDown className="h-4 w-4" />
+              </button>
+              
+              {collectionsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]">
+                  <Link
+                    href="/colecoes/my-life-my-style"
+                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                  >
+                    My Life My Style
+                  </Link>
+                  <Link
+                    href="/colecoes/immortals"
+                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                  >
+                    IMMORTALS
+                  </Link>
+                  <Link
+                    href="/colecoes/lancamento-3"
+                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                  >
+                    3º Lançamento
+                  </Link>
+                  <Link
+                    href="/colecoes/lancamento-4"
+                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                  >
+                    4º Lançamento
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/sobre"
+              className={`text-sm font-medium transition-colors ${
+                isActiveLink("/sobre") ? "text-[#DAA520]" : "text-[#292929] hover:text-[#D8D8D8]"
+              }`}
+            >
+              SOBRE
+            </Link>
+            
+            <Link
+              href="/contato"
+              className={`text-sm font-medium transition-colors ${
+                isActiveLink("/contato") ? "text-[#DAA520]" : "text-[#292929] hover:text-[#D8D8D8]"
+              }`}
+            >
+              CONTATO
+            </Link>
+          </div>
+        </nav>
+
+        {/* Ícones e Botão - Coluna Direita */}
+        <div className="flex items-center gap-4 flex-shrink-0">
+          {/* Ícone Busca */}
+          <button
+            onClick={() => setSearchOpen(!searchOpen)}
+            className="p-2"
+          >
+            <img 
+              src="/icons/pesquisa.svg" 
+              alt="Pesquisar" 
+              className="w-5 h-5"
+              style={{ filter: "invert(16%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(96%) contrast(90%)" }}
+            />
+          </button>
+
+          {/* Ícone Carrinho */}
+          <Link href="/carrinho" className="relative p-2">
+            <img 
+              src="/icons/carrinho.svg" 
+              alt="Carrinho" 
+              className="w-5 h-5"
+              style={{ filter: "invert(16%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(96%) contrast(90%)" }}
+            />
+            {itemCount > 0 && (
+              <span 
+                className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center text-[10px] font-bold text-white rounded-full"
+                style={{ backgroundColor: "#F0484A" }}
+              >
+                {itemCount}
+              </span>
+            )}
+          </Link>
+
+          {/* Botão ENTRAR / Usuário Logado */}
+          {session ? (
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center gap-2 px-4 py-2 text-white font-bold rounded transition-colors"
+                style={{ backgroundColor: "#DAA520" }}
+              >
+                <img 
+                  src="/icons/usuario.svg" 
+                  alt="Usuário" 
+                  className="w-4 h-4"
+                />
+                <span className="text-sm">
+                  {session.user?.name?.split(" ")[0] || "MINHA CONTA"}
+                </span>
+                <ChevronDown className={`h-4 w-4 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
+              </button>
+              
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-1 w-64 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]">
+                  {/* Header do Dropdown */}
+                  <div className="border-b border-[#D8D8D8] p-4">
+                    <p className="text-sm font-bold text-[#292929] truncate">
+                      {session.user?.name}
+                    </p>
+                    <p className="text-xs text-[#AAAAAA] truncate">
+                      {session.user?.email}
+                    </p>
+                  </div>
+                  
+                  {/* Itens do Dropdown */}
+                  <div className="p-2">
+                    <Link
+                      href="/minha-conta"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-3 w-full px-3 py-2 text-sm text-[#292929] hover:text-[#DAA520] rounded transition-colors"
+                    >
+                      <img 
+                        src="/icons/engrenagem.svg" 
+                        alt="Configurações" 
+                        className="w-4 h-4"
+                      />
+                      Minha Conta
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-3 w-full px-3 py-2 text-sm text-[#292929] hover:text-[#F0484A] rounded transition-colors text-left"
+                    >
+                      <img 
+                        src="/icons/sair.svg" 
+                        alt="Sair" 
+                        className="w-4 h-4"
+                      />
+                      Sair
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-2 px-5 py-2.5 text-white font-bold rounded transition-colors"
+              style={{ backgroundColor: "#DAA520" }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#46A520"}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#DAA520"}
+            >
+              <img 
+                src="/icons/usuario.svg" 
+                alt="Usuário" 
+                className="w-4 h-4"
+              />
+              ENTRAR
+            </Link>
+          )}
+
+          {/* Menu Hambúrguer Mobile */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2"
+          >
+            <div className="w-6 h-0.5 bg-[#292929] mb-1.5"></div>
+            <div className="w-6 h-0.5 bg-[#292929] mb-1.5"></div>
+            <div className="w-6 h-0.5 bg-[#292929]"></div>
+          </button>
+        </div>
+      </div>
+
+      {/* Search Bar */}
+      {searchOpen && (
+        <div className="absolute top-full left-0 right-0 bg-white border-b border-[#D8D8D8] px-[120px] py-4">
+          <div className="relative max-w-[1920px] mx-auto">
+            <img 
+              src="/icons/pesquisa.svg" 
+              alt="Pesquisar" 
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5"
+              style={{ filter: "invert(16%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(96%) contrast(90%)" }}
+            />
+            <input
+              type="text"
+              placeholder="Buscar produtos..."
+              className="w-full pl-10 pr-4 py-2 border border-[#D8D8D8] rounded text-[#292929] placeholder-[#AAAAAA] focus:outline-none focus:border-[#DAA520]"
+              autoFocus
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-white border-b border-[#D8D8D8] lg:hidden">
+          <nav className="px-[120px] py-4 space-y-2">
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block py-2 text-sm font-medium ${
+                isActiveLink("/") ? "text-[#DAA520]" : "text-[#292929]"
+              }`}
+            >
+              HOME
+            </Link>
+            <Link
+              href="/produtos/camisetas"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm text-[#292929]"
+            >
+              Camisetas Oversizeds
+            </Link>
+            <Link
+              href="/produtos/mousepad"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm text-[#292929]"
+            >
+              Mouse Pad / Desckpad
+            </Link>
+            <Link
+              href="/colecoes/my-life-my-style"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm text-[#292929]"
+            >
+              My Life My Style
+            </Link>
+            <Link
+              href="/colecoes/immortals"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm text-[#292929]"
+            >
+              IMMORTALS
+            </Link>
+            <Link
+              href="/colecoes/lancamento-3"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm text-[#292929]"
+            >
+              3º Lançamento
+            </Link>
+            <Link
+              href="/colecoes/lancamento-4"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm text-[#292929]"
+            >
+              4º Lançamento
             </Link>
             <Link
               href="/sobre"
-              className="text-sm font-medium text-[var(--muted-foreground)] hover:text-white transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block py-2 text-sm font-medium ${
+                isActiveLink("/sobre") ? "text-[#DAA520]" : "text-[#292929]"
+              }`}
             >
-              Sobre
+              SOBRE
             </Link>
             <Link
               href="/contato"
-              className="text-sm font-medium text-[var(--muted-foreground)] hover:text-white transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block py-2 text-sm font-medium ${
+                isActiveLink("/contato") ? "text-[#DAA520]" : "text-[#292929]"
+              }`}
             >
-              Contato
+              CONTATO
             </Link>
-          </nav>
-
-          {/* Actions */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="rounded-lg p-2 text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] transition-colors"
-            >
-              <Search className="h-5 w-5" />
-            </button>
-
-            <Link
-              href="/carrinho"
-              className="relative rounded-lg p-2 text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] transition-colors"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              {itemCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--primary)] text-[10px] font-bold text-white">
-                  {itemCount}
-                </span>
-              )}
-            </Link>
-
-            {session ? (
-              <div className="relative">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 rounded-lg p-2 text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] transition-colors"
-                >
-                  <User className="h-5 w-5" />
-                  <span className="hidden sm:block text-sm">
-                    {session.user?.name?.split(" ")[0] || "Minha Conta"}
-                  </span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
-                </button>
-                
-                {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-lg bg-[var(--card)] border border-[var(--border)] shadow-xl animate-fade-in">
-                    <div className="border-b border-[var(--border)] p-3">
-                      <p className="text-sm font-medium text-white truncate">
-                        {session.user?.name}
-                      </p>
-                      <p className="text-xs text-[var(--muted-foreground)] truncate">
-                        {session.user?.email}
-                      </p>
-                    </div>
-                    <div className="p-1">
-                      <Link
-                        href="/minha-conta"
-                        onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] rounded transition-colors"
-                      >
-                        <Settings className="h-4 w-4" />
-                        Minha Conta
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)] rounded transition-colors text-left"
-                      >
-                        <LogOut className="h-4 w-4" />
-                        Sair
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
+            {!session && (
               <Link
                 href="/login"
-                className="hidden sm:inline-flex items-center rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--primary)]/80 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 px-5 py-2.5 text-white font-bold rounded"
+                style={{ backgroundColor: "#DAA520" }}
               >
-                Entrar
+                <img 
+                  src="/icons/usuario.svg" 
+                  alt="Usuário" 
+                  className="w-4 h-4"
+                />
+                ENTRAR
               </Link>
             )}
-
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-lg p-2 text-[var(--muted-foreground)] hover:text-white md:hidden"
-            >
-              {mobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </button>
-          </div>
+          </nav>
         </div>
+      )}
 
-        {/* Search Bar */}
-        {searchOpen && (
-          <div className="pb-4 animate-fade-in">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-foreground)]" />
-              <input
-                type="text"
-                placeholder="Buscar produtos..."
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
-                autoFocus
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="border-t border-[var(--border)] pb-4 md:hidden animate-fade-in">
-            <nav className="flex flex-col gap-1 pt-4">
-              <Link
-                href="/produtos"
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg px-4 py-2.5 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)]"
-              >
-                Produtos
-              </Link>
-              <Link
-                href="/produtos?categoria=camisetas"
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg px-4 py-2.5 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)]"
-              >
-                Camisetas
-              </Link>
-              <Link
-                href="/produtos?categoria=mousepads"
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg px-4 py-2.5 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)]"
-              >
-                Mouse Pads
-              </Link>
-              <Link
-                href="/criar-design"
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg px-4 py-2.5 text-sm font-medium text-[var(--accent)] hover:bg-[var(--secondary)]"
-              >
-                Crie Sua Arte
-              </Link>
-              <Link
-                href="/sobre"
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg px-4 py-2.5 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)]"
-              >
-                Sobre
-              </Link>
-              <Link
-                href="/contato"
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg px-4 py-2.5 text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--secondary)]"
-              >
-                Contato
-              </Link>
-              {!session && (
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mt-2 rounded-lg bg-[var(--primary)] px-4 py-2.5 text-center text-sm font-medium text-white"
-                >
-                  Entrar
-                </Link>
-              )}
-            </nav>
-          </div>
-        )}
-      </div>
+      <style jsx>{`
+        .font-inter {
+          font-family: 'Inter', sans-serif;
+        }
+      `}</style>
     </header>
   );
 }

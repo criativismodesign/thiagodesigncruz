@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Inter as InterFont } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
@@ -9,6 +10,11 @@ import { Toaster } from "sonner";
 import { WebsiteJsonLd, OrganizationJsonLd } from "@/components/seo/json-ld";
 
 const inter = Inter({ subsets: ["latin"] });
+const interFont = InterFont({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const siteUrl = "https://thiagodesigncruz.com.br";
 
@@ -77,7 +83,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className}>
+      <body className={`${inter.className} ${interFont.variable}`}>
         <WebsiteJsonLd />
         <OrganizationJsonLd />
         <Providers>
