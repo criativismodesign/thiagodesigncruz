@@ -8,6 +8,7 @@ import ImmortalsCollectionSection from "@/components/ImmortalsCollectionSection"
 import CollectionsSection from "@/components/CollectionsSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import OutrosModelosSection from "@/components/OutrosModelosSection";
+import BannerBoxSection from "@/components/BannerBoxSection";
 
 const featuredProducts = [
   {
@@ -133,6 +134,9 @@ export default function HomePage() {
 
       {/* Outros Modelos Section */}
       <OutrosModelosSection />
+
+      {/* Banner Box Section */}
+      <BannerBoxSection />
 
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
