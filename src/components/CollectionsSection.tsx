@@ -70,56 +70,54 @@ export default function CollectionsSection() {
         {collections.map((collection) => (
           <div key={collection.id} className="w-full">
             {/* Images Block */}
-            <div 
-              className="relative"
-              style={{ paddingBottom: '22px' }}
-            >
-              {/* Camiseta Image (Base) */}
+            <div style={{ position: 'relative', width: '100%' }}>
+              {/* Camiseta */}
               <Link
                 href={`/colecao/${collection.slug}`}
-                className="block transition-transform hover:scale-103"
-                style={{ 
-                  textDecoration: 'none',
-                  transition: 'transform 0.3s ease'
-                }}
+                style={{ textDecoration: 'none' }}
               >
                 <Image
                   src={collection.imageCamiseta}
-                  alt={`${collection.supertitle1} - Camiseta`}
+                  alt={collection.supertitle1}
                   width={384}
                   height={512}
-                  className="w-full h-auto object-cover"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    transition: 'transform 0.3s ease',
+                  }}
+                  className="hover:scale-105"
                 />
               </Link>
-              
-              {/* Mousepad Image (Overlay) */}
-              <div 
-                className="absolute"
-                style={{ 
-                  bottom: '-22px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '336px',
-                  height: '158px'
+
+              {/* Mousepad - margem top negativa de 22px para subir sobre a camiseta */}
+              <Link
+                href={`/colecao/${collection.slug}`}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginTop: '-22px',
+                  position: 'relative',
+                  zIndex: 10,
+                  textDecoration: 'none'
                 }}
               >
-                <Link
-                  href={`/colecao/${collection.slug}`}
-                  className="block transition-transform hover:scale-103"
-                  style={{ 
-                    textDecoration: 'none',
-                    transition: 'transform 0.3s ease'
+                <Image
+                  src={collection.imageMousepad}
+                  alt={`Mousepad ${collection.supertitle1}`}
+                  width={336}
+                  height={158}
+                  style={{
+                    width: '336px',
+                    height: '158px',
+                    objectFit: 'cover',
+                    display: 'block',
+                    transition: 'transform 0.3s ease',
                   }}
-                >
-                  <Image
-                    src={collection.imageMousepad}
-                    alt={`${collection.supertitle1} - Mousepad`}
-                    width={336}
-                    height={158}
-                    className="w-full h-full object-cover"
-                  />
-                </Link>
-              </div>
+                  className="hover:scale-105"
+                />
+              </Link>
             </div>
 
             {/* Text Block */}
