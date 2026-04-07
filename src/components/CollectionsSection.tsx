@@ -68,16 +68,21 @@ export default function CollectionsSection() {
         }}
       >
         {collections.map((collection) => (
-          <Link
-            key={collection.id}
-            href={`/colecao/${collection.slug}`}
-            className="block transition-transform hover:scale-105"
-            style={{ textDecoration: 'none' }}
-          >
-            <div className="w-full">
-              {/* Images Block */}
-              <div className="relative">
-                {/* Camiseta Image (Base) */}
+          <div key={collection.id} className="w-full">
+            {/* Images Block */}
+            <div 
+              className="relative"
+              style={{ paddingBottom: '22px' }}
+            >
+              {/* Camiseta Image (Base) */}
+              <Link
+                href={`/colecao/${collection.slug}`}
+                className="block transition-transform hover:scale-103"
+                style={{ 
+                  textDecoration: 'none',
+                  transition: 'transform 0.3s ease'
+                }}
+              >
                 <Image
                   src={collection.imageCamiseta}
                   alt={`${collection.supertitle1} - Camiseta`}
@@ -85,14 +90,25 @@ export default function CollectionsSection() {
                   height={512}
                   className="w-full h-auto object-cover"
                 />
-                
-                {/* Mousepad Image (Overlay) */}
-                <div 
-                  className="absolute"
+              </Link>
+              
+              {/* Mousepad Image (Overlay) */}
+              <div 
+                className="absolute"
+                style={{ 
+                  bottom: '-22px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '336px',
+                  height: '158px'
+                }}
+              >
+                <Link
+                  href={`/colecao/${collection.slug}`}
+                  className="block transition-transform hover:scale-103"
                   style={{ 
-                    top: '-22px',
-                    left: '50%',
-                    transform: 'translateX(-50%)'
+                    textDecoration: 'none',
+                    transition: 'transform 0.3s ease'
                   }}
                 >
                   <Image
@@ -100,12 +116,17 @@ export default function CollectionsSection() {
                     alt={`${collection.supertitle1} - Mousepad`}
                     width={336}
                     height={158}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-full object-cover"
                   />
-                </div>
+                </Link>
               </div>
+            </div>
 
-              {/* Text Block */}
+            {/* Text Block */}
+            <Link
+              href={`/colecao/${collection.slug}`}
+              style={{ textDecoration: 'none' }}
+            >
               <div style={{ paddingTop: '16px', textAlign: 'center' }}>
                 {/* Supertítulo Linha 1 */}
                 <p 
@@ -152,8 +173,8 @@ export default function CollectionsSection() {
                   VER TODAS COLEÇÃO
                 </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
         ))}
       </div>
 
