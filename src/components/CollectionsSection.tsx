@@ -106,11 +106,11 @@ export default function CollectionsSection() {
                 <Image
                   src={collection.imageMousepad}
                   alt={`Mousepad ${collection.supertitle1}`}
-                  width={336}
-                  height={158}
+                  width={292}
+                  height={114}
                   style={{
-                    width: '336px',
-                    height: '158px',
+                    width: '292px',
+                    height: '114px',
                     objectFit: 'cover',
                     display: 'block',
                     transition: 'transform 0.3s ease',
@@ -163,7 +163,7 @@ export default function CollectionsSection() {
                     backgroundColor: '#DAA520',
                     padding: '14px',
                     borderRadius: '999px',
-                    width: '60%',
+                    width: '80%',
                     margin: '16px auto 0',
                     textAlign: 'center'
                   }}
