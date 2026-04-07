@@ -111,37 +111,11 @@ export default function ObrigadoCadastroPage() {
       <Footer />
 
       {/* Responsividade */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .content-container {
-            padding: 60px 24px !important;
-          }
-          .title {
-            font-size: 32px !important;
-          }
-          .subtitle {
-            font-size: 20px !important;
-          }
-          .text {
-            font-size: 16px !important;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        .content-container {
-          padding: 100px 120px;
-        }
-        .title {
-          font-size: 48px;
-        }
-        .subtitle {
-          font-size: 24px;
-        }
-        .text {
-          font-size: 18px;
-        }
-      `}</style>
+      <div className="md:hidden" style={{ padding: "60px 24px" }}>
+        <h1 style={{ fontSize: "32px" }}>OBRIGADO PELO CADASTRO!</h1>
+        <p style={{ fontSize: "20px", marginTop: "16px" }}>VOCÊ AGORA FAZ PARTE DA LISTA VIP USE KIN.</p>
+        <p style={{ fontSize: "16px", marginTop: "16px" }}>EM BREVE VOCÊ RECEBERÁ NOVIDADES EXCLUSIVAS ANTES DE TODO MUNDO.</p>
+      </div>
     </div>
   );
 }
