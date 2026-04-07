@@ -4,6 +4,7 @@ import HeroBanner from "@/components/hero/HeroBanner";
 import HeroCarousel from "@/components/HeroCarousel";
 import OriginalCollectionSection from "@/components/OriginalCollectionSection";
 import MousepadCollectionSection from "@/components/MousepadCollectionSection";
+import ImmortalsCollectionSection from "@/components/ImmortalsCollectionSection";
 
 const featuredProducts = [
   {
@@ -117,6 +118,9 @@ export default function HomePage() {
 
       {/* Mousepad Collection Section */}
       <MousepadCollectionSection />
+
+      {/* Immortals Collection Section */}
+      <ImmortalsCollectionSection />
 
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
