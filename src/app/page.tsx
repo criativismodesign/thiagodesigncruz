@@ -6,6 +6,7 @@ import OriginalCollectionSection from "@/components/OriginalCollectionSection";
 import MousepadCollectionSection from "@/components/MousepadCollectionSection";
 import ImmortalsCollectionSection from "@/components/ImmortalsCollectionSection";
 import CollectionsSection from "@/components/CollectionsSection";
+import NewsletterSection from "@/components/NewsletterSection";
 
 const featuredProducts = [
   {
@@ -125,6 +126,9 @@ export default function HomePage() {
 
       {/* Collections Section */}
       <CollectionsSection />
+
+      {/* Newsletter Section */}
+      <NewsletterSection source="home" />
 
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
