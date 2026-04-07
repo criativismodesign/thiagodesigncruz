@@ -3,6 +3,7 @@ import { ArrowRight, Sparkles, Palette, Shirt, Mouse, ChevronRight, Star, Truck,
 import HeroBanner from "@/components/hero/HeroBanner";
 import HeroCarousel from "@/components/HeroCarousel";
 import OriginalCollectionSection from "@/components/OriginalCollectionSection";
+import MousepadCollectionSection from "@/components/MousepadCollectionSection";
 
 const featuredProducts = [
   {
@@ -113,6 +114,9 @@ export default function HomePage() {
 
       {/* Original Collection Section */}
       <OriginalCollectionSection />
+
+      {/* Mousepad Collection Section */}
+      <MousepadCollectionSection />
 
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
