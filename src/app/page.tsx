@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles, Palette, Shirt, Mouse, ChevronRight, Star, Truck, CreditCard, Shield } from "lucide-react";
 import HeroBanner from "@/components/hero/HeroBanner";
 import HeroCarousel from "@/components/HeroCarousel";
+import OriginalCollectionSection from "@/components/OriginalCollectionSection";
 
 const featuredProducts = [
   {
@@ -109,6 +110,9 @@ export default function HomePage() {
     <div>
       {/* Hero Carousel */}
       <HeroCarousel />
+
+      {/* Original Collection Section */}
+      <OriginalCollectionSection />
 
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
