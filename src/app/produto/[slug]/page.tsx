@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import NewsletterSection from "@/components/NewsletterSection";
 import BannerBoxSection from "@/components/BannerBoxSection";
+import ProdutosRelacionadosSection from "@/components/ProdutosRelacionadosSection";
 
 export default function ProdutoCamiseta() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -889,6 +890,7 @@ export default function ProdutoCamiseta() {
         </div>
       )}
 
+      <ProdutosRelacionadosSection />
       <div style={{ marginTop: '100px', marginBottom: '100px' }}>
         <NewsletterSection source="produto-camiseta" />
       </div>
