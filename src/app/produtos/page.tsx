@@ -147,9 +147,9 @@ export default function ProductsPage() {
             </div>
             <div className="p-5">
               <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)] mb-1">
-                {product.type === "camiseta" ? "Camiseta" : "Mouse Pad"}
+                {product.type === "camiseta" ? "Camiseta Oversized" : "Mouse Pad"}
               </p>
-              <h3 className="font-semibold text-white group-hover:text-[var(--accent)] transition-colors">
+              <h3 className="font-semibold text-white group-hover:text-[var(--accent)] transition-colors" style={{fontSize: '19px', letterSpacing: '-0.5px'}}>
                 {product.name}
               </h3>
               {product.sizes.length > 0 && (

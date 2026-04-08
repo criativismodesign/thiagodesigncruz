@@ -170,7 +170,7 @@ export default function RelatedProducts({ currentProductType, currentProductId }
 
             {/* Product Info */}
             <div className="p-4">
-              <h3 className="font-semibold text-white mb-2 line-clamp-2 group-hover:text-[var(--accent)] transition-colors">
+              <h3 className="font-semibold text-white mb-2 line-clamp-2 group-hover:text-[var(--accent)] transition-colors" style={{fontSize: '19px', letterSpacing: '-0.5px'}}>
                 {product.name}
               </h3>
               

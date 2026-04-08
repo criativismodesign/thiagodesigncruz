@@ -32,7 +32,7 @@ export default function CategoriasLadoDireito() {
   const hasMore = visibleCount < allProducts.length
 
   const getSupertitle = (index: number) => {
-    return index % 2 === 0 ? 'MousePad' : 'Camiseta'
+    return index % 2 === 0 ? 'MousePad' : 'Camiseta Oversized'
   }
 
   return (
@@ -171,18 +171,29 @@ export default function CategoriasLadoDireito() {
           {visibleProducts.map((product, index) => (
             <div key={product.id}>
               <Link href={product.href} style={{ textDecoration: 'none' }}>
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={285}
-                  height={332}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    objectFit: 'cover',
-                    marginBottom: '12px'
-                  }}
-                />
+                <div style={{
+                  overflow: 'hidden',
+                  marginBottom: '12px'
+                }}>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={285}
+                    height={332}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      objectFit: 'cover',
+                      transition: 'transform 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.05)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                  />
+                </div>
               </Link>
               
               <div style={{ paddingTop: '12px', textAlign: 'left' }}>
@@ -201,13 +212,14 @@ export default function CategoriasLadoDireito() {
                 
                 {/* Nome do produto */}
                 <h3 style={{
-                  fontSize: '20px',
+                  fontSize: '19px',
                   fontWeight: 600,
                   color: '#292929',
                   textTransform: 'uppercase',
                   marginTop: '5px',
                   fontFamily: 'Inter, sans-serif',
-                  margin: '5px 0 0 0'
+                  margin: '5px 0 0 0',
+                  letterSpacing: '-0.5px'
                 }}>
                   {product.name}
                 </h3>
@@ -349,6 +361,5 @@ export default function CategoriasLadoDireito() {
           }
         `}</style>
       </div>
-    </div>
   )
 }

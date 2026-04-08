@@ -138,13 +138,14 @@ export default function ProdutosRelacionadosSection() {
             </p>
             
             <h3 style={{ 
-              fontSize: '24px', 
+              fontSize: '19px', 
               color: '#292929', 
               fontFamily: 'Inter, sans-serif',
               fontWeight: 900,
               textTransform: 'uppercase',
               marginBottom: '12px',
-              lineHeight: '1.2'
+              lineHeight: '1.2',
+              letterSpacing: '-0.5px'
             }}>
               {camiseta.name}
             </h3>
@@ -269,13 +270,14 @@ export default function ProdutosRelacionadosSection() {
             </p>
             
             <h3 style={{ 
-              fontSize: '24px', 
+              fontSize: '19px', 
               color: '#292929', 
               fontFamily: 'Inter, sans-serif',
               fontWeight: 900,
               textTransform: 'uppercase',
               marginBottom: '12px',
-              lineHeight: '1.2'
+              lineHeight: '1.2',
+              letterSpacing: '-0.5px'
             }}>
               {mousepad.name}
             </h3>
