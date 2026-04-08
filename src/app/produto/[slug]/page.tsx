@@ -45,14 +45,16 @@ export default function ProdutoCamiseta() {
           </div>
 
           {/* Miniaturas */}
-          <div style={{ display: 'flex', gap: '12px', marginTop: '40px' }}>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '40px' }}>
             {productImages.map((image, index) => (
               <div
                 key={index}
                 style={{ 
                   cursor: 'pointer',
                   opacity: index === activeImageIndex ? 0.7 : 1,
-                  border: index === activeImageIndex ? '2px solid #DAA520' : 'none'
+                  border: index === activeImageIndex ? '2px solid #DAA520' : '1px solid #EFEFEF',
+                  overflow: 'hidden',
+                  flex: 1
                 }}
                 onClick={() => handleImageClick(index)}
               >
@@ -61,7 +63,11 @@ export default function ProdutoCamiseta() {
                   alt={`Miniatura ${index + 1}`}
                   width={197}
                   height={264}
-                  style={{ width: '100%', height: 'auto' }}
+                  style={{ 
+                    width: '100%', 
+                    height: 'auto',
+                    objectFit: 'cover'
+                  }}
                 />
               </div>
             ))}
