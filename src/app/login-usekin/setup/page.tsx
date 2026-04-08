@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { authenticator } from 'otplib'
+import QRCode from 'qrcode'
 
 export default function SetupTOTP() {
   const [qrCode, setQrCode] = useState<string>('')
@@ -35,23 +37,13 @@ export default function SetupTOTP() {
         return
       }
 
-      // Se não está configurado, buscar QR Code
-      const response = await fetch('/api/admin/auth/setup-totp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: 'admin@usekin.com' }),
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        setQrCode(data.qrCode)
-        setSecret(data.secret) // Secret retornado pela API para este setup
-      } else {
-        setError(data.error || 'Erro ao gerar QR Code')
-      }
+      // Se não está configurado, gerar QR Code localmente com ADMIN_TOTP_SECRET fixo
+      const secret = 'JVOVM5Y2BYDEAW2M' // Usar secret fixo
+      const otpauthUrl = authenticator.keyuri('admin@usekin.com', 'Use KIN Admin', secret)
+      const qrCodeDataUrl = await QRCode.toDataURL(otpauthUrl)
+      
+      setQrCode(qrCodeDataUrl)
+      setSecret(secret)
     } catch (err) {
       setError('Erro ao verificar configuração')
     }
