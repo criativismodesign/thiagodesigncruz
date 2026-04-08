@@ -27,7 +27,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main>
+    <div>
       <div style={{ textAlign: 'center', marginBottom: '48px', padding: '100px 120px 0 120px' }}>
         <h1 style={{
           fontSize: '48px',
@@ -411,6 +411,6 @@ export default function ContactPage() {
           </form>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
