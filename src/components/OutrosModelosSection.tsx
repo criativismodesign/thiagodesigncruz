@@ -14,16 +14,19 @@ const getSupertitle = (index: number) => {
 };
 
 // Array de 20 produtos avulsos
-const products = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  image: '/images/products/placeholder-outros-337x393.jpg',
-  name: `NOME DO PRODUTO ${i + 1}`,
-  price: 169.90,
-  originalPrice: 189.90,
-  discount: 8,
-  category: 'avulso',
-  href: `/produto/avulso-${i + 1}`,
-}));
+const products = Array.from({ length: 20 }, (_, i) => {
+  const isMousepad = getSupertitle(i) === 'MOUSE PAD - DESKPAD';
+  return {
+    id: i + 1,
+    image: '/images/products/placeholder-outros-337x393.jpg',
+    name: `NOME DO PRODUTO ${i + 1}`,
+    price: 169.90,
+    originalPrice: 189.90,
+    discount: 8,
+    category: 'avulso',
+    href: isMousepad ? `/produto/deskpad-avulso/produto-${i + 1}` : `/produto/oversized/produto-${i + 1}`,
+  };
+});
 
 export default function OutrosModelosSection() {
   return (
@@ -148,25 +151,27 @@ export default function OutrosModelosSection() {
               )}
 
               {/* Botão COMPRAR */}
-              <button
-                className="font-bold text-white rounded-full transition-all hover:brightness-110"
-                style={{ 
-                  fontSize: '15px',
-                  color: '#FFFFFF',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  backgroundColor: '#DAA520',
-                  padding: '14px',
-                  borderRadius: '999px',
-                  width: 'fit-content',
-                  minWidth: '45%',
-                  maxWidth: '50%',
-                  margin: '16px 0 0 0',
-                  cursor: 'pointer'
-                }}
-              >
-                COMPRAR
-              </button>
+              <Link href={product.href} style={{ textDecoration: 'none' }}>
+                <button
+                  className="font-bold text-white rounded-full transition-all hover:brightness-110"
+                  style={{ 
+                    fontSize: '15px',
+                    color: '#FFFFFF',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    backgroundColor: '#DAA520',
+                    padding: '14px',
+                    borderRadius: '999px',
+                    width: 'fit-content',
+                    minWidth: '45%',
+                    maxWidth: '50%',
+                    margin: '16px 0 0 0',
+                    cursor: 'pointer'
+                  }}
+                >
+                  COMPRAR
+                </button>
+              </Link>
             </div>
           </div>
         ))}

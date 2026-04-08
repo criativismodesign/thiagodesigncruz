@@ -204,17 +204,14 @@ export default function Footer() {
               NAVEGAÇÃO
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <Link href="/produtos" style={{ color: '#AAAAAA', textDecoration: 'none' }} className="hover:text-[#DAA520] transition-colors">
+              <Link href="/categorias/todos-produtos" style={{ color: '#AAAAAA', textDecoration: 'none' }} className="hover:text-[#DAA520] transition-colors">
                 Todos os Produtos
               </Link>
-              <Link href="/produtos?categoria=camisetas" style={{ color: '#AAAAAA', textDecoration: 'none' }} className="hover:text-[#DAA520] transition-colors">
+              <Link href="/categorias/oversizeds" style={{ color: '#AAAAAA', textDecoration: 'none' }} className="hover:text-[#DAA520] transition-colors">
                 Camisetas
               </Link>
-              <Link href="/produtos?categoria=mousepads" style={{ color: '#AAAAAA', textDecoration: 'none' }} className="hover:text-[#DAA520] transition-colors">
+              <Link href="/categorias/mousepads" style={{ color: '#AAAAAA', textDecoration: 'none' }} className="hover:text-[#DAA520] transition-colors">
                 Mouse Pads
-              </Link>
-              <Link href="/criar-design" style={{ color: '#AAAAAA', textDecoration: 'none' }} className="hover:text-[#DAA520] transition-colors">
-                Crie Sua Arte
               </Link>
             </div>
           </div>
@@ -384,7 +381,7 @@ export default function Footer() {
         padding: '0 40px'
       }}>
         <span style={{ fontSize: '12px', fontWeight: 400, color: '#FFFFFF' }}>
-          2026 Thiago Design Cruz. Todos os direitos reservados.
+          © 2026 Thiago Design Cruz. Todos os direitos reservados.
         </span>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
           <Link href="/politicas/reembolso" style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '12px' }} className="hover:opacity-80 transition-opacity">

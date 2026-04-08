@@ -27,65 +27,150 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-white sm:text-5xl mb-4">
-          Fale Conosco
+    <main style={{ padding: '100px 120px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <h1 style={{
+          fontSize: '48px',
+          fontWeight: 600,
+          color: '#292929',
+          textTransform: 'uppercase',
+          marginBottom: '16px',
+          fontFamily: 'Inter, sans-serif'
+        }}>
+          FALE CONOSCO
         </h1>
-        <p className="text-lg text-[var(--muted-foreground)] max-w-xl mx-auto">
+        <p style={{
+          fontSize: '18px',
+          color: '#AAAAAA',
+          maxWidth: '600px',
+          margin: '0 auto',
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 400
+        }}>
           Tem alguma dúvida, sugestão ou precisa de ajuda? Estamos aqui para
           você!
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-5">
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(5, 1fr)',
+        gap: '48px'
+      }}>
         {/* Contact Info */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
-            <h2 className="text-lg font-semibold text-white mb-6">
+        <div style={{ gridColumn: 'span 2', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{
+            borderRadius: '16px',
+            border: '1px solid #E5E5E5',
+            backgroundColor: '#FFFFFF',
+            padding: '24px'
+          }}>
+            <h2 style={{
+              fontSize: '18px',
+              fontWeight: 600,
+              color: '#292929',
+              marginBottom: '24px',
+              fontFamily: 'Inter, sans-serif'
+            }}>
               Informações de Contato
             </h2>
-            <div className="space-y-5">
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-[var(--primary)]/10 p-2.5">
-                  <Mail className="h-5 w-5 text-[var(--primary)]" />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                <div style={{
+                  borderRadius: '8px',
+                  backgroundColor: '#DAA52020',
+                  padding: '10px'
+                }}>
+                  <Mail style={{ height: '20px', width: '20px', color: '#DAA520' }} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">E-mail</p>
-                  <p className="text-sm text-[var(--muted-foreground)]">
+                  <p style={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif'
+                  }}>E-mail</p>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#AAAAAA',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 400
+                  }}>
                     contato@thiagodesigncruz.com.br
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-[var(--primary)]/10 p-2.5">
-                  <Phone className="h-5 w-5 text-[var(--primary)]" />
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                <div style={{
+                  borderRadius: '8px',
+                  backgroundColor: '#DAA52020',
+                  padding: '10px'
+                }}>
+                  <Phone style={{ height: '20px', width: '20px', color: '#DAA520' }} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">Telefone</p>
-                  <p className="text-sm text-[var(--muted-foreground)]">
+                  <p style={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif'
+                  }}>Telefone</p>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#AAAAAA',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 400
+                  }}>
                     (11) 99999-9999
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-[var(--primary)]/10 p-2.5">
-                  <MessageCircle className="h-5 w-5 text-[var(--primary)]" />
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                <div style={{
+                  borderRadius: '8px',
+                  backgroundColor: '#DAA52020',
+                  padding: '10px'
+                }}>
+                  <MessageCircle style={{ height: '20px', width: '20px', color: '#DAA520' }} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">WhatsApp</p>
-                  <p className="text-sm text-[var(--muted-foreground)]">
+                  <p style={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif'
+                  }}>WhatsApp</p>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#AAAAAA',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 400
+                  }}>
                     (11) 99999-9999
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-[var(--primary)]/10 p-2.5">
-                  <MapPin className="h-5 w-5 text-[var(--primary)]" />
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                <div style={{
+                  borderRadius: '8px',
+                  backgroundColor: '#DAA52020',
+                  padding: '10px'
+                }}>
+                  <MapPin style={{ height: '20px', width: '20px', color: '#DAA520' }} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">Localização</p>
-                  <p className="text-sm text-[var(--muted-foreground)]">
+                  <p style={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif'
+                  }}>Localização</p>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#AAAAAA',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 400
+                  }}>
                     São Paulo, SP — Brasil
                   </p>
                 </div>
@@ -93,40 +178,83 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
-            <h3 className="text-sm font-semibold text-white mb-3">
+          <div style={{
+            borderRadius: '16px',
+            border: '1px solid #E5E5E5',
+            backgroundColor: '#FFFFFF',
+            padding: '24px'
+          }}>
+            <h3 style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#292929',
+              marginBottom: '12px',
+              fontFamily: 'Inter, sans-serif'
+            }}>
               Horário de Atendimento
             </h3>
-            <div className="space-y-2 text-sm text-[var(--muted-foreground)]">
-              <div className="flex justify-between">
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              fontSize: '14px',
+              color: '#AAAAAA',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 400
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Seg — Sex</span>
-                <span className="text-white">09:00 — 18:00</span>
+                <span style={{ color: '#292929', fontWeight: 500 }}>09:00 — 18:00</span>
               </div>
-              <div className="flex justify-between">
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Sábado</span>
-                <span className="text-white">09:00 — 13:00</span>
+                <span style={{ color: '#292929', fontWeight: 500 }}>09:00 — 13:00</span>
               </div>
-              <div className="flex justify-between">
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Domingo</span>
-                <span className="text-[var(--muted-foreground)]">Fechado</span>
+                <span style={{ color: '#AAAAAA' }}>Fechado</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Contact Form */}
-        <div className="lg:col-span-3">
+        <div style={{ gridColumn: 'span 3' }}>
           <form
             onSubmit={handleSubmit}
-            className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 sm:p-8 space-y-5"
+            style={{
+              borderRadius: '16px',
+              border: '1px solid #E5E5E5',
+              backgroundColor: '#FFFFFF',
+              padding: '32px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px'
+            }}
           >
-            <h2 className="text-lg font-semibold text-white">
+            <h2 style={{
+              fontSize: '18px',
+              fontWeight: 600,
+              color: '#292929',
+              fontFamily: 'Inter, sans-serif'
+            }}>
               Envie uma Mensagem
             </h2>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '20px'
+            }}>
               <div>
-                <label className="block text-sm font-medium text-white mb-1.5">
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: '#292929',
+                  marginBottom: '6px',
+                  fontFamily: 'Inter, sans-serif'
+                }}>
                   Nome *
                 </label>
                 <input
@@ -135,12 +263,29 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none"
+                  style={{
+                    width: '100%',
+                    borderRadius: '8px',
+                    border: '1px solid #E5E5E5',
+                    backgroundColor: '#FFFFFF',
+                    padding: '10px 16px',
+                    fontSize: '14px',
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif',
+                    outline: 'none'
+                  }}
                   placeholder="Seu nome"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-white mb-1.5">
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: '#292929',
+                  marginBottom: '6px',
+                  fontFamily: 'Inter, sans-serif'
+                }}>
                   E-mail *
                 </label>
                 <input
@@ -149,14 +294,31 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none"
+                  style={{
+                    width: '100%',
+                    borderRadius: '8px',
+                    border: '1px solid #E5E5E5',
+                    backgroundColor: '#FFFFFF',
+                    padding: '10px 16px',
+                    fontSize: '14px',
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif',
+                    outline: 'none'
+                  }}
                   placeholder="seu@email.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-1.5">
+              <label style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#292929',
+                marginBottom: '6px',
+                fontFamily: 'Inter, sans-serif'
+              }}>
                 Assunto
               </label>
               <input
@@ -165,13 +327,30 @@ export default function ContactPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, subject: e.target.value })
                 }
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none"
+                style={{
+                  width: '100%',
+                  borderRadius: '8px',
+                  border: '1px solid #E5E5E5',
+                  backgroundColor: '#FFFFFF',
+                  padding: '10px 16px',
+                  fontSize: '14px',
+                  color: '#292929',
+                  fontFamily: 'Inter, sans-serif',
+                  outline: 'none'
+                }}
                 placeholder="Sobre o que deseja falar?"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-1.5">
+              <label style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#292929',
+                marginBottom: '6px',
+                fontFamily: 'Inter, sans-serif'
+              }}>
                 Mensagem *
               </label>
               <textarea
@@ -180,7 +359,18 @@ export default function ContactPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
                 }
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none resize-none"
+                style={{
+                  width: '100%',
+                  borderRadius: '8px',
+                  border: '1px solid #E5E5E5',
+                  backgroundColor: '#FFFFFF',
+                  padding: '10px 16px',
+                  fontSize: '14px',
+                  color: '#292929',
+                  fontFamily: 'Inter, sans-serif',
+                  outline: 'none',
+                  resize: 'none'
+                }}
                 placeholder="Escreva sua mensagem aqui..."
               />
             </div>
@@ -188,13 +378,32 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-[var(--primary)] px-6 py-3 font-semibold text-white hover:bg-[var(--primary)]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              style={{
+                width: '100%',
+                borderRadius: '999px',
+                backgroundColor: '#DAA520',
+                color: '#FFFFFF',
+                padding: '12px 24px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 600,
+                fontSize: '16px',
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.5 : 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = '#46A520')}
+              onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = '#DAA520')}
             >
               {loading ? (
                 "Enviando..."
               ) : (
                 <>
-                  <Send className="h-4 w-4" /> Enviar Mensagem
+                  <Send style={{ height: '16px', width: '16px' }} /> Enviar Mensagem
                 </>
               )}
             </button>

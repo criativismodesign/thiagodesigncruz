@@ -19,25 +19,57 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+    <main style={{ padding: '100px 120px' }}>
       {/* Hero */}
       <div className="text-center mb-16">
         <div className="inline-flex rounded-2xl bg-[var(--primary)]/10 p-4 mb-6">
           <Palette className="h-10 w-10 text-[var(--primary)]" />
         </div>
-        <h1 className="text-4xl font-bold text-white sm:text-5xl mb-4">
-          Sobre a <span className="gradient-text">Thiago Design Cruz</span>
+        <h1 style={{
+          fontSize: '48px',
+          fontWeight: 600,
+          color: '#292929',
+          textTransform: 'uppercase',
+          marginBottom: '16px',
+          fontFamily: 'Inter, sans-serif'
+        }}>
+          SOBRE A THIAGO DESIGN CRUZ
         </h1>
-        <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
+        <p style={{
+          fontSize: '18px',
+          color: '#AAAAAA',
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 400,
+          maxWidth: '800px',
+          margin: '0 auto'
+        }}>
           Transformamos ideias em arte vestível. Cada peça é criada com paixão,
           qualidade e atenção aos detalhes.
         </p>
       </div>
 
       {/* Story */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-white mb-6">Nossa História</h2>
-        <div className="space-y-4 text-[var(--muted-foreground)] leading-relaxed">
+      <section style={{ marginBottom: '64px' }}>
+        <h2 style={{
+          fontSize: '32px',
+          fontWeight: 600,
+          color: '#292929',
+          textTransform: 'uppercase',
+          marginBottom: '24px',
+          fontFamily: 'Inter, sans-serif'
+        }}>
+          Nossa História
+        </h2>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+          fontSize: '18px',
+          color: '#AAAAAA',
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 400,
+          lineHeight: 1.6
+        }}>
           <p>
             A Thiago Design Cruz nasceu da paixão por arte e design. O que
             começou como um hobby de criar estampas para camisetas entre amigos
@@ -59,9 +91,22 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-white mb-8">Nossos Valores</h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <section style={{ marginBottom: '64px' }}>
+        <h2 style={{
+          fontSize: '32px',
+          fontWeight: 600,
+          color: '#292929',
+          textTransform: 'uppercase',
+          marginBottom: '32px',
+          fontFamily: 'Inter, sans-serif'
+        }}>
+          Nossos Valores
+        </h2>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '24px'
+        }}>
           {[
             {
               icon: Heart,
@@ -90,15 +135,38 @@ export default function AboutPage() {
           ].map((value) => (
             <div
               key={value.title}
-              className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6"
+              style={{
+                borderRadius: '16px',
+                border: '1px solid #E5E5E5',
+                backgroundColor: '#FFFFFF',
+                padding: '24px'
+              }}
             >
-              <div className="mb-4 inline-flex rounded-xl bg-[var(--primary)]/10 p-3">
-                <value.icon className="h-6 w-6 text-[var(--primary)]" />
+              <div style={{
+                marginBottom: '16px',
+                display: 'inline-flex',
+                borderRadius: '12px',
+                backgroundColor: '#DAA52020',
+                padding: '12px'
+              }}>
+                <value.icon style={{ height: '24px', width: '24px', color: '#DAA520' }} />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 style={{
+                fontSize: '18px',
+                fontWeight: 600,
+                color: '#292929',
+                marginBottom: '8px',
+                fontFamily: 'Inter, sans-serif'
+              }}>
                 {value.title}
               </h3>
-              <p className="text-sm text-[var(--muted-foreground)]">
+              <p style={{
+                fontSize: '14px',
+                color: '#AAAAAA',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 400,
+                lineHeight: 1.5
+              }}>
                 {value.description}
               </p>
             </div>
@@ -107,23 +175,69 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="text-center rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[var(--primary)]/10 to-[var(--accent)]/10 p-12">
-        <h2 className="text-2xl font-bold text-white mb-4">
+      <section style={{
+        textAlign: 'center',
+        borderRadius: '16px',
+        border: '1px solid #E5E5E5',
+        background: 'linear-gradient(135deg, #DAA52010, #46A52010)',
+        padding: '48px'
+      }}>
+        <h2 style={{
+          fontSize: '24px',
+          fontWeight: 600,
+          color: '#292929',
+          marginBottom: '16px',
+          fontFamily: 'Inter, sans-serif'
+        }}>
           Pronto para criar algo incrível?
         </h2>
-        <p className="text-[var(--muted-foreground)] mb-8 max-w-md mx-auto">
+        <p style={{
+          color: '#AAAAAA',
+          marginBottom: '32px',
+          maxWidth: '400px',
+          margin: '0 auto 32px',
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 400,
+          fontSize: '16px'
+        }}>
           Explore nossa coleção ou crie seu próprio design personalizado.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '16px',
+          flexWrap: 'wrap'
+        }}>
           <Link
-            href="/produtos"
-            className="rounded-xl bg-[var(--primary)] px-8 py-3 font-semibold text-white hover:bg-[var(--primary)]/90 transition-colors"
+            href="/categorias/todos-produtos"
+            style={{
+              borderRadius: '999px',
+              backgroundColor: '#DAA520',
+              color: '#FFFFFF',
+              padding: '12px 32px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 600,
+              fontSize: '16px',
+              textDecoration: 'none'
+            }}
           >
             Ver Produtos
           </Link>
           <Link
             href="/criar-design"
-            className="rounded-xl border border-[var(--border)] px-8 py-3 font-semibold text-white hover:bg-[var(--secondary)] transition-colors"
+            style={{
+              borderRadius: '999px',
+              border: '1px solid #DAA520',
+              backgroundColor: 'transparent',
+              color: '#DAA520',
+              padding: '12px 32px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 600,
+              fontSize: '16px',
+              textDecoration: 'none'
+            }}
           >
             Criar Design
           </Link>
