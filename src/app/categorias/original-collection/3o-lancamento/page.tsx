@@ -1,4 +1,5 @@
 import BannerCategoria from '@/components/BannerCategoria'
+import CategoriasFiltroLateral from '@/components/CategoriasFiltroLateral'
 
 export default function TerceiroLancamentoPage() {
   return (
@@ -11,7 +12,12 @@ export default function TerceiroLancamentoPage() {
           { label: '3º Lançamento', href: '/categorias/original-collection/3o-lancamento', ativo: true },
         ]} 
       />
-      {/* Filtros e produtos - implementar depois */}
+      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+        <CategoriasFiltroLateral />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* Conteúdo dos produtos - implementar depois */}
+        </div>
+      </div>
     </main>
   )
 }
