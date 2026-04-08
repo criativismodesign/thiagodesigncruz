@@ -61,46 +61,15 @@ export function Header() {
               PRODUTOS
             </Link>
 
-            {/* Dropdown COLEÇÕES */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setCollectionsDropdownOpen(true)}
-              onMouseLeave={() => setCollectionsDropdownOpen(false)}
+            {/* Link COLEÇÕES */}
+            <Link
+              href="/categorias/original-collection"
+              className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                isActiveLink("/categorias/original-collection") ? "text-[#DAA520]" : "text-[#292929] hover:text-[#D8D8D8]"
+              }`}
             >
-              <button className="flex items-center gap-1 text-sm font-medium text-[#292929] hover:text-[#D8D8D8] transition-colors">
-                COLEÇÕES
-                <ChevronDown className="h-4 w-4" />
-              </button>
-              
-              {collectionsDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-48 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]">
-                  <Link
-                    href="/categorias/original-collection/my-life-my-style"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
-                  >
-                    My Life My Style
-                  </Link>
-                  <Link
-                    href="/categorias/original-collection/immortals"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
-                  >
-                    IMMORTALS
-                  </Link>
-                  <Link
-                    href="/categorias/original-collection/3o-lancamento"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
-                  >
-                    3º Lançamento
-                  </Link>
-                  <Link
-                    href="/categorias/original-collection/4o-lancamento"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
-                  >
-                    4º Lançamento
-                  </Link>
-                </div>
-              )}
-            </div>
+              COLEÇÕES
+            </Link>
 
             <Link
               href="/sobre"
@@ -283,6 +252,15 @@ export function Header() {
               className="block py-2 text-sm text-[#292929]"
             >
               PRODUTOS
+            </Link>
+            <Link
+              href="/categorias/original-collection"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block py-2 text-sm font-medium ${
+                isActiveLink("/categorias/original-collection") ? "text-[#DAA520]" : "text-[#292929]"
+              }`}
+            >
+              COLEÇÕES
             </Link>
             <Link
               href="/categorias/original-collection/my-life-my-style"
