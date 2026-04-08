@@ -54,13 +54,15 @@ export default function OutrosModelosSection() {
         {products.map((product, index) => (
           <div key={product.id} className="w-full">
             {/* Imagem do Produto */}
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={337}
-              height={393}
-              className="w-full h-auto object-cover"
-            />
+            <div className="relative overflow-hidden">
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={337}
+                height={393}
+                className="w-full h-auto object-cover transition-transform duration-300 ease hover:scale-105"
+              />
+            </div>
 
             {/* Bloco de Texto */}
             <div style={{ paddingTop: '16px' }}>

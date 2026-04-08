@@ -67,13 +67,13 @@ export function Header() {
               {productsDropdownOpen && (
                 <div className="absolute top-full left-0 mt-1 w-48 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]">
                   <Link
-                    href="/produtos/camisetas"
+                    href="/categorias/oversizeds"
                     className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
                   >
                     Camisetas Oversizeds
                   </Link>
                   <Link
-                    href="/produtos/mousepad"
+                    href="/categorias/mousepads"
                     className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
                   >
                     Mouse Pad / Desckpad
@@ -299,14 +299,14 @@ export function Header() {
               HOME
             </Link>
             <Link
-              href="/produtos/camisetas"
+              href="/categorias/oversizeds"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-sm text-[#292929]"
             >
               Camisetas Oversizeds
             </Link>
             <Link
-              href="/produtos/mousepad"
+              href="/categorias/mousepads"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-sm text-[#292929]"
             >

@@ -111,7 +111,7 @@ export default function MousepadCollectionSection() {
                 alt={product.name}
                 width={600}
                 height={290}
-                className="w-full h-auto object-cover"
+                className="w-full h-auto object-cover transition-transform duration-300 ease hover:scale-105"
               />
             </div>
 
