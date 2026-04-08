@@ -88,7 +88,7 @@ export default function RootLayout({
         <OrganizationJsonLd />
         <Providers>
           <Header />
-          <main className="min-h-screen">{children}</main>
+          <main>{children}</main>
           <Footer />
           <WhatsAppButton />
           <Toaster position="top-right" richColors />
