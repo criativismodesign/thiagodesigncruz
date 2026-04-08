@@ -98,7 +98,7 @@ export default function ProdutoCamiseta() {
               Início
             </Link>
             {' '}
-            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>·</span>
+            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>•</span>
             {' '}
             <Link 
               href="/colecao/original-collection" 
@@ -115,7 +115,7 @@ export default function ProdutoCamiseta() {
               Original Collection
             </Link>
             {' '}
-            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>·</span>
+            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>•</span>
             {' '}
             <Link 
               href="/colecao/my-life-my-style" 
@@ -132,7 +132,7 @@ export default function ProdutoCamiseta() {
               My Life My Style
             </Link>
             {' '}
-            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>·</span>
+            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>•</span>
             {' '}
             <span style={{ color: '#292929', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>
               Camiseta Oversized Caçador de Piratas
@@ -146,7 +146,7 @@ export default function ProdutoCamiseta() {
             fontFamily: 'Inter, sans-serif',
             fontWeight: 400,
             textTransform: 'uppercase',
-            marginTop: '16px'
+            marginTop: '8px'
           }}>
             ORIGINAL USE KIN / MY LIFE MY STYLE - COLEETION | STREET ART
           </p>
@@ -158,7 +158,7 @@ export default function ProdutoCamiseta() {
             fontFamily: 'Inter, sans-serif',
             fontWeight: 900,
             textTransform: 'uppercase',
-            marginTop: '8px'
+            marginTop: '4px'
           }}>
             CAMISETA OVERSIZED
           </p>
@@ -171,7 +171,7 @@ export default function ProdutoCamiseta() {
             fontWeight: 900,
             textTransform: 'uppercase',
             lineHeight: '1.1',
-            marginTop: '8px'
+            marginTop: '4px'
           }}>
             CAÇADOR DE PIRATAS
           </h1>
@@ -225,8 +225,8 @@ export default function ProdutoCamiseta() {
             fontFamily: 'Inter, sans-serif',
             fontWeight: 400,
             textAlign: 'left',
-            marginTop: '24px',
-            marginBottom: '24px',
+            marginTop: '16px',
+            marginBottom: '16px',
             lineHeight: '1.6'
           }}>
             Mais do que uma camiseta comum: uma peça com presença, personalidade e estética premium. Modelagem oversized, suedine 250g e design exclusivo para quem vive a cultura pop com mais estilo.
@@ -411,7 +411,7 @@ export default function ProdutoCamiseta() {
             border: '1px solid #E5E5E5', 
             borderRadius: '8px', 
             overflow: 'hidden',
-            marginTop: '48px'
+            marginTop: '32px'
           }}>
             {/* CABEÇALHO DAS ABAS */}
             <div style={{ 
