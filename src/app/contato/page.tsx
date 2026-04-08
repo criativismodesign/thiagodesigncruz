@@ -56,7 +56,7 @@ export default function ContactPage() {
         display: 'grid',
         gridTemplateColumns: 'repeat(5, 1fr)',
         gap: '48px',
-        padding: '0 120px 100px 120px'
+        padding: '0 120px'
       }}>
         {/* Contact Info */}
         <div style={{ gridColumn: 'span 2', display: 'flex', flexDirection: 'column', gap: '24px' }}>
