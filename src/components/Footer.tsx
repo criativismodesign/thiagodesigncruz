@@ -130,7 +130,7 @@ export default function Footer() {
       </div>
 
       {/* PARTE 2 - ÁREA PRINCIPAL DO FOOTER */}
-      <div style={{ height: '815px', paddingTop: '210px', padding: '210px 40px 50px 40px' }}>
+      <div style={{ paddingTop: '210px', padding: '210px 40px 50px 40px' }}>
         <div 
           style={{ 
             display: 'flex', 
