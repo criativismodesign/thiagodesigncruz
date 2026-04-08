@@ -9,6 +9,10 @@ import BannerBoxSection from "@/components/BannerBoxSection";
 export default function ProdutoCamiseta() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [zoomOpen, setZoomOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('M');
+  const [selectedColor, setSelectedColor] = useState('PRETO');
+  const [quantity, setQuantity] = useState(1);
+  const [hasDiscount] = useState(true); // Simulando produto com desconto
 
   // Array de imagens do produto
   const productImages = [
@@ -74,98 +78,175 @@ export default function ProdutoCamiseta() {
           </div>
         </div>
 
-        {/* LADO DIREITO - INFORMAÇÕES */}
+        {/* LADO DIREITO - INFORMAÇÕES COMPLETAS */}
         <div style={{ width: '50%' }}>
-          {/* Nome do produto */}
-          <h1 style={{ 
-            fontSize: '36px', 
-            fontWeight: 700, 
-            color: '#292929',
-            fontFamily: 'Inter, sans-serif',
-            textTransform: 'uppercase',
-            marginBottom: '16px'
-          }}>
-            CAMISETA OVERSIZED USE KIN
-          </h1>
+          {/* 1. BREADCRUMB */}
+          <nav style={{ marginBottom: '24px' }}>
+            <Link 
+              href="/" 
+              style={{ 
+                fontSize: '12px', 
+                color: '#BABABA', 
+                fontFamily: 'Inter, sans-serif',
+                textDecoration: 'none',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#DAA520'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#BABABA'}
+            >
+              Início
+            </Link>
+            {' '}
+            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>·</span>
+            {' '}
+            <Link 
+              href="/colecao/original-collection" 
+              style={{ 
+                fontSize: '12px', 
+                color: '#BABABA', 
+                fontFamily: 'Inter, sans-serif',
+                textDecoration: 'none',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#DAA520'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#BABABA'}
+            >
+              Original Collection
+            </Link>
+            {' '}
+            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>·</span>
+            {' '}
+            <Link 
+              href="/colecao/my-life-my-style" 
+              style={{ 
+                fontSize: '12px', 
+                color: '#BABABA', 
+                fontFamily: 'Inter, sans-serif',
+                textDecoration: 'none',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#DAA520'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#BABABA'}
+            >
+              My Life My Style
+            </Link>
+            {' '}
+            <span style={{ color: '#BABABA', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>·</span>
+            {' '}
+            <span style={{ color: '#292929', fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>
+              Camiseta Oversized Caçador de Piratas
+            </span>
+          </nav>
 
-          {/* SKU */}
+          {/* 2. IDENTIFICAÇÃO DA COLEÇÃO */}
           <p style={{ 
-            fontSize: '14px', 
-            color: '#AAAAAA',
+            fontSize: '16px', 
+            color: '#AAAAAA', 
             fontFamily: 'Inter, sans-serif',
-            marginBottom: '24px'
+            fontWeight: 400,
+            textTransform: 'uppercase',
+            marginTop: '16px'
           }}>
-            SKU: CAM-USE-KIN-001
+            ORIGINAL USE KIN / MY LIFE MY STYLE - COLEETION | STREET ART
           </p>
 
-          {/* Preço */}
-          <div style={{ marginBottom: '32px' }}>
+          {/* 3. IDENTIFICAÇÃO DO PRODUTO */}
+          <p style={{ 
+            fontSize: '20px', 
+            color: '#292929', 
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            marginTop: '8px'
+          }}>
+            CAMISETA OVERSIZED
+          </p>
+
+          {/* 4. NOME DO PRODUTO */}
+          <h1 style={{ 
+            fontSize: '40px', 
+            color: '#292929', 
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            lineHeight: '1.1',
+            marginTop: '8px'
+          }}>
+            CAÇADOR DE PIRATAS
+          </h1>
+
+          {/* 5. LINHA DE PREÇO */}
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '16px', 
+            marginTop: '16px' 
+          }}>
             <span style={{ 
-              fontSize: '24px', 
+              fontSize: '30px', 
+              fontWeight: 600, 
+              color: '#292929',
+              fontFamily: 'Inter, sans-serif'
+            }}>
+              R$ 169,90
+            </span>
+            {hasDiscount && (
+              <span style={{ 
+                fontSize: '18px', 
+                fontWeight: 400, 
+                color: '#F0484A',
+                fontFamily: 'Inter, sans-serif'
+              }}>
+                -8% OFF
+              </span>
+            )}
+          </div>
+
+          {/* 6. PREÇO "DE" */}
+          {hasDiscount && (
+            <div style={{ marginTop: '4px' }}>
+              <span style={{ 
+                fontSize: '18px', 
+                fontWeight: 400, 
+                color: '#AAAAAA',
+                fontFamily: 'Inter, sans-serif',
+                textDecoration: 'line-through'
+              }}>
+                R$ 189,90
+              </span>
+            </div>
+          )}
+
+          {/* 7. ESCOLHA DE TAMANHO */}
+          <div style={{ marginTop: '24px' }}>
+            <label style={{ 
+              fontSize: '20px', 
               fontWeight: 700, 
               color: '#292929',
               fontFamily: 'Inter, sans-serif'
             }}>
-              R$ 89,90
-            </span>
-          </div>
-
-          {/* Descrição */}
-          <div style={{ marginBottom: '32px' }}>
-            <h3 style={{ 
-              fontSize: '18px', 
-              fontWeight: 600, 
-              color: '#292929',
-              fontFamily: 'Inter, sans-serif',
-              marginBottom: '12px'
+              TAMANHO
+            </label>
+            <div style={{ 
+              display: 'flex', 
+              gap: '8px', 
+              marginTop: '12px' 
             }}>
-              Descrição
-            </h3>
-            <p style={{ 
-              fontSize: '16px', 
-              color: '#AAAAAA',
-              fontFamily: 'Inter, sans-serif',
-              lineHeight: '1.6'
-            }}>
-              Camiseta oversized com design exclusivo Use KIN. Confeccionada em algodão de alta qualidade, 
-              proporcionando conforto e estilo. Modelagem ampla com mangas longas e gola redonda.
-            </p>
-          </div>
-
-          {/* Tamanhos */}
-          <div style={{ marginBottom: '32px' }}>
-            <h3 style={{ 
-              fontSize: '18px', 
-              fontWeight: 600, 
-              color: '#292929',
-              fontFamily: 'Inter, sans-serif',
-              marginBottom: '12px'
-            }}>
-              Tamanhos
-            </h3>
-            <div style={{ display: 'flex', gap: '8px' }}>
               {['P', 'M', 'G', 'GG'].map((size) => (
                 <button
                   key={size}
+                  onClick={() => setSelectedSize(size)}
                   style={{
-                    width: '48px',
-                    height: '48px',
-                    border: '1px solid #292929',
-                    backgroundColor: 'transparent',
-                    color: '#292929',
+                    padding: '10px 20px',
+                    border: '1px solid #DAA520',
+                    borderRadius: '8px',
+                    backgroundColor: selectedSize === size ? '#DAA520' : '#FFFFFF',
+                    color: selectedSize === size ? '#FFFFFF' : '#292929',
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '16px',
-                    fontWeight: 600,
+                    fontWeight: 700,
+                    fontSize: '20px',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#292929';
-                    e.currentTarget.style.color = '#FFFFFF';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#292929';
                   }}
                 >
                   {size}
@@ -174,141 +255,140 @@ export default function ProdutoCamiseta() {
             </div>
           </div>
 
-          {/* Cores */}
-          <div style={{ marginBottom: '32px' }}>
-            <h3 style={{ 
-              fontSize: '18px', 
-              fontWeight: 600, 
+          {/* 8. ESCOLHA DE COR */}
+          <div style={{ marginTop: '24px' }}>
+            <label style={{ 
+              fontSize: '20px', 
+              fontWeight: 700, 
               color: '#292929',
-              fontFamily: 'Inter, sans-serif',
-              marginBottom: '12px'
+              fontFamily: 'Inter, sans-serif'
             }}>
-              Cores
-            </h3>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {[
-                { name: 'Preto', color: '#000000' },
-                { name: 'Branco', color: '#FFFFFF' },
-                { name: 'Cinza', color: '#808080' }
-              ].map((color) => (
-                <div
-                  key={color.name}
+              COR
+            </label>
+            <div style={{ 
+              display: 'flex', 
+              gap: '8px', 
+              marginTop: '12px' 
+            }}>
+              {['PRETO', 'BRANCO'].map((color) => (
+                <button
+                  key={color}
+                  onClick={() => setSelectedColor(color)}
                   style={{
-                    width: '32px',
-                    height: '32px',
-                    backgroundColor: color.color,
-                    border: '1px solid #CCCCCC',
+                    padding: '10px 20px',
+                    border: '1px solid #DAA520',
+                    borderRadius: '8px',
+                    backgroundColor: selectedColor === color ? '#DAA520' : '#FFFFFF',
+                    color: selectedColor === color ? '#FFFFFF' : '#292929',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '20px',
                     cursor: 'pointer',
-                    borderRadius: '50%'
+                    transition: 'all 0.3s ease'
                   }}
-                  title={color.name}
-                />
+                >
+                  {color}
+                </button>
               ))}
             </div>
           </div>
 
-          {/* Botões de ação */}
-          <div style={{ display: 'flex', gap: '16px', marginBottom: '32px' }}>
-            <button
-              style={{
-                flex: 1,
-                padding: '16px 24px',
-                backgroundColor: '#292929',
+          {/* 9. QUANTIDADE */}
+          <div style={{ marginTop: '24px' }}>
+            <label style={{ 
+              fontSize: '20px', 
+              fontWeight: 700, 
+              color: '#292929',
+              fontFamily: 'Inter, sans-serif'
+            }}>
+              QUANTIDADE
+            </label>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center',
+              backgroundColor: '#DAA520',
+              borderRadius: '8px',
+              marginTop: '12px',
+              width: 'fit-content'
+            }}>
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  color: '#FFFFFF',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '30px',
+                  cursor: 'pointer',
+                  padding: '0 16px'
+                }}
+              >
+                -
+              </button>
+              <span style={{
                 color: '#FFFFFF',
-                border: 'none',
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '16px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                textTransform: 'uppercase',
-                transition: 'background-color 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#DAA520';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#292929';
-              }}
-            >
-              Comprar Agora
-            </button>
-            <button
-              style={{
-                padding: '16px 24px',
-                backgroundColor: 'transparent',
-                color: '#292929',
-                border: '1px solid #292929',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '16px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#292929';
-                e.currentTarget.style.color = '#FFFFFF';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#292929';
-              }}
-            >
-              Adicionar ao Carrinho
-            </button>
+                fontWeight: 700,
+                fontSize: '30px',
+                padding: '0 24px'
+              }}>
+                {quantity}
+              </span>
+              <button
+                onClick={() => setQuantity(quantity + 1)}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  color: '#FFFFFF',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '30px',
+                  cursor: 'pointer',
+                  padding: '0 16px'
+                }}
+              >
+                +
+              </button>
+            </div>
           </div>
 
-          {/* Guia de tamanhos */}
-          <div style={{ marginBottom: '32px' }}>
-            <Link 
-              href="#" 
-              style={{ 
-                color: '#292929', 
-                textDecoration: 'none',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '14px',
-                fontWeight: 500,
-                borderBottom: '1px solid #292929'
-              }}
-            >
-              Guia de Tamanhos
-            </Link>
-          </div>
-
-          {/* Informações adicionais */}
-          <div style={{ 
-            borderTop: '1px solid #EFEFEF', 
-            paddingTop: '24px',
-            marginBottom: '32px'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-              <span style={{ 
-                fontSize: '16px', 
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif'
-              }}>
-                <strong>Material:</strong> 100% Algodão
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-              <span style={{ 
-                fontSize: '16px', 
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif'
-              }}>
-                <strong>Estoque:</strong> Disponível
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ 
-                fontSize: '16px', 
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif'
-              }}>
-                <strong>Envio:</strong> Frete grátis para compras acima de R$ 200
-              </span>
-            </div>
-          </div>
+          {/* 10. BOTÃO ADICIONAR AO CARRINHO */}
+          <button
+            style={{
+              width: '100%',
+              padding: '16px',
+              backgroundColor: '#46A520',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '999px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '16px',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px',
+              marginTop: '32px',
+              transition: 'background-color 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#DAA520';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#46A520';
+            }}
+          >
+            <Image
+              src="/icons/Icones-Site-Use-KIN-carrinho-botao-comprar.svg"
+              alt="Carrinho"
+              width={24}
+              height={24}
+            />
+            ADICIONAR AO CARRINHO
+          </button>
         </div>
       </div>
 
