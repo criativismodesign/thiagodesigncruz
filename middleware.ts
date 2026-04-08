@@ -25,5 +25,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/login-usekin/:path+']
+  matcher: [
+    '/login-usekin/:path*',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ]
 }
