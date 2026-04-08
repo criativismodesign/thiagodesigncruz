@@ -1,26 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { authenticator } from 'otplib'
 import QRCode from 'qrcode'
-import { existsSync, readFileSync } from 'fs'
-import path from 'path'
+import { PrismaClient } from '@prisma/client'
 
-// Arquivo de configuração local para armazenar o TOTP secret
-const CONFIG_FILE = path.join(process.cwd(), 'totp-config.json')
+const prisma = new PrismaClient()
 
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json()
 
-    // Verificar se já está configurado (arquivo local)
-    if (existsSync(CONFIG_FILE)) {
+    // Verificar se já está configurado no banco
+    const config = await prisma.adminConfig.findUnique({
+      where: { key: 'totp_configured' }
+    })
+
+    if (config?.value === 'true') {
       return NextResponse.json(
         { success: false, error: 'TOTP já configurado' },
         { status: 400 }
       )
     }
 
-    // Gerar secret TOTP
-    const secret = authenticator.generateSecret()
+    // Usar TOTP secret fixo do ambiente
+    const secret = process.env.ADMIN_TOTP_SECRET
+    
+    if (!secret) {
+      return NextResponse.json(
+        { success: false, error: 'TOTP secret não configurado no ambiente' },
+        { status: 500 }
+      )
+    }
 
     // Gerar URL para QR Code
     const otpauthUrl = authenticator.keyuri(email, 'Use KIN Admin', secret)
@@ -31,7 +40,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       qrCode: qrCodeDataUrl,
-      secret: secret // Enviar secret apenas para este setup específico
+      secret: secret // Enviar secret fixo
     })
 
   } catch (error) {
@@ -40,6 +49,8 @@ export async function POST(request: NextRequest) {
       { success: false, error: 'Erro interno do servidor' },
       { status: 500 }
     )
+  } finally {
+    await prisma.$disconnect()
   }
 }
 

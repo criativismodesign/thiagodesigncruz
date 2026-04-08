@@ -1,28 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { authenticator } from 'otplib'
-import { writeFileSync, readFileSync, existsSync } from 'fs'
-import path from 'path'
+import { PrismaClient } from '@prisma/client'
 
-// Arquivo de configuração local para armazenar o TOTP secret
-const CONFIG_FILE = path.join(process.cwd(), 'totp-config.json')
+const prisma = new PrismaClient()
 
 export async function POST(request: NextRequest) {
   try {
-    const { code, secret } = await request.json()
+    const { code } = await request.json()
 
-    // Verificar se já está configurado
-    if (process.env.ADMIN_TOTP_CONFIGURED === 'true' || existsSync(CONFIG_FILE)) {
+    // Verificar se já está configurado no banco
+    const config = await prisma.adminConfig.findUnique({
+      where: { key: 'totp_configured' }
+    })
+
+    if (config?.value === 'true') {
       return NextResponse.json(
         { success: false, error: 'TOTP já configurado' },
         { status: 400 }
       )
     }
 
-    // Verificar se o secret foi fornecido
+    // Usar TOTP secret fixo do ambiente
+    const secret = process.env.ADMIN_TOTP_SECRET
+    
     if (!secret) {
       return NextResponse.json(
-        { success: false, error: 'Secret não fornecido' },
-        { status: 400 }
+        { success: false, error: 'TOTP secret não configurado no ambiente' },
+        { status: 500 }
       )
     }
 
@@ -39,18 +43,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Salvar configuração localmente
-    const config = {
-      secret: secret,
-      configured: true,
-      configuredAt: new Date().toISOString()
-    }
-
-    writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2))
+    // Salvar status configurado no banco
+    await prisma.adminConfig.upsert({
+      where: { key: 'totp_configured' },
+      update: { value: 'true' },
+      create: { key: 'totp_configured', value: 'true' }
+    })
 
     return NextResponse.json({
       success: true,
-      message: 'TOTP configurado com sucesso',
+      message: 'TOTP configurado com sucesso!',
       configured: true
     })
 
@@ -60,22 +62,22 @@ export async function POST(request: NextRequest) {
       { success: false, error: 'Erro interno do servidor' },
       { status: 500 }
     )
+  } finally {
+    await prisma.$disconnect()
   }
 }
 
 export async function GET() {
   try {
-    // Verificar se já está configurado
-    if (existsSync(CONFIG_FILE)) {
-      const config = JSON.parse(readFileSync(CONFIG_FILE, 'utf8'))
-      return NextResponse.json({
-        configured: config.configured,
-        configuredAt: config.configuredAt
-      })
-    }
-
+    // Verificar se já está configurado no banco
+    const config = await prisma.adminConfig.findUnique({
+      where: { key: 'totp_configured' }
+    })
+    
+    const isConfigured = config?.value === 'true'
+    
     return NextResponse.json({
-      configured: false
+      configured: isConfigured
     })
 
   } catch (error) {
@@ -84,5 +86,7 @@ export async function GET() {
       { success: false, error: 'Erro interno do servidor' },
       { status: 500 }
     )
+  } finally {
+    await prisma.$disconnect()
   }
 }

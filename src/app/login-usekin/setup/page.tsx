@@ -21,6 +21,21 @@ export default function SetupTOTP() {
 
   const checkIfConfigured = async () => {
     try {
+      // Primeiro verificar se já está configurado
+      const statusResponse = await fetch('/api/admin/auth/confirm-totp', {
+        method: 'GET',
+      })
+
+      const statusData = await statusResponse.json()
+
+      if (statusData.configured) {
+        setIsConfigured(true)
+        // Redirecionar imediatamente se já configurado
+        router.replace('/login-usekin')
+        return
+      }
+
+      // Se não está configurado, buscar QR Code
       const response = await fetch('/api/admin/auth/setup-totp', {
         method: 'POST',
         headers: {
@@ -35,10 +50,7 @@ export default function SetupTOTP() {
         setQrCode(data.qrCode)
         setSecret(data.secret) // Secret retornado pela API para este setup
       } else {
-        setIsConfigured(true)
-        // Redirecionar imediatamente se já configurado
-        router.replace('/login-usekin')
-        return
+        setError(data.error || 'Erro ao gerar QR Code')
       }
     } catch (err) {
       setError('Erro ao verificar configuração')
@@ -52,15 +64,14 @@ export default function SetupTOTP() {
     setError('')
 
     try {
-      // Enviar código para confirmação usando nova API
+      // Enviar código para confirmação
       const response = await fetch('/api/admin/auth/confirm-totp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          code: verificationCode,
-          secret: secret // Enviar secret recebido da API
+          code: verificationCode
         }),
       })
 

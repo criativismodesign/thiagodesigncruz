@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { authenticator } from 'otplib'
-import { existsSync, readFileSync } from 'fs'
-import path from 'path'
+import { PrismaClient } from '@prisma/client'
 
-// Arquivo de configuração local para armazenar o TOTP secret
-const CONFIG_FILE = path.join(process.cwd(), 'totp-config.json')
+const prisma = new PrismaClient()
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,17 +16,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verificar se o TOTP está configurado
-    if (!existsSync(CONFIG_FILE)) {
+    // Verificar se o TOTP está configurado no banco
+    const config = await prisma.adminConfig.findUnique({
+      where: { key: 'totp_configured' }
+    })
+
+    if (config?.value !== 'true') {
       return NextResponse.json(
         { success: false, error: 'TOTP não configurado' },
         { status: 400 }
       )
     }
 
-    // Ler configuração local
-    const config = JSON.parse(readFileSync(CONFIG_FILE, 'utf8'))
-    const totpSecret = config.secret
+    // Usar TOTP secret fixo do ambiente
+    const totpSecret = process.env.ADMIN_TOTP_SECRET
     const sessionToken = process.env.ADMIN_SESSION_TOKEN
 
     if (!totpSecret || !sessionToken) {
@@ -71,5 +72,7 @@ export async function POST(request: NextRequest) {
       { success: false, error: 'Erro interno do servidor' },
       { status: 500 }
     )
+  } finally {
+    await prisma.$disconnect()
   }
 }
