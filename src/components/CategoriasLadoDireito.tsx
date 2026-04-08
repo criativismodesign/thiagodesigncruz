@@ -37,13 +37,10 @@ export default function CategoriasLadoDireito() {
 
   return (
     <div style={{
-      width: '1365px',
-      marginRight: '120px',
+      flex: 1,
       marginTop: '100px',
-      marginBottom: '100px',
-      flex: 1
+      marginBottom: '100px'
     }}>
-      <div style={{ width: '1245px' }}>
         {/* CABEÇALHO - TOP */}
         <div style={{
           display: 'flex',

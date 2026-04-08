@@ -13,9 +13,16 @@ export default function MyLifeMyStylePage() {
           { label: 'My Life My Style', href: '/categorias/original-collection/my-life-my-style', ativo: true },
         ]} 
       />
-      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <CategoriasFiltroLateral />
-        <CategoriasLadoDireito />
+      <div style={{ 
+        maxWidth: '1920px', 
+        margin: '0 auto',
+        paddingLeft: '120px',
+        paddingRight: '120px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <CategoriasFiltroLateral />
+          <CategoriasLadoDireito />
+        </div>
       </div>
     </main>
   )

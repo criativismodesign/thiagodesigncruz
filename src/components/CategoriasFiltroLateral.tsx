@@ -27,17 +27,15 @@ export default function CategoriasFiltroLateral() {
 
   return (
     <div style={{
-      width: '555px',
+      width: '386px',
       backgroundColor: '#FFFFFF',
-      marginLeft: '120px',
-      marginRight: '50px',
+      marginRight: '24px',
       marginTop: '100px',
       marginBottom: '100px',
       position: 'sticky',
       top: '100px'
     }}>
-      <div style={{ width: '386px' }}>
-        {/* TÍTULO */}
+      {/* TÍTULO */}
         <h2 style={{
           fontSize: '24px',
           fontWeight: 600,
@@ -169,25 +167,24 @@ export default function CategoriasFiltroLateral() {
         </div>
 
         {/* BANNER PUBLICITÁRIO */}
-        <div style={{ margin: '48px auto 0', textAlign: 'center' }}>
-          <Image
-            src="/images/banners/banner-promocional-366x634.jpg"
-            alt="Banner promocional"
-            width={366}
-            height={634}
-            style={{
-              objectFit: 'cover',
-              maxWidth: '100%',
-              height: 'auto'
-            }}
-          />
-        </div>
+      <div style={{ margin: '48px auto 0', textAlign: 'center' }}>
+        <Image
+          src="/images/banners/banner-promocional-366x634.jpg"
+          alt="Banner promocional"
+          width={366}
+          height={634}
+          style={{
+            objectFit: 'cover',
+            maxWidth: '100%',
+            height: 'auto'
+          }}
+        />
       </div>
 
       {/* RESPONSIVIDADE */}
       <style jsx>{`
         @media (max-width: 768px) {
-          div[style*="width: 555px"] {
+          div[style*="width: 386px"] {
             width: 100%;
             margin: 0;
             padding: 24px;

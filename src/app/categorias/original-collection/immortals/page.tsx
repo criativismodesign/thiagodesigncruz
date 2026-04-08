@@ -13,9 +13,16 @@ export default function ImmortalsPage() {
           { label: 'Immortals', href: '/categorias/original-collection/immortals', ativo: true },
         ]} 
       />
-      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <CategoriasFiltroLateral />
-        <CategoriasLadoDireito />
+      <div style={{ 
+        maxWidth: '1920px', 
+        margin: '0 auto',
+        paddingLeft: '120px',
+        paddingRight: '120px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <CategoriasFiltroLateral />
+          <CategoriasLadoDireito />
+        </div>
       </div>
     </main>
   )

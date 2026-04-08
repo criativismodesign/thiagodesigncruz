@@ -12,9 +12,16 @@ export default function CategoriasPage() {
           { label: 'Todos Produtos', href: '/categorias', ativo: true },
         ]} 
       />
-      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <CategoriasFiltroLateral />
-        <CategoriasLadoDireito />
+      <div style={{ 
+        maxWidth: '1920px', 
+        margin: '0 auto',
+        paddingLeft: '120px',
+        paddingRight: '120px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <CategoriasFiltroLateral />
+          <CategoriasLadoDireito />
+        </div>
       </div>
     </main>
   )

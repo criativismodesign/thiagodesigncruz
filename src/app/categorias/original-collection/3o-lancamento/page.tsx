@@ -13,9 +13,16 @@ export default function TerceiroLancamentoPage() {
           { label: '3º Lançamento', href: '/categorias/original-collection/3o-lancamento', ativo: true },
         ]} 
       />
-      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <CategoriasFiltroLateral />
-        <CategoriasLadoDireito />
+      <div style={{ 
+        maxWidth: '1920px', 
+        margin: '0 auto',
+        paddingLeft: '120px',
+        paddingRight: '120px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <CategoriasFiltroLateral />
+          <CategoriasLadoDireito />
+        </div>
       </div>
     </main>
   )
