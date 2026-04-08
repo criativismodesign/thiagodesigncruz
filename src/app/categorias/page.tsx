@@ -1,5 +1,6 @@
 import BannerCategoria from '@/components/BannerCategoria'
 import CategoriasFiltroLateral from '@/components/CategoriasFiltroLateral'
+import CategoriasLadoDireito from '@/components/CategoriasLadoDireito'
 
 export default function CategoriasPage() {
   return (
@@ -13,9 +14,7 @@ export default function CategoriasPage() {
       />
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
         <CategoriasFiltroLateral />
-        <div style={{ flex: 1, minWidth: 0 }}>
-          {/* Conteúdo dos produtos - implementar depois */}
-        </div>
+        <CategoriasLadoDireito />
       </div>
     </main>
   )
