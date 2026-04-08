@@ -5,7 +5,7 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ title, subtitle }: SectionHeaderProps) {
   return (
-    <div className="text-center">
+    <div className="text-center" style={{ marginBottom: '48px' }}>
       <h2 
         className="font-semibold uppercase"
         style={{ 

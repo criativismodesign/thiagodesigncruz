@@ -69,13 +69,11 @@ export default function CollectionsSection() {
       >
         {collections.map((collection) => (
           <div key={collection.id} className="w-full">
-            {/* Images Block */}
+            {/* Container do bloco de imagens */}
             <div style={{ position: 'relative', width: '100%' }}>
-              {/* Camiseta */}
-              <Link
-                href={`/colecao/${collection.slug}`}
-                style={{ textDecoration: 'none' }}
-              >
+
+              {/* Camiseta - com margem lateral de 22px em cada lado */}
+              <Link href={`/colecao/${collection.slug}`}>
                 <Image
                   src={collection.imageCamiseta}
                   alt={collection.supertitle1}
@@ -91,7 +89,7 @@ export default function CollectionsSection() {
                 />
               </Link>
 
-              {/* Mousepad - margem top negativa de 22px para subir sobre a camiseta */}
+              {/* Mousepad - menor que a camiseta, com 22px de margem em cada lado */}
               <Link
                 href={`/colecao/${collection.slug}`}
                 style={{
@@ -100,17 +98,18 @@ export default function CollectionsSection() {
                   marginTop: '-22px',
                   position: 'relative',
                   zIndex: 10,
-                  textDecoration: 'none'
+                  paddingLeft: '22px',
+                  paddingRight: '22px',
                 }}
               >
                 <Image
                   src={collection.imageMousepad}
                   alt={`Mousepad ${collection.supertitle1}`}
-                  width={292}
-                  height={114}
+                  width={336}
+                  height={158}
                   style={{
-                    width: '292px',
-                    height: '114px',
+                    width: '100%',
+                    height: 'auto',
                     objectFit: 'cover',
                     display: 'block',
                     transition: 'transform 0.3s ease',

@@ -150,11 +150,12 @@ export default function MousepadCollectionSection() {
               <div 
                 className="font-semibold"
                 style={{ 
-                  fontSize: '20px',
+                  fontSize: '18px',
                   color: '#292929',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 600,
-                  marginTop: '8px'
+                  textTransform: 'uppercase',
+                  lineHeight: '1.2'
                 }}
               >
                 {formatCurrency(product.price)}

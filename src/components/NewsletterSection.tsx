@@ -84,7 +84,7 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
           paddingRight: "120px"
         }}
       >
-        <div className="max-w-[50%]">
+        <div className="max-w-[40%]">
           {/* Tag LISTA VIP */}
           <div 
             className="font-light uppercase"

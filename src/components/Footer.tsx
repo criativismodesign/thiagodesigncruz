@@ -82,7 +82,7 @@ export default function Footer() {
       <div style={{ marginTop: '100px' }}>
         <div 
           style={{ 
-            width: '80%', 
+            width: '1843px', 
             height: '238px', 
             backgroundColor: '#EFEFEF', 
             margin: '0 auto',
@@ -92,46 +92,44 @@ export default function Footer() {
             alignItems: 'center',
             padding: '0 40px'
           }}
-          className="md:w-full md:flex-col md:h-auto md:px-8 md:py-8"
         >
           {benefits.map((benefit, index) => (
-            <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '16px' }} className="md:mb-6 md:flex-col md:text-center">
+            <div key={index} style={{ textAlign: 'center' }}>
               <Image
                 src={benefit.icon}
                 alt={benefit.title}
                 width={48}
                 height={48}
+                style={{ marginBottom: '12px' }}
               />
-              <div>
-                <h3 
-                  style={{ 
-                    fontSize: '18px', 
-                    fontWeight: 700, 
-                    color: '#292929', 
-                    textTransform: 'uppercase',
-                    marginBottom: '4px'
-                  }}
-                >
-                  {benefit.title}
-                </h3>
-                <p 
-                  style={{ 
-                    fontSize: '14px', 
-                    fontWeight: 400, 
-                    color: '#AAAAAA',
-                    maxWidth: '200px'
-                  }}
-                >
-                  {benefit.text}
-                </p>
-              </div>
+              <h3 
+                style={{ 
+                  fontSize: '21px', 
+                  fontWeight: 700, 
+                  color: '#292929', 
+                  textTransform: 'uppercase',
+                  marginBottom: '8px'
+                }}
+              >
+                {benefit.title}
+              </h3>
+              <p 
+                style={{ 
+                  fontSize: '18px', 
+                  fontWeight: 400, 
+                  color: '#AAAAAA',
+                  maxWidth: '200px'
+                }}
+              >
+                {benefit.text}
+              </p>
             </div>
           ))}
         </div>
       </div>
 
       {/* PARTE 2 - ÁREA PRINCIPAL DO FOOTER */}
-      <div style={{ height: '815px', paddingTop: '210px', padding: '210px 40px 0 40px' }} className="md:pt-16 md:px-6">
+      <div style={{ height: '815px', paddingTop: '210px', padding: '210px 40px 0 40px', backgroundColor: '#292929' }}>
         <div 
           style={{ 
             display: 'flex', 
@@ -140,7 +138,6 @@ export default function Footer() {
             maxWidth: '1843px',
             margin: '0 auto'
           }}
-          className="md:flex-col md:gap-12"
         >
           
           {/* COLUNA 1 - LOGO + DESCRIÇÃO + REDES SOCIAIS */}
@@ -148,9 +145,9 @@ export default function Footer() {
             <Image
               src="/icons/Icones-Site-Use-KIN-logo-branca.svg"
               alt="Use KIN"
-              width={240}
-              height={58}
-              style={{ height: '58px', width: 'auto' }}
+              width={200}
+              height={48}
+              style={{ height: '48px', width: 'auto' }}
             />
             <p 
               style={{ 
@@ -164,29 +161,29 @@ export default function Footer() {
               Camisetas e mouse pads com designs exclusivos.
               Crie sua própria arte ou escolha entre nossos designs únicos
             </p>
-            <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+            <div style={{ display: 'flex', gap: '16px', marginTop: '24px' }}>
               <Link href="#" className="hover:opacity-80 transition-opacity">
                 <Image
                   src="/icons/Icones-Site-Use-KIN-instagram.svg"
                   alt="Instagram"
-                  width={24}
-                  height={24}
+                  width={32}
+                  height={32}
                 />
               </Link>
               <Link href="#" className="hover:opacity-80 transition-opacity">
                 <Image
                   src="/icons/Icones-Site-Use-KIN-tiktok.svg"
                   alt="TikTok"
-                  width={24}
-                  height={24}
+                  width={32}
+                  height={32}
                 />
               </Link>
               <Link href="#" className="hover:opacity-80 transition-opacity">
                 <Image
                   src="/icons/Icones-Site-Use-KIN-whatsapp-rodapé-dourado.svg"
                   alt="WhatsApp"
-                  width={24}
-                  height={24}
+                  width={32}
+                  height={32}
                 />
               </Link>
             </div>
@@ -274,7 +271,6 @@ export default function Footer() {
                   alt="Email"
                   width={20}
                   height={20}
-                  style={{ color: '#AAAAAA' }}
                 />
                 <span style={{ fontSize: '18px', fontWeight: 400, color: '#AAAAAA' }}>
                   contato@usekin.com.br
@@ -286,7 +282,6 @@ export default function Footer() {
                   alt="Phone"
                   width={20}
                   height={20}
-                  style={{ color: '#AAAAAA' }}
                 />
                 <span style={{ fontSize: '18px', fontWeight: 400, color: '#AAAAAA' }}>
                   (XX) XXXXX-XXXX
@@ -298,7 +293,6 @@ export default function Footer() {
                   alt="Map"
                   width={20}
                   height={20}
-                  style={{ color: '#AAAAAA' }}
                 />
                 <span style={{ fontSize: '18px', fontWeight: 400, color: '#AAAAAA' }}>
                   Brasil
@@ -338,7 +332,7 @@ export default function Footer() {
                     padding: '8px 0',
                     outline: 'none',
                     flex: 1,
-                                      }}
+                  }}
                 />
                 <button
                   type="submit"
@@ -373,9 +367,8 @@ export default function Footer() {
         <Image
           src="/icons/Icones-Site-Use-KIN-logos-meios-pagamento-rodape.svg"
           alt="Meios de pagamento"
-          width={533}
-          height={40}
-          className="md:w-full md:px-8"
+          width={800}
+          height={60}
         />
       </div>
 
@@ -388,24 +381,24 @@ export default function Footer() {
         alignItems: 'center', 
         justifyContent: 'space-between',
         padding: '0 40px'
-      }} className="md:flex-col md:h-auto md:py-4 md:gap-3 md:text-center">
-        <span style={{ fontSize: '12px', fontWeight: 400, color: '#FFFFFF' }}>
-          © 2026 Thiago Design Cruz. Todos os direitos reservados.
+      }}>
+        <span style={{ fontSize: '18px', fontWeight: 400, color: '#FFFFFF' }}>
+          2026 Thiago Design Cruz. Todos os direitos reservados.
         </span>
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }} className="md:flex-col md:gap-4">
-          <Link href="/politicas/reembolso" style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '12px' }} className="hover:opacity-80 transition-opacity">
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <Link href="/politicas/reembolso" style={{ color: '#FFFFFF', textDecoration: 'none' }} className="hover:opacity-80 transition-opacity">
             Política de Reembolso e Devoluções
           </Link>
-          <span style={{ color: '#FFFFFF', fontSize: '12px' }}>·</span>
-          <Link href="/politicas/troca" style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '12px' }} className="hover:opacity-80 transition-opacity">
+          <span style={{ color: '#FFFFFF' }}>·</span>
+          <Link href="/politicas/troca" style={{ color: '#FFFFFF', textDecoration: 'none' }} className="hover:opacity-80 transition-opacity">
             Política de Troca
           </Link>
-          <span style={{ color: '#FFFFFF', fontSize: '12px' }}>·</span>
-          <Link href="/politicas/privacidade" style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '12px' }} className="hover:opacity-80 transition-opacity">
+          <span style={{ color: '#FFFFFF' }}>·</span>
+          <Link href="/politicas/privacidade" style={{ color: '#FFFFFF', textDecoration: 'none' }} className="hover:opacity-80 transition-opacity">
             Política de Privacidade
           </Link>
-          <span style={{ color: '#FFFFFF', fontSize: '12px' }}>·</span>
-          <Link href="/politicas/entrega" style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '12px' }} className="hover:opacity-80 transition-opacity">
+          <span style={{ color: '#FFFFFF' }}>·</span>
+          <Link href="/politicas/entrega" style={{ color: '#FFFFFF', textDecoration: 'none' }} className="hover:opacity-80 transition-opacity">
             Entrega e Prazo
           </Link>
         </div>
