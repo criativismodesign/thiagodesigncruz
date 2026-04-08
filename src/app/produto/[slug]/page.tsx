@@ -889,8 +889,12 @@ export default function ProdutoCamiseta() {
         </div>
       )}
 
-      <NewsletterSection source="produto-camiseta" />
-      <BannerBoxSection />
+      <div style={{ marginTop: '100px', marginBottom: '100px' }}>
+        <NewsletterSection source="produto-camiseta" />
+      </div>
+      <div style={{ marginBottom: '100px' }}>
+        <BannerBoxSection />
+      </div>
     </main>
   );
 }

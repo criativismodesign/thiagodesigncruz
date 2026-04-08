@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #292929;
+  --background: #FFFFFF;
   --foreground: #ededed;
   --card: #141414;
   --card-foreground: #ededed;
