@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Inter as InterFont } from "next/font/google";
 import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
+import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import { Providers } from "@/components/providers";
 import { Toaster } from "sonner";
