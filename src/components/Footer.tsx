@@ -94,12 +94,12 @@ export default function Footer() {
           }}
         >
           {benefits.map((benefit, index) => (
-            <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
               <Image
                 src={benefit.icon}
                 alt={benefit.title}
-                width={40}
-                height={40}
+                width={48}
+                height={48}
               />
               <div>
                 <h3 
