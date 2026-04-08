@@ -19,7 +19,7 @@ const banners = [
 
 export default function BannerBoxSection() {
   return (
-    <section className="w-full flex flex-col md:flex-row">
+    <section className="w-full flex flex-col md:flex-row" style={{ marginTop: '65px', marginBottom: '65px' }}>
       {banners.map((banner) => (
         <div
           key={banner.id}
