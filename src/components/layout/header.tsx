@@ -53,13 +53,34 @@ export function Header() {
               HOME
             </Link>
             
-            {/* PRODUTOS */}
-            <Link
-              href="/categorias/todos-produtos"
-              className="text-sm font-medium text-[#292929] hover:text-[#D8D8D8] transition-colors"
+            {/* Dropdown PRODUTOS */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setProductsDropdownOpen(true)}
+              onMouseLeave={() => setProductsDropdownOpen(false)}
             >
-              PRODUTOS
-            </Link>
+              <button className="flex items-center gap-1 text-sm font-medium text-[#292929] hover:text-[#D8D8D8] transition-colors">
+                PRODUTOS
+                <ChevronDown className="h-4 w-4" />
+              </button>
+              
+              {productsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]">
+                  <Link
+                    href="/categorias/oversizeds"
+                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                  >
+                    Camisetas Oversizeds
+                  </Link>
+                  <Link
+                    href="/categorias/mousepads"
+                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                  >
+                    Mouse Pad / Desckpad
+                  </Link>
+                </div>
+              )}
+            </div>
 
             {/* Dropdown COLEÇÕES */}
             <div 
@@ -74,12 +95,6 @@ export function Header() {
               
               {collectionsDropdownOpen && (
                 <div className="absolute top-full left-0 mt-1 w-48 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]">
-                  <Link
-                    href="/categorias/original-collection"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors font-medium"
-                  >
-                    Todas as Coleções
-                  </Link>
                   <Link
                     href="/categorias/original-collection/my-life-my-style"
                     className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
@@ -283,50 +298,54 @@ export function Header() {
             >
               HOME
             </Link>
-            <Link
-              href="/categorias/todos-produtos"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-sm text-[#292929]"
-            >
-              PRODUTOS
-            </Link>
-            <Link
-              href="/categorias/original-collection"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`block py-2 text-sm font-medium ${
-                isActiveLink("/categorias/original-collection") ? "text-[#DAA520]" : "text-[#292929]"
-              }`}
-            >
-              Todas as Coleções
-            </Link>
-            <Link
-              href="/categorias/original-collection/my-life-my-style"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-sm text-[#292929]"
-            >
-              My Life My Style
-            </Link>
-            <Link
-              href="/categorias/original-collection/immortals"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-sm text-[#292929]"
-            >
-              IMMORTALS
-            </Link>
-            <Link
-              href="/categorias/original-collection/3o-lancamento"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-sm text-[#292929]"
-            >
-              3º Lançamento
-            </Link>
-            <Link
-              href="/categorias/original-collection/4o-lancamento"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-sm text-[#292929]"
-            >
-              4º Lançamento
-            </Link>
+            <div className="py-2">
+              <div className="text-sm font-medium text-[#292929] mb-2">PRODUTOS</div>
+              <Link
+                href="/categorias/oversizeds"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 pl-4 text-sm text-[#292929]"
+              >
+                Camisetas Oversizeds
+              </Link>
+              <Link
+                href="/categorias/mousepads"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 pl-4 text-sm text-[#292929]"
+              >
+                Mouse Pad / Desckpad
+              </Link>
+            </div>
+            <div className="py-2">
+              <div className="text-sm font-medium text-[#292929] mb-2">COLEÇÕES</div>
+              <Link
+                href="/categorias/original-collection/my-life-my-style"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 pl-4 text-sm text-[#292929]"
+              >
+                My Life My Style
+              </Link>
+              <Link
+                href="/categorias/original-collection/immortals"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 pl-4 text-sm text-[#292929]"
+              >
+                IMMORTALS
+              </Link>
+              <Link
+                href="/categorias/original-collection/3o-lancamento"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 pl-4 text-sm text-[#292929]"
+              >
+                3º Lançamento
+              </Link>
+              <Link
+                href="/categorias/original-collection/4o-lancamento"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 pl-4 text-sm text-[#292929]"
+              >
+                4º Lançamento
+              </Link>
+            </div>
             <Link
               href="/sobre"
               onClick={() => setMobileMenuOpen(false)}
