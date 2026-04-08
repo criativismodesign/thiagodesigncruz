@@ -1,172 +1,49 @@
-'use client'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-import { useRouter } from 'next/navigation'
+export default async function DashboardPage() {
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin-session')?.value
+  const validToken = process.env.ADMIN_SESSION_TOKEN
 
-export default function Dashboard() {
-  const router = useRouter()
-
-  const handleLogout = async () => {
-    try {
-      // Limpar cookie de sessão
-      document.cookie = 'admin-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-      
-      // Redirecionar para login
-      router.push('/login-usekin')
-    } catch (error) {
-      console.error('Erro ao fazer logout:', error)
-    }
+  if (!session || !validToken || session !== validToken) {
+    redirect('/login-usekin')
   }
 
   return (
-    <div style={{
-      backgroundColor: '#FFFFFF',
-      minHeight: '100vh',
-      fontFamily: 'Inter, sans-serif',
-      padding: '40px'
-    }}>
+    <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
       <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto'
+        background: '#FFFFFF',
+        borderBottom: '1px solid #E5E5E5',
+        padding: '16px 40px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
       }}>
-        {/* Header */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '40px',
-          paddingBottom: '20px',
-          borderBottom: '1px solid #E5E5E5'
-        }}>
-          <h1 style={{
-            fontSize: '32px',
-            fontWeight: 700,
-            color: '#292929',
-            margin: 0
+        <span style={{ fontSize: 20, fontWeight: 600, color: '#292929' }}>
+          Painel Use KIN
+        </span>
+        <form action="/api/admin/logout" method="POST">
+          <button type="submit" style={{
+            background: 'transparent',
+            border: '1px solid #E5E5E5',
+            borderRadius: 999,
+            padding: '8px 20px',
+            cursor: 'pointer',
+            fontSize: 14,
+            color: '#292929'
           }}>
-            Painel Use KIN
-          </h1>
-          
-          <button
-            onClick={handleLogout}
-            style={{
-              backgroundColor: '#F0484A',
-              color: '#FFFFFF',
-              fontSize: '14px',
-              fontWeight: 600,
-              fontFamily: 'Inter, sans-serif',
-              padding: '10px 20px',
-              borderRadius: '8px',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'background-color 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#D63638'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#F0484A'}
-          >
-            SAIR
+            Sair
           </button>
-        </div>
-
-        {/* Conteúdo Principal */}
-        <div style={{
-          backgroundColor: '#F8F9FA',
-          borderRadius: '12px',
-          padding: '40px',
-          textAlign: 'center'
-        }}>
-          <h2 style={{
-            fontSize: '24px',
-            fontWeight: 600,
-            color: '#292929',
-            marginBottom: '16px'
-          }}>
-            Bem-vindo ao Painel Use KIN
-          </h2>
-          
-          <p style={{
-            fontSize: '16px',
-            color: '#AAAAAA',
-            lineHeight: 1.6,
-            marginBottom: '32px'
-          }}>
-            Sistema de administração Use KIN está funcionando corretamente.<br/>
-            Esta é uma página placeholder - funcionalidades serão implementadas posteriormente.
-          </p>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '20px',
-            marginTop: '40px'
-          }}>
-            {/* Cards de informações */}
-            <div style={{
-              backgroundColor: '#FFFFFF',
-              borderRadius: '8px',
-              padding: '24px',
-              border: '1px solid #E5E5E5'
-            }}>
-              <div style={{
-                fontSize: '14px',
-                color: '#AAAAAA',
-                marginBottom: '8px'
-              }}>
-                Status do Sistema
-              </div>
-              <div style={{
-                fontSize: '20px',
-                fontWeight: 600,
-                color: '#46A520'
-              }}>
-                Online
-              </div>
-            </div>
-
-            <div style={{
-              backgroundColor: '#FFFFFF',
-              borderRadius: '8px',
-              padding: '24px',
-              border: '1px solid #E5E5E5'
-            }}>
-              <div style={{
-                fontSize: '14px',
-                color: '#AAAAAA',
-                marginBottom: '8px'
-              }}>
-                Versão
-              </div>
-              <div style={{
-                fontSize: '20px',
-                fontWeight: 600,
-                color: '#292929'
-              }}>
-                1.0.0
-              </div>
-            </div>
-
-            <div style={{
-              backgroundColor: '#FFFFFF',
-              borderRadius: '8px',
-              padding: '24px',
-              border: '1px solid #E5E5E5'
-            }}>
-              <div style={{
-                fontSize: '14px',
-                color: '#AAAAAA',
-                marginBottom: '8px'
-              }}>
-                Ambiente
-              </div>
-              <div style={{
-                fontSize: '20px',
-                fontWeight: 600,
-                color: '#292929'
-              }}>
-                {process.env.NODE_ENV === 'production' ? 'Produção' : 'Desenvolvimento'}
-              </div>
-            </div>
-          </div>
-        </div>
+        </form>
+      </div>
+      <div style={{ padding: '48px 40px' }}>
+        <h1 style={{ fontSize: 28, fontWeight: 600, color: '#292929' }}>
+          Bem-vindo ao Painel Use KIN
+        </h1>
+        <p style={{ color: '#AAAAAA', marginTop: 8 }}>
+          Selecione uma opção no menu para começar.
+        </p>
       </div>
     </div>
   )
