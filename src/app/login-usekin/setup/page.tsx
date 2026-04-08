@@ -33,15 +33,18 @@ export default function SetupTOTP() {
 
       if (data.success) {
         setQrCode(data.qrCode)
-        setSecret(data.secret)
+        setSecret(data.secret) // Secret retornado pela API para este setup
       } else {
         setIsConfigured(true)
-        router.push('/login-usekin')
+        // Redirecionar imediatamente se já configurado
+        router.replace('/login-usekin')
+        return
       }
     } catch (err) {
       setError('Erro ao verificar configuração')
     }
   }
+
 
   const handleVerifySetup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,9 +52,27 @@ export default function SetupTOTP() {
     setError('')
 
     try {
-      // Aqui você precisaria de uma API para confirmar e salvar o secret
-      // Por enquanto, vamos simular o sucesso e redirecionar
-      router.push('/login-usekin')
+      // Enviar código para confirmação usando nova API
+      const response = await fetch('/api/admin/auth/confirm-totp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          code: verificationCode,
+          secret: secret // Enviar secret recebido da API
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        // Setup concluído com sucesso
+        // Redirecionar automaticamente para login
+        router.replace('/login-usekin')
+      } else {
+        setError(data.error || 'Código inválido')
+      }
     } catch (err) {
       setError('Erro ao confirmar configuração')
     } finally {
@@ -142,24 +163,7 @@ export default function SetupTOTP() {
           </div>
         )}
 
-        <div style={{
-          color: '#AAAAAA',
-          fontSize: '14px',
-          fontFamily: 'Inter, sans-serif',
-          fontWeight: 300,
-          textAlign: 'center',
-          lineHeight: 1.5
-        }}>
-          Ou digite manualmente este código no app:<br/>
-          <span style={{ 
-            color: '#DAA520',
-            fontFamily: 'monospace',
-            fontSize: '16px',
-            wordBreak: 'break-all'
-          }}>
-            {secret}
-          </span>
-        </div>
+        {/* Removido exibição do secret por segurança */}
 
         <form onSubmit={handleVerifySetup} style={{ 
           width: '100%',

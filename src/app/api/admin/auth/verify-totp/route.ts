@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { authenticator } from 'otplib'
+import { existsSync, readFileSync } from 'fs'
+import path from 'path'
+
+// Arquivo de configuração local para armazenar o TOTP secret
+const CONFIG_FILE = path.join(process.cwd(), 'totp-config.json')
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,8 +18,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verificar se o secret TOTP está configurado
-    const totpSecret = process.env.ADMIN_TOTP_SECRET
+    // Verificar se o TOTP está configurado
+    if (!existsSync(CONFIG_FILE)) {
+      return NextResponse.json(
+        { success: false, error: 'TOTP não configurado' },
+        { status: 400 }
+      )
+    }
+
+    // Ler configuração local
+    const config = JSON.parse(readFileSync(CONFIG_FILE, 'utf8'))
+    const totpSecret = config.secret
     const sessionToken = process.env.ADMIN_SESSION_TOKEN
 
     if (!totpSecret || !sessionToken) {

@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { authenticator } from 'otplib'
 import QRCode from 'qrcode'
+import { existsSync, readFileSync } from 'fs'
+import path from 'path'
+
+// Arquivo de configuração local para armazenar o TOTP secret
+const CONFIG_FILE = path.join(process.cwd(), 'totp-config.json')
 
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json()
 
-    // Verificar se já está configurado
-    if (process.env.ADMIN_TOTP_SECRET) {
+    // Verificar se já está configurado (arquivo local)
+    if (existsSync(CONFIG_FILE)) {
       return NextResponse.json(
         { success: false, error: 'TOTP já configurado' },
         { status: 400 }
@@ -25,8 +30,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      secret,
-      qrCode: qrCodeDataUrl
+      qrCode: qrCodeDataUrl,
+      secret: secret // Enviar secret apenas para este setup específico
     })
 
   } catch (error) {
@@ -37,3 +42,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
