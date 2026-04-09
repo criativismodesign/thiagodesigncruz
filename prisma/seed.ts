@@ -268,6 +268,26 @@ async function main() {
   }
   console.log("Reviews created");
 
+  // Create HeroBanner slides
+  await prisma.heroBanner.createMany({
+    data: [
+      {
+        supertitulo: 'Coleção os "Immortals" 2026',
+        titulo: 'Camisetas STYLE',
+        descricao: 'VISTA O ESTILO DOS SOBREVIVENTES MAIS INSANOS DESSE DE TODOS OS TEMPOS. OS IMMORTALS AQUELES QUE SEMPRE SE LEVANTAM.',
+        textoBotao: 'VER COLEÇÃO',
+        linkBotao: '/colecao/immortals',
+        ordem: 1,
+        ativo: true,
+      },
+      { titulo: 'Slide 2', ordem: 2, ativo: true },
+      { titulo: 'Slide 3', ordem: 3, ativo: true },
+      { titulo: 'Slide 4', ordem: 4, ativo: true },
+      { titulo: 'Slide 5', ordem: 5, ativo: true },
+    ]
+  });
+  console.log("HeroBanner slides created");
+
   console.log("\n✅ Seed concluído com sucesso!");
   console.log("📧 Admin: admin@thiagodesigncruz.com.br");
   console.log("🔑 Senha: admin123");

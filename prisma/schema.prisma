@@ -188,3 +188,94 @@ model AdminConfig {
   value     String
   updatedAt DateTime @default(now()) @updatedAt
 }
+
+model Colecao {
+  id              String     @id @default(cuid())
+  nome            String
+  subtitulo       String
+  imagemCamiseta  String?
+  imagemMousepad  String?
+  visivelHome     Boolean    @default(false)
+  ordemHome       Int        @default(0)
+  status          String     @default("ativa")
+  criadoEm        DateTime   @default(now())
+  atualizadoEm    DateTime   @updatedAt
+  produtos        Produto[]
+}
+
+model Produto {
+  id                  String           @id @default(cuid())
+  nome                String
+  tipo                String           // "camiseta" ou "mousepad"
+  categoria           String           // "colecao" ou "avulso"
+  colecaoId           String?
+  colecao             Colecao?         @relation(fields: [colecaoId], references: [id])
+  precoAtual          Float
+  precoDe             Float?
+  descricaoCurta      String?
+  descricaoLonga      String?
+  entregaPrazo        String?
+  informacoes         String?
+  cores               String[]         // ["preto", "branco"]
+  imagemGuiaTamanhos  String?
+  status              String           @default("ativo")
+  ordemSecao          Int              @default(0)
+  criadoEm            DateTime         @default(now())
+  atualizadoEm        DateTime         @updatedAt
+  imagens             ImagemProduto[]
+  estoque             Estoque[]
+  relacionados        ProdutoRelacionado[] @relation("ProdutoPrincipal")
+  apareceComo         ProdutoRelacionado[] @relation("ProdutoRelacionado")
+}
+
+model ImagemProduto {
+  id          String   @id @default(cuid())
+  produtoId   String
+  produto     Produto  @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  url         String
+  ordem       Int      @default(0)
+  isPrincipal Boolean  @default(false)
+  criadoEm   DateTime  @default(now())
+}
+
+model Estoque {
+  id            String   @id @default(cuid())
+  produtoId     String
+  produto       Produto  @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  tamanho       String?  // "P", "M", "G", "GG" — null para mousepad
+  cor           String?  // "preto", "branco" — null para mousepad
+  quantidade    Int      @default(0)
+  minimo        Int      @default(3)
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
+}
+
+model ProdutoRelacionado {
+  id                  String   @id @default(cuid())
+  produtoPrincipalId  String
+  produtoPrincipal    Produto  @relation("ProdutoPrincipal", fields: [produtoPrincipalId], references: [id], onDelete: Cascade)
+  produtoRelacionadoId String
+  produtoRelacionado  Produto  @relation("ProdutoRelacionado", fields: [produtoRelacionadoId], references: [id], onDelete: Cascade)
+  ordem               Int      @default(0)
+}
+
+model HeroBanner {
+  id          String   @id @default(cuid())
+  imagem      String?
+  supertitulo String?
+  titulo      String
+  descricao   String?
+  textoBotao  String   @default("VER COLEÇÃO")
+  linkBotao   String?
+  ordem       Int      @default(0)
+  ativo       Boolean  @default(true)
+  criadoEm   DateTime  @default(now())
+  atualizadoEm DateTime @updatedAt
+}
+
+model ConfigSite {
+  id           String   @id @default(cuid())
+  chave        String   @unique
+  valor        String
+  atualizadoEm DateTime @updatedAt
+}
