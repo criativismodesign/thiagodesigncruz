@@ -14,8 +14,8 @@ export async function GET() {
   if (!await verificarAdmin()) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   
   try {
-    const produtos = await prisma.produto.findMany({
-      orderBy: { criadoEm: 'desc' }
+    const produtos = await prisma.product.findMany({
+      orderBy: { createdAt: 'desc' }
     })
     return NextResponse.json(produtos)
   } catch (error) {
@@ -30,21 +30,21 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
     
-    const produto = await prisma.produto.create({
+    const produto = await prisma.product.create({
       data: {
-        nome: body.nome,
-        tipo: body.tipo || 'camiseta',
-        categoria: body.categoria || 'avulso',
-        precoAtual: parseFloat(body.precoAtual) || 0,
-        precoDe: body.precoDe ? parseFloat(body.precoDe) : null,
-        cores: body.cores || [],
-        descricaoCurta: body.descricaoCurta || null,
-        descricaoLonga: body.descricaoLonga || null,
-        entregaPrazo: body.entregaPrazo || null,
-        informacoes: body.informacoes || null,
-        status: body.status || 'ativo',
-        ordemSecao: parseInt(body.ordemSecao) || 0,
-        colecaoId: body.colecaoId || null,
+        name: body.nome,
+        slug: body.nome.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        description: body.descricaoLonga || '',
+        price: parseFloat(body.precoAtual) || 0,
+        comparePrice: body.precoDe ? parseFloat(body.precoDe) : null,
+        images: JSON.stringify([]),
+        categoryId: body.colecaoId || null,
+        type: body.tipo || 'camiseta',
+        sizes: JSON.stringify(body.tipo === 'camiseta' ? ['P', 'M', 'G', 'GG'] : ['Padrão']),
+        colors: JSON.stringify(body.cores || []),
+        stock: 0,
+        featured: false,
+        active: body.status === 'ativo'
       }
     })
     
