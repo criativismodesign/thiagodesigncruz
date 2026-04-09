@@ -796,30 +796,7 @@ export default function ProdutosPage() {
                 />
               </div>
 
-              {/* Seção de Upload de Imagens */}
-              <div style={{ marginBottom: 24 }}>
-                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Upload de Imagens
-                </label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) => {
-                    const files = e.target.files
-                    if (files) {
-                      Array.from(files).forEach(file => handleUploadImage(file))
-                    }
-                  }}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #E5E5E5',
-                    borderRadius: '8px',
-                    fontSize: 14
-                  }}
-                />
-              </div>
-
+              
               {/* Seção de Estoque */}
               <div style={{ marginBottom: 24 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
