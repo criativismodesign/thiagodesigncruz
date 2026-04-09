@@ -5,10 +5,10 @@ const prisma = new PrismaClient()
 
 export async function GET(request: NextRequest) {
   try {
-    const colecoes = await prisma.colecao.findMany({
-      orderBy: { ordemHome: 'asc' },
+    const colecoes = await prisma.category.findMany({
+      orderBy: { name: 'asc' },
       include: {
-        produtos: {
+        products: {
           select: { id: true }
         }
       }
@@ -30,15 +30,12 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json()
     
-    const colecao = await prisma.colecao.create({
+    const colecao = await prisma.category.create({
       data: {
-        nome: data.nome,
-        subtitulo: data.subtitulo,
-        imagemCamiseta: data.imagemCamiseta,
-        imagemMousepad: data.imagemMousepad,
-        visivelHome: data.visivelHome || false,
-        ordemHome: data.ordemHome || 0,
-        status: data.status || 'ativa'
+        name: data.nome,
+        slug: data.nome.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        description: data.subtitulo,
+        image: data.imagemCamiseta
       }
     })
 

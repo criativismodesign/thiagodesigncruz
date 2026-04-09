@@ -9,11 +9,11 @@ export async function GET(
 ) {
   const { id } = await params;
   try {
-    const colecao = await prisma.colecao.findUnique({
+    const colecao = await prisma.category.findUnique({
       where: { id },
       include: {
-        produtos: {
-          select: { id: true, nome: true }
+        products: {
+          select: { id: true, name: true }
         }
       }
     })
@@ -45,16 +45,12 @@ export async function PUT(
   try {
     const data = await request.json()
     
-    const colecao = await prisma.colecao.update({
+    const colecao = await prisma.category.update({
       where: { id },
       data: {
-        nome: data.nome,
-        subtitulo: data.subtitulo,
-        imagemCamiseta: data.imagemCamiseta,
-        imagemMousepad: data.imagemMousepad,
-        visivelHome: data.visivelHome,
-        ordemHome: data.ordemHome,
-        status: data.status
+        name: data.nome,
+        description: data.subtitulo,
+        image: data.imagemCamiseta
       }
     })
 
@@ -76,7 +72,7 @@ export async function DELETE(
 ) {
   const { id } = await params;
   try {
-    await prisma.colecao.delete({
+    await prisma.category.delete({
       where: { id }
     })
 
