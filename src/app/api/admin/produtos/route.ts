@@ -28,42 +28,32 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json()
-    
-    // Validar campos obrigatórios
-    if (!data.nome || !data.tipo || !data.categoria || data.precoAtual === undefined) {
-      return NextResponse.json(
-        { error: 'Campos obrigatórios: nome, tipo, categoria, precoAtual' },
-        { status: 400 }
-      )
-    }
+    const body = await request.json()
     
     const produto = await prisma.product.create({
       data: {
-        name: data.nome,
-        slug: data.nome.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        description: data.descricaoLonga || '',
-        price: data.precoAtual,
-        comparePrice: data.precoDe || null,
+        name: body.nome,
+        slug: body.nome.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        description: body.descricaoLonga || '',
+        price: parseFloat(body.precoAtual) || 0,
+        comparePrice: body.precoDe ? parseFloat(body.precoDe) : null,
         images: JSON.stringify([]),
-        categoryId: data.colecaoId || null,
-        type: data.tipo || 'camiseta',
-        sizes: JSON.stringify(data.tipo === 'camiseta' ? ['P', 'M', 'G', 'GG'] : ['Padrão']),
-        colors: JSON.stringify(data.cores || []),
+        categoryId: body.colecaoId || null,
+        type: body.tipo || 'camiseta',
+        sizes: JSON.stringify(body.tipo === 'camiseta' ? ['P', 'M', 'G', 'GG'] : ['Padrão']),
+        colors: JSON.stringify(body.cores || []),
         stock: 0,
         featured: false,
-        active: data.status === 'ativo'
+        active: body.status === 'ativo'
       }
     })
-
-    return NextResponse.json(produto, { status: 201 })
+    
+    return Response.json({ success: true, produto })
   } catch (error) {
-    console.error('Erro ao criar produto:', error)
-    return NextResponse.json(
-      { error: 'Erro ao criar produto' },
-      { status: 500 }
-    )
-  } finally {
-    await prisma.$disconnect()
+    console.error('Erro detalhado:', error)
+    return Response.json({ 
+      success: false, 
+      error: error instanceof Error ? error.message : 'Erro desconhecido'
+    }, { status: 500 })
   }
 }
