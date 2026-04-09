@@ -1,16 +1,26 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { PrismaClient } from '@prisma/client'
 import ProdutosClient from './ProdutosClient'
 
+const prisma = new PrismaClient()
+
 export default async function ProdutosPage() {
-  // Verificar autenticação
   const cookieStore = await cookies()
   const session = cookieStore.get('admin-session')?.value
-  const validToken = process.env.ADMIN_SESSION_TOKEN
-
-  if (!session || !validToken || session !== validToken) {
+  
+  if (!session || session !== process.env.ADMIN_SESSION_TOKEN) {
     redirect('/login-usekin')
   }
 
-  return <ProdutosClient />
+  let produtos = []
+  try {
+    produtos = await prisma.produto.findMany({
+      orderBy: { criadoEm: 'desc' }
+    })
+  } catch (error) {
+    console.error('Erro ao buscar produtos:', error)
+  }
+
+  return <ProdutosClient produtosIniciais={produtos} />
 }
