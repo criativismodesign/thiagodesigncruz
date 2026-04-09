@@ -5,11 +5,11 @@ const prisma = new PrismaClient()
 
 export async function GET(request: NextRequest) {
   try {
-    const produtos = await prisma.product.findMany({
-      orderBy: { createdAt: 'desc' },
+    const produtos = await prisma.produto.findMany({
+      orderBy: { criadoEm: 'desc' },
       include: {
-        category: {
-          select: { id: true, name: true }
+        colecao: {
+          select: { id: true, nome: true }
         }
       }
     })
@@ -30,21 +30,21 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json()
     
-    const produto = await prisma.product.create({
+    const produto = await prisma.produto.create({
       data: {
-        name: data.nome,
-        slug: data.nome.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        description: data.descricaoLonga || '',
-        price: data.precoAtual,
-        comparePrice: data.precoDe || null,
-        images: JSON.stringify([]),
-        categoryId: data.categoryId || null,
-        type: data.tipo || 'camiseta',
-        sizes: JSON.stringify(data.tipo === 'camiseta' ? ['P', 'M', 'G', 'GG'] : ['Padrão']),
-        colors: JSON.stringify(data.cores || []),
-        stock: 0,
-        featured: false,
-        active: data.status === 'ativo'
+        nome: data.nome,
+        tipo: data.tipo || 'camiseta',
+        categoria: data.categoria || 'avulso',
+        colecaoId: data.colecaoId || null,
+        precoAtual: data.precoAtual,
+        precoDe: data.precoDe || null,
+        cores: data.cores || [],
+        descricaoCurta: data.descricaoCurta || null,
+        descricaoLonga: data.descricaoLonga || null,
+        entregaPrazo: data.entregaPrazo || null,
+        informacoes: data.informacoes || null,
+        status: data.status || 'ativo',
+        ordemSecao: data.ordemSecao || 0
       }
     })
 

@@ -5,16 +5,22 @@ import LogoutButton from '@/components/admin/LogoutButton'
 
 interface Produto {
   id: string
-  name: string
-  type: string
-  categoryId?: string
-  category?: { id: string; name: string }
-  price: number
-  comparePrice?: number
-  colors: string[] | string
-  description?: string
-  active: boolean
-  createdAt: string
+  nome: string
+  tipo: string
+  categoria: string
+  colecaoId?: string
+  colecao?: { id: string; nome: string }
+  precoAtual: number
+  precoDe?: number
+  cores: string[]
+  descricaoCurta?: string
+  descricaoLonga?: string
+  entregaPrazo?: string
+  informacoes?: string
+  status: string
+  ordemSecao: number
+  criadoEm: string
+  atualizadoEm: string
 }
 
 interface Colecao {
@@ -56,12 +62,7 @@ export default function ProdutosPage() {
       const response = await fetch('/api/admin/produtos')
       if (response.ok) {
         const data = await response.json()
-        // Parse colors JSON string to array
-        const produtosComCores = data.map((produto: any) => ({
-          ...produto,
-          colors: typeof produto.colors === 'string' ? JSON.parse(produto.colors) : produto.colors
-        }))
-        setProdutos(produtosComCores)
+        setProdutos(data)
       }
     } catch (error) {
       console.error('Erro ao buscar produtos:', error)
@@ -125,19 +126,19 @@ export default function ProdutosPage() {
   const handleEdit = (produto: Produto) => {
     setEditingProduto(produto)
     setFormData({
-      nome: produto.name,
-      tipo: produto.type,
-      categoria: produto.categoryId ? 'colecao' : 'avulso',
-      colecaoId: produto.categoryId || '',
-      precoAtual: produto.price,
-      precoDe: produto.comparePrice || 0,
-      cores: Array.isArray(produto.colors) ? produto.colors : [],
-      descricaoCurta: '',
-      descricaoLonga: produto.description || '',
-      entregaPrazo: '',
-      informacoes: '',
-      status: produto.active ? 'ativo' : 'inativo',
-      ordemSecao: 0
+      nome: produto.nome,
+      tipo: produto.tipo,
+      categoria: produto.categoria,
+      colecaoId: produto.colecaoId || '',
+      precoAtual: produto.precoAtual,
+      precoDe: produto.precoDe || 0,
+      cores: produto.cores,
+      descricaoCurta: produto.descricaoCurta || '',
+      descricaoLonga: produto.descricaoLonga || '',
+      entregaPrazo: produto.entregaPrazo || '',
+      informacoes: produto.informacoes || '',
+      status: produto.status,
+      ordemSecao: produto.ordemSecao
     })
     setShowModal(true)
   }
@@ -261,29 +262,29 @@ export default function ProdutosPage() {
             <tbody>
               {produtos.map((produto) => (
                 <tr key={produto.id} style={{ borderBottom: '1px solid #F0F0F0' }}>
-                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>{produto.name}</td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>{produto.nome}</td>
                   <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>
                     <span style={{
                       padding: '4px 8px',
                       borderRadius: '4px',
                       fontSize: 12,
-                      background: produto.type === 'camiseta' ? '#E3F2FD' : '#FFF3E0',
-                      color: produto.type === 'camiseta' ? '#1565C0' : '#E65100'
+                      background: produto.tipo === 'camiseta' ? '#E3F2FD' : '#FFF3E0',
+                      color: produto.tipo === 'camiseta' ? '#1565C0' : '#E65100'
                     }}>
-                      {produto.type === 'camiseta' ? 'Camiseta' : 'Mousepad'}
+                      {produto.tipo === 'camiseta' ? 'Camiseta' : 'Mousepad'}
                     </span>
                   </td>
                   <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>
-                    {produto.category ? 'Coleção' : 'Avulso'}
+                    {produto.categoria === 'colecao' ? 'Coleção' : 'Avulso'}
                   </td>
                   <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>
-                    {produto.category?.name || '-'}
+                    {produto.colecao?.nome || '-'}
                   </td>
                   <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>
-                    R$ {produto.price.toFixed(2)}
-                    {produto.comparePrice && (
+                    R$ {produto.precoAtual.toFixed(2)}
+                    {produto.precoDe && (
                       <span style={{ textDecoration: 'line-through', color: '#999', marginLeft: 8 }}>
-                        R$ {produto.comparePrice.toFixed(2)}
+                        R$ {produto.precoDe.toFixed(2)}
                       </span>
                     )}
                   </td>
@@ -292,10 +293,10 @@ export default function ProdutosPage() {
                       padding: '4px 8px',
                       borderRadius: '4px',
                       fontSize: 12,
-                      background: produto.active ? '#D4EDDA' : '#F8D7DA',
-                      color: produto.active ? '#155724' : '#721C24'
+                      background: produto.status === 'ativo' ? '#D4EDDA' : '#F8D7DA',
+                      color: produto.status === 'ativo' ? '#155724' : '#721C24'
                     }}>
-                      {produto.active ? 'Ativo' : 'Inativo'}
+                      {produto.status}
                     </span>
                   </td>
                   <td style={{ textAlign: 'center', padding: '12px' }}>
@@ -699,7 +700,7 @@ export default function ProdutosPage() {
               Confirmar Exclusão
             </h2>
             <p style={{ fontSize: 14, color: '#666666', marginBottom: 24 }}>
-              Tem certeza que deseja excluir o produto "{deletingProduto.name}"? Esta ação não pode ser desfeita.
+              Tem certeza que deseja excluir o produto "{deletingProduto.nome}"? Esta ação não pode ser desfeita.
             </p>
             
             <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>

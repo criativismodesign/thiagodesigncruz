@@ -9,11 +9,11 @@ export async function GET(
 ) {
   const { id } = await params
   try {
-    const produto = await prisma.product.findUnique({
+    const produto = await prisma.produto.findUnique({
       where: { id },
       include: {
-        category: {
-          select: { id: true, name: true }
+        colecao: {
+          select: { id: true, nome: true }
         }
       }
     })
@@ -45,18 +45,22 @@ export async function PUT(
   try {
     const data = await request.json()
     
-    const produto = await prisma.product.update({
+    const produto = await prisma.produto.update({
       where: { id },
       data: {
-        name: data.nome,
-        slug: data.nome.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        description: data.descricaoLonga || '',
-        price: data.precoAtual,
-        comparePrice: data.precoDe || null,
-        categoryId: data.categoryId || null,
-        type: data.tipo || 'camiseta',
-        colors: JSON.stringify(data.cores || []),
-        active: data.status === 'ativo'
+        nome: data.nome,
+        tipo: data.tipo || 'camiseta',
+        categoria: data.categoria || 'avulso',
+        colecaoId: data.colecaoId || null,
+        precoAtual: data.precoAtual,
+        precoDe: data.precoDe || null,
+        cores: data.cores || [],
+        descricaoCurta: data.descricaoCurta || null,
+        descricaoLonga: data.descricaoLonga || null,
+        entregaPrazo: data.entregaPrazo || null,
+        informacoes: data.informacoes || null,
+        status: data.status || 'ativo',
+        ordemSecao: data.ordemSecao || 0
       }
     })
 
@@ -78,7 +82,7 @@ export async function DELETE(
 ) {
   const { id } = await params
   try {
-    await prisma.product.delete({
+    await prisma.produto.delete({
       where: { id }
     })
 
