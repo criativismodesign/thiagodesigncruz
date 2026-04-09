@@ -37,7 +37,7 @@ export default function ProdutosPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [editingProduto, setEditingProduto] = useState<Produto | null>(null)
   const [deletingProduto, setDeletingProduto] = useState<Produto | null>(null)
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     nome: '',
     tipo: 'camiseta',
     categoria: 'avulso',
@@ -51,7 +51,9 @@ export default function ProdutosPage() {
     informacoes: '',
     status: 'ativo',
     ordemSecao: 0
-  })
+  }
+  
+  const [formData, setFormData] = useState(initialFormData)
 
   useEffect(() => {
     fetchProdutos()
@@ -179,7 +181,7 @@ export default function ProdutosPage() {
 
   const handleEstoqueChange = (tamanho?: string, cor?: string, value?: number) => {
     const key = tamanho && cor ? `${tamanho}-${cor}` : 'geral'
-    setEstoqueData(prev => ({
+    setEstoqueData((prev: any) => ({
       ...prev,
       [key]: {
         quantidade: value || 0,
@@ -190,7 +192,7 @@ export default function ProdutosPage() {
 
   const handleMinimoChange = (tamanho?: string, cor?: string, value?: number) => {
     const key = tamanho && cor ? `${tamanho}-${cor}` : 'geral'
-    setEstoqueData(prev => ({
+    setEstoqueData((prev: any) => ({
       ...prev,
       [key]: {
         quantidade: prev[key]?.quantidade || 0,
@@ -551,7 +553,6 @@ export default function ProdutosPage() {
                   </div>
                 )}
               </div>
-              </div>
 
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
@@ -803,7 +804,12 @@ export default function ProdutosPage() {
                 <input
                   type="file"
                   multiple
-                  onChange={(e) => handleImagemChange(e.target.files)}
+                  onChange={(e) => {
+                    const files = e.target.files
+                    if (files) {
+                      Array.from(files).forEach(file => handleUploadImage(file))
+                    }
+                  }}
                   style={{
                     width: '100%',
                     padding: '12px',
