@@ -14,7 +14,7 @@ export default async function NovoProdutoPage() {
   }
 
   // Buscar coleções para o select
-  let colecoes = []
+  let colecoes: { id: string; nome: string; subtitulo: string }[] = []
   try {
     colecoes = await prisma.colecao.findMany({
       orderBy: { nome: 'asc' }
