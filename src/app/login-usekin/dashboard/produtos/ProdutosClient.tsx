@@ -82,7 +82,15 @@ export default function ProdutosClient({ produtosIniciais }: Props) {
         <a href="/login-usekin/dashboard/colecoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Coleções</a>
         <a href="/login-usekin/dashboard/banners" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners</a>
         <div style={{ marginLeft: 'auto' }}>
-          <a href="/api/admin/logout" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Sair</a>
+          <button
+  onClick={async () => {
+    await fetch('/api/admin/logout', { method: 'POST' })
+    window.location.href = '/login-usekin'
+  }}
+  style={{ color: '#888', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+>
+  Sair
+</button>
         </div>
       </div>
 
