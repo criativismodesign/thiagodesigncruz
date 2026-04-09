@@ -98,7 +98,41 @@ export async function PUT(
       }
     }
 
-    // Atualizar imagem guia de tamanhos se enviada
+    // Atualizar imagens se enviadas
+    if (data.imagemPrincipal !== undefined || data.miniaturas !== undefined) {
+      // Deletar imagens existentes
+      await prisma.imagemProduto.deleteMany({
+        where: { produtoId: id }
+      })
+
+      // Salvar imagem principal
+      if (data.imagemPrincipal) {
+        await prisma.imagemProduto.create({
+          data: {
+            produtoId: id,
+            url: data.imagemPrincipal,
+            ordem: 0,
+            isPrincipal: true,
+          }
+        })
+      }
+
+      // Salvar miniaturas
+      if (data.miniaturas?.length > 0) {
+        for (let i = 0; i < data.miniaturas.length; i++) {
+          await prisma.imagemProduto.create({
+            data: {
+              produtoId: id,
+              url: data.miniaturas[i],
+              ordem: i + 1,
+              isPrincipal: false,
+            }
+          })
+        }
+      }
+    }
+
+    // Atualizar guia de tamanhos
     if (data.imagemGuiaTamanhos !== undefined) {
       await prisma.produto.update({
         where: { id },
