@@ -14,21 +14,19 @@ interface Produto {
   nome: string
   tipo: string
   categoria: string
+  colecaoId: string | null
   precoAtual: number
-  precoDe?: number | null
+  precoDe: number | null
   cores: string[]
-  descricaoCurta?: string | null
-  descricaoLonga?: string | null
-  entregaPrazo?: string | null
-  informacoes?: string | null
+  descricaoCurta: string | null
+  descricaoLonga: string | null
+  entregaPrazo: string | null
+  informacoes: string | null
+  imagemGuiaTamanhos: string | null
   status: string
   ordemSecao: number
-  colecaoId?: string | null
-  imagemPrincipal?: string
-  miniaturas?: string[]
-  imagemGuiaTamanhos?: string
-  estoque?: Record<string, number>
-  estoqueMinimo?: number
+  imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+  estoque: { id: string; tamanho: string | null; cor: string | null; quantidade: number; minimo: number }[]
 }
 
 interface Props {
@@ -55,11 +53,26 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
     colecaoId: produto.colecaoId || ''
   })
 
-  const [imagemPrincipal, setImagemPrincipal] = useState<string>(produto.imagemPrincipal || '')
-  const [miniaturas, setMiniaturas] = useState<string[]>(produto.miniaturas || [])
-  const [guiaTamanhos, setGuiaTamanhos] = useState<string>(produto.imagemGuiaTamanhos || '')
-  const [estoque, setEstoque] = useState<Record<string, number>>(produto.estoque || {})
-  const [estoqueMinimo, setEstoqueMinimo] = useState(produto.estoqueMinimo || 3)
+  // Extrair dados das imagens e estoque do produto
+  const imagemPrincipal = produto.imagens.find(img => img.isPrincipal)?.url || ''
+  const miniaturas = produto.imagens.filter(img => !img.isPrincipal).sort((a, b) => a.ordem - b.ordem).map(img => img.url)
+  const guiaTamanhos = produto.imagemGuiaTamanhos || ''
+  
+  // Converter array de estoque para objeto Record<string, number>
+  const estoqueInicial: Record<string, number> = {}
+  produto.estoque.forEach(item => {
+    if (item.tamanho && item.cor) {
+      estoqueInicial[`${item.tamanho}-${item.cor}`] = item.quantidade
+    } else {
+      estoqueInicial['geral'] = item.quantidade
+    }
+  })
+  
+  const [imagemPrincipalState, setImagemPrincipalState] = useState<string>(imagemPrincipal)
+  const [miniaturasState, setMiniaturasState] = useState<string[]>(miniaturas)
+  const [guiaTamanhosState, setGuiaTamanhosState] = useState<string>(guiaTamanhos)
+  const [estoque, setEstoque] = useState<Record<string, number>>(estoqueInicial)
+  const [estoqueMinimo, setEstoqueMinimo] = useState(produto.estoque[0]?.minimo || 3)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -71,9 +84,9 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
         precoAtual: parseFloat(formData.precoAtual) || 0,
         precoDe: formData.precoDe ? parseFloat(formData.precoDe) : null,
         ordemSecao: parseInt(formData.ordemSecao) || 0,
-        imagemPrincipal,
-        miniaturas: miniaturas.filter(Boolean),
-        imagemGuiaTamanhos: guiaTamanhos,
+        imagemPrincipal: imagemPrincipalState,
+        miniaturas: miniaturasState.filter(Boolean),
+        imagemGuiaTamanhos: guiaTamanhosState,
         estoque,
         estoqueMinimo
       }
@@ -110,12 +123,12 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
     const response = await fetch('/api/admin/upload', { method: 'POST', body: formDataUpload })
     const data = await response.json()
     if (data.success) {
-      if (tipo === 'principal') setImagemPrincipal(data.url)
+      if (tipo === 'principal') setImagemPrincipalState(data.url)
       else if (tipo === 'miniatura' && index !== undefined) {
-        const novas = [...miniaturas]
+        const novas = [...miniaturasState]
         novas[index] = data.url
-        setMiniaturas(novas)
-      } else if (tipo === 'guia') setGuiaTamanhos(data.url)
+        setMiniaturasState(novas)
+      } else if (tipo === 'guia') setGuiaTamanhosState(data.url)
     }
   }
 
@@ -302,11 +315,11 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
                   height: formData.tipo === 'camiseta' ? 133 : 77,
                   border: '2px dashed #E5E5E5', borderRadius: 8, cursor: 'pointer',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  background: imagemPrincipal ? 'transparent' : '#F9F9F9', overflow: 'hidden'
+                  background: imagemPrincipalState ? 'transparent' : '#F9F9F9', overflow: 'hidden'
                 }}
               >
-                {imagemPrincipal
-                  ? <img src={imagemPrincipal} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                {imagemPrincipalState
+                  ? <img src={imagemPrincipalState} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   : <><span style={{ fontSize: 24, color: '#AAAAAA' }}>+</span><span style={{ fontSize: 11, color: '#AAAAAA' }}>Principal</span></>
                 }
               </div>
@@ -321,11 +334,11 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
                     height: formData.tipo === 'camiseta' ? 107 : 58,
                     border: '2px dashed #E5E5E5', borderRadius: 8, cursor: 'pointer',
                     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                    background: miniaturas[i] ? 'transparent' : '#F9F9F9', overflow: 'hidden'
+                    background: miniaturasState[i] ? 'transparent' : '#F9F9F9', overflow: 'hidden'
                   }}
                 >
-                  {miniaturas[i]
-                    ? <img src={miniaturas[i]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  {miniaturasState[i]
+                    ? <img src={miniaturasState[i]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     : <><span style={{ fontSize: 18, color: '#AAAAAA' }}>+</span><span style={{ fontSize: 10, color: '#AAAAAA' }}>Adicionar</span></>
                   }
                 </div>
@@ -390,11 +403,11 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
                     style={{
                       width: 200, height: 150, border: '2px dashed #E5E5E5', borderRadius: 8,
                       cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: guiaTamanhos ? 'transparent' : '#F9F9F9', overflow: 'hidden'
+                      background: guiaTamanhosState ? 'transparent' : '#F9F9F9', overflow: 'hidden'
                     }}
                   >
-                    {guiaTamanhos
-                      ? <img src={guiaTamanhos} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    {guiaTamanhosState
+                      ? <img src={guiaTamanhosState} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       : <span style={{ color: '#AAAAAA', fontSize: 13 }}>+ Adicionar imagem</span>
                     }
                   </div>
