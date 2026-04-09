@@ -131,7 +131,7 @@ export default function ProdutosClient({ produtosIniciais }: Props) {
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.name}</td>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.type}</td>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.categoryId ? 'Coleção' : 'Avulso'}</td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>R$ {produto.price?.toFixed(2)}</td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>R$ {produto.price ? Number(produto.price).toFixed(2) : '0.00'}</td>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.active ? 'Ativo' : 'Inativo'}</td>
                     <td style={{ padding: '12px 16px', display: 'flex', gap: 8 }}>
                       <button onClick={() => handleExcluir(produto.id)} style={{ background: '#F0484A', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 12 }}>Excluir</button>
