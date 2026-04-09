@@ -11,9 +11,10 @@ interface Colecao {
 
 interface Props {
   colecoes: Colecao[]
+  configs: Record<string, string>
 }
 
-export default function NovoProdutoClient({ colecoes }: Props) {
+export default function NovoProdutoClient({ colecoes, configs }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -24,9 +25,9 @@ export default function NovoProdutoClient({ colecoes }: Props) {
     precoDe: '',
     cores: [] as string[],
     descricaoCurta: '',
-    descricaoLonga: '',
-    entregaPrazo: '',
-    informacoes: '',
+    descricaoLonga: configs.descricao_longa_camiseta || '',
+    entregaPrazo: configs.entrega_prazo_padrao || '',
+    informacoes: configs.informacoes_mousepad || '',
     status: 'ativo',
     ordemSecao: '0',
     colecaoId: ''
@@ -34,7 +35,6 @@ export default function NovoProdutoClient({ colecoes }: Props) {
 
   const [imagemPrincipal, setImagemPrincipal] = useState<string>('')
   const [miniaturas, setMiniaturas] = useState<string[]>([])
-  const [guiaTamanhos, setGuiaTamanhos] = useState<string>('')
   const [estoque, setEstoque] = useState<Record<string, number>>({})
   const [estoqueMinimo, setEstoqueMinimo] = useState(3)
 
@@ -50,7 +50,6 @@ export default function NovoProdutoClient({ colecoes }: Props) {
         ordemSecao: parseInt(formData.ordemSecao) || 0,
         imagemPrincipal,
         miniaturas: miniaturas.filter(Boolean),
-        imagemGuiaTamanhos: guiaTamanhos,
         estoque,
         estoqueMinimo
       }
@@ -78,6 +77,18 @@ export default function NovoProdutoClient({ colecoes }: Props) {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
+  const handleTipoChange = (novoTipo: string) => {
+    setFormData(prev => ({
+      ...prev,
+      tipo: novoTipo,
+      descricaoLonga: novoTipo === 'camiseta' 
+        ? configs.descricao_longa_camiseta || ''
+        : configs.descricao_longa_mousepad || '',
+      informacoes: novoTipo === 'mousepad' ? configs.informacoes_mousepad || '' : '',
+      entregaPrazo: configs.entrega_prazo_padrao || '',
+    }))
+  }
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, tipo: string, index?: number) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -92,7 +103,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
         const novas = [...miniaturas]
         novas[index] = data.url
         setMiniaturas(novas)
-      } else if (tipo === 'guia') setGuiaTamanhos(data.url)
+      }
     }
   }
 
@@ -105,6 +116,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
         <Link href="/login-usekin/dashboard/produtos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Produtos</Link>
         <Link href="/login-usekin/dashboard/colecoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Coleções</Link>
         <Link href="/login-usekin/dashboard/banners" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners</Link>
+        <Link href="/login-usekin/dashboard/configuracoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Configurações</Link>
         <div style={{ marginLeft: 'auto' }}>
           <button
             onClick={async () => {
@@ -156,7 +168,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   </label>
                   <select
                     value={formData.tipo}
-                    onChange={(e) => handleChange('tipo', e.target.value)}
+                    onChange={(e) => handleTipoChange(e.target.value)}
                     style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                   >
                     <option value="camiseta">Camiseta</option>
@@ -354,29 +366,6 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                     rows={3}
                     style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical', color: '#292929' }}
                   />
-                </div>
-              )}
-
-              {formData.tipo === 'camiseta' && (
-                <div style={{ marginTop: 16 }}>
-                  <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 6 }}>
-                    Imagem Guia de Tamanhos
-                  </label>
-                  <div
-                    onClick={() => document.getElementById('upload-guia')?.click()}
-                    style={{
-                      width: 200, height: 150, border: '2px dashed #E5E5E5', borderRadius: 8,
-                      cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: guiaTamanhos ? 'transparent' : '#F9F9F9', overflow: 'hidden'
-                    }}
-                  >
-                    {guiaTamanhos
-                      ? <img src={guiaTamanhos} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      : <span style={{ color: '#AAAAAA', fontSize: 13 }}>+ Adicionar imagem</span>
-                    }
-                  </div>
-                  <input id="upload-guia" type="file" accept="image/*" style={{ display: 'none' }}
-                    onChange={e => handleUpload(e, 'guia')} />
                 </div>
               )}
 

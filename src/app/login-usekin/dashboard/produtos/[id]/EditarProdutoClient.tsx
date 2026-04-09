@@ -22,7 +22,6 @@ interface Produto {
   descricaoLonga: string | null
   entregaPrazo: string | null
   informacoes: string | null
-  imagemGuiaTamanhos: string | null
   status: string
   ordemSecao: number
   imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
@@ -62,7 +61,6 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
 
   const [imagemPrincipalState, setImagemPrincipalState] = useState<string>(imgPrincipal)
   const [miniaturasState, setMiniaturasState] = useState<string[]>(imgMiniaturas)
-  const [guiaTamanhosState, setGuiaTamanhosState] = useState<string>(produto.imagemGuiaTamanhos || '')
 
   // Preencher o estoque existente
   const estoqueInicial: Record<string, number> = {}
@@ -87,7 +85,6 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
         ordemSecao: parseInt(formData.ordemSecao) || 0,
         imagemPrincipal: imagemPrincipalState,
         miniaturas: miniaturasState.filter(Boolean),
-        imagemGuiaTamanhos: guiaTamanhosState,
         estoque,
         estoqueMinimo
       }
@@ -129,7 +126,7 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
         const novas = [...miniaturasState]
         novas[index] = data.url
         setMiniaturasState(novas)
-      } else if (tipo === 'guia') setGuiaTamanhosState(data.url)
+      }
     }
   }
 
@@ -142,6 +139,7 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
         <Link href="/login-usekin/dashboard/produtos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Produtos</Link>
         <Link href="/login-usekin/dashboard/colecoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Coleções</Link>
         <Link href="/login-usekin/dashboard/banners" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners</Link>
+        <Link href="/login-usekin/dashboard/configuracoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Configurações</Link>
         <div style={{ marginLeft: 'auto' }}>
           <button
             onClick={async () => {
@@ -394,29 +392,7 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
                 </div>
               )}
 
-              {formData.tipo === 'camiseta' && (
-                <div style={{ marginTop: 16 }}>
-                  <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 6 }}>
-                    Imagem Guia de Tamanhos
-                  </label>
-                  <div
-                    onClick={() => document.getElementById('upload-guia')?.click()}
-                    style={{
-                      width: 200, height: 150, border: '2px dashed #E5E5E5', borderRadius: 8,
-                      cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: guiaTamanhosState ? 'transparent' : '#F9F9F9', overflow: 'hidden'
-                    }}
-                  >
-                    {guiaTamanhosState
-                      ? <img src={guiaTamanhosState} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      : <span style={{ color: '#AAAAAA', fontSize: 13 }}>+ Adicionar imagem</span>
-                    }
-                  </div>
-                  <input id="upload-guia" type="file" accept="image/*" style={{ display: 'none' }}
-                    onChange={e => handleUpload(e, 'guia')} />
-                </div>
-              )}
-
+              
               {formData.tipo === 'mousepad' && (
                 <div>
                   <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: '4px' }}>
