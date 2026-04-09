@@ -119,8 +119,7 @@ export default function ProdutosClient() {
     setImagensProduto(prev => prev.filter((_, i) => i !== index))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async () => {
     try {
       // Validar campos obrigatórios
       if (!formData.nome || !formData.tipo || !formData.categoria || formData.precoAtual === 0) {
@@ -130,32 +129,35 @@ export default function ProdutosClient() {
       
       const response = await fetch('/api/admin/produtos', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       })
       
-      if (response.ok) {
-        const result = await response.json()
-        console.log('Produto criado:', result)
-        
+      const data = await response.json()
+      
+      if (data.success) {
+        // Fechar modal
         setShowModal(false)
         setFormData(initialFormData)
         setImagensProduto([])
         setShowEstoque(false)
         setEstoqueData({})
         
-        // Recarregar a lista de produtos
-        await fetchProdutos()
+        // Recarregar lista sem quebrar a página
+        const listResponse = await fetch('/api/admin/produtos')
+        const produtos = await listResponse.json()
+        // Parse colors JSON string to array
+        const produtosComCores = produtos.map((produto: any) => ({
+          ...produto,
+          colors: typeof produto.colors === 'string' ? JSON.parse(produto.colors) : produto.colors,
+          images: typeof produto.images === 'string' ? JSON.parse(produto.images) : produto.images || []
+        }))
+        setProdutos(produtosComCores)
       } else {
-        const error = await response.json()
-        console.error('Erro na API:', error)
-        alert(`Erro ao criar produto: ${error.error || 'Erro desconhecido'}`)
+        alert('Erro ao criar produto: ' + data.error)
       }
     } catch (error) {
-      console.error('Erro ao salvar produto:', error)
-      alert('Erro ao salvar produto. Tente novamente.')
+      alert('Erro ao criar produto: ' + error)
     }
   }
 
