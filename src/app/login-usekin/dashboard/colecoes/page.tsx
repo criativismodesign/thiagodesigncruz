@@ -344,7 +344,8 @@ export default function ColecoesPage() {
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
+                    fontSize: 14,
+                    color: '#292929'
                   }}
                 />
               </div>
@@ -363,9 +364,51 @@ export default function ColecoesPage() {
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
+                    fontSize: 14,
+                    color: '#292929'
                   }}
                 />
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                  Ordem *
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.ordemHome}
+                  onChange={(e) => setFormData(prev => ({ ...prev, ordemHome: parseInt(e.target.value) || 0 }))}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #E5E5E5',
+                    borderRadius: '8px',
+                    fontSize: 14,
+                    color: '#292929'
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                  Status *
+                </label>
+                <select
+                  value={formData.status}
+                  onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #E5E5E5',
+                    borderRadius: '8px',
+                    fontSize: 14,
+                    color: '#292929'
+                  }}
+                >
+                  <option value="ativa">Ativa</option>
+                  <option value="inativa">Inativa</option>
+                </select>
               </div>
 
               <div style={{ marginBottom: 16 }}>
@@ -433,44 +476,6 @@ export default function ColecoesPage() {
               </div>
 
               <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Ordem na Home
-                </label>
-                <input
-                  type="number"
-                  value={formData.ordemHome}
-                  onChange={(e) => setFormData(prev => ({ ...prev, ordemHome: parseInt(e.target.value) || 0 }))}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #E5E5E5',
-                    borderRadius: '8px',
-                    fontSize: 14
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: 24 }}>
-                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Status
-                </label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #E5E5E5',
-                    borderRadius: '8px',
-                    fontSize: 14
-                  }}
-                >
-                  <option value="ativa">Ativa</option>
-                  <option value="inativa">Inativa</option>
-                </select>
-              </div>
-
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
                 <button
                   type="button"
                   onClick={() => {

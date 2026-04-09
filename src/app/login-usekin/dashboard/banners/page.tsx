@@ -344,85 +344,13 @@ export default function BannersPage() {
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Descrição
-                </label>
-                <textarea
-                  value={formData.descricao}
-                  onChange={(e) => setFormData(prev => ({ ...prev, descricao: e.target.value }))}
-                  rows={3}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #E5E5E5',
-                    borderRadius: '8px',
                     fontSize: 14,
-                    resize: 'vertical'
+                    color: '#292929'
                   }}
                 />
               </div>
 
               <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Texto do Botão
-                </label>
-                <input
-                  type="text"
-                  value={formData.textoBotao}
-                  onChange={(e) => setFormData(prev => ({ ...prev, textoBotao: e.target.value }))}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #E5E5E5',
-                    borderRadius: '8px',
-                    fontSize: 14
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Link do Botão
-                </label>
-                <input
-                  type="text"
-                  value={formData.linkBotao}
-                  onChange={(e) => setFormData(prev => ({ ...prev, linkBotao: e.target.value }))}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #E5E5E5',
-                    borderRadius: '8px',
-                    fontSize: 14
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Ordem
-                </label>
-                <input
-                  type="number"
-                  value={formData.ordem}
-                  onChange={(e) => setFormData(prev => ({ ...prev, ordem: parseInt(e.target.value) || 0 }))}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #E5E5E5',
-                    borderRadius: '8px',
-                    fontSize: 14
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: 24 }}>
                 <label style={{ display: 'flex', alignItems: 'center', fontSize: 14, color: '#292929' }}>
                   <input
                     type="checkbox"

@@ -446,7 +446,8 @@ export default function ProdutosPage() {
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
+                    fontSize: 14,
+                    color: '#292929'
                   }}
                 />
               </div>
@@ -566,7 +567,8 @@ export default function ProdutosPage() {
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
+                    fontSize: 14,
+                    color: '#292929'
                   }}
                 >
                   <option value="camiseta">Camiseta</option>
@@ -580,13 +582,14 @@ export default function ProdutosPage() {
                 </label>
                 <select
                   value={formData.categoria}
-                  onChange={(e) => setFormData(prev => ({ ...prev, categoria: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, categoria: e.target.value, colecaoId: '' }))}
                   style={{
                     width: '100%',
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
+                    fontSize: 14,
+                    color: '#292929'
                   }}
                 >
                   <option value="avulso">Avulso</option>
@@ -607,7 +610,8 @@ export default function ProdutosPage() {
                       padding: '12px',
                       border: '1px solid #E5E5E5',
                       borderRadius: '8px',
-                      fontSize: 14
+                      fontSize: 14,
+                      color: '#292929'
                     }}
                   >
                     <option value="">Selecione uma coleção</option>
@@ -627,7 +631,7 @@ export default function ProdutosPage() {
                 <input
                   type="number"
                   step="0.01"
-                  required
+                  min="0"
                   value={formData.precoAtual}
                   onChange={(e) => setFormData(prev => ({ ...prev, precoAtual: parseFloat(e.target.value) || 0 }))}
                   style={{
@@ -635,7 +639,8 @@ export default function ProdutosPage() {
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
+                    fontSize: 14,
+                    color: '#292929'
                   }}
                 />
               </div>
@@ -654,7 +659,8 @@ export default function ProdutosPage() {
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
+                    fontSize: 14,
+                    color: '#292929'
                   }}
                 />
               </div>
@@ -687,14 +693,16 @@ export default function ProdutosPage() {
                 <textarea
                   value={formData.descricaoCurta}
                   onChange={(e) => setFormData(prev => ({ ...prev, descricaoCurta: e.target.value }))}
-                  rows={2}
+                  placeholder="Breve descrição do produto (até 200 caracteres)"
+                  rows={3}
                   style={{
                     width: '100%',
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
                     fontSize: 14,
-                    resize: 'vertical'
+                    resize: 'vertical',
+                    color: '#292929'
                   }}
                 />
               </div>
@@ -706,14 +714,16 @@ export default function ProdutosPage() {
                 <textarea
                   value={formData.descricaoLonga}
                   onChange={(e) => setFormData(prev => ({ ...prev, descricaoLonga: e.target.value }))}
-                  rows={3}
+                  placeholder="Descrição detalhada do produto"
+                  rows={5}
                   style={{
                     width: '100%',
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
                     fontSize: 14,
-                    resize: 'vertical'
+                    resize: 'vertical',
+                    color: '#292929'
                   }}
                 />
               </div>
@@ -722,17 +732,18 @@ export default function ProdutosPage() {
                 <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
                   Entrega e Prazo
                 </label>
-                <textarea
+                <input
+                  type="text"
                   value={formData.entregaPrazo}
                   onChange={(e) => setFormData(prev => ({ ...prev, entregaPrazo: e.target.value }))}
-                  rows={2}
+                  placeholder="Ex: 5 a 10 dias úteis"
                   style={{
                     width: '100%',
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
                     fontSize: 14,
-                    resize: 'vertical'
+                    color: '#292929'
                   }}
                 />
               </div>
@@ -770,7 +781,8 @@ export default function ProdutosPage() {
                     padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
-                    fontSize: 14
+                    fontSize: 14,
+                    color: '#292929'
                   }}
                 >
                   <option value="ativo">Ativo</option>
@@ -852,7 +864,8 @@ export default function ProdutosPage() {
                                         border: '1px solid #E5E5E5',
                                         borderRadius: '4px',
                                         fontSize: 12,
-                                        textAlign: 'center'
+                                        textAlign: 'center',
+                                        color: '#292929'
                                       }}
                                     />
                                   </td>
@@ -900,7 +913,8 @@ export default function ProdutosPage() {
                                 padding: '8px',
                                 border: '1px solid #E5E5E5',
                                 borderRadius: '4px',
-                                fontSize: 12
+                                fontSize: 12,
+                                color: '#292929'
                               }}
                             />
                           </div>
@@ -918,7 +932,8 @@ export default function ProdutosPage() {
                                 padding: '8px',
                                 border: '1px solid #E5E5E5',
                                 borderRadius: '4px',
-                                fontSize: 12
+                                fontSize: 12,
+                                color: '#292929'
                               }}
                             />
                           </div>
