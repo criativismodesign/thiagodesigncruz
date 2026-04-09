@@ -43,14 +43,14 @@ export async function PUT(
     const banner = await prisma.heroBanner.update({
       where: { id },
       data: {
-        imagem: data.imagem,
-        supertitulo: data.supertitulo,
+        supertitulo: data.supertitulo || null,
         titulo: data.titulo,
-        descricao: data.descricao,
-        textoBotao: data.textoBotao,
-        linkBotao: data.linkBotao,
-        ordem: data.ordem,
-        ativo: data.ativo
+        descricao: data.descricao || null,
+        textoBotao: data.textoBotao || 'VER COLEÇÃO',
+        linkBotao: data.linkBotao || null,
+        ordem: parseInt(data.ordem) || 1,
+        ativo: data.ativo ?? true,
+        imagem: data.imagem || null,
       }
     })
 
