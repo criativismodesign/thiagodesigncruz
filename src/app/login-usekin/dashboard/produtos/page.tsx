@@ -8,12 +8,12 @@ const prisma = new PrismaClient()
 export default async function ProdutosPage() {
   const cookieStore = await cookies()
   const session = cookieStore.get('admin-session')?.value
-  
+
   if (!session || session !== process.env.ADMIN_SESSION_TOKEN) {
     redirect('/login-usekin')
   }
 
-  let produtos = []
+  let produtos: any[] = []
   try {
     produtos = await prisma.produto.findMany({
       orderBy: { criadoEm: 'desc' }
