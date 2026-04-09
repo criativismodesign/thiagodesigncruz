@@ -30,12 +30,15 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json()
     
-    const colecao = await prisma.category.create({
+    const colecao = await prisma.colecao.create({
       data: {
-        name: data.nome,
-        slug: data.nome.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        description: data.subtitulo,
-        image: data.imagemCamiseta
+        nome: data.nome,
+        subtitulo: data.subtitulo,
+        imagemCamiseta: data.imagemCamiseta || null,
+        imagemMousepad: data.imagemMousepad || null,
+        visivelHome: data.visivelHome || false,
+        ordemHome: parseInt(data.ordemHome) || 0,
+        status: data.status || 'ativa',
       }
     })
 

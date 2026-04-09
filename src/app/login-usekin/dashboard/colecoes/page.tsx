@@ -1,21 +1,18 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import AdminLayout from '@/components/admin/AdminLayout'
-import ColecoesClient from './ColecoesClient'
+import { PrismaClient } from '@prisma/client'
+import ColecoesLista from './ColecoesLista'
+
+const prisma = new PrismaClient()
 
 export default async function ColecoesPage() {
-  // Verificar autenticação
   const cookieStore = await cookies()
   const session = cookieStore.get('admin-session')?.value
-  const validToken = process.env.ADMIN_SESSION_TOKEN
-
-  if (!session || !validToken || session !== validToken) {
+  if (!session || session !== process.env.ADMIN_SESSION_TOKEN) {
     redirect('/login-usekin')
   }
-
-  return (
-    <AdminLayout title="Coleções">
-      <ColecoesClient />
-    </AdminLayout>
-  )
+  const colecoes: any[] = await prisma.colecao.findMany({
+    orderBy: { ordemHome: 'asc' }
+  })
+  return <ColecoesLista colecoes={colecoes} />
 }
