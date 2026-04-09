@@ -64,6 +64,48 @@ export async function PUT(
       }
     })
 
+    // Atualizar estoque - deletar existente e recriar
+    if (data.estoque !== undefined) {
+      await prisma.estoque.deleteMany({
+        where: { produtoId: id }
+      })
+
+      if (Object.keys(data.estoque).length > 0) {
+        for (const [chave, quantidade] of Object.entries(data.estoque)) {
+          if (chave === 'geral') {
+            await prisma.estoque.create({
+              data: {
+                produtoId: id,
+                tamanho: null,
+                cor: null,
+                quantidade: Number(quantidade) || 0,
+                minimo: data.estoqueMinimo || 3,
+              }
+            })
+          } else {
+            const [tamanho, cor] = chave.split('-')
+            await prisma.estoque.create({
+              data: {
+                produtoId: id,
+                tamanho: tamanho || null,
+                cor: cor || null,
+                quantidade: Number(quantidade) || 0,
+                minimo: data.estoqueMinimo || 3,
+              }
+            })
+          }
+        }
+      }
+    }
+
+    // Atualizar imagem guia de tamanhos se enviada
+    if (data.imagemGuiaTamanhos !== undefined) {
+      await prisma.produto.update({
+        where: { id },
+        data: { imagemGuiaTamanhos: data.imagemGuiaTamanhos }
+      })
+    }
+
     return NextResponse.json(produto)
   } catch (error) {
     console.error('Erro ao atualizar produto:', error)
