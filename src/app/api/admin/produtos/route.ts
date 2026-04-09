@@ -47,6 +47,48 @@ export async function POST(request: Request) {
         colecaoId: body.colecaoId || null,
       }
     })
+
+    // Salvar estoque
+    if (body.estoque) {
+      const estoqueEntries = Object.entries(body.estoque)
+      for (const [chave, quantidade] of estoqueEntries) {
+        const [tamanho, cor] = chave.split('-')
+        await prisma.estoque.create({
+          data: {
+            produtoId: produto.id,
+            tamanho: tamanho || null,
+            cor: cor || null,
+            quantidade: Number(quantidade) || 0,
+            minimo: body.estoqueMinimo || 3,
+          }
+        })
+      }
+    }
+
+    // Salvar imagens
+    if (body.imagemPrincipal) {
+      await prisma.imagemProduto.create({
+        data: {
+          produtoId: produto.id,
+          url: body.imagemPrincipal,
+          ordem: 0,
+          isPrincipal: true,
+        }
+      })
+    }
+
+    if (body.miniaturas?.length > 0) {
+      for (let i = 0; i < body.miniaturas.length; i++) {
+        await prisma.imagemProduto.create({
+          data: {
+            produtoId: produto.id,
+            url: body.miniaturas[i],
+            ordem: i + 1,
+            isPrincipal: false,
+          }
+        })
+      }
+    }
     
     return NextResponse.json({ success: true, produto })
   } catch (error) {
