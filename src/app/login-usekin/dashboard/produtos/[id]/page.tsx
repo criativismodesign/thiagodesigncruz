@@ -6,11 +6,12 @@ import ProdutoForm from '../ProdutoForm'
 
 const prisma = new PrismaClient()
 
-interface PageProps {
-  params: { id: string }
-}
-
-export default async function EditarProdutoPage({ params }: PageProps) {
+export default async function EditarProdutoPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
   const cookieStore = await cookies()
   const session = cookieStore.get('admin-session')?.value
   
@@ -22,7 +23,7 @@ export default async function EditarProdutoPage({ params }: PageProps) {
   let produto = null
   try {
     produto = await prisma.produto.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
   } catch (error) {
     console.error('Erro ao buscar produto:', error)
