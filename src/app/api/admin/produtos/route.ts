@@ -48,21 +48,46 @@ export async function POST(request: Request) {
       }
     })
 
+    console.log('Produto criado:', produto.id)
+    console.log('Body recebido:', JSON.stringify(body))
+    console.log('Estoque recebido:', JSON.stringify(body.estoque))
+    console.log('EstoqueMinimo recebido:', body.estoqueMinimo)
+
     // Salvar estoque
-    if (body.estoque) {
-      const estoqueEntries = Object.entries(body.estoque)
-      for (const [chave, quantidade] of estoqueEntries) {
-        const [tamanho, cor] = chave.split('-')
-        await prisma.estoque.create({
-          data: {
-            produtoId: produto.id,
-            tamanho: tamanho || null,
-            cor: cor || null,
-            quantidade: Number(quantidade) || 0,
-            minimo: body.estoqueMinimo || 3,
+    if (body.estoque && Object.keys(body.estoque).length > 0) {
+      console.log('Salvando estoque...')
+      for (const [chave, quantidade] of Object.entries(body.estoque)) {
+        console.log('Salvando chave:', chave, 'quantidade:', quantidade)
+        try {
+          if (chave === 'geral') {
+            await prisma.estoque.create({
+              data: {
+                produtoId: produto.id,
+                tamanho: null,
+                cor: null,
+                quantidade: Number(quantidade) || 0,
+                minimo: body.estoqueMinimo || 3,
+              }
+            })
+          } else {
+            const [tamanho, cor] = chave.split('-')
+            await prisma.estoque.create({
+              data: {
+                produtoId: produto.id,
+                tamanho: tamanho || null,
+                cor: cor || null,
+                quantidade: Number(quantidade) || 0,
+                minimo: body.estoqueMinimo || 3,
+              }
+            })
           }
-        })
+          console.log('Estoque salvo para:', chave)
+        } catch (estoqueError) {
+          console.error('Erro ao salvar estoque para', chave, ':', estoqueError)
+        }
       }
+    } else {
+      console.log('Nenhum estoque para salvar - body.estoque vazio ou undefined')
     }
 
     // Salvar imagens
