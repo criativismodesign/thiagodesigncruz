@@ -32,6 +32,12 @@ export default function NovoProdutoClient({ colecoes }: Props) {
     colecaoId: ''
   })
 
+  const [imagemPrincipal, setImagemPrincipal] = useState<string>('')
+  const [miniaturas, setMiniaturas] = useState<string[]>([])
+  const [guiaTamanhos, setGuiaTamanhos] = useState<string>('')
+  const [estoque, setEstoque] = useState<Record<string, number>>({})
+  const [estoqueMinimo, setEstoqueMinimo] = useState(3)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -41,7 +47,12 @@ export default function NovoProdutoClient({ colecoes }: Props) {
         ...formData,
         precoAtual: parseFloat(formData.precoAtual) || 0,
         precoDe: formData.precoDe ? parseFloat(formData.precoDe) : null,
-        ordemSecao: parseInt(formData.ordemSecao) || 0
+        ordemSecao: parseInt(formData.ordemSecao) || 0,
+        imagemPrincipal,
+        miniaturas: miniaturas.filter(Boolean),
+        imagemGuiaTamanhos: guiaTamanhos,
+        estoque,
+        estoqueMinimo
       }
 
       const response = await fetch('/api/admin/produtos', {
@@ -65,6 +76,24 @@ export default function NovoProdutoClient({ colecoes }: Props) {
 
   const handleChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }))
+  }
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, tipo: string, index?: number) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const formDataUpload = new FormData()
+    formDataUpload.append('file', file)
+    formDataUpload.append('pasta', 'produtos')
+    const response = await fetch('/api/admin/upload', { method: 'POST', body: formDataUpload })
+    const data = await response.json()
+    if (data.success) {
+      if (tipo === 'principal') setImagemPrincipal(data.url)
+      else if (tipo === 'miniatura' && index !== undefined) {
+        const novas = [...miniaturas]
+        novas[index] = data.url
+        setMiniaturas(novas)
+      } else if (tipo === 'guia') setGuiaTamanhos(data.url)
+    }
   }
 
   return (
@@ -116,7 +145,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   value={formData.nome}
                   onChange={(e) => handleChange('nome', e.target.value)}
                   required
-                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14 }}
+                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                 />
               </div>
 
@@ -128,7 +157,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   <select
                     value={formData.tipo}
                     onChange={(e) => handleChange('tipo', e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                   >
                     <option value="camiseta">Camiseta</option>
                     <option value="mousepad">Mousepad</option>
@@ -142,7 +171,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   <select
                     value={formData.categoria}
                     onChange={(e) => handleChange('categoria', e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                   >
                     <option value="avulso">Avulso</option>
                     <option value="colecao">Coleção</option>
@@ -158,7 +187,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   <select
                     value={formData.colecaoId}
                     onChange={(e) => handleChange('colecaoId', e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                   >
                     <option value="">Selecione uma coleção</option>
                     {colecoes.length === 0 ? (
@@ -185,7 +214,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                     value={formData.precoAtual}
                     onChange={(e) => handleChange('precoAtual', e.target.value)}
                     required
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                   />
                 </div>
 
@@ -198,7 +227,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                     step="0.01"
                     value={formData.precoDe}
                     onChange={(e) => handleChange('precoDe', e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                   />
                 </div>
               </div>
@@ -211,7 +240,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   <select
                     value={formData.status}
                     onChange={(e) => handleChange('status', e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                   >
                     <option value="ativo">Ativo</option>
                     <option value="inativo">Inativo</option>
@@ -226,10 +255,62 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                     type="number"
                     value={formData.ordemSecao}
                     onChange={(e) => handleChange('ordemSecao', e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                   />
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Seção Upload de Imagens */}
+          <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, marginTop: 24 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Imagens do Produto</h2>
+            <p style={{ fontSize: 13, color: '#888', marginBottom: 16 }}>
+              {formData.tipo === 'camiseta'
+                ? 'Imagens: 0/5 (1 principal 816x1093px + até 4 miniaturas 197x264px)'
+                : 'Imagens: 0/9 (1 principal 821x393px + até 8 miniaturas 200x96px)'}
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+              {/* Imagem principal */}
+              <div
+                onClick={() => document.getElementById('upload-principal')?.click()}
+                style={{
+                  width: formData.tipo === 'camiseta' ? 100 : 160,
+                  height: formData.tipo === 'camiseta' ? 133 : 77,
+                  border: '2px dashed #E5E5E5', borderRadius: 8, cursor: 'pointer',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                  background: imagemPrincipal ? 'transparent' : '#F9F9F9', overflow: 'hidden'
+                }}
+              >
+                {imagemPrincipal
+                  ? <img src={imagemPrincipal} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  : <><span style={{ fontSize: 24, color: '#AAAAAA' }}>+</span><span style={{ fontSize: 11, color: '#AAAAAA' }}>Principal</span></>
+                }
+              </div>
+              <input id="upload-principal" type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleUpload(e, 'principal')} />
+
+              {/* Miniaturas */}
+              {Array.from({ length: formData.tipo === 'camiseta' ? 4 : 8 }).map((_, i) => (
+                <div key={i}
+                  onClick={() => document.getElementById(`upload-mini-${i}`)?.click()}
+                  style={{
+                    width: formData.tipo === 'camiseta' ? 80 : 120,
+                    height: formData.tipo === 'camiseta' ? 107 : 58,
+                    border: '2px dashed #E5E5E5', borderRadius: 8, cursor: 'pointer',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                    background: miniaturas[i] ? 'transparent' : '#F9F9F9', overflow: 'hidden'
+                  }}
+                >
+                  {miniaturas[i]
+                    ? <img src={miniaturas[i]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    : <><span style={{ fontSize: 18, color: '#AAAAAA' }}>+</span><span style={{ fontSize: 10, color: '#AAAAAA' }}>Adicionar</span></>
+                  }
+                </div>
+              ))}
+              {Array.from({ length: formData.tipo === 'camiseta' ? 4 : 8 }).map((_, i) => (
+                <input key={i} id={`upload-mini-${i}`} type="file" accept="image/*" style={{ display: 'none' }}
+                  onChange={e => handleUpload(e, 'miniatura', i)} />
+              ))}
             </div>
           </div>
 
@@ -246,7 +327,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   value={formData.descricaoCurta}
                   onChange={(e) => handleChange('descricaoCurta', e.target.value)}
                   rows={3}
-                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical' }}
+                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical', color: '#292929' }}
                 />
               </div>
 
@@ -258,7 +339,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   value={formData.descricaoLonga}
                   onChange={(e) => handleChange('descricaoLonga', e.target.value)}
                   rows={5}
-                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical' }}
+                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical', color: '#292929' }}
                 />
               </div>
 
@@ -271,8 +352,31 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                     value={formData.entregaPrazo}
                     onChange={(e) => handleChange('entregaPrazo', e.target.value)}
                     rows={3}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical' }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical', color: '#292929' }}
                   />
+                </div>
+              )}
+
+              {formData.tipo === 'camiseta' && (
+                <div style={{ marginTop: 16 }}>
+                  <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 6 }}>
+                    Imagem Guia de Tamanhos
+                  </label>
+                  <div
+                    onClick={() => document.getElementById('upload-guia')?.click()}
+                    style={{
+                      width: 200, height: 150, border: '2px dashed #E5E5E5', borderRadius: 8,
+                      cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: guiaTamanhos ? 'transparent' : '#F9F9F9', overflow: 'hidden'
+                    }}
+                  >
+                    {guiaTamanhos
+                      ? <img src={guiaTamanhos} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      : <span style={{ color: '#AAAAAA', fontSize: 13 }}>+ Adicionar imagem</span>
+                    }
+                  </div>
+                  <input id="upload-guia" type="file" accept="image/*" style={{ display: 'none' }}
+                    onChange={e => handleUpload(e, 'guia')} />
                 </div>
               )}
 
@@ -285,7 +389,7 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                     value={formData.informacoes}
                     onChange={(e) => handleChange('informacoes', e.target.value)}
                     rows={3}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical' }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, resize: 'vertical', color: '#292929' }}
                   />
                 </div>
               )}
@@ -329,6 +433,69 @@ export default function NovoProdutoClient({ colecoes }: Props) {
                   />
                   Branco
                 </label>
+              </div>
+            </div>
+          )}
+
+          {/* Seção Estoque */}
+          {formData.tipo === 'camiseta' && (
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, marginTop: 24 }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 16 }}>Estoque</h2>
+              <table style={{ borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th style={{ padding: '8px 16px', color: '#292929', fontSize: 14, textAlign: 'left' }}></th>
+                    <th style={{ padding: '8px 16px', color: '#292929', fontSize: 14 }}>PRETO</th>
+                    <th style={{ padding: '8px 16px', color: '#292929', fontSize: 14 }}>BRANCO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {['P', 'M', 'G', 'GG'].map(tam => (
+                    <tr key={tam}>
+                      <td style={{ padding: '8px 16px', fontWeight: 600, color: '#292929', fontSize: 14 }}>{tam}</td>
+                      {['preto', 'branco'].map(cor => (
+                        <td key={cor} style={{ padding: '8px 16px' }}>
+                          <input type="number" min="0"
+                            value={estoque[`${tam}-${cor}`] || 0}
+                            onChange={e => setEstoque({...estoque, [`${tam}-${cor}`]: parseInt(e.target.value) || 0})}
+                            style={{ width: 70, border: '1px solid #E5E5E5', borderRadius: 8, padding: '6px 10px', textAlign: 'center', fontSize: 14, color: '#292929' }}
+                          />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+                <label style={{ fontSize: 14, color: '#292929' }}>Mínimo para aviso:</label>
+                <input type="number" value={estoqueMinimo}
+                  onChange={e => setEstoqueMinimo(parseInt(e.target.value) || 3)}
+                  style={{ width: 70, border: '1px solid #E5E5E5', borderRadius: 8, padding: '6px 10px', fontSize: 14, color: '#292929' }}
+                />
+              </div>
+            </div>
+          )}
+
+          {formData.tipo === 'mousepad' && (
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, marginTop: 24 }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 16 }}>Estoque</h2>
+              <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end' }}>
+                <div>
+                  <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 6 }}>Quantidade</label>
+                  <input type="number" min="0"
+                    value={estoque['geral'] || 0}
+                    onChange={e => setEstoque({ geral: parseInt(e.target.value) || 0 })}
+                    style={{ width: 100, border: '1px solid #E5E5E5', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 6 }}>Mínimo para aviso</label>
+                  <input type="number" min="0"
+                    value={estoqueMinimo}
+                    onChange={e => setEstoqueMinimo(parseInt(e.target.value) || 3)}
+                    style={{ width: 100, border: '1px solid #E5E5E5', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#292929' }}
+                  />
+                </div>
               </div>
             </div>
           )}
