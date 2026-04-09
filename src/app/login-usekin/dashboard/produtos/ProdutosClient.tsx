@@ -4,11 +4,21 @@ import { useState } from 'react'
 
 interface Produto {
   id: string
-  nome: string
-  tipo: string
-  categoria: string
-  precoAtual: number
-  status: string
+  name: string
+  slug: string
+  description: string
+  price: number
+  comparePrice: number | null
+  images: string
+  categoryId: string
+  type: string
+  sizes: string | null
+  colors: string | null
+  stock: number
+  featured: boolean
+  active: boolean
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface Props {
@@ -118,11 +128,11 @@ export default function ProdutosClient({ produtosIniciais }: Props) {
               ) : (
                 produtos.map(produto => (
                   <tr key={produto.id} style={{ borderBottom: '1px solid #F5F5F5' }}>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.nome}</td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.tipo}</td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.categoria}</td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>R$ {produto.precoAtual?.toFixed(2)}</td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.status}</td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.name}</td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.type}</td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.categoryId ? 'Coleção' : 'Avulso'}</td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>R$ {produto.price?.toFixed(2)}</td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.active ? 'Ativo' : 'Inativo'}</td>
                     <td style={{ padding: '12px 16px', display: 'flex', gap: 8 }}>
                       <button onClick={() => handleExcluir(produto.id)} style={{ background: '#F0484A', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 12 }}>Excluir</button>
                     </td>
