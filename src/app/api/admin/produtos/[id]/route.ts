@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { cookies } from 'next/headers'
 
 const prisma = new PrismaClient()
+
+async function verificarAdmin() {
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin-session')?.value
+  return session === process.env.ADMIN_SESSION_TOKEN
+}
 
 export async function GET(
   request: NextRequest,
@@ -153,23 +160,32 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: NextRequest,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!await verificarAdmin()) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  
   const { id } = await params
+  
   try {
+    // Deletar estoque vinculado
+    await prisma.estoque.deleteMany({
+      where: { produtoId: id }
+    })
+    
+    // Deletar imagens vinculadas
+    await prisma.imagemProduto.deleteMany({
+      where: { produtoId: id }
+    })
+    
+    // Deletar produto
     await prisma.produto.delete({
       where: { id }
     })
-
+    
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Erro ao deletar produto:', error)
-    return NextResponse.json(
-      { error: 'Erro ao deletar produto' },
-      { status: 500 }
-    )
-  } finally {
-    await prisma.$disconnect()
+    console.error('Erro ao excluir produto:', error)
+    return NextResponse.json({ success: false, error: String(error) }, { status: 500 })
   }
 }
