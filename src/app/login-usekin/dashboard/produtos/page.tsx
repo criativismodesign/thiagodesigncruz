@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import LogoutButton from '@/components/admin/LogoutButton'
 
 interface Produto {
@@ -15,6 +16,7 @@ interface Produto {
   description?: string
   active: boolean
   createdAt: string
+  images?: string[]
 }
 
 interface Colecao {
@@ -23,8 +25,13 @@ interface Colecao {
 }
 
 export default function ProdutosPage() {
+  const router = useRouter()
   const [produtos, setProdutos] = useState<Produto[]>([])
   const [colecoes, setColecoes] = useState<Colecao[]>([])
+  const [imagensProduto, setImagensProduto] = useState<string[]>([])
+  const [uploadProgress, setUploadProgress] = useState<number>(0)
+  const [showEstoque, setShowEstoque] = useState(false)
+  const [estoqueData, setEstoqueData] = useState<any>({})
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -86,24 +93,44 @@ export default function ProdutosPage() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleUploadImage = async (file: File) => {
     try {
-      const url = editingProduto 
-        ? `/api/admin/produtos/${editingProduto.id}`
-        : '/api/admin/produtos'
+      setUploadProgress(0)
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('folder', 'produtos')
       
-      const method = editingProduto ? 'PUT' : 'POST'
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData
+      })
       
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
+      if (response.ok) {
+        const result = await response.json()
+        setImagensProduto(prev => [...prev, result.url])
+        setUploadProgress(100)
+      }
+    } catch (error) {
+      console.error('Erro ao fazer upload:', error)
+    }
+  }
+
+  const handleRemoveImage = (index: number) => {
+    setImagensProduto(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    try {
+      const response = await fetch('/api/admin/produtos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(formData)
       })
-
+      
       if (response.ok) {
         setShowModal(false)
-        setEditingProduto(null)
         setFormData({
           nome: '',
           tipo: 'camiseta',
@@ -119,7 +146,10 @@ export default function ProdutosPage() {
           status: 'ativo',
           ordemSecao: 0
         })
-        fetchProdutos()
+        setImagensProduto([])
+        setShowEstoque(false)
+        setEstoqueData({})
+        router.refresh()
       }
     } catch (error) {
       console.error('Erro ao salvar produto:', error)
@@ -143,7 +173,30 @@ export default function ProdutosPage() {
       status: produto.active ? 'ativo' : 'inativo',
       ordemSecao: 0
     })
+    setImagensProduto(produto.images || [])
     setShowModal(true)
+  }
+
+  const handleEstoqueChange = (tamanho?: string, cor?: string, value?: number) => {
+    const key = tamanho && cor ? `${tamanho}-${cor}` : 'geral'
+    setEstoqueData(prev => ({
+      ...prev,
+      [key]: {
+        quantidade: value || 0,
+        minimo: prev[key]?.minimo || 3
+      }
+    }))
+  }
+
+  const handleMinimoChange = (tamanho?: string, cor?: string, value?: number) => {
+    const key = tamanho && cor ? `${tamanho}-${cor}` : 'geral'
+    setEstoqueData(prev => ({
+      ...prev,
+      [key]: {
+        quantidade: prev[key]?.quantidade || 0,
+        minimo: value || 3
+      }
+    }))
   }
 
   const handleDelete = async () => {
@@ -396,6 +449,110 @@ export default function ProdutosPage() {
                 />
               </div>
 
+              {/* Seção de Imagens */}
+              <div style={{ marginBottom: 24 }}>
+                <label style={{ display: 'block', marginBottom: 12, fontSize: 14, color: '#292929', fontWeight: 600 }}>
+                  Imagens do Produto
+                </label>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: 12, marginBottom: 16 }}>
+                  {imagensProduto.map((imagem, index) => (
+                    <div key={index} style={{ position: 'relative' }}>
+                      <img
+                        src={imagem}
+                        alt={`Imagem ${index + 1}`}
+                        style={{
+                          width: '100%',
+                          height: '100px',
+                          objectFit: 'cover',
+                          borderRadius: '8px',
+                          border: '1px solid #E5E5E5'
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(index)}
+                        style={{
+                          position: 'absolute',
+                          top: -8,
+                          right: -8,
+                          background: '#DC3545',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '50%',
+                          width: '24px',
+                          height: '24px',
+                          cursor: 'pointer',
+                          fontSize: 12
+                        }}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                  
+                  {imagensProduto.length < (formData.tipo === 'camiseta' ? 5 : 9) && (
+                    <div style={{
+                      width: '100%',
+                      height: '100px',
+                      border: '2px dashed #E5E5E5',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      position: 'relative'
+                    }}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (file) handleUploadImage(file)
+                        }}
+                        style={{
+                          position: 'absolute',
+                          width: '100%',
+                          height: '100%',
+                          opacity: 0,
+                          cursor: 'pointer'
+                        }}
+                      />
+                      <div style={{ textAlign: 'center', color: '#666666', fontSize: 12 }}>
+                        <div>+</div>
+                        <div>Adicionar</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                <div style={{ fontSize: 12, color: '#666666' }}>
+                  {formData.tipo === 'camiseta' 
+                    ? `Imagens: ${imagensProduto.length}/5 (1 principal + até 4 adicionais)`
+                    : `Imagens: ${imagensProduto.length}/9 (1 principal + até 8 adicionais)`
+                  }
+                </div>
+                
+                {uploadProgress > 0 && uploadProgress < 100 && (
+                  <div style={{ marginTop: 8 }}>
+                    <div style={{
+                      height: '4px',
+                      background: '#E5E5E5',
+                      borderRadius: '2px',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        height: '100%',
+                        width: `${uploadProgress}%`,
+                        background: '#007BFF',
+                        transition: 'width 0.3s'
+                      }} />
+                    </div>
+                  </div>
+                )}
+              </div>
+              </div>
+
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
                   Tipo
@@ -638,12 +795,167 @@ export default function ProdutosPage() {
                 />
               </div>
 
+              {/* Seção de Upload de Imagens */}
+              <div style={{ marginBottom: 24 }}>
+                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                  Upload de Imagens
+                </label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => handleImagemChange(e.target.files)}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #E5E5E5',
+                    borderRadius: '8px',
+                    fontSize: 14
+                  }}
+                />
+              </div>
+
+              {/* Seção de Estoque */}
+              <div style={{ marginBottom: 24 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  <label style={{ fontSize: 14, color: '#292929', fontWeight: 600 }}>
+                    Gestão de Estoque
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowEstoque(!showEstoque)}
+                    style={{
+                      background: showEstoque ? '#007BFF' : 'transparent',
+                      color: showEstoque ? 'white' : '#007BFF',
+                      border: '1px solid #007BFF',
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      cursor: 'pointer',
+                      fontSize: 12
+                    }}
+                  >
+                    {showEstoque ? 'Ocultar' : 'Mostrar'}
+                  </button>
+                </div>
+                
+                {showEstoque && (
+                  <div style={{ padding: 16, background: '#F8F9FA', borderRadius: 8 }}>
+                    {formData.tipo === 'camiseta' ? (
+                      <div>
+                        <div style={{ fontSize: 12, color: '#666666', marginBottom: 12 }}>
+                          Grade de Estoque (Tamanho × Cor)
+                        </div>
+                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                          <thead>
+                            <tr>
+                              <th style={{ padding: 8, fontSize: 12, color: '#666666', textAlign: 'left' }}></th>
+                              <th style={{ padding: 8, fontSize: 12, color: '#666666', textAlign: 'center' }}>PRETO</th>
+                              <th style={{ padding: 8, fontSize: 12, color: '#666666', textAlign: 'center' }}>BRANCO</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {['P', 'M', 'G', 'GG'].map(tamanho => (
+                              <tr key={tamanho}>
+                                <td style={{ padding: 8, fontSize: 12, color: '#292929' }}>{tamanho}</td>
+                                {['preto', 'branco'].map(cor => (
+                                  <td key={cor} style={{ padding: 8, textAlign: 'center' }}>
+                                    <input
+                                      type="number"
+                                      min="0"
+                                      placeholder="0"
+                                      onChange={(e) => handleEstoqueChange(tamanho, cor, parseInt(e.target.value) || 0)}
+                                      style={{
+                                        width: '60px',
+                                        padding: '4px',
+                                        border: '1px solid #E5E5E5',
+                                        borderRadius: '4px',
+                                        fontSize: 12,
+                                        textAlign: 'center'
+                                      }}
+                                    />
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <div style={{ marginTop: 12, fontSize: 12, color: '#666666' }}>
+                          Mínimo para aviso: 
+                          <input
+                            type="number"
+                            min="1"
+                            defaultValue="3"
+                            onChange={(e) => handleMinimoChange(undefined, undefined, parseInt(e.target.value) || 3)}
+                            style={{
+                              width: '60px',
+                              padding: '4px',
+                              border: '1px solid #E5E5E5',
+                              borderRadius: '4px',
+                              fontSize: 12,
+                              textAlign: 'center',
+                              marginLeft: 8
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div style={{ fontSize: 12, color: '#666666', marginBottom: 12 }}>
+                          Estoque Mousepad
+                        </div>
+                        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+                          <div>
+                            <label style={{ fontSize: 12, color: '#292929', display: 'block', marginBottom: 4 }}>
+                              Quantidade:
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              placeholder="0"
+                              onChange={(e) => handleEstoqueChange(undefined, undefined, parseInt(e.target.value) || 0)}
+                              style={{
+                                width: '80px',
+                                padding: '8px',
+                                border: '1px solid #E5E5E5',
+                                borderRadius: '4px',
+                                fontSize: 12
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <label style={{ fontSize: 12, color: '#292929', display: 'block', marginBottom: 4 }}>
+                              Mínimo:
+                            </label>
+                            <input
+                              type="number"
+                              min="1"
+                              defaultValue="3"
+                              onChange={(e) => handleMinimoChange(undefined, undefined, parseInt(e.target.value) || 3)}
+                              style={{
+                                width: '80px',
+                                padding: '8px',
+                                border: '1px solid #E5E5E5',
+                                borderRadius: '4px',
+                                fontSize: 12
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
               <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
                 <button
                   type="button"
                   onClick={() => {
                     setShowModal(false)
                     setEditingProduto(null)
+                    setFormData(initialFormData)
+                    setImagensProduto([])
+                    setShowEstoque(false)
+                    setEstoqueData({})
                   }}
                   style={{
                     background: 'transparent',
