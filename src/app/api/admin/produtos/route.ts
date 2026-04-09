@@ -30,6 +30,14 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json()
     
+    // Validar campos obrigatórios
+    if (!data.nome || !data.tipo || !data.categoria || data.precoAtual === undefined) {
+      return NextResponse.json(
+        { error: 'Campos obrigatórios: nome, tipo, categoria, precoAtual' },
+        { status: 400 }
+      )
+    }
+    
     const produto = await prisma.product.create({
       data: {
         name: data.nome,
@@ -38,7 +46,7 @@ export async function POST(request: NextRequest) {
         price: data.precoAtual,
         comparePrice: data.precoDe || null,
         images: JSON.stringify([]),
-        categoryId: data.categoryId || null,
+        categoryId: data.colecaoId || null,
         type: data.tipo || 'camiseta',
         sizes: JSON.stringify(data.tipo === 'camiseta' ? ['P', 'M', 'G', 'GG'] : ['Padrão']),
         colors: JSON.stringify(data.cores || []),

@@ -122,7 +122,14 @@ export default function ProdutosPage() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
     try {
+      // Validar campos obrigatórios
+      if (!formData.nome || !formData.tipo || !formData.categoria || formData.precoAtual === 0) {
+        alert('Preencha os campos obrigatórios: Nome, Tipo, Categoria e Preço')
+        return
+      }
+      
       const response = await fetch('/api/admin/produtos', {
         method: 'POST',
         headers: {
@@ -132,29 +139,25 @@ export default function ProdutosPage() {
       })
       
       if (response.ok) {
+        const result = await response.json()
+        console.log('Produto criado:', result)
+        
         setShowModal(false)
-        setFormData({
-          nome: '',
-          tipo: 'camiseta',
-          categoria: 'avulso',
-          colecaoId: '',
-          precoAtual: 0,
-          precoDe: 0,
-          cores: [],
-          descricaoCurta: '',
-          descricaoLonga: '',
-          entregaPrazo: '',
-          informacoes: '',
-          status: 'ativo',
-          ordemSecao: 0
-        })
+        setFormData(initialFormData)
         setImagensProduto([])
         setShowEstoque(false)
         setEstoqueData({})
-        router.refresh()
+        
+        // Recarregar a lista de produtos
+        await fetchProdutos()
+      } else {
+        const error = await response.json()
+        console.error('Erro na API:', error)
+        alert(`Erro ao criar produto: ${error.error || 'Erro desconhecido'}`)
       }
     } catch (error) {
       console.error('Erro ao salvar produto:', error)
+      alert('Erro ao salvar produto. Tente novamente.')
     }
   }
 
