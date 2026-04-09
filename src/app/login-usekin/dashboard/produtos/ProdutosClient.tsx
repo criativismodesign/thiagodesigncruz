@@ -90,6 +90,7 @@ export default function ProdutosClient({ produtosIniciais }: Props) {
       <div style={{ padding: '32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Produtos</h1>
+{/* v2 */}
           <button
             onClick={() => setShowModal(true)}
             style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 999, padding: '10px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}
