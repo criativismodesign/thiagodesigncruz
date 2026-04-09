@@ -13,7 +13,7 @@ export default async function ProdutosPage() {
     redirect('/login-usekin')
   }
 
-  let produtos = []
+  let produtos: any[] = []
   try {
     produtos = await prisma.produto.findMany({
       orderBy: { criadoEm: 'desc' }
