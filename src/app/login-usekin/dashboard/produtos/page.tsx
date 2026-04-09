@@ -3,38 +3,70 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import LogoutButton from '@/components/admin/LogoutButton'
 
+interface Produto {
+  id: string
+  nome: string
+  tipo: string
+  categoria: string
+  colecaoId?: string
+  precoAtual: number
+  precoDe?: number
+  cores: string[]
+  descricaoCurta?: string
+  descricaoLonga?: string
+  entregaPrazo?: string
+  informacoes?: string
+  status: string
+  ordemSecao: number
+}
+
 interface Colecao {
   id: string
   nome: string
-  subtitulo: string
-  imagemCamiseta?: string
-  imagemMousepad?: string
-  visivelHome: boolean
-  ordemHome: number
-  status: string
-  produtos: { id: string }[]
 }
 
-export default function ColecoesPage() {
+export default function ProdutosPage() {
+  const [produtos, setProdutos] = useState<Produto[]>([])
   const [colecoes, setColecoes] = useState<Colecao[]>([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [editingColecao, setEditingColecao] = useState<Colecao | null>(null)
-  const [deletingColecao, setDeletingColecao] = useState<Colecao | null>(null)
+  const [editingProduto, setEditingProduto] = useState<Produto | null>(null)
+  const [deletingProduto, setDeletingProduto] = useState<Produto | null>(null)
   const [formData, setFormData] = useState({
     nome: '',
-    subtitulo: '',
-    imagemCamiseta: '',
-    imagemMousepad: '',
-    visivelHome: false,
-    ordemHome: 0,
-    status: 'ativa'
+    tipo: 'camiseta',
+    categoria: 'avulso',
+    colecaoId: '',
+    precoAtual: 0,
+    precoDe: 0,
+    cores: [] as string[],
+    descricaoCurta: '',
+    descricaoLonga: '',
+    entregaPrazo: '',
+    informacoes: '',
+    status: 'ativo',
+    ordemSecao: 0
   })
 
   useEffect(() => {
+    fetchProdutos()
     fetchColecoes()
   }, [])
+
+  const fetchProdutos = async () => {
+    try {
+      const response = await fetch('/api/admin/produtos')
+      if (response.ok) {
+        const data = await response.json()
+        setProdutos(data)
+      }
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const fetchColecoes = async () => {
     try {
@@ -45,19 +77,17 @@ export default function ColecoesPage() {
       }
     } catch (error) {
       console.error('Erro ao buscar coleções:', error)
-    } finally {
-      setLoading(false)
     }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const url = editingColecao 
-        ? `/api/admin/colecoes/${editingColecao.id}`
-        : '/api/admin/colecoes'
+      const url = editingProduto 
+        ? `/api/admin/produtos/${editingProduto.id}`
+        : '/api/admin/produtos'
       
-      const method = editingColecao ? 'PUT' : 'POST'
+      const method = editingProduto ? 'PUT' : 'POST'
       
       const response = await fetch(url, {
         method,
@@ -67,76 +97,74 @@ export default function ColecoesPage() {
 
       if (response.ok) {
         setShowModal(false)
-        setEditingColecao(null)
+        setEditingProduto(null)
         setFormData({
           nome: '',
-          subtitulo: '',
-          imagemCamiseta: '',
-          imagemMousepad: '',
-          visivelHome: false,
-          ordemHome: 0,
-          status: 'ativa'
+          tipo: 'camiseta',
+          categoria: 'avulso',
+          colecaoId: '',
+          precoAtual: 0,
+          precoDe: 0,
+          cores: [],
+          descricaoCurta: '',
+          descricaoLonga: '',
+          entregaPrazo: '',
+          informacoes: '',
+          status: 'ativo',
+          ordemSecao: 0
         })
-        fetchColecoes()
+        fetchProdutos()
       }
     } catch (error) {
-      console.error('Erro ao salvar coleção:', error)
+      console.error('Erro ao salvar produto:', error)
     }
   }
 
-  const handleEdit = (colecao: Colecao) => {
-    setEditingColecao(colecao)
+  const handleEdit = (produto: Produto) => {
+    setEditingProduto(produto)
     setFormData({
-      nome: colecao.nome,
-      subtitulo: colecao.subtitulo,
-      imagemCamiseta: colecao.imagemCamiseta || '',
-      imagemMousepad: colecao.imagemMousepad || '',
-      visivelHome: colecao.visivelHome,
-      ordemHome: colecao.ordemHome,
-      status: colecao.status
+      nome: produto.nome,
+      tipo: produto.tipo,
+      categoria: produto.categoria,
+      colecaoId: produto.colecaoId || '',
+      precoAtual: produto.precoAtual,
+      precoDe: produto.precoDe || 0,
+      cores: produto.cores,
+      descricaoCurta: produto.descricaoCurta || '',
+      descricaoLonga: produto.descricaoLonga || '',
+      entregaPrazo: produto.entregaPrazo || '',
+      informacoes: produto.informacoes || '',
+      status: produto.status,
+      ordemSecao: produto.ordemSecao
     })
     setShowModal(true)
   }
 
   const handleDelete = async () => {
-    if (!deletingColecao) return
+    if (!deletingProduto) return
     
     try {
-      const response = await fetch(`/api/admin/colecoes/${deletingColecao.id}`, {
+      const response = await fetch(`/api/admin/produtos/${deletingProduto.id}`, {
         method: 'DELETE'
       })
 
       if (response.ok) {
         setShowDeleteModal(false)
-        setDeletingColecao(null)
-        fetchColecoes()
+        setDeletingProduto(null)
+        fetchProdutos()
       }
     } catch (error) {
-      console.error('Erro ao deletar coleção:', error)
+      console.error('Erro ao deletar produto:', error)
     }
   }
 
-  const handleImageUpload = async (file: File, type: 'camiseta' | 'mousepad') => {
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('pasta', 'colecoes')
-
-    try {
-      const response = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        setFormData(prev => ({
-          ...prev,
-          [`imagem${type === 'camiseta' ? 'Camiseta' : 'Mousepad'}`]: data.url
-        }))
-      }
-    } catch (error) {
-      console.error('Erro ao fazer upload:', error)
-    }
+  const handleCorChange = (cor: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      cores: checked 
+        ? [...prev.cores, cor]
+        : prev.cores.filter(c => c !== cor)
+    }))
   }
 
   if (loading) {
@@ -172,7 +200,7 @@ export default function ColecoesPage() {
             <span> Voltar ao Dashboard</span>
           </Link>
           <span style={{ fontSize: 20, fontWeight: 600, color: '#292929' }}>
-            Gestão de Coleções
+            Gestão de Produtos
           </span>
         </div>
         <LogoutButton />
@@ -187,10 +215,10 @@ export default function ColecoesPage() {
         }}>
           <div>
             <h1 style={{ fontSize: 28, fontWeight: 600, color: '#292929', margin: 0 }}>
-              Coleções
+              Produtos
             </h1>
             <p style={{ color: '#AAAAAA', marginTop: 8, margin: 0 }}>
-              Gerencie as coleções de produtos Use KIN
+              Gerencie os produtos Use KIN
             </p>
           </div>
           <button 
@@ -206,7 +234,7 @@ export default function ColecoesPage() {
               color: '#FFFFFF'
             }}
           >
-            + Nova Coleção
+            + Novo Produto
           </button>
         </div>
 
@@ -220,44 +248,57 @@ export default function ColecoesPage() {
             <thead>
               <tr style={{ borderBottom: '1px solid #E5E5E5' }}>
                 <th style={{ textAlign: 'left', padding: '12px', fontSize: 14, color: '#666666' }}>Nome</th>
-                <th style={{ textAlign: 'left', padding: '12px', fontSize: 14, color: '#666666' }}>Subtítulo</th>
-                <th style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: '#666666' }}>Visível Home</th>
-                <th style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: '#666666' }}>Ordem</th>
+                <th style={{ textAlign: 'left', padding: '12px', fontSize: 14, color: '#666666' }}>Tipo</th>
+                <th style={{ textAlign: 'left', padding: '12px', fontSize: 14, color: '#666666' }}>Categoria</th>
+                <th style={{ textAlign: 'left', padding: '12px', fontSize: 14, color: '#666666' }}>Coleção</th>
+                <th style={{ textAlign: 'left', padding: '12px', fontSize: 14, color: '#666666' }}>Preço</th>
                 <th style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: '#666666' }}>Status</th>
                 <th style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: '#666666' }}>Ações</th>
               </tr>
             </thead>
             <tbody>
-              {colecoes.map((colecao) => (
-                <tr key={colecao.id} style={{ borderBottom: '1px solid #F0F0F0' }}>
-                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>{colecao.nome}</td>
-                  <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>{colecao.subtitulo}</td>
-                  <td style={{ textAlign: 'center', padding: '12px' }}>
+              {produtos.map((produto) => (
+                <tr key={produto.id} style={{ borderBottom: '1px solid #F0F0F0' }}>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>{produto.nome}</td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>
                     <span style={{
                       padding: '4px 8px',
                       borderRadius: '4px',
                       fontSize: 12,
-                      background: colecao.visivelHome ? '#D4EDDA' : '#F8D7DA',
-                      color: colecao.visivelHome ? '#155724' : '#721C24'
+                      background: produto.tipo === 'camiseta' ? '#E3F2FD' : '#FFF3E0',
+                      color: produto.tipo === 'camiseta' ? '#1565C0' : '#E65100'
                     }}>
-                      {colecao.visivelHome ? 'Sim' : 'Não'}
+                      {produto.tipo === 'camiseta' ? 'Camiseta' : 'Mousepad'}
                     </span>
                   </td>
-                  <td style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: '#666666' }}>{colecao.ordemHome}</td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>
+                    {produto.categoria === 'colecao' ? 'Coleção' : 'Avulso'}
+                  </td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>
+                    {colecoes.find(c => c.id === produto.colecaoId)?.nome || '-'}
+                  </td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#666666' }}>
+                    R$ {produto.precoAtual.toFixed(2)}
+                    {produto.precoDe && (
+                      <span style={{ textDecoration: 'line-through', color: '#999', marginLeft: 8 }}>
+                        R$ {produto.precoDe.toFixed(2)}
+                      </span>
+                    )}
+                  </td>
                   <td style={{ textAlign: 'center', padding: '12px' }}>
                     <span style={{
                       padding: '4px 8px',
                       borderRadius: '4px',
                       fontSize: 12,
-                      background: colecao.status === 'ativa' ? '#D4EDDA' : '#F8D7DA',
-                      color: colecao.status === 'ativa' ? '#155724' : '#721C24'
+                      background: produto.status === 'ativo' ? '#D4EDDA' : '#F8D7DA',
+                      color: produto.status === 'ativo' ? '#155724' : '#721C24'
                     }}>
-                      {colecao.status}
+                      {produto.status}
                     </span>
                   </td>
                   <td style={{ textAlign: 'center', padding: '12px' }}>
                     <button 
-                      onClick={() => handleEdit(colecao)}
+                      onClick={() => handleEdit(produto)}
                       style={{
                         background: '#007BFF',
                         color: 'white',
@@ -273,7 +314,7 @@ export default function ColecoesPage() {
                     </button>
                     <button 
                       onClick={() => {
-                        setDeletingColecao(colecao)
+                        setDeletingProduto(produto)
                         setShowDeleteModal(true)
                       }}
                       style={{
@@ -294,9 +335,9 @@ export default function ColecoesPage() {
             </tbody>
           </table>
           
-          {colecoes.length === 0 && (
+          {produtos.length === 0 && (
             <div style={{ textAlign: 'center', padding: '40px', color: '#666666' }}>
-              Nenhuma coleção encontrada
+              Nenhum produto encontrado
             </div>
           )}
         </div>
@@ -326,7 +367,7 @@ export default function ColecoesPage() {
             overflowY: 'auto'
           }}>
             <h2 style={{ fontSize: 24, fontWeight: 600, marginBottom: 24 }}>
-              {editingColecao ? 'Editar Coleção' : 'Nova Coleção'}
+              {editingProduto ? 'Editar Produto' : 'Novo Produto'}
             </h2>
             
             <form onSubmit={handleSubmit}>
@@ -351,13 +392,11 @@ export default function ColecoesPage() {
 
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Subtítulo *
+                  Tipo
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.subtitulo}
-                  onChange={(e) => setFormData(prev => ({ ...prev, subtitulo: e.target.value }))}
+                <select
+                  value={formData.tipo}
+                  onChange={(e) => setFormData(prev => ({ ...prev, tipo: e.target.value }))}
                   style={{
                     width: '100%',
                     padding: '12px',
@@ -365,81 +404,68 @@ export default function ColecoesPage() {
                     borderRadius: '8px',
                     fontSize: 14
                   }}
-                />
+                >
+                  <option value="camiseta">Camiseta</option>
+                  <option value="mousepad">Mousepad</option>
+                </select>
               </div>
 
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Imagem Camiseta
+                  Categoria
                 </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    if (file) handleImageUpload(file, 'camiseta')
-                  }}
+                <select
+                  value={formData.categoria}
+                  onChange={(e) => setFormData(prev => ({ ...prev, categoria: e.target.value }))}
                   style={{
                     width: '100%',
-                    padding: '8px',
+                    padding: '12px',
                     border: '1px solid #E5E5E5',
                     borderRadius: '8px',
                     fontSize: 14
                   }}
-                />
-                {formData.imagemCamiseta && (
-                  <div style={{ marginTop: 8 }}>
-                    <img src={formData.imagemCamiseta} alt="Preview" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px' }} />
-                  </div>
-                )}
+                >
+                  <option value="avulso">Avulso</option>
+                  <option value="colecao">Coleção</option>
+                </select>
               </div>
+
+              {formData.categoria === 'colecao' && (
+                <div style={{ marginBottom: 16 }}>
+                  <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                    Coleção
+                  </label>
+                  <select
+                    value={formData.colecaoId}
+                    onChange={(e) => setFormData(prev => ({ ...prev, colecaoId: e.target.value }))}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      border: '1px solid #E5E5E5',
+                      borderRadius: '8px',
+                      fontSize: 14
+                    }}
+                  >
+                    <option value="">Selecione uma coleção</option>
+                    {colecoes.map((colecao) => (
+                      <option key={colecao.id} value={colecao.id}>
+                        {colecao.nome}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Imagem Mousepad
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    if (file) handleImageUpload(file, 'mousepad')
-                  }}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: '1px solid #E5E5E5',
-                    borderRadius: '8px',
-                    fontSize: 14
-                  }}
-                />
-                {formData.imagemMousepad && (
-                  <div style={{ marginTop: 8 }}>
-                    <img src={formData.imagemMousepad} alt="Preview" style={{ maxWidth: '200px', height: 'auto', borderRadius: '8px' }} />
-                  </div>
-                )}
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'flex', alignItems: 'center', fontSize: 14, color: '#292929' }}>
-                  <input
-                    type="checkbox"
-                    checked={formData.visivelHome}
-                    onChange={(e) => setFormData(prev => ({ ...prev, visivelHome: e.target.checked }))}
-                    style={{ marginRight: 8 }}
-                  />
-                  Visível na Home
-                </label>
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
-                  Ordem na Home
+                  Preço Atual *
                 </label>
                 <input
                   type="number"
-                  value={formData.ordemHome}
-                  onChange={(e) => setFormData(prev => ({ ...prev, ordemHome: parseInt(e.target.value) || 0 }))}
+                  step="0.01"
+                  required
+                  value={formData.precoAtual}
+                  onChange={(e) => setFormData(prev => ({ ...prev, precoAtual: parseFloat(e.target.value) || 0 }))}
                   style={{
                     width: '100%',
                     padding: '12px',
@@ -450,7 +476,125 @@ export default function ColecoesPage() {
                 />
               </div>
 
-              <div style={{ marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                  Preço "DE"
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.precoDe}
+                  onChange={(e) => setFormData(prev => ({ ...prev, precoDe: parseFloat(e.target.value) || 0 }))}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #E5E5E5',
+                    borderRadius: '8px',
+                    fontSize: 14
+                  }}
+                />
+              </div>
+
+              {formData.tipo === 'camiseta' && (
+                <div style={{ marginBottom: 16 }}>
+                  <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                    Cores
+                  </label>
+                  <div style={{ display: 'flex', gap: 16 }}>
+                    {['Preto', 'Branco'].map((cor) => (
+                      <label key={cor} style={{ display: 'flex', alignItems: 'center', fontSize: 14 }}>
+                        <input
+                          type="checkbox"
+                          checked={formData.cores.includes(cor)}
+                          onChange={(e) => handleCorChange(cor, e.target.checked)}
+                          style={{ marginRight: 8 }}
+                        />
+                        {cor}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                  Descrição Curta
+                </label>
+                <textarea
+                  value={formData.descricaoCurta}
+                  onChange={(e) => setFormData(prev => ({ ...prev, descricaoCurta: e.target.value }))}
+                  rows={2}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #E5E5E5',
+                    borderRadius: '8px',
+                    fontSize: 14,
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                  Descrição Longa
+                </label>
+                <textarea
+                  value={formData.descricaoLonga}
+                  onChange={(e) => setFormData(prev => ({ ...prev, descricaoLonga: e.target.value }))}
+                  rows={3}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #E5E5E5',
+                    borderRadius: '8px',
+                    fontSize: 14,
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                  Entrega e Prazo
+                </label>
+                <textarea
+                  value={formData.entregaPrazo}
+                  onChange={(e) => setFormData(prev => ({ ...prev, entregaPrazo: e.target.value }))}
+                  rows={2}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #E5E5E5',
+                    borderRadius: '8px',
+                    fontSize: 14,
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              {formData.tipo === 'mousepad' && (
+                <div style={{ marginBottom: 16 }}>
+                  <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                    Informações Adicionais
+                  </label>
+                  <textarea
+                    value={formData.informacoes}
+                    onChange={(e) => setFormData(prev => ({ ...prev, informacoes: e.target.value }))}
+                    rows={2}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      border: '1px solid #E5E5E5',
+                      borderRadius: '8px',
+                      fontSize: 14,
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+              )}
+
+              <div style={{ marginBottom: 16 }}>
                 <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
                   Status
                 </label>
@@ -465,9 +609,27 @@ export default function ColecoesPage() {
                     fontSize: 14
                   }}
                 >
-                  <option value="ativa">Ativa</option>
-                  <option value="inativa">Inativa</option>
+                  <option value="ativo">Ativo</option>
+                  <option value="inativo">Inativo</option>
                 </select>
+              </div>
+
+              <div style={{ marginBottom: 24 }}>
+                <label style={{ display: 'block', marginBottom: 8, fontSize: 14, color: '#292929' }}>
+                  Ordem na Seção
+                </label>
+                <input
+                  type="number"
+                  value={formData.ordemSecao}
+                  onChange={(e) => setFormData(prev => ({ ...prev, ordemSecao: parseInt(e.target.value) || 0 }))}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #E5E5E5',
+                    borderRadius: '8px',
+                    fontSize: 14
+                  }}
+                />
               </div>
 
               <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
@@ -475,7 +637,7 @@ export default function ColecoesPage() {
                   type="button"
                   onClick={() => {
                     setShowModal(false)
-                    setEditingColecao(null)
+                    setEditingProduto(null)
                   }}
                   style={{
                     background: 'transparent',
@@ -502,7 +664,7 @@ export default function ColecoesPage() {
                     color: '#FFFFFF'
                   }}
                 >
-                  {editingColecao ? 'Salvar' : 'Criar'}
+                  {editingProduto ? 'Salvar' : 'Criar'}
                 </button>
               </div>
             </form>
@@ -511,7 +673,7 @@ export default function ColecoesPage() {
       )}
 
       {/* Modal Excluir */}
-      {showDeleteModal && deletingColecao && (
+      {showDeleteModal && deletingProduto && (
         <div style={{
           position: 'fixed',
           top: 0,
@@ -535,14 +697,14 @@ export default function ColecoesPage() {
               Confirmar Exclusão
             </h2>
             <p style={{ fontSize: 14, color: '#666666', marginBottom: 24 }}>
-              Tem certeza que deseja excluir a coleção "{deletingColecao.nome}"? Esta ação não pode ser desfeita.
+              Tem certeza que deseja excluir o produto "{deletingProduto.nome}"? Esta ação não pode ser desfeita.
             </p>
             
             <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
               <button
                 onClick={() => {
                   setShowDeleteModal(false)
-                  setDeletingColecao(null)
+                  setDeletingProduto(null)
                 }}
                 style={{
                   background: 'transparent',

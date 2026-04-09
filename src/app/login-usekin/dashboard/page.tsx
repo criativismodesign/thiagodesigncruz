@@ -83,20 +83,26 @@ export default async function DashboardPage() {
             </div>
           </Link>
           
-          <div style={{
-            background: '#FFFFFF',
-            borderRadius: '12px',
-            padding: '32px',
-            border: '1px solid #E5E5E5',
-            opacity: 0.7
+          <Link href="/login-usekin/dashboard/produtos" style={{
+            textDecoration: 'none',
+            display: 'block'
           }}>
-            <h3 style={{ fontSize: 20, fontWeight: 600, color: '#292929', margin: '0 0 8px 0' }}>
-              Produtos
-            </h3>
-            <p style={{ color: '#666666', margin: 0, fontSize: 14 }}>
-              Gerencie os produtos (em breve)
-            </p>
-          </div>
+            <div style={{
+              background: '#FFFFFF',
+              borderRadius: '12px',
+              padding: '32px',
+              border: '1px solid #E5E5E5',
+              transition: 'all 0.2s',
+              cursor: 'pointer'
+            }}>
+              <h3 style={{ fontSize: 20, fontWeight: 600, color: '#292929', margin: '0 0 8px 0' }}>
+                Produtos
+              </h3>
+              <p style={{ color: '#666666', margin: 0, fontSize: 14 }}>
+                Gerencie os produtos
+              </p>
+            </div>
+          </Link>
           
           <div style={{
             background: '#FFFFFF',
