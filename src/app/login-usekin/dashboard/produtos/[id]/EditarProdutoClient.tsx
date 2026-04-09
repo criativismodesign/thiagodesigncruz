@@ -53,26 +53,27 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
     colecaoId: produto.colecaoId || ''
   })
 
-  // Extrair dados das imagens e estoque do produto
-  const imagemPrincipal = produto.imagens.find(img => img.isPrincipal)?.url || ''
-  const miniaturas = produto.imagens.filter(img => !img.isPrincipal).sort((a, b) => a.ordem - b.ordem).map(img => img.url)
-  const guiaTamanhos = produto.imagemGuiaTamanhos || ''
-  
-  // Converter array de estoque para objeto Record<string, number>
+  // Encontrar imagem principal
+  const imgPrincipal = produto.imagens?.find(img => img.isPrincipal)?.url || ''
+  const imgMiniaturas = produto.imagens
+    ?.filter(img => !img.isPrincipal)
+    ?.sort((a, b) => a.ordem - b.ordem)
+    ?.map(img => img.url) || []
+
+  const [imagemPrincipalState, setImagemPrincipalState] = useState<string>(imgPrincipal)
+  const [miniaturasState, setMiniaturasState] = useState<string[]>(imgMiniaturas)
+  const [guiaTamanhosState, setGuiaTamanhosState] = useState<string>(produto.imagemGuiaTamanhos || '')
+
+  // Preencher o estoque existente
   const estoqueInicial: Record<string, number> = {}
-  produto.estoque.forEach(item => {
-    if (item.tamanho && item.cor) {
-      estoqueInicial[`${item.tamanho}-${item.cor}`] = item.quantidade
-    } else {
-      estoqueInicial['geral'] = item.quantidade
-    }
+  produto.estoque?.forEach(e => {
+    const chave = e.tamanho && e.cor ? `${e.tamanho}-${e.cor}` : 'geral'
+    estoqueInicial[chave] = e.quantidade
   })
-  
-  const [imagemPrincipalState, setImagemPrincipalState] = useState<string>(imagemPrincipal)
-  const [miniaturasState, setMiniaturasState] = useState<string[]>(miniaturas)
-  const [guiaTamanhosState, setGuiaTamanhosState] = useState<string>(guiaTamanhos)
+  const estoqueMinInicial = produto.estoque?.[0]?.minimo || 3
+
   const [estoque, setEstoque] = useState<Record<string, number>>(estoqueInicial)
-  const [estoqueMinimo, setEstoqueMinimo] = useState(produto.estoque[0]?.minimo || 3)
+  const [estoqueMinimo, setEstoqueMinimo] = useState(estoqueMinInicial)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
