@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import LogoutButton from '@/components/admin/LogoutButton'
 
 export default async function DashboardPage() {
   const cookieStore = await cookies()
@@ -23,19 +24,7 @@ export default async function DashboardPage() {
         <span style={{ fontSize: 20, fontWeight: 600, color: '#292929' }}>
           Painel Use KIN
         </span>
-        <form action="/api/admin/logout" method="POST">
-          <button type="submit" style={{
-            background: 'transparent',
-            border: '1px solid #E5E5E5',
-            borderRadius: 999,
-            padding: '8px 20px',
-            cursor: 'pointer',
-            fontSize: 14,
-            color: '#292929'
-          }}>
-            Sair
-          </button>
-        </form>
+        <LogoutButton />
       </div>
       <div style={{ padding: '48px 40px' }}>
         <h1 style={{ fontSize: 28, fontWeight: 600, color: '#292929' }}>
