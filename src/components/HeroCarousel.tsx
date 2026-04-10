@@ -56,22 +56,29 @@ export default function HeroCarousel({ slides }: Props) {
   const currentSlideData = slides[currentSlide];
 
   return (
-    <div 
-      className="relative w-full overflow-hidden"
-      style={{ height: '832px' }}
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
+    <div style={{
+      position: 'relative',
+      width: '100%',
+      height: '832px',
+      overflow: 'hidden',
+    }}
+    onMouseEnter={() => setIsAutoPlaying(false)}
+    onMouseLeave={() => setIsAutoPlaying(true)}
     >
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+      }}>
         {currentSlideData.imagem ? (
           <Image
             src={currentSlideData.imagem}
             alt={currentSlideData.titulo}
             fill
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
             priority={currentSlide === 0}
-            unoptimized
           />
         ) : (
           <div style={{
@@ -91,66 +98,63 @@ export default function HeroCarousel({ slides }: Props) {
       >
         {/* Supertítulo */}
         {currentSlideData.supertitulo && (
-          <p 
-            className="font-light"
-            style={{ 
-              fontSize: '18px', 
-              color: '#FFFFFF', 
-              marginBottom: '16px',
-              textTransform: 'uppercase',
-              letterSpacing: '2px'
-            }}
-          >
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '28px',
+            fontWeight: 300,
+            color: '#DAA520',
+            textTransform: 'uppercase',
+            marginBottom: '8px',
+          }}>
             {currentSlideData.supertitulo}
           </p>
         )}
 
         {/* Título */}
-        <h1 
-          className="font-bold"
-          style={{ 
-            fontSize: '64px', 
-            color: '#FFFFFF', 
-            marginBottom: '24px',
-            lineHeight: '1.1',
-            textTransform: 'uppercase'
-          }}
-        >
+        <h1 style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '70px',
+          fontWeight: 600,
+          color: '#000000',
+          textTransform: 'uppercase',
+          lineHeight: 1.1,
+          marginBottom: '20px',
+        }}>
           {currentSlideData.titulo}
         </h1>
 
         {/* Descrição */}
         {currentSlideData.descricao && (
-          <p 
-            className="font-light"
-            style={{ 
-              fontSize: '18px', 
-              color: '#FFFFFF', 
-              marginBottom: '32px',
-              lineHeight: '1.5'
-            }}
-          >
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '18px',
+            fontWeight: 400,
+            color: '#292929',
+            textTransform: 'uppercase',
+            maxWidth: '627px',
+            lineHeight: 1.6,
+            marginBottom: '36px',
+          }}>
             {currentSlideData.descricao}
           </p>
         )}
 
         {/* Botão CTA */}
-        {currentSlideData.textoBotao && currentSlideData.linkBotao && (
-          <Link
-            href={currentSlideData.linkBotao}
-            className="inline-block font-bold text-white rounded-full transition-all hover:brightness-110"
-            style={{ 
-              fontSize: '15px',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              backgroundColor: '#DAA520',
-              padding: '12px 32px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px'
-            }}
-          >
-            {currentSlideData.textoBotao}
-          </Link>
+        {currentSlideData.linkBotao && (
+          <a href={currentSlideData.linkBotao} style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '15px',
+            fontWeight: 700,
+            color: '#FFFFFF',
+            background: '#DAA520',
+            padding: '14px 36px',
+            borderRadius: '999px',
+            textDecoration: 'none',
+            display: 'inline-block',
+            textTransform: 'uppercase',
+          }}>
+            {currentSlideData.textoBotao || 'VER COLEÇÃO'}
+          </a>
         )}
       </div>
 
