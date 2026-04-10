@@ -5,50 +5,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const slides = [
-  {
-    id: 1,
-    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
-    supertitle: 'Coleção os "Immortals" 2026',
-    title: 'Camisetas STYLE',
-    description: 'VISTA O ESTILO DOS SOBREVIVENTES MAIS INSANOS DESSE DE TODOS OS TEMPOS. OS IMMORTALS AQUELES QUE SEMPRE SE LEVANTAM.',
-    cta: { label: 'VER COLEÇÃO', href: '/colecao/immortals' },
-  },
-  {
-    id: 2,
-    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
-    supertitle: 'Slide 2 - Supertítulo',
-    title: 'Título do Slide 2',
-    description: 'DESCRIÇÃO DO SLIDE 2 EM CAIXA ALTA.',
-    cta: { label: 'VER COLEÇÃO', href: '/colecao/slide-2' },
-  },
-  {
-    id: 3,
-    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
-    supertitle: 'Slide 3 - Supertítulo',
-    title: 'Título do Slide 3',
-    description: 'DESCRIÇÃO DO SLIDE 3 EM CAIXA ALTA.',
-    cta: { label: 'VER COLEÇÃO', href: '/colecao/slide-3' },
-  },
-  {
-    id: 4,
-    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
-    supertitle: 'Slide 4 - Supertítulo',
-    title: 'Título do Slide 4',
-    description: 'DESCRIÇÃO DO SLIDE 4 EM CAIXA ALTA.',
-    cta: { label: 'VER COLEÇÃO', href: '/colecao/slide-4' },
-  },
-  {
-    id: 5,
-    image: '/imagens/hero/img-site-use-kin-hero-full-banner-1920x832px.jpg',
-    supertitle: 'Slide 5 - Supertítulo',
-    title: 'Título do Slide 5',
-    description: 'DESCRIÇÃO DO SLIDE 5 EM CAIXA ALTA.',
-    cta: { label: 'VER COLEÇÃO', href: '/colecao/slide-5' },
-  },
-];
+interface Slide {
+  id: string
+  imagem: string | null
+  supertitulo: string | null
+  titulo: string
+  descricao: string | null
+  textoBotao: string | null
+  linkBotao: string | null
+  ordem: number
+  ativo: boolean
+}
 
-export default function HeroCarousel() {
+interface Props {
+  slides: Slide[]
+}
+
+export default function HeroCarousel({ slides }: Props) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -91,15 +64,24 @@ export default function HeroCarousel() {
     >
       {/* Background Image */}
       <div className="absolute inset-0">
-        <Image
-          src={currentSlideData.image}
-          alt={currentSlideData.title}
-          width={1920}
-          height={832}
-          className="w-full h-full object-cover"
-          priority={currentSlide === 0}
-          unoptimized
-        />
+        {currentSlideData.imagem ? (
+          <Image
+            src={currentSlideData.imagem}
+            alt={currentSlideData.titulo}
+            fill
+            style={{ objectFit: 'cover' }}
+            priority={currentSlide === 0}
+            unoptimized
+          />
+        ) : (
+          <div style={{
+            width: '100%', height: '100%',
+            background: '#E5E5E5',
+            display: 'flex', alignItems: 'center', justifyContent: 'center'
+          }}>
+            <span style={{ color: '#BBBBBB', fontSize: 24 }}>1920 × 832 px</span>
+          </div>
+        )}
       </div>
 
       {/* Text Content Overlay */}
@@ -108,67 +90,68 @@ export default function HeroCarousel() {
         style={{ maxWidth: '627px' }}
       >
         {/* Supertítulo */}
-        <p 
-          className="font-light"
-          style={{ 
-            fontSize: '28px',
-            color: '#DAA520',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 300,
-            marginBottom: '8px'
-          }}
-        >
-          {currentSlideData.supertitle}
-        </p>
+        {currentSlideData.supertitulo && (
+          <p 
+            className="font-light"
+            style={{ 
+              fontSize: '18px', 
+              color: '#FFFFFF', 
+              marginBottom: '16px',
+              textTransform: 'uppercase',
+              letterSpacing: '2px'
+            }}
+          >
+            {currentSlideData.supertitulo}
+          </p>
+        )}
 
         {/* Título */}
         <h1 
-          className="font-semibold"
+          className="font-bold"
           style={{ 
-            fontSize: '70px',
-            color: '#000000',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 600,
+            fontSize: '64px', 
+            color: '#FFFFFF', 
+            marginBottom: '24px',
             lineHeight: '1.1',
-            marginBottom: '20px'
+            textTransform: 'uppercase'
           }}
         >
-          {currentSlideData.title}
+          {currentSlideData.titulo}
         </h1>
 
         {/* Descrição */}
-        <p 
-          className="font-normal"
-          style={{ 
-            fontSize: '18px',
-            color: '#292929',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 400,
-            textTransform: 'uppercase',
-            lineHeight: '1.6',
-            marginBottom: '36px'
-          }}
-        >
-          {currentSlideData.description}
-        </p>
+        {currentSlideData.descricao && (
+          <p 
+            className="font-light"
+            style={{ 
+              fontSize: '18px', 
+              color: '#FFFFFF', 
+              marginBottom: '32px',
+              lineHeight: '1.5'
+            }}
+          >
+            {currentSlideData.descricao}
+          </p>
+        )}
 
         {/* Botão CTA */}
-        <Link
-          href={currentSlideData.cta.href}
-          className="inline-block font-bold text-white rounded-full transition-all hover:brightness-110"
-          style={{ 
-            fontSize: '15px',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 700,
-            backgroundColor: '#DAA520',
-            padding: '14px 36px',
-            borderRadius: '999px',
-            border: 'none',
-            textDecoration: 'none'
-          }}
-        >
-          {currentSlideData.cta.label}
-        </Link>
+        {currentSlideData.textoBotao && currentSlideData.linkBotao && (
+          <Link
+            href={currentSlideData.linkBotao}
+            className="inline-block font-bold text-white rounded-full transition-all hover:brightness-110"
+            style={{ 
+              fontSize: '15px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              backgroundColor: '#DAA520',
+              padding: '12px 32px',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}
+          >
+            {currentSlideData.textoBotao}
+          </Link>
+        )}
       </div>
 
       {/* Navigation Arrows */}

@@ -1,4 +1,4 @@
-import HeroCarousel from '@/components/HeroCarousel'
+import HeroCarouselWrapper from '@/components/HeroCarouselWrapper'
 import OriginalCollectionSection from '@/components/OriginalCollectionSection'
 import MousepadCollectionSection from '@/components/MousepadCollectionSection'
 import ImmortalsCollectionSection from '@/components/ImmortalsCollectionSection'
@@ -10,7 +10,7 @@ import BannerBoxSection from '@/components/BannerBoxSection'
 export default function Home() {
   return (
     <main>
-      <HeroCarousel />
+      <HeroCarouselWrapper />
       <OriginalCollectionSection />
       <MousepadCollectionSection />
       <ImmortalsCollectionSection />
