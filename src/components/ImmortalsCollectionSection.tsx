@@ -160,7 +160,7 @@ export default function ImmortalsCollectionSection({ produtos }: Props) {
                       textDecoration: 'line-through'
                     }}
                   >
-                    DE: {formatCurrency(product.originalPrice)}
+                    DE: {formatCurrency(product.originalPrice ?? 0)}
                   </span>
                 </div>
               )}
