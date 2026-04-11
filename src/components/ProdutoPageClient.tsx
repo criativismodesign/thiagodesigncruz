@@ -27,7 +27,7 @@ export default function ProdutoPageClient({ produto }: Props) {
   const [activeImage, setActiveImage] = useState(produto.imagens.find(img => img.isPrincipal)?.url || produto.imagens[0]?.url || '')
   const [zoomOpen, setZoomOpen] = useState(false)
   const [quantity, setQuantity] = useState(1)
-  const [activeTab, setActiveTab] = useState('informacoes')
+  const [abaAtiva, setAbaAtiva] = useState(produto.tipo === 'camiseta' ? 'descricao' : 'informacoes')
   const [corSelecionada, setCorSelecionada] = useState<string>(produto.cores?.[0] || '')
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState<string>('')
   
@@ -570,111 +570,106 @@ export default function ProdutoPageClient({ produto }: Props) {
           </div>
         </div>
 
-        {/* BOX DE ABAS */}
-        <div style={{
-          marginTop: '100px',
-          maxWidth: '1200px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          border: '1px solid #E5E5E5',
-          borderRadius: '8px'
-        }}>
-          {/* Cabeçalho das abas */}
-          <div style={{ display: 'flex', borderBottom: '1px solid #E5E5E5' }}>
-            <button
-              onClick={() => setActiveTab('informacoes')}
-              style={{
-                flex: 1,
-                padding: '16px',
-                backgroundColor: activeTab === 'informacoes' ? '#FFFFFF' : '#FFFFFF',
-                color: activeTab === 'informacoes' ? '#292929' : '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: activeTab === 'informacoes' ? 600 : 400,
-                fontSize: '16px',
-                border: 'none',
-                cursor: 'pointer',
-                borderBottom: activeTab === 'informacoes' ? '2px solid #DAA520' : 'none'
-              }}
-            >
-              Informações
-            </button>
-            <button
-              onClick={() => setActiveTab('descricao')}
-              style={{
-                flex: 1,
-                padding: '16px',
-                backgroundColor: activeTab === 'descricao' ? '#FFFFFF' : '#FFFFFF',
-                color: activeTab === 'descricao' ? '#292929' : '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: activeTab === 'descricao' ? 600 : 400,
-                fontSize: '16px',
-                border: 'none',
-                cursor: 'pointer',
-                borderBottom: activeTab === 'descricao' ? '2px solid #DAA520' : 'none'
-              }}
-            >
-              Descrição / Entrega e Prazo
-            </button>
+        <div style={{ maxWidth: '850px', margin: '64px auto 0 auto', width: '100%' }}>
+          {/* Navegação das abas */}
+          <div style={{ display: 'flex', borderBottom: '2px solid #E5E5E5', marginBottom: 32 }}>
+            {produto.tipo === 'camiseta' ? (
+              <>
+                {['descricao', 'entrega', 'guia'].map((aba, i) => {
+                  const labels = ['Descrição', 'Entrega e Prazo', 'Guia de Tamanhos']
+                  return (
+                    <button key={aba} onClick={() => setAbaAtiva(aba)} style={{
+                      padding: '12px 24px', border: 'none', background: 'transparent', cursor: 'pointer',
+                      fontSize: 14, fontWeight: abaAtiva === aba ? 700 : 400,
+                      color: abaAtiva === aba ? '#292929' : '#888',
+                      borderBottom: abaAtiva === aba ? '2px solid #DAA520' : '2px solid transparent',
+                      marginBottom: -2
+                    }}>{labels[i]}</button>
+                  )
+                })}
+              </>
+            ) : (
+              <>
+                {['informacoes', 'descricao-entrega'].map((aba, i) => {
+                  const labels = ['Informações', 'Descrição / Entrega e Prazo']
+                  return (
+                    <button key={aba} onClick={() => setAbaAtiva(aba)} style={{
+                      padding: '12px 24px', border: 'none', background: 'transparent', cursor: 'pointer',
+                      fontSize: 14, fontWeight: abaAtiva === aba ? 700 : 400,
+                      color: abaAtiva === aba ? '#292929' : '#888',
+                      borderBottom: abaAtiva === aba ? '2px solid #DAA520' : '2px solid transparent',
+                      marginBottom: -2
+                    }}>{labels[i]}</button>
+                  )
+                })}
+              </>
+            )}
           </div>
 
           {/* Conteúdo das abas */}
-          <div style={{ padding: '32px' }}>
-            {activeTab === 'informacoes' && (
-              <div style={{
-                fontSize: '20px',
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 400,
-                lineHeight: 1.8
-              }}>
-                <div style={{ 
-                  fontWeight: 700, 
-                  marginBottom: '16px',
-                  color: '#AAAAAA'
-                }}>
-                  MAIS INFORMAÇÕES
-                </div>
-                <p style={{ fontSize: 15, color: '#292929', lineHeight: 1.8 }}>
-                  {renderMarkdown(produto.informacoes || 'Informações não disponíveis para este produto.')}
+          <div style={{ fontSize: 15, color: '#292929', lineHeight: 1.8 }}>
+            
+            {/* CAMISETA - Descrição */}
+            {produto.tipo === 'camiseta' && abaAtiva === 'descricao' && (
+              <div>{renderMarkdown(produto.descricaoLonga || '')}</div>
+            )}
+
+            {/* CAMISETA - Entrega e Prazo */}
+            {produto.tipo === 'camiseta' && abaAtiva === 'entrega' && (
+              <div>{renderMarkdown(produto.entregaPrazo || '')}</div>
+            )}
+
+            {/* CAMISETA - Guia de Tamanhos */}
+            {produto.tipo === 'camiseta' && abaAtiva === 'guia' && (
+              <div>
+                <p style={{ marginBottom: 24, color: '#292929' }}>
+                  Confira as medidas antes de escolher o tamanho. A modelagem oversized foi pensada para um caimento mais solto, marcante e confortável.
+                </p>
+                <img 
+                  src="/imagens/hero/PAG-PRODUTOS-MEDIDAS-CAMISETAS-SITE-USE-KIN-SESSAO-INFO-PRODUTO.jpg"
+                  alt="Guia de Tamanhos"
+                  style={{ width: '100%', maxWidth: 600, display: 'block', marginBottom: 32, borderRadius: 8 }}
+                />
+                <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
+                  <thead>
+                    <tr style={{ background: '#F5F5F5' }}>
+                      {['TAMANHO', 'LARGURA', 'COMPRIMENTO', 'MANGAS'].map(h => (
+                        <th key={h} style={{ padding: '12px 16px', textAlign: 'left', fontSize: 14, fontWeight: 700, color: '#292929', borderBottom: '2px solid #E5E5E5' }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[['P','52cm','71cm','24cm'],['M','55cm','73cm','25cm'],['G','58cm','75cm','26cm'],['GG','61cm','77cm','27cm']].map(row => (
+                      <tr key={row[0]} style={{ borderBottom: '1px solid #E5E5E5' }}>
+                        {row.map((cell, i) => (
+                          <td key={i} style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{cell}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p style={{ fontSize: 13, color: '#888' }}>
+                  <strong>OBS:</strong> As medidas podem variar 2cm para mais ou para menos.
                 </p>
               </div>
             )}
 
-            {activeTab === 'descricao' && (
-              <div style={{
-                fontSize: '20px',
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 400,
-                lineHeight: 1.8
-              }}>
-                {/* Bloco DESCRIÇÃO */}
-                <div style={{ marginBottom: '32px' }}>
-                  <div style={{ 
-                    fontWeight: 700, 
-                    marginBottom: '16px',
-                    color: '#AAAAAA'
-                  }}>
-                    DESCRIÇÃO
-                  </div>
-                  <p style={{ fontSize: 15, color: '#292929', lineHeight: 1.8 }}>
-                    {renderMarkdown(produto.descricaoLonga || produto.descricaoCurta || 'Descrição não disponível para este produto.')}
-                  </p>
-                </div>
+            {/* MOUSEPAD - Informações */}
+            {produto.tipo === 'mousepad' && abaAtiva === 'informacoes' && (
+              <div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: '#292929', marginBottom: 16, textTransform: 'uppercase' }}>MAIS INFORMAÇÕES</h3>
+                {renderMarkdown(produto.informacoes || '')}
+              </div>
+            )}
 
-                {/* Bloco ENTREGA E PRAZO */}
-                <div>
-                  <div style={{ 
-                    fontWeight: 700, 
-                    marginBottom: '16px',
-                    color: '#AAAAAA'
-                  }}>
-                    ENTREGA E PRAZO
-                  </div>
-                  <p style={{ fontSize: 15, color: '#292929', lineHeight: 1.8 }}>
-                    {renderMarkdown(produto.entregaPrazo || 'Informações de entrega não disponíveis.')}
-                  </p>
-                </div>
+            {/* MOUSEPAD - Descrição / Entrega e Prazo */}
+            {produto.tipo === 'mousepad' && abaAtiva === 'descricao-entrega' && (
+              <div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: '#292929', marginBottom: 16, textTransform: 'uppercase' }}>DESCRIÇÃO</h3>
+                {renderMarkdown(produto.descricaoLonga || '')}
+                <hr style={{ margin: '32px 0', borderColor: '#E5E5E5' }} />
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: '#292929', marginBottom: 16, textTransform: 'uppercase' }}>ENTREGA E PRAZO</h3>
+                {renderMarkdown(produto.entregaPrazo || '')}
               </div>
             )}
           </div>
