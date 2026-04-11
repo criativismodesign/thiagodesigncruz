@@ -192,6 +192,7 @@ model AdminConfig {
 model Colecao {
   id              String     @id @default(cuid())
   nome            String
+  slug            String     @unique
   subtitulo       String
   imagemCamiseta  String?
   imagemMousepad  String?
@@ -206,6 +207,7 @@ model Colecao {
 model Produto {
   id                  String           @id @default(cuid())
   nome                String
+  slug                String           @unique
   tipo                String           // "camiseta" ou "mousepad"
   categoria           String           // "colecao" ou "avulso"
   colecaoId           String?

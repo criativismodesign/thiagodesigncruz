@@ -3,17 +3,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
+import { gerarUrlProduto } from "@/lib/produto-url";
 
 interface Produto {
   id: string
   nome: string
+  slug: string
   tipo: string
   categoria: string
   precoAtual: number
-  precoDe: number | null
+  precoDe?: number
+  cores: string[]
+  descricaoCurta?: string
   status: string
-  colecaoId: string | null
-  imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+  imagens: { url: string }[]
+  colecao?: { slug: string } | null
 }
 
 interface Props {
@@ -24,15 +28,14 @@ export default function OriginalCollectionSection({ produtos }: Props) {
   // Mapear produtos para o formato existente do componente:
   const products = produtos.map(p => ({
     id: p.id,
-    image: p.imagens.find(i => i.isPrincipal)?.url || 
-           p.imagens[0]?.url || 
+    image: p.imagens[0]?.url || 
            '/images/products/placeholder-430x575.jpg',
     supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
     name: p.nome,
     price: p.precoAtual,
     originalPrice: p.precoDe,
     discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
-    href: `/produto/${p.id}`,
+    href: gerarUrlProduto(p),
   }))
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {

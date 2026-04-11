@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { gerarSlug } from '@/lib/slug'
 
 const prisma = new PrismaClient()
 
@@ -33,6 +34,7 @@ export async function POST(request: Request) {
     const produto = await prisma.produto.create({
       data: {
         nome: body.nome,
+        slug: gerarSlug(body.nome),
         tipo: body.tipo || 'camiseta',
         categoria: body.categoria || 'avulso',
         precoAtual: parseFloat(body.precoAtual) || 0,

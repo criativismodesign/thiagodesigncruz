@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { cookies } from 'next/headers'
+import { gerarSlug } from '@/lib/slug'
 
 const prisma = new PrismaClient()
 
@@ -56,6 +57,7 @@ export async function PUT(
       where: { id },
       data: {
         nome: data.nome,
+        slug: gerarSlug(data.nome),
         tipo: data.tipo || 'camiseta',
         categoria: data.categoria || 'avulso',
         colecaoId: data.colecaoId || null,

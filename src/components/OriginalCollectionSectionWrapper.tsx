@@ -16,7 +16,10 @@ export default async function OriginalCollectionSectionWrapper() {
         status: 'ativo',
         colecao: { nome: { contains: 'MY LIFE', mode: 'insensitive' } }
       },
-      include: { imagens: { orderBy: { ordem: 'asc' } } },
+      include: { 
+        imagens: { orderBy: { ordem: 'asc' } },
+        colecao: true
+      },
       orderBy: { ordemSecao: 'asc' }
     })
   } catch (error) {
