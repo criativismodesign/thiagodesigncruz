@@ -13,7 +13,10 @@ export default async function ProdutoPage({
   const { slug } = await params
 
   const produto = await prisma.produto.findFirst({
-    where: { slug },
+    where: { 
+      slug,
+      tipo: 'mousepad'
+    },
     include: {
       imagens: { orderBy: { ordem: 'asc' } },
       estoque: true,
