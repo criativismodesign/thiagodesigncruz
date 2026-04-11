@@ -24,13 +24,9 @@ export default function LoginUseKIN() {
     console.log('Resposta da API:', data)
     
     if (data.success) {
-      console.log('Login sucesso - aguardando cookie...')
-      // Aguardar mais tempo para o cookie ser salvo antes de redirecionar
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      console.log('Redirecionando para dashboard...')
-      window.location.replace('/login-usekin/dashboard')
+      document.cookie = `admin-session-check=true; path=/` 
+      window.location.href = '/login-usekin/dashboard'
     } else {
-      console.log('Login falhou:', data.error)
       setError(data.error || 'Email ou senha inválidos')
     }
     setLoading(false)
