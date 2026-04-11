@@ -25,13 +25,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Configuração inválida' })
     }
 
+    console.log('Verificando credenciais:', { email, emailMatch: email === adminEmail })
+    
     const emailMatch = email === adminEmail
     const passwordMatch = await bcrypt.compare(password, adminPasswordHash)
 
+    console.log('Resultado verificação:', { emailMatch, passwordMatch })
+
     if (!emailMatch || !passwordMatch) {
+      console.error('Credenciais inválidas:', { emailMatch, passwordMatch })
       return NextResponse.json({ success: false, error: 'Credenciais inválidas' })
     }
 
+    console.log('Login bem sucedido - criando response e cookie')
     const response = NextResponse.json({ success: true })
     response.cookies.set('admin-session', sessionToken, {
       httpOnly: true,
@@ -41,6 +47,7 @@ export async function POST(request: Request) {
       path: '/',
     })
 
+    console.log('Cookie definido, retornando response')
     return response
   } catch (error) {
   console.error('Erro no login:', error)
