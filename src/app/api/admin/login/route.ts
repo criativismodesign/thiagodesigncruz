@@ -21,19 +21,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Credenciais inválidas' })
     }
 
-    console.log('Login bem sucedido - definindo cookie')
-    console.log('Session token exists:', !!sessionToken)
-
     const response = NextResponse.json({ success: true })
     response.cookies.set('admin-session', sessionToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7,
       path: '/',
     })
 
-    console.log('Cookie headers:', response.headers.get('set-cookie'))
     return response
   } catch {
     return NextResponse.json({ success: false, error: 'Erro interno' })
