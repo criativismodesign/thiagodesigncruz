@@ -44,7 +44,7 @@ export default function ProdutoPageClient({ produto }: Props) {
 
   // Obter cores únicas
   const coresUnicas = produto.tipo === 'camiseta'
-    ? [...new Set((produto.cores || []).map((c: string) => c.trim().toLowerCase()))]
+    ? [...new Set((produto.cores as string[] || []).map(c => c.trim()))]
     : []
 
   // Formatar preço
