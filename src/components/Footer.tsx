@@ -265,7 +265,7 @@ export default function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Image
-                  src="/icons/Icones-Site-Use-KIN-email-rodape.svg"
+                  src="/icons/Icones-Site-Use-KIN-e-mail-rodape.svg"
                   alt="Email"
                   width={20}
                   height={20}
