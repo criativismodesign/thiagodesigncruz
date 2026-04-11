@@ -155,7 +155,7 @@ export default function OutrosModelosSection({ produtos }: Props) {
                       textDecoration: 'line-through'
                     }}
                   >
-                    R$ {product.originalPrice.toFixed(2).replace('.', ',')}
+                    R$ {(product.originalPrice ?? 0).toFixed(2).replace('.', ',')}
                   </span>
                 </div>
               )}
