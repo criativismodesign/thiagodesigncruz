@@ -8,16 +8,14 @@ import { gerarUrlProduto } from "@/lib/produto-url";
 interface Produto {
   id: string
   nome: string
-  slug: string
   tipo: string
   categoria: string
   precoAtual: number
-  precoDe?: number
-  cores: string[]
-  descricaoCurta?: string
+  precoDe: number | null
   status: string
-  imagens: { url: string }[]
-  colecao?: { slug: string } | null
+  colecaoId: string | null
+  imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+  href?: string
 }
 
 interface Props {
@@ -35,7 +33,7 @@ export default function OriginalCollectionSection({ produtos }: Props) {
     price: p.precoAtual,
     originalPrice: p.precoDe,
     discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
-    href: gerarUrlProduto(p),
+    href: p.href || `/produto/${p.id}`,
   }))
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {

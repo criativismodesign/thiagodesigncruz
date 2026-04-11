@@ -14,6 +14,7 @@ interface Produto {
   status: string
   colecaoId: string | null
   imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+  href?: string
 }
 
 interface Props {
@@ -32,7 +33,7 @@ export default function ImmortalsCollectionSection({ produtos }: Props) {
     price: p.precoAtual,
     originalPrice: p.precoDe,
     discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
-    href: `/produto/${p.id}`,
+    href: p.href || `/produto/${p.id}`,
   }))
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {

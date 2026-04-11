@@ -8,10 +8,13 @@ interface Produto {
   id: string
   nome: string
   tipo: string
+  categoria: string
   precoAtual: number
   precoDe: number | null
   status: string
+  colecaoId: string | null
   imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+  href?: string
 }
 
 interface Props {
@@ -37,7 +40,7 @@ export default function OutrosModelosSection({ produtos }: Props) {
     price: p.precoAtual,
     originalPrice: p.precoDe,
     discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
-    href: `/produto/${p.id}`,
+    href: p.href || `/produto/${p.id}`,
     category: p.tipo,
   }))
   return (

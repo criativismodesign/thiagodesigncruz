@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { gerarUrlProduto } from '@/lib/produto-url'
 import MousepadCollectionSection from './MousepadCollectionSection'
 
 export const revalidate = 60 // revalida a cada 60 segundos
@@ -12,7 +13,10 @@ export default async function MousepadCollectionSectionWrapper() {
         tipo: 'mousepad',
         status: 'ativo',
       },
-      include: { imagens: { orderBy: { ordem: 'asc' } } },
+      include: { 
+        imagens: { orderBy: { ordem: 'asc' } },
+        colecao: true
+      },
       orderBy: { ordemSecao: 'asc' }
     })
   } catch (error) {
@@ -20,5 +24,16 @@ export default async function MousepadCollectionSectionWrapper() {
     produtos = []
   }
 
-  return <MousepadCollectionSection produtos={produtos} />
+  // Mapear produtos com href correto usando slug
+  const produtosComHref = produtos.map(p => ({
+    ...p,
+    href: gerarUrlProduto({
+      slug: p.slug || '',
+      tipo: p.tipo,
+      categoria: p.categoria,
+      colecao: p.colecao
+    })
+  }))
+
+  return <MousepadCollectionSection produtos={produtosComHref} />
 }
