@@ -4,7 +4,7 @@ import MousepadCollectionSectionWrapper from '@/components/MousepadCollectionSec
 import ImmortalsCollectionSectionWrapper from '@/components/ImmortalsCollectionSectionWrapper'
 import CollectionsSectionWrapper from '@/components/CollectionsSectionWrapper'
 import NewsletterSection from '@/components/NewsletterSection'
-import OutrosModelosSection from '@/components/OutrosModelosSection'
+import OutrosModelosSectionWrapper from '@/components/OutrosModelosSectionWrapper'
 import BannerBoxSection from '@/components/BannerBoxSection'
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
       <ImmortalsCollectionSectionWrapper />
       <CollectionsSectionWrapper />
       <NewsletterSection source="home" />
-      <OutrosModelosSection />
+      <OutrosModelosSectionWrapper />
       <BannerBoxSection />
     </main>
   )

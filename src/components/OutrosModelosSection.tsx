@@ -4,31 +4,42 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
 
-// Lógica de alternância contínua linha a linha
-const getSupertitle = (index: number) => {
-  const lineIndex = Math.floor(index / 5); // qual linha
-  const colIndex = index % 5;              // qual coluna
-  const startWithMousepad = lineIndex % 2 === 0; // linhas pares começam com mousepad
-  const isMousepad = startWithMousepad ? colIndex % 2 === 0 : colIndex % 2 !== 0;
-  return isMousepad ? 'MOUSE PAD - DESKPAD' : 'CAMISETA OVERSIZED';
-};
+interface Produto {
+  id: string
+  nome: string
+  tipo: string
+  precoAtual: number
+  precoDe: number | null
+  status: string
+  imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+}
 
-// Array de 20 produtos avulsos
-const products = Array.from({ length: 20 }, (_, i) => {
-  const isMousepad = getSupertitle(i) === 'MOUSE PAD - DESKPAD';
-  return {
-    id: i + 1,
-    image: '/images/products/placeholder-outros-337x393.jpg',
-    name: `NOME DO PRODUTO ${i + 1}`,
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    category: 'avulso',
-    href: isMousepad ? `/produto/deskpad-avulso/produto-${i + 1}` : `/produto/oversized/produto-${i + 1}`,
+interface Props {
+  produtos: Produto[]
+}
+
+export default function OutrosModelosSection({ produtos }: Props) {
+  // Lógica de alternância contínua linha a linha
+  const getSupertitle = (index: number) => {
+    const lineIndex = Math.floor(index / 5); // qual linha
+    const colIndex = index % 5;              // qual coluna
+    const startWithMousepad = lineIndex % 2 === 0; // linhas pares começam com mousepad
+    const isMousepad = startWithMousepad ? colIndex % 2 === 0 : colIndex % 2 !== 0;
+    return isMousepad ? 'MOUSE PAD - DESKPAD' : 'CAMISETA OVERSIZED';
   };
-});
 
-export default function OutrosModelosSection() {
+  const products = produtos.map((p, index) => ({
+    id: p.id,
+    image: p.imagens.find(i => i.isPrincipal)?.url ||
+           p.imagens[0]?.url ||
+           '/images/products/placeholder-outros-337x393.jpg',
+    name: p.nome,
+    price: p.precoAtual,
+    originalPrice: p.precoDe,
+    discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
+    href: `/produto/${p.id}`,
+    category: p.tipo,
+  }))
   return (
     <section 
       className="w-full"
