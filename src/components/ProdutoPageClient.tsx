@@ -5,6 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useCartStore } from '@/store/cart-store'
 import { toast } from 'sonner'
+import NewsletterSection from '@/components/NewsletterSection'
+import BannerBoxSection from '@/components/BannerBoxSection'
 
 interface Imagem { id: string; url: string; ordem: number; isPrincipal: boolean }
 interface Estoque { tamanho: string | null; cor: string | null; quantidade: number }
@@ -50,6 +52,22 @@ export default function ProdutoPageClient({ produto }: Props) {
 
   // Calcular desconto
   const desconto = produto.precoDe ? Math.round((1 - produto.precoAtual / produto.precoDe) * 100) : null
+
+  // Renderizar markdown simples
+  const renderMarkdown = (texto: string) => {
+    const partes = texto.split(/(\*\*__.*?__\*\*|\*\*.*?\*\*)/g)
+    return partes.map((parte, i) => {
+      if (parte.startsWith('**__') && parte.endsWith('__**')) {
+        const conteudo = parte.slice(4, -4)
+        return <strong key={i}><u>{conteudo}</u></strong>
+      }
+      if (parte.startsWith('**') && parte.endsWith('**')) {
+        const conteudo = parte.slice(2, -2)
+        return <strong key={i}>{conteudo}</strong>
+      }
+      return <span key={i}>{parte}</span>
+    })
+  }
 
   // Gerar breadcrumb links
   const getColecaoPath = () => {
@@ -606,9 +624,9 @@ export default function ProdutoPageClient({ produto }: Props) {
                 }}>
                   MAIS INFORMAÇÕES
                 </div>
-                <div style={{ whiteSpace: 'pre-line' }}>
-                  {produto.informacoes || 'Informações não disponíveis para este produto.'}
-                </div>
+                <p style={{ fontSize: 15, color: '#292929', lineHeight: 1.8 }}>
+                  {renderMarkdown(produto.informacoes || 'Informações não disponíveis para este produto.')}
+                </p>
               </div>
             )}
 
@@ -629,9 +647,9 @@ export default function ProdutoPageClient({ produto }: Props) {
                   }}>
                     DESCRIÇÃO
                   </div>
-                  <div style={{ whiteSpace: 'pre-line' }}>
-                    {produto.descricaoLonga || produto.descricaoCurta || 'Descrição não disponível para este produto.'}
-                  </div>
+                  <p style={{ fontSize: 15, color: '#292929', lineHeight: 1.8 }}>
+                    {renderMarkdown(produto.descricaoLonga || produto.descricaoCurta || 'Descrição não disponível para este produto.')}
+                  </p>
                 </div>
 
                 {/* Bloco ENTREGA E PRAZO */}
@@ -643,15 +661,18 @@ export default function ProdutoPageClient({ produto }: Props) {
                   }}>
                     ENTREGA E PRAZO
                   </div>
-                  <div style={{ whiteSpace: 'pre-line' }}>
-                    {produto.entregaPrazo || 'Informações de entrega não disponíveis.'}
-                  </div>
+                  <p style={{ fontSize: 15, color: '#292929', lineHeight: 1.8 }}>
+                    {renderMarkdown(produto.entregaPrazo || 'Informações de entrega não disponíveis.')}
+                  </p>
                 </div>
               </div>
             )}
           </div>
         </div>
       </div>
+
+      <NewsletterSection source="produto" />
+      <BannerBoxSection />
 
       {/* Responsividade */}
       <style jsx>{`
