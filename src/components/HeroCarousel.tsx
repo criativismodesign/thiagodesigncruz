@@ -97,7 +97,7 @@ export default function HeroCarousel({ slides }: Props) {
       {/* Text Content Overlay */}
       <div 
         className="absolute top-1/2 left-[120px] transform -translate-y-1/2 z-10"
-        style={{ maxWidth: '627px' }}
+        style={{ maxWidth: '400px' }}
       >
         {/* Supertítulo */}
         {currentSlideData.supertitulo && (
@@ -132,7 +132,6 @@ export default function HeroCarousel({ slides }: Props) {
             fontWeight: 400,
             color: '#292929',
             textTransform: 'uppercase',
-            maxWidth: '627px',
             lineHeight: 1.6,
             marginBottom: '24px',
           }}>
