@@ -3,8 +3,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import SectionHeader from './SectionHeader'
+import { useCartStore } from '@/store/cart-store'
+import { toast } from 'sonner'
 
 export default function ProdutosRelacionadosSection() {
+  const addItem = useCartStore((s) => s.addItem)
+
   const camisetas = [
     { 
       id: 1, 
@@ -81,300 +85,267 @@ export default function ProdutosRelacionadosSection() {
     },
   ]
 
+  const handleAddToCart = (produto: any, tipo: string) => {
+    addItem({
+      id: `${produto.id}-${tipo}`,
+      productId: produto.id.toString(),
+      name: produto.name,
+      price: produto.price,
+      image: produto.image,
+      quantity: 1,
+      type: tipo,
+    })
+    
+    toast.success("Produto adicionado ao carrinho!")
+  }
+
   return (
-    <section style={{ 
-      backgroundColor: '#FFFFFF',
-      paddingTop: '100px',
-      paddingBottom: '100px',
-      paddingLeft: '40px',
-      paddingRight: '40px'
-    }}>
-      {/* CABEÇALHO DA SEÇÃO */}
+    <section style={{ backgroundColor: '#FFFFFF', padding: '100px 40px' }}>
       <SectionHeader 
         title="PRODUTOS RELACIONADOS" 
         subtitle="USE KIN | ADICIONE TAMBÉM" 
       />
 
-      {/* BLOCO 1 - 4 CAMISETAS */}
+      {/* BLOCO 1 - 4 Camisetas */}
       <div style={{ 
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(4, 1fr)', 
         gap: '24px',
-        marginTop: '48px'
+        marginBottom: '48px'
       }}>
         {camisetas.map((camiseta) => (
           <div key={camiseta.id} style={{ textAlign: 'left' }}>
-            <Link href={camiseta.href} style={{ textDecoration: 'none', display: 'block' }}>
-              <Image
-                src={camiseta.image}
-                alt={camiseta.name}
-                width={430}
-                height={575}
-                style={{ 
-                  width: '100%', 
-                  height: 'auto',
-                  marginBottom: '16px',
-                  transition: 'transform 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)'
-                }}
-              />
+            {/* Imagem */}
+            <Link href={camiseta.href}>
+              <div style={{ 
+                position: 'relative', 
+                width: '100%', 
+                height: '575px',
+                marginBottom: '16px',
+                cursor: 'pointer'
+              }}>
+                <Image
+                  src={camiseta.image}
+                  alt={camiseta.name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 430px) 100vw, 430px"
+                />
+              </div>
             </Link>
-            
-            <p style={{ 
-              fontSize: '16px', 
+
+            {/* Supertítulo */}
+            <div style={{ 
+              fontSize: '12px', 
               color: '#AAAAAA', 
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 400,
-              textTransform: 'uppercase',
+              fontWeight: 400, 
               marginBottom: '8px',
-              lineHeight: '1.4'
+              lineHeight: 1.4
             }}>
               {camiseta.supertitle}
-            </p>
-            
-            <h3 style={{ 
-              fontSize: '19px', 
-              color: '#292929', 
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 900,
-              textTransform: 'uppercase',
-              marginBottom: '12px',
-              lineHeight: '1.2',
-              letterSpacing: '-0.5px'
-            }}>
-              {camiseta.name}
-            </h3>
-            
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '12px',
-              marginBottom: '8px'
-            }}>
-              <span style={{ 
-                fontSize: '24px', 
-                fontWeight: 600, 
-                color: '#292929',
-                fontFamily: 'Inter, sans-serif'
+            </div>
+
+            {/* Nome */}
+            <Link href={camiseta.href}>
+              <h3 style={{ 
+                fontSize: '20px', 
+                color: '#292929', 
+                fontWeight: 700, 
+                marginBottom: '8px',
+                lineHeight: 1.2,
+                cursor: 'pointer'
               }}>
-                R$ {camiseta.price.toFixed(2).replace('.', ',')}
-              </span>
-              
-              {camiseta.discount && (
+                {camiseta.name}
+              </h3>
+            </Link>
+
+            {/* Preço */}
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '20px', color: '#292929', fontWeight: 600 }}>
+                  R$ {camiseta.price.toFixed(2).replace('.', ',')}
+                </span>
+                {camiseta.discount && (
+                  <span style={{ 
+                    fontSize: '14px', 
+                    color: '#F0484A', 
+                    fontWeight: 400,
+                    backgroundColor: '#FFEBEB',
+                    padding: '2px 6px',
+                    borderRadius: '4px'
+                  }}>
+                    -{camiseta.discount}%
+                  </span>
+                )}
+              </div>
+              {camiseta.originalPrice && (
                 <span style={{ 
-                  fontSize: '18px', 
-                  fontWeight: 400, 
-                  color: '#F0484A',
-                  fontFamily: 'Inter, sans-serif',
-                  backgroundColor: 'rgba(240, 72, 74, 0.1)',
-                  padding: '4px 8px',
-                  borderRadius: '4px'
+                  fontSize: '16px', 
+                  color: '#AAAAAA', 
+                  textDecoration: 'line-through' 
                 }}>
-                  -{camiseta.discount}% OFF
+                  R$ {camiseta.originalPrice.toFixed(2).replace('.', ',')}
                 </span>
               )}
             </div>
-            
-            {camiseta.originalPrice && (
-              <span style={{ 
-                fontSize: '18px', 
-                fontWeight: 400, 
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                textDecoration: 'line-through',
-                display: 'block',
-                marginBottom: '16px'
-              }}>
-                R$ {camiseta.originalPrice.toFixed(2).replace('.', ',')}
-              </span>
-            )}
-            
-            <Link href={camiseta.href} style={{ textDecoration: 'none' }}>
-              <button
-                style={{
-                  width: 'fit-content',
-                  minWidth: '45%',
-                  maxWidth: '50%',
-                  padding: '12px 24px',
-                  backgroundColor: '#DAA520',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: '999px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '14px',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  margin: '16px 0 0 0'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#292929'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#DAA520'
-                }}
-              >
-                COMPRAR
-              </button>
-            </Link>
+
+            {/* Botão COMPRAR */}
+            <button
+              onClick={() => handleAddToCart(camiseta, 'camiseta')}
+              style={{
+                width: 'fit-content',
+                minWidth: '45%',
+                maxWidth: '50%',
+                padding: '12px 24px',
+                backgroundColor: '#46A520',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                margin: '16px 0 0 0',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#3A8C1A'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#46A520'
+              }}
+            >
+              COMPRAR
+            </button>
           </div>
         ))}
       </div>
 
-      {/* BLOCO 2 - 3 MOUSEPADS */}
+      {/* BLOCO 2 - 3 Mousepads */}
       <div style={{ 
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '24px',
-        marginTop: '48px'
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(3, 1fr)', 
+        gap: '24px'
       }}>
         {mousepads.map((mousepad) => (
           <div key={mousepad.id} style={{ textAlign: 'center' }}>
-            <Link href={mousepad.href} style={{ textDecoration: 'none', display: 'block' }}>
-              <Image
-                src={mousepad.image}
-                alt={mousepad.name}
-                width={600}
-                height={290}
-                style={{ 
-                  width: '100%', 
-                  height: 'auto',
-                  marginBottom: '16px',
-                  transition: 'transform 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)'
-                }}
-              />
+            {/* Imagem */}
+            <Link href={mousepad.href}>
+              <div style={{ 
+                position: 'relative', 
+                width: '100%', 
+                height: '290px',
+                marginBottom: '16px',
+                cursor: 'pointer'
+              }}>
+                <Image
+                  src={mousepad.image}
+                  alt={mousepad.name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 600px) 100vw, 600px"
+                />
+              </div>
             </Link>
-            
-            <p style={{ 
-              fontSize: '16px', 
+
+            {/* Supertítulo */}
+            <div style={{ 
+              fontSize: '12px', 
               color: '#AAAAAA', 
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 400,
-              textTransform: 'uppercase',
+              fontWeight: 400, 
               marginBottom: '8px',
-              lineHeight: '1.4'
+              lineHeight: 1.4
             }}>
               {mousepad.supertitle}
-            </p>
-            
-            <h3 style={{ 
-              fontSize: '19px', 
-              color: '#292929', 
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 900,
-              textTransform: 'uppercase',
-              marginBottom: '12px',
-              lineHeight: '1.2',
-              letterSpacing: '-0.5px'
-            }}>
-              {mousepad.name}
-            </h3>
-            
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '12px',
-              justifyContent: 'center',
-              marginBottom: '8px'
-            }}>
-              <span style={{ 
-                fontSize: '24px', 
-                fontWeight: 600, 
-                color: '#292929',
-                fontFamily: 'Inter, sans-serif'
+            </div>
+
+            {/* Nome */}
+            <Link href={mousepad.href}>
+              <h3 style={{ 
+                fontSize: '20px', 
+                color: '#292929', 
+                fontWeight: 700, 
+                marginBottom: '8px',
+                lineHeight: 1.2,
+                cursor: 'pointer'
               }}>
-                R$ {mousepad.price.toFixed(2).replace('.', ',')}
-              </span>
-              
-              {mousepad.discount && (
+                {mousepad.name}
+              </h3>
+            </Link>
+
+            {/* Preço */}
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+                <span style={{ fontSize: '20px', color: '#292929', fontWeight: 600 }}>
+                  R$ {mousepad.price.toFixed(2).replace('.', ',')}
+                </span>
+                {mousepad.discount && (
+                  <span style={{ 
+                    fontSize: '14px', 
+                    color: '#F0484A', 
+                    fontWeight: 400,
+                    backgroundColor: '#FFEBEB',
+                    padding: '2px 6px',
+                    borderRadius: '4px'
+                  }}>
+                    -{mousepad.discount}%
+                  </span>
+                )}
+              </div>
+              {mousepad.originalPrice && (
                 <span style={{ 
-                  fontSize: '18px', 
-                  fontWeight: 400, 
-                  color: '#F0484A',
-                  fontFamily: 'Inter, sans-serif',
-                  backgroundColor: 'rgba(240, 72, 74, 0.1)',
-                  padding: '4px 8px',
-                  borderRadius: '4px'
+                  fontSize: '16px', 
+                  color: '#AAAAAA', 
+                  textDecoration: 'line-through' 
                 }}>
-                  -{mousepad.discount}% OFF
+                  R$ {mousepad.originalPrice.toFixed(2).replace('.', ',')}
                 </span>
               )}
             </div>
-            
-            {mousepad.originalPrice && (
-              <span style={{ 
-                fontSize: '18px', 
-                fontWeight: 400, 
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                textDecoration: 'line-through',
-                display: 'block',
-                marginBottom: '16px'
-              }}>
-                R$ {mousepad.originalPrice.toFixed(2).replace('.', ',')}
-              </span>
-            )}
-            
-            <Link href={mousepad.href} style={{ textDecoration: 'none' }}>
-              <button
-                style={{
-                  width: 'fit-content',
-                  minWidth: '45%',
-                  maxWidth: '50%',
-                  padding: '12px 24px',
-                  backgroundColor: '#DAA520',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: '999px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '14px',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  margin: '16px auto 0',
-                  display: 'block'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#292929'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#DAA520'
-                }}
-              >
-                COMPRAR
-              </button>
-            </Link>
+
+            {/* Botão COMPRAR */}
+            <button
+              onClick={() => handleAddToCart(mousepad, 'mousepad')}
+              style={{
+                width: 'fit-content',
+                minWidth: '45%',
+                maxWidth: '50%',
+                padding: '12px 24px',
+                backgroundColor: '#46A520',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                margin: '16px auto 0',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#3A8C1A'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#46A520'
+              }}
+            >
+              COMPRAR
+            </button>
           </div>
         ))}
       </div>
 
-      {/* RESPONSIVIDADE */}
+      {/* Responsividade */}
       <style jsx>{`
         @media (max-width: 768px) {
           section {
-            padding-left: 24px;
-            padding-right: 24px;
+            padding: 100px 24px !important;
           }
           
-          section > div:first-of-type {
-            grid-template-columns: repeat(2, 1fr);
+          div[style*="grid-template-columns: repeat(4, 1fr)"] {
+            grid-template-columns: repeat(2, 1fr) !important;
           }
           
-          section > div:last-of-type {
-            grid-template-columns: 1fr;
+          div[style*="grid-template-columns: repeat(3, 1fr)"] {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>
