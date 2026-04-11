@@ -1,9 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import MousepadCollectionSection from './MousepadCollectionSection'
-import { unstable_noStore as noStore } from 'next/cache'
+
+export const revalidate = 60 // revalida a cada 60 segundos
 
 export default async function MousepadCollectionSectionWrapper() {
-  noStore()
   
   let produtos: any[] = []
   try {

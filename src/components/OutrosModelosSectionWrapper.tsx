@@ -1,9 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import OutrosModelosSection from './OutrosModelosSection'
-import { unstable_noStore as noStore } from 'next/cache'
+
+export const revalidate = 60 // revalida a cada 60 segundos
 
 export default async function OutrosModelosSectionWrapper() {
-  noStore()
   
   let produtos: any[] = []
   try {

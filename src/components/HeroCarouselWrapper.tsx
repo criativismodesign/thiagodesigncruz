@@ -1,9 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import HeroCarousel from './HeroCarousel'
-import { unstable_noStore as noStore } from 'next/cache'
+
+export const revalidate = 60 // revalida a cada 60 segundos
 
 export default async function HeroCarouselWrapper() {
-  noStore() // Desabilita cache - sempre busca dados frescos
   
   let slides: any[] = []
   try {
