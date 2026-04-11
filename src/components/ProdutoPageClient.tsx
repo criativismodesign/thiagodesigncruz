@@ -26,7 +26,7 @@ export default function ProdutoPageClient({ produto }: Props) {
   const [zoomOpen, setZoomOpen] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [abaAtiva, setAbaAtiva] = useState(produto.tipo === 'camiseta' ? 'descricao' : 'informacoes')
-  const [corSelecionada, setCorSelecionada] = useState<string>(produto.cores?.[0] || '')
+  const [corSelecionada, setCorSelecionada] = useState<string>('')
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState<string>('')
   
   const addItem = useCartStore((s) => s.addItem)
@@ -374,7 +374,7 @@ export default function ProdutoPageClient({ produto }: Props) {
                   COR
                 </div>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                  {produto.cores.map(cor => (
+                  {coresUnicas.map(cor => (
                     <button
                       key={cor}
                       onClick={() => {
