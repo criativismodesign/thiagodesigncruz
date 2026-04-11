@@ -1,79 +1,68 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import AdminLayout from '@/components/admin/AdminLayout'
 import Link from 'next/link'
+import DashboardSairButton from '@/components/admin/DashboardSairButton'
 
 export default async function DashboardPage() {
-  console.log('Dashboard: verificando sessão...')
   const cookieStore = await cookies()
   const session = cookieStore.get('admin-session')?.value
   const validToken = process.env.ADMIN_SESSION_TOKEN
 
-  console.log('Dashboard: sessão encontrada:', !!session)
-  console.log('Dashboard: token válido:', !!validToken)
-  console.log('Dashboard: sessão == token?', session === validToken)
-
   if (!session || !validToken || session !== validToken) {
-    console.log('Dashboard: redirecionando para login - sessão inválida')
     redirect('/login-usekin')
   }
 
-  console.log('Dashboard: sessão válida - renderizando dashboard')
-
   return (
-    <div style={{ padding: '40px', background: '#F5F5F5', minHeight: '100vh' }}>
-      <h1 style={{ fontSize: 32, color: '#292929', marginBottom: '20px' }}>
-        Dashboard - Use KIN Admin
-      </h1>
-      <p style={{ color: '#666666', marginBottom: '40px' }}>
-        Dashboard está funcionando! Sessão válida.
-      </p>
-      
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-        gap: '24px'
-      }}>
-        <div style={{
-          background: '#FFFFFF',
-          borderRadius: '12px',
-          padding: '32px',
-          border: '1px solid #E5E5E5'
-        }}>
-          <h3 style={{ fontSize: 20, fontWeight: 600, color: '#292929', margin: '0 0 8px 0' }}>
-            Coleções
-          </h3>
-          <p style={{ color: '#666666', margin: 0, fontSize: 14 }}>
-            Gerencie as coleções de produtos
-          </p>
+    <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
+      <div style={{ background: '#fff', borderBottom: '1px solid #E5E5E5', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
+        <span style={{ fontWeight: 700, fontSize: 18, color: '#292929' }}>Use KIN Admin</span>
+        <a href="/login-usekin/dashboard" style={{ background: '#2563eb', color: '#fff', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Dashboard</a>
+        <a href="/login-usekin/dashboard/produtos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Produtos</a>
+        <a href="/login-usekin/dashboard/colecoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Coleções</a>
+        <a href="/login-usekin/dashboard/banners" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners</a>
+        <a href="/login-usekin/dashboard/configuracoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Configurações</a>
+        <div style={{ marginLeft: 'auto' }}>
+          <DashboardSairButton />
         </div>
-        
-        <div style={{
-          background: '#FFFFFF',
-          borderRadius: '12px',
-          padding: '32px',
-          border: '1px solid #E5E5E5'
-        }}>
-          <h3 style={{ fontSize: 20, fontWeight: 600, color: '#292929', margin: '0 0 8px 0' }}>
-            Banners Hero
-          </h3>
-          <p style={{ color: '#666666', margin: 0, fontSize: 14 }}>
-            Gerencie os banners da página inicial
-          </p>
-        </div>
-        
-        <div style={{
-          background: '#FFFFFF',
-          borderRadius: '12px',
-          padding: '32px',
-          border: '1px solid #E5E5E5'
-        }}>
-          <h3 style={{ fontSize: 20, fontWeight: 600, color: '#292929', margin: '0 0 8px 0' }}>
-            Produtos
-          </h3>
-          <p style={{ color: '#666666', margin: 0, fontSize: 14 }}>
-            Gerencie os produtos
-          </p>
+      </div>
+
+      <div style={{ padding: '32px' }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', marginBottom: 8 }}>Dashboard</h1>
+        <p style={{ color: '#888', marginBottom: 32, fontSize: 14 }}>Gerencie seu e-commerce Use KIN</p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24 }}>
+          <Link href="/login-usekin/dashboard/produtos" style={{ textDecoration: 'none' }}>
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, cursor: 'pointer' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Produtos</h2>
+              <p style={{ color: '#888', fontSize: 14 }}>Gerencie os produtos da loja</p>
+            </div>
+          </Link>
+
+          <Link href="/login-usekin/dashboard/colecoes" style={{ textDecoration: 'none' }}>
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, cursor: 'pointer' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Coleções</h2>
+              <p style={{ color: '#888', fontSize: 14 }}>Gerencie as coleções de produtos</p>
+            </div>
+          </Link>
+
+          <Link href="/login-usekin/dashboard/banners" style={{ textDecoration: 'none' }}>
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, cursor: 'pointer' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Banners Hero</h2>
+              <p style={{ color: '#888', fontSize: 14 }}>Gerencie os banners da página inicial</p>
+            </div>
+          </Link>
+
+          <Link href="/login-usekin/dashboard/configuracoes" style={{ textDecoration: 'none' }}>
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, cursor: 'pointer' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Configurações</h2>
+              <p style={{ color: '#888', fontSize: 14 }}>Textos padrão e configurações do site</p>
+            </div>
+          </Link>
+
+          <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, opacity: 0.5 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Pedidos</h2>
+            <p style={{ color: '#888', fontSize: 14 }}>Em breve</p>
+          </div>
         </div>
       </div>
     </div>
