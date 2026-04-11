@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { gerarSlug } from '@/lib/slug'
 
 const prisma = new PrismaClient()
 
@@ -44,6 +45,7 @@ export async function PUT(
       where: { id },
       data: {
         nome: data.nome,
+        slug: gerarSlug(data.nome),
         subtitulo: data.subtitulo,
         imagemCamiseta: data.imagemCamiseta || null,
         imagemMousepad: data.imagemMousepad || null,
