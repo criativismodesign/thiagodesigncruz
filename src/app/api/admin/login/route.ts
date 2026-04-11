@@ -10,7 +10,18 @@ export async function POST(request: Request) {
     const adminPasswordHash = process.env.ADMIN_PASSWORD
     const sessionToken = process.env.ADMIN_SESSION_TOKEN
 
+    console.log('Variáveis de ambiente:', {
+      adminEmail: !!adminEmail,
+      adminPasswordHash: !!adminPasswordHash,
+      sessionToken: !!sessionToken
+    })
+
     if (!adminEmail || !adminPasswordHash || !sessionToken) {
+      console.error('Variáveis faltando:', {
+        adminEmail: adminEmail ? 'OK' : 'MISSING',
+        adminPasswordHash: adminPasswordHash ? 'OK' : 'MISSING',
+        sessionToken: sessionToken ? 'OK' : 'MISSING'
+      })
       return NextResponse.json({ success: false, error: 'Configuração inválida' })
     }
 
