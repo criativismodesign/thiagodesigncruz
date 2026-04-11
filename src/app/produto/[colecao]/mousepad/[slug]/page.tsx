@@ -2,10 +2,10 @@ import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import ProdutoPageClient from '@/components/ProdutoPageClient'
 
-export default async function Page({
+export default async function ProdutoPage({
   params,
 }: {
-  params: Promise<{ colecao: string; slug: string }>
+  params: Promise<{ slug: string; colecao?: string }>
 }) {
   const { slug } = await params
 
@@ -18,7 +18,7 @@ export default async function Page({
     }
   })
 
-  if (!produto) redirect('/categorias/todos-produtos')
+  if (!produto) redirect('/')
 
   return <ProdutoPageClient produto={produto as any} />
 }
