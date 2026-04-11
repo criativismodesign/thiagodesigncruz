@@ -3,80 +3,18 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useCartStore } from '@/store/cart-store'
-import { toast } from 'sonner'
+import NewsletterSection from '@/components/NewsletterSection'
+import BannerBoxSection from '@/components/BannerBoxSection'
+import ProdutosRelacionadosSection from '@/components/ProdutosRelacionadosSection'
 
-interface Imagem { id: string; url: string; ordem: number; isPrincipal: boolean }
-interface Estoque { tamanho: string | null; cor: string | null; quantidade: number }
-interface Produto {
-  id: string; nome: string; tipo: string; categoria: string
-  precoAtual: number; precoDe: number | null; cores: string[]
-  descricaoCurta: string | null; descricaoLonga: string | null
-  entregaPrazo: string | null; informacoes: string | null
-  status: string; imagens: Imagem[]; estoque: Estoque[]
-  colecao: { nome: string; slug: string } | null
-}
-
-interface Props {
-  produto: Produto
-}
-
-export default function ProdutoPageClient({ produto }: Props) {
-  const [activeImage, setActiveImage] = useState(produto.imagens.find(img => img.isPrincipal)?.url || produto.imagens[0]?.url || '')
+export default function ProdutoDeskpad() {
+  const [activeImage, setActiveImage] = useState('/images/products/deskpad-grande-821x393.jpg')
   const [zoomOpen, setZoomOpen] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState('informacoes')
-  const [corSelecionada, setCorSelecionada] = useState<string>(produto.cores?.[0] || '')
-  const [tamanhoSelecionado, setTamanhoSelecionado] = useState<string>('')
-  
-  const addItem = useCartStore((s) => s.addItem)
 
-  // Obter miniaturas ordenadas
-  const imagensOrdenadas = [...produto.imagens].sort((a, b) => a.ordem - b.ordem)
-  const thumbnails = imagensOrdenadas.map(img => img.url)
-
-  // Tamanhos disponíveis para a cor selecionada
-  const tamanhosDisponiveis = corSelecionada
-    ? produto.estoque?.filter(e => e.cor === corSelecionada && e.quantidade > 0) || []
-    : produto.estoque?.filter(e => !e.cor && e.quantidade > 0) || []
-
-  // Formatar preço
-  const formatarPreco = (valor: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(valor)
-  }
-
-  // Calcular desconto
-  const desconto = produto.precoDe ? Math.round((1 - produto.precoAtual / produto.precoDe) * 100) : null
-
-  // Gerar breadcrumb links
-  const getColecaoPath = () => {
-    if (!produto.colecao) return '#'
-    return `/categorias/${produto.colecao.slug}`
-  }
-
-  const handleAddToCart = () => {
-    if (produto.tipo === 'camiseta' && !tamanhoSelecionado) {
-      toast.error("Selecione um tamanho")
-      return
-    }
-
-    addItem({
-      id: `${produto.id}-${tamanhoSelecionado || 'default'}-${corSelecionada || 'default'}`,
-      productId: produto.id,
-      name: produto.nome,
-      price: produto.precoAtual,
-      image: activeImage,
-      quantity,
-      size: tamanhoSelecionado || undefined,
-      color: corSelecionada || undefined,
-      type: produto.tipo,
-    })
-    
-    toast.success("Produto adicionado ao carrinho!")
-  }
+  // Mock thumbnails - todas usam a mesma imagem por enquanto
+  const thumbnails = Array(8).fill('/images/products/deskpad-menor-200x96.jpg')
 
   return (
     <main>
@@ -97,9 +35,9 @@ export default function ProdutoPageClient({ produto }: Props) {
             >
               <Image
                 src={activeImage}
-                alt={produto.nome}
-                width={produto.tipo === 'camiseta' ? 816 : 821}
-                height={produto.tipo === 'camiseta' ? 1093 : 393}
+                alt="Deskpad Caçador de Piratas"
+                width={821}
+                height={393}
                 style={{ 
                   width: '100%', 
                   height: 'auto',
@@ -109,37 +47,35 @@ export default function ProdutoPageClient({ produto }: Props) {
             </div>
 
             {/* Miniaturas */}
-            {thumbnails.length > 1 && (
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(4, 1fr)',
-                gap: '8px',
-                marginTop: '24px'
-              }}>
-                {thumbnails.map((thumb, index) => (
-                  <div
-                    key={index}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '8px',
+              marginTop: '24px'
+            }}>
+              {thumbnails.map((thumb, index) => (
+                <div
+                  key={index}
+                  style={{ 
+                    cursor: 'pointer',
+                    border: activeImage === thumb ? '2px solid #DAA520' : 'none'
+                  }}
+                  onClick={() => setActiveImage(thumb)}
+                >
+                  <Image
+                    src={thumb}
+                    alt={`Miniatura ${index + 1}`}
+                    width={200}
+                    height={96}
                     style={{ 
-                      cursor: 'pointer',
-                      border: activeImage === thumb ? '2px solid #DAA520' : 'none'
+                      width: '100%', 
+                      height: 'auto',
+                      objectFit: 'cover'
                     }}
-                    onClick={() => setActiveImage(thumb)}
-                  >
-                    <Image
-                      src={thumb}
-                      alt={`Miniatura ${index + 1}`}
-                      width={200}
-                      height={96}
-                      style={{ 
-                        width: '100%', 
-                        height: 'auto',
-                        objectFit: 'cover'
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+                  />
+                </div>
+              ))}
+            </div>
 
             {/* Popup de zoom */}
             {zoomOpen && (
@@ -169,8 +105,8 @@ export default function ProdutoPageClient({ produto }: Props) {
                 </button>
                 <Image 
                   src={activeImage} 
-                  width={produto.tipo === 'camiseta' ? 816 : 821} 
-                  height={produto.tipo === 'camiseta' ? 1093 : 393} 
+                  width={821} 
+                  height={393} 
                   alt="Zoom"
                   style={{ maxWidth: '90vw', height: 'auto' }} 
                 />
@@ -197,7 +133,7 @@ export default function ProdutoPageClient({ produto }: Props) {
               <span style={{ color: '#BABABA' }}>·</span>
               {' '}
               <Link 
-                href="/categorias/todos-produtos" 
+                href="/categorias/original-collection" 
                 style={{ 
                   fontSize: '12px', 
                   color: '#BABABA', 
@@ -207,28 +143,24 @@ export default function ProdutoPageClient({ produto }: Props) {
                 onMouseEnter={(e) => e.currentTarget.style.color = '#DAA520'}
                 onMouseLeave={(e) => e.currentTarget.style.color = '#BABABA'}
               >
-                Produtos
+                Original Collection
               </Link>
-              {produto.colecao && (
-                <>
-                  {' '}
-                  <span style={{ color: '#BABABA' }}>·</span>
-                  {' '}
-                  <Link 
-                    href={getColecaoPath()} 
-                    style={{ 
-                      fontSize: '12px', 
-                      color: '#BABABA', 
-                      textDecoration: 'none',
-                      fontFamily: 'Inter, sans-serif'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#DAA520'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#BABABA'}
-                  >
-                    {produto.colecao.nome}
-                  </Link>
-                </>
-              )}
+              {' '}
+              <span style={{ color: '#BABABA' }}>·</span>
+              {' '}
+              <Link 
+                href="/categorias/original-collection/my-life-my-style" 
+                style={{ 
+                  fontSize: '12px', 
+                  color: '#BABABA', 
+                  textDecoration: 'none',
+                  fontFamily: 'Inter, sans-serif'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#DAA520'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#BABABA'}
+              >
+                My Life My Style
+              </Link>
               {' '}
               <span style={{ color: '#BABABA' }}>·</span>
               {' '}
@@ -237,23 +169,21 @@ export default function ProdutoPageClient({ produto }: Props) {
                 color: '#292929',
                 fontFamily: 'Inter, sans-serif'
               }}>
-                {produto.nome}
+                Deskpad Caçador de Piratas
               </span>
             </nav>
 
             {/* Identificação da coleção */}
-            {produto.colecao && (
-              <div style={{
-                fontSize: '16px',
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 400,
-                textTransform: 'uppercase',
-                marginTop: '16px'
-              }}>
-                {produto.colecao.nome} | {produto.tipo.toUpperCase()}
-              </div>
-            )}
+            <div style={{
+              fontSize: '16px',
+              color: '#AAAAAA',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 400,
+              textTransform: 'uppercase',
+              marginTop: '16px'
+            }}>
+              ORIGINAL USE KIN / MY LIFE MY STYLE - COLLETION | STREET ART
+            </div>
 
             {/* Identificação do produto */}
             <div style={{
@@ -264,7 +194,7 @@ export default function ProdutoPageClient({ produto }: Props) {
               textTransform: 'uppercase',
               marginTop: '8px'
             }}>
-              {produto.tipo === 'camiseta' ? 'CAMISETA' : 'MOUSE PAD / DESCKPAD'}
+              MOUSE PAD / DESCKPAD
             </div>
 
             {/* Nome do produto */}
@@ -277,7 +207,7 @@ export default function ProdutoPageClient({ produto }: Props) {
               lineHeight: 1.1,
               marginTop: '8px'
             }}>
-              {produto.nome}
+              CAÇADOR DE PIRATAS
             </div>
 
             {/* Linha de preço */}
@@ -293,156 +223,66 @@ export default function ProdutoPageClient({ produto }: Props) {
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 600
               }}>
-                {formatarPreco(produto.precoAtual)}
+                R$ 90,97
               </span>
-              {desconto && (
-                <span style={{
-                  fontSize: '18px',
-                  color: '#F0484A',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 400
-                }}>
-                  -{desconto}% OFF
-                </span>
-              )}
+              <span style={{
+                fontSize: '18px',
+                color: '#F0484A',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 400
+              }}>
+                -8% OFF
+              </span>
             </div>
 
             {/* Preço "DE" */}
-            {produto.precoDe && (
-              <div style={{
-                fontSize: '18px',
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 400,
-                textDecoration: 'line-through',
-                marginTop: '4px'
-              }}>
-                {formatarPreco(produto.precoDe)}
-              </div>
-            )}
+            <div style={{
+              fontSize: '18px',
+              color: '#AAAAAA',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 400,
+              textDecoration: 'line-through',
+              marginTop: '4px'
+            }}>
+              R$ 149,90
+            </div>
 
             {/* Texto do produto */}
-            {produto.descricaoCurta && (
+            <div style={{
+              fontSize: '20px',
+              color: '#AAAAAA',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 400,
+              marginTop: '24px',
+              marginBottom: '24px'
+            }}>
+              Mais do que um acessório de mesa: uma peça com identidade. O desk pad 75x35cm da KIN combina tecido speed, base antiderrapante e acabamento premium para entregar desempenho e estilo no dia a dia.
+            </div>
+
+            {/* TAMANHO */}
+            <div style={{ marginTop: '24px' }}>
               <div style={{
                 fontSize: '20px',
-                color: '#AAAAAA',
+                color: '#292929',
                 fontFamily: 'Inter, sans-serif',
-                fontWeight: 400,
-                marginTop: '24px',
-                marginBottom: '24px'
+                fontWeight: 700,
+                marginBottom: '12px'
               }}>
-                {produto.descricaoCurta}
+                TAMANHO
               </div>
-            )}
-
-            {/* CORES -- só camiseta */}
-            {produto.tipo === 'camiseta' && produto.cores?.length > 0 && (
-              <div style={{ marginTop: '24px' }}>
-                <div style={{
-                  fontSize: '20px',
-                  color: '#292929',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  marginBottom: '12px'
-                }}>
-                  COR
-                </div>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                  {produto.cores.map(cor => (
-                    <button
-                      key={cor}
-                      onClick={() => {
-                        setCorSelecionada(cor)
-                        setTamanhoSelecionado('')
-                      }}
-                      style={{
-                        padding: '8px 16px',
-                        borderRadius: '8px',
-                        border: corSelecionada === cor ? '2px solid #DAA520' : '2px solid #E5E5E5',
-                        background: corSelecionada === cor ? '#FFF8E1' : '#fff',
-                        cursor: 'pointer',
-                        fontSize: '14px',
-                        color: '#292929',
-                        fontWeight: corSelecionada === cor ? 600 : 400
-                      }}
-                    >
-                      {cor}
-                    </button>
-                  ))}
-                </div>
+              <div style={{
+                backgroundColor: '#DAA520',
+                color: '#FFFFFF',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '20px',
+                padding: '10px 20px',
+                borderRadius: '8px',
+                display: 'inline-block'
+              }}>
+                75 X 35 CM
               </div>
-            )}
-
-            {/* TAMANHOS -- só camiseta */}
-            {produto.tipo === 'camiseta' && (
-              <div style={{ marginTop: '24px' }}>
-                <div style={{
-                  fontSize: '20px',
-                  color: '#292929',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  marginBottom: '12px'
-                }}>
-                  TAMANHO
-                </div>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                  {['P', 'M', 'G', 'GG'].map(tam => {
-                    const estq = tamanhosDisponiveis.find(e => e.tamanho === tam)
-                    return (
-                      <button
-                        key={tam}
-                        onClick={() => estq && estq.quantidade > 0 && setTamanhoSelecionado(tam)}
-                        disabled={!estq || estq.quantidade === 0}
-                        style={{
-                          padding: '8px 16px',
-                          borderRadius: '8px',
-                          border: tamanhoSelecionado === tam ? '2px solid #DAA520' : '2px solid #E5E5E5',
-                          background: tamanhoSelecionado === tam ? '#FFF8E1' : (!estq || estq.quantidade === 0) ? '#F5F5F5' : '#fff',
-                          cursor: (!estq || estq.quantidade === 0) ? 'not-allowed' : 'pointer',
-                          fontSize: '14px',
-                          color: (!estq || estq.quantidade === 0) ? '#AAAAAA' : '#292929',
-                          fontWeight: tamanhoSelecionado === tam ? 600 : 400
-                        }}
-                      >
-                        {tam}
-                        {estq && (
-                          <span style={{ fontSize: '12px', color: '#888', marginLeft: '4px' }}>
-                            ({estq.quantidade})
-                          </span>
-                        )}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* TAMANHO -- mousepad */}
-            {produto.tipo === 'mousepad' && (
-              <div style={{ marginTop: '24px' }}>
-                <div style={{
-                  fontSize: '20px',
-                  color: '#292929',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  marginBottom: '12px'
-                }}>
-                  TAMANHO
-                </div>
-                <div style={{
-                  backgroundColor: '#DAA520',
-                  color: '#FFFFFF',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '20px',
-                  padding: '10px 20px',
-                  borderRadius: '8px',
-                  display: 'inline-block'
-                }}>
-                  75 X 35 CM
-                </div>
-              </div>
-            )}
+            </div>
 
             {/* QUANTIDADE */}
             <div style={{ marginTop: '24px' }}>
@@ -511,26 +351,23 @@ export default function ProdutoPageClient({ produto }: Props) {
             </div>
 
             {/* BOTÃO ADICIONAR AO CARRINHO */}
-            <button 
-              onClick={handleAddToCart}
-              style={{
-                width: '100%',
-                padding: '16px',
-                backgroundColor: '#46A520',
-                color: '#FFFFFF',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 700,
-                fontSize: '16px',
-                border: 'none',
-                borderRadius: '999px',
-                cursor: 'pointer',
-                marginTop: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px'
-              }}
-            >
+            <button style={{
+              width: '100%',
+              padding: '16px',
+              backgroundColor: '#46A520',
+              color: '#FFFFFF',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '16px',
+              border: 'none',
+              borderRadius: '999px',
+              cursor: 'pointer',
+              marginTop: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px'
+            }}>
               <Image
                 src="/icons/Icones-Site-Use-KIN-carrinho-botao-comprar.svg"
                 alt="Carrinho"
@@ -606,9 +443,29 @@ export default function ProdutoPageClient({ produto }: Props) {
                 }}>
                   MAIS INFORMAÇÕES
                 </div>
-                <div style={{ whiteSpace: 'pre-line' }}>
-                  {produto.informacoes || 'Informações não disponíveis para este produto.'}
-                </div>
+                <p>
+                  O <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>MOUSEPAD - ORIGINAL COLLECTION SERIES - use KIN</strong> mais do que usar, é carregar no dia-a-dia aquilo que faz parte de quem você é. Cada detalhe foi pensado para conectar performance e identidade.
+                </p>
+                <br />
+                <p>
+                  <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Dimensões:</strong> 750 x 350 mm - superfície ampla para movimentos livres e precisos, ideal para gamers e profissionais que exigem o máximo de seu espaço.
+                </p>
+                <br />
+                <p>
+                  <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Artistas:</strong> Por trás de cada peça da useKIN estão criativos que entendem de cultura urbana e design funcional, transformando simples acessórios em declarações de estilo.
+                </p>
+                <br />
+                <p>
+                  <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Superfície e acabamento:</strong> Impressão durável com tecnologia sublimática que garante cores vibrantes e resistência ao desgaste diário, mantendo a qualidade estética por muito mais tempo.
+                </p>
+                <br />
+                <p>
+                  <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Uso e versatilidade:</strong> Ideal para trabalho, gaming, design e qualquer atividade que exija precisão e conforto. Compatível com todos os tipos de mouse e superfícies de mesa.
+                </p>
+                <br />
+                <p>
+                  <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Tendência Deskpad:</strong> Os mousepads tradicionais estão evoluindo para formatos maiores que protegem toda a área de trabalho, combinando funcionalidade e estética em um único produto.
+                </p>
               </div>
             )}
 
@@ -629,9 +486,41 @@ export default function ProdutoPageClient({ produto }: Props) {
                   }}>
                     DESCRIÇÃO
                   </div>
-                  <div style={{ whiteSpace: 'pre-line' }}>
-                    {produto.descricaoLonga || produto.descricaoCurta || 'Descrição não disponível para este produto.'}
-                  </div>
+                  <p>
+                    <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Material:</strong> Tecido speed + base emborrachada
+                  </p>
+                  <br />
+                  <p>
+                    <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Espessura:</strong> 3 mm
+                  </p>
+                  <br />
+                  <p>
+                    <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Tamanho:</strong> 75 x 35 cm
+                  </p>
+                  <br />
+                  <p>
+                    <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Tecido:</strong> speed para deslizamento suave
+                  </p>
+                  <br />
+                  <p>
+                    <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Base:</strong> emborrachada antiderrapante
+                  </p>
+                  <br />
+                  <p>
+                    <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Bordas:</strong> costura preta
+                  </p>
+                  <br />
+                  <p>
+                    <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Lavável:</strong> sim
+                  </p>
+                  <br />
+                  <p>
+                    <strong style={{ fontWeight: 700, textDecoration: 'underline' }}>Impressão:</strong> Sublimação - Alta durabilidade
+                  </p>
+                  <br />
+                  <p>
+                    Mais conforto e estabilidade no uso
+                  </p>
                 </div>
 
                 {/* Bloco ENTREGA E PRAZO */}
@@ -643,15 +532,19 @@ export default function ProdutoPageClient({ produto }: Props) {
                   }}>
                     ENTREGA E PRAZO
                   </div>
-                  <div style={{ whiteSpace: 'pre-line' }}>
-                    {produto.entregaPrazo || 'Informações de entrega não disponíveis.'}
-                  </div>
+                  <p>
+                    Após a <strong>confirmação do pagamento</strong>, o pedido passa por <strong>processamento, produção e embalagem</strong>. O <strong>prazo de envio</strong> é de 1 a 5 dias úteis, e a <strong>entrega</strong> ocorre em média entre 5 e 15 dias úteis após a postagem, dependendo da região.
+                  </p>
                 </div>
               </div>
             )}
           </div>
         </div>
       </div>
+
+      <ProdutosRelacionadosSection />
+      <NewsletterSection source="produto-deskpad" />
+      <BannerBoxSection />
 
       {/* Responsividade */}
       <style jsx>{`

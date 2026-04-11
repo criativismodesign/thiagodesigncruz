@@ -20,5 +20,24 @@ export default async function ProdutoPage({
 
   if (!produto) redirect('/')
 
-  return <ProdutoPageClient produto={produto as any} />
+  // Adaptar dados para o formato esperado pelo ProdutoPageClient
+  const produtoAdaptado = {
+    id: produto.id,
+    nome: produto.nome,
+    tipo: produto.tipo,
+    categoria: produto.categoria,
+    precoAtual: produto.precoAtual,
+    precoDe: produto.precoDe,
+    cores: produto.estoque?.map(e => e.cor).filter((c): c is string => Boolean(c)) || [],
+    descricaoCurta: produto.descricaoCurta,
+    descricaoLonga: produto.descricaoLonga,
+    entregaPrazo: produto.entregaPrazo,
+    informacoes: produto.informacoes,
+    status: produto.status,
+    imagens: produto.imagens,
+    estoque: produto.estoque,
+    colecao: produto.colecao
+  }
+
+  return <ProdutoPageClient produto={produtoAdaptado as any} />
 }
