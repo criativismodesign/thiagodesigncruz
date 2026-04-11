@@ -215,9 +215,6 @@ export default function HeroCarousel({ slides }: Props) {
       {/* Mobile Responsiveness */}
       <style jsx>{`
         @media (max-width: 768px) {
-          .hero-container {
-            height: 480px !important;
-          }
           .hero-text {
             left: 24px !important;
             max-width: 90% !important;
@@ -239,9 +236,6 @@ export default function HeroCarousel({ slides }: Props) {
       `}</style>
 
       <style jsx global>{`
-        .hero-container {
-          height: 832px;
-        }
         .hero-text {
           left: 120px;
         }
