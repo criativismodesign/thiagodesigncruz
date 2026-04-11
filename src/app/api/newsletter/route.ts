@@ -65,8 +65,9 @@ export async function POST(request: NextRequest) {
         whatsapp: whatsapp.replace(/\D/g, ""),
         email: email.toLowerCase().trim(),
         source,
+        active: true,
       })
-      .select();
+      .select()
 
     if (error) {
       console.error("Erro ao inserir no Supabase:", error);
