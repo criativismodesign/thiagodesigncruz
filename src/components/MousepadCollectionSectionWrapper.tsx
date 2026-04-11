@@ -25,15 +25,28 @@ export default async function MousepadCollectionSectionWrapper() {
   }
 
   // Mapear produtos com href correto usando slug
-  const produtosComHref = produtos.map(p => ({
-    ...p,
-    href: gerarUrlProduto({
-      slug: p.slug || '',
+  const produtosComHref = produtos.map(p => {
+    // Debug para verificar dados
+    console.log('Mousepad data:', {
+      id: p.id,
+      nome: p.nome,
+      slug: p.slug,
       tipo: p.tipo,
       categoria: p.categoria,
+      colecaoId: p.colecaoId,
       colecao: p.colecao
     })
-  }))
+    
+    return {
+      ...p,
+      href: gerarUrlProduto({
+        slug: p.slug || p.id, // Fallback para ID se slug for nulo
+        tipo: p.tipo,
+        categoria: p.categoria || 'avulso', // Fallback para avulso
+        colecao: p.colecao
+      })
+    }
+  })
 
   return <MousepadCollectionSection produtos={produtosComHref} />
 }
