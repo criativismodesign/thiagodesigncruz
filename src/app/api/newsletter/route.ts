@@ -21,26 +21,27 @@ export async function POST(request: NextRequest) {
 
     const { nome, whatsapp, email, source = "home" } = await request.json();
 
-    // Validações
-    if (!nome || nome.trim().length < 3) {
-      return NextResponse.json(
-        { error: "Nome deve ter pelo menos 3 caracteres" },
-        { status: 400 }
-      );
-    }
-
-    if (!whatsapp || !/^\d{10,}$/.test(whatsapp.replace(/\D/g, ""))) {
-      return NextResponse.json(
-        { error: "WhatsApp deve ter pelo menos 10 dígitos" },
-        { status: 400 }
-      );
-    }
-
+    // Email é sempre obrigatório
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json(
         { error: "Email inválido" },
         { status: 400 }
-      );
+      )
+    }
+
+    // Nome e whatsapp são opcionais - só valida se foram enviados
+    if (nome && nome.trim().length < 3) {
+      return NextResponse.json(
+        { error: "Nome deve ter pelo menos 3 caracteres" },
+        { status: 400 }
+      )
+    }
+
+    if (whatsapp && !/^\d{10,}$/.test(whatsapp.replace(/\D/g, ""))) {
+      return NextResponse.json(
+        { error: "WhatsApp deve ter pelo menos 10 dígitos" },
+        { status: 400 }
+      )
     }
 
     // Verificar se email já existe
@@ -61,8 +62,8 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase
       .from("Newsletter")
       .insert({
-        nome: nome.trim(),
-        whatsapp: whatsapp.replace(/\D/g, ""),
+        nome: nome?.trim() || null,
+        whatsapp: whatsapp ? whatsapp.replace(/\D/g, "") : null,
         email: email.toLowerCase().trim(),
         source,
         active: true,
