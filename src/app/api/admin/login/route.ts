@@ -31,7 +31,9 @@ export async function POST(request: Request) {
     })
 
     return response
-  } catch {
-    return NextResponse.json({ success: false, error: 'Erro interno' })
+  } catch (error) {
+  console.error('Erro no login:', error)
+  console.error('Erro detalhado:', JSON.stringify(error))
+  return NextResponse.json({ success: false, error: String(error) })
   }
 }
