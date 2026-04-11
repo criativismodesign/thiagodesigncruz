@@ -91,14 +91,15 @@ export default function ContactPage() {
                     color: '#292929',
                     fontFamily: 'Inter, sans-serif'
                   }}>E-mail</p>
-                  <p style={{
+                  <a href="mailto:contato@usekin.com.br" style={{
                     fontSize: '14px',
                     color: '#AAAAAA',
                     fontFamily: 'Inter, sans-serif',
-                    fontWeight: 400
+                    fontWeight: 400,
+                    textDecoration: 'none'
                   }}>
-                    contato@thiagodesigncruz.com.br
-                  </p>
+                    contato@usekin.com.br
+                  </a>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
@@ -116,14 +117,15 @@ export default function ContactPage() {
                     color: '#292929',
                     fontFamily: 'Inter, sans-serif'
                   }}>Telefone</p>
-                  <p style={{
+                  <a href="tel:+5562981316462" style={{
                     fontSize: '14px',
                     color: '#AAAAAA',
                     fontFamily: 'Inter, sans-serif',
-                    fontWeight: 400
+                    fontWeight: 400,
+                    textDecoration: 'none'
                   }}>
-                    (11) 99999-9999
-                  </p>
+                    +55 62 9 8131-6462
+                  </a>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
@@ -141,14 +143,15 @@ export default function ContactPage() {
                     color: '#292929',
                     fontFamily: 'Inter, sans-serif'
                   }}>WhatsApp</p>
-                  <p style={{
+                  <a href="https://wa.me/5562981316462" target="_blank" style={{
                     fontSize: '14px',
                     color: '#AAAAAA',
                     fontFamily: 'Inter, sans-serif',
-                    fontWeight: 400
+                    fontWeight: 400,
+                    textDecoration: 'none'
                   }}>
-                    (11) 99999-9999
-                  </p>
+                    +55 62 9 8131-6462
+                  </a>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
@@ -172,7 +175,7 @@ export default function ContactPage() {
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 400
                   }}>
-                    São Paulo, SP — Brasil
+                    Goiânia - GO, Brasil
                   </p>
                 </div>
               </div>

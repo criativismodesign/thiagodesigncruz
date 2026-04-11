@@ -19,7 +19,7 @@ export default function WhatsAppButton() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const whatsappLink = "https://wa.me/5562981316462?text=Ol%C3%A1!%20Tenho%20interesse%20e%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es.";
+  const whatsappLink = "https://wa.me/5562981316462?text=Ol%C3%A1!%20Visitei%20o%20site%20da%20Use%20KIN%20e%20gostaria%20de%20tirar%20algumas%20d%C3%BAvidas.%20Pode%20me%20ajudar%3F";
 
   return (
     <div className="fixed bottom-6 right-6 z-40">

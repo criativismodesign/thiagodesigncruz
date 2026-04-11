@@ -163,30 +163,30 @@ export default function Footer() {
               Crie sua própria arte ou escolha entre nossos designs únicos
             </p>
             <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
-              <Link href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/usekin.br?igsh=M2YzN2htanR1amYx&utm_source=qr" target="_blank" className="hover:opacity-80 transition-opacity">
                 <Image
                   src="/icons/Icones-Site-Use-KIN-instagram.svg"
                   alt="Instagram"
-                  width={24}
-                  height={24}
+                  width={32}
+                  height={32}
                 />
-              </Link>
-              <Link href="#" className="hover:opacity-80 transition-opacity">
+              </a>
+              <a href="https://www.tiktok.com/@use.kin?_r=1&_t=ZS-95RDG4oHHc1" target="_blank" className="hover:opacity-80 transition-opacity">
                 <Image
                   src="/icons/Icones-Site-Use-KIN-tiktok.svg"
                   alt="TikTok"
-                  width={24}
-                  height={24}
+                  width={32}
+                  height={32}
                 />
-              </Link>
-              <Link href="#" className="hover:opacity-80 transition-opacity">
+              </a>
+              <a href="https://wa.me/5562981316462" target="_blank" className="hover:opacity-80 transition-opacity">
                 <Image
                   src="/icons/Icones-Site-Use-KIN-whatsapp-rodapé-dourado.svg"
                   alt="WhatsApp"
-                  width={24}
-                  height={24}
+                  width={32}
+                  height={32}
                 />
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -265,14 +265,14 @@ export default function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Image
-                  src="/icons/Icones-Site-Use-KIN-e-mail-rodape.svg"
+                  src="/icons/Icones-Site-Use-KIN-email-rodape.svg"
                   alt="Email"
                   width={20}
                   height={20}
                 />
-                <span style={{ fontSize: '18px', fontWeight: 400, color: '#AAAAAA' }}>
+                <a href="mailto:contato@usekin.com.br" style={{ color: '#AAAAAA', textDecoration: 'none' }}>
                   contato@usekin.com.br
-                </span>
+                </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Image
@@ -281,9 +281,9 @@ export default function Footer() {
                   width={20}
                   height={20}
                 />
-                <span style={{ fontSize: '18px', fontWeight: 400, color: '#AAAAAA' }}>
-                  (XX) XXXXX-XXXX
-                </span>
+                <a href="https://wa.me/5562981316462" target="_blank" style={{ color: '#AAAAAA', textDecoration: 'none' }}>
+                  +55 62 9 8131-6462
+                </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Image
@@ -293,7 +293,7 @@ export default function Footer() {
                   height={20}
                 />
                 <span style={{ fontSize: '18px', fontWeight: 400, color: '#AAAAAA' }}>
-                  Brasil
+                  Goiânia - GO, Brasil
                 </span>
               </div>
             </div>
