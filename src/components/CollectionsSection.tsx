@@ -4,42 +4,31 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
 
-const collections = [
-  {
-    id: 1,
-    slug: 'my-life-my-style',
-    imageCamiseta: '/images/products/placeholder-colecao-384x512.jpg',
-    imageMousepad: '/images/products/placeholder-mousepad-colecao-336x158.jpg',
-    supertitle1: 'ORIGINAL USE KIN - MY LIFE MY STYLE',
-    supertitle2: 'COLEETION | STREET ART',
-  },
-  {
-    id: 2,
-    slug: 'immortals',
-    imageCamiseta: '/images/products/placeholder-colecao-384x512.jpg',
-    imageMousepad: '/images/products/placeholder-mousepad-colecao-336x158.jpg',
-    supertitle1: 'ORIGINAL USE KIN - IMMORTALS',
-    supertitle2: 'COLEETION | INK SERIES',
-  },
-  {
-    id: 3,
-    slug: 'colecao-3',
-    imageCamiseta: '/images/products/placeholder-colecao-384x512.jpg',
-    imageMousepad: '/images/products/placeholder-mousepad-colecao-336x158.jpg',
-    supertitle1: 'ORIGINAL USE KIN - 3ª COLEÇÃO',
-    supertitle2: 'COLEETION | EM BREVE',
-  },
-  {
-    id: 4,
-    slug: 'colecao-4',
-    imageCamiseta: '/images/products/placeholder-colecao-384x512.jpg',
-    imageMousepad: '/images/products/placeholder-mousepad-colecao-336x158.jpg',
-    supertitle1: 'ORIGINAL USE KIN - 4ª COLEÇÃO',
-    supertitle2: 'COLEETION | EM BREVE',
-  },
-];
+interface Colecao {
+  id: string
+  nome: string
+  subtitulo: string
+  imagemCamiseta: string | null
+  imagemMousepad: string | null
+  visivelHome: boolean
+  ordemHome: number
+  status: string
+}
 
-export default function CollectionsSection() {
+interface Props {
+  colecoes: Colecao[]
+}
+
+export default function CollectionsSection({ colecoes }: Props) {
+  // Mapear para o formato existente do componente:
+  const collections = colecoes.map(c => ({
+    id: c.id,
+    slug: c.nome.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+    imageCamiseta: c.imagemCamiseta || '/images/products/placeholder-colecao-384x512.jpg',
+    imageMousepad: c.imagemMousepad || '/images/products/placeholder-mousepad-colecao-336x158.jpg',
+    supertitle1: `ORIGINAL USE KIN - ${c.nome}`,
+    supertitle2: c.subtitulo,
+  }))
   return (
     <section 
       className="w-full"
