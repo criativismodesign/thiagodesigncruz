@@ -4,13 +4,21 @@ import AdminLayout from '@/components/admin/AdminLayout'
 import Link from 'next/link'
 
 export default async function DashboardPage() {
+  console.log('Dashboard: verificando sessão...')
   const cookieStore = await cookies()
   const session = cookieStore.get('admin-session')?.value
   const validToken = process.env.ADMIN_SESSION_TOKEN
 
+  console.log('Dashboard: sessão encontrada:', !!session)
+  console.log('Dashboard: token válido:', !!validToken)
+  console.log('Dashboard: sessão == token?', session === validToken)
+
   if (!session || !validToken || session !== validToken) {
+    console.log('Dashboard: redirecionando para login - sessão inválida')
     redirect('/login-usekin')
   }
+
+  console.log('Dashboard: sessão válida - renderizando dashboard')
 
   return (
     <AdminLayout title="Dashboard">
