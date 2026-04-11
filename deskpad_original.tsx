@@ -5,7 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import NewsletterSection from '@/components/NewsletterSection'
 import BannerBoxSection from '@/components/BannerBoxSection'
-import ProdutosRelacionadosSection from '@/components/ProdutosRelacionadosSection'
 
 export default function ProdutoDeskpad() {
   const [activeImage, setActiveImage] = useState('/images/products/deskpad-grande-821x393.jpg')
@@ -542,8 +541,7 @@ export default function ProdutoDeskpad() {
         </div>
       </div>
 
-      <ProdutosRelacionadosSection />
-      <NewsletterSection source="produto-deskpad" />
+            <NewsletterSection source="produto-deskpad" />
       <BannerBoxSection />
 
       {/* Responsividade */}
