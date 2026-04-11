@@ -59,13 +59,13 @@ export default function HeroCarousel({ slides }: Props) {
     <div style={{
       position: 'relative',
       width: '100%',
-      height: '832px',
+      aspectRatio: '1920/832',
       overflow: 'hidden',
     }}
     onMouseEnter={() => setIsAutoPlaying(false)}
     onMouseLeave={() => setIsAutoPlaying(true)}
     >
-      {/* Background Image */}
+      {/* Container principal - altura proporcional à largura */}
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -77,7 +77,10 @@ export default function HeroCarousel({ slides }: Props) {
             src={currentSlideData.imagem}
             alt={currentSlideData.titulo}
             fill
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
+            style={{ 
+              objectFit: 'contain',
+              objectPosition: 'center center'
+            }}
             priority={currentSlide === 0}
           />
         ) : (
