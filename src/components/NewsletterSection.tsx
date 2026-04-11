@@ -61,14 +61,19 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
   };
 
   return (
-    <section className="relative w-full" style={{ height: "721px" }}>
+    <section className="relative w-full">
       {/* Imagem de fundo */}
-      <div className="absolute inset-0 z-0">
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        aspectRatio: '1920/721',
+        overflow: 'hidden',
+      }}>
         <Image
           src="/imagens/hero/LIGHT-BANNER-SITE-USE-KIN-LISTA-VIP-1920x721px.jpg"
-          alt="Newsletter Background"
+          alt="Newsletter"
           fill
-          className="object-cover"
+          style={{ objectFit: 'contain', objectPosition: 'center' }}
           priority
         />
       </div>

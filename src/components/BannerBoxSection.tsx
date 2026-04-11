@@ -29,19 +29,19 @@ export default function BannerBoxSection() {
       {banners.map((banner) => (
         <div
           key={banner.id}
-          className="relative overflow-hidden"
           style={{
+            position: 'relative',
             width: '50%',
-            height: '750px',
+            aspectRatio: '960/750',
+            overflow: 'hidden',
           }}
         >
           {/* Imagem de fundo */}
           <Image
             src={banner.image}
-            alt={`Banner ${banner.id}`}
+            alt={banner.id}
             fill
-            className="object-cover"
-            style={{ zIndex: 0 }}
+            style={{ objectFit: 'contain', objectPosition: 'center' }}
           />
 
           {/* Bloco de conteúdo */}

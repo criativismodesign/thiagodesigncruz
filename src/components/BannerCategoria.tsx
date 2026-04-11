@@ -15,9 +15,10 @@ interface BannerCategoriaProps {
 export default function BannerCategoria({ titulo, breadcrumb }: BannerCategoriaProps) {
   return (
     <div style={{ 
-      width: '100%', 
-      height: '440px', 
       position: 'relative',
+      width: '100%',
+      aspectRatio: '1920/440',
+      overflow: 'hidden',
       marginBottom: '100px'
     }}>
       {/* Imagem de fundo */}
@@ -25,12 +26,7 @@ export default function BannerCategoria({ titulo, breadcrumb }: BannerCategoriaP
         src="/images/banners/banner-categoria.jpg"
         alt="Banner de categoria"
         fill
-        style={{
-          objectFit: 'cover',
-          position: 'absolute',
-          inset: 0,
-          zIndex: 0
-        }}
+        style={{ objectFit: 'contain', objectPosition: 'center' }}
       />
       
       {/* Container do conteúdo */}
