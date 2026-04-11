@@ -1,7 +1,7 @@
 import HeroCarouselWrapper from '@/components/HeroCarouselWrapper'
-import OriginalCollectionSection from '@/components/OriginalCollectionSection'
-import MousepadCollectionSection from '@/components/MousepadCollectionSection'
-import ImmortalsCollectionSection from '@/components/ImmortalsCollectionSection'
+import OriginalCollectionSectionWrapper from '@/components/OriginalCollectionSectionWrapper'
+import MousepadCollectionSectionWrapper from '@/components/MousepadCollectionSectionWrapper'
+import ImmortalsCollectionSectionWrapper from '@/components/ImmortalsCollectionSectionWrapper'
 import CollectionsSectionWrapper from '@/components/CollectionsSectionWrapper'
 import NewsletterSection from '@/components/NewsletterSection'
 import OutrosModelosSection from '@/components/OutrosModelosSection'
@@ -11,9 +11,9 @@ export default function Home() {
   return (
     <main>
       <HeroCarouselWrapper />
-      <OriginalCollectionSection />
-      <MousepadCollectionSection />
-      <ImmortalsCollectionSection />
+      <OriginalCollectionSectionWrapper />
+      <MousepadCollectionSectionWrapper />
+      <ImmortalsCollectionSectionWrapper />
       <CollectionsSectionWrapper />
       <NewsletterSection source="home" />
       <OutrosModelosSection />

@@ -4,50 +4,36 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
 
-const products = [
-  {
-    id: 1,
-    image: '/images/products/placeholder-430x575.jpg',
-    supertitle: 'ORIGINAL USE KIN - IMMORTALS / COLEETION | INK SERIES',
-    name: 'DOCE GUARDIÃ',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/immortals-doce-guardia',
-  },
-  {
-    id: 2,
-    image: '/images/products/placeholder-430x575.jpg',
-    supertitle: 'ORIGINAL USE KIN - IMMORTALS / COLEETION | INK SERIES',
-    name: 'NOME DO PRODUTO - PODE SER QUE SEJA DUAS LINHAS',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/immortals-2',
-  },
-  {
-    id: 3,
-    image: '/images/products/placeholder-430x575.jpg',
-    supertitle: 'ORIGINAL USE KIN - IMMORTALS / COLEETION | INK SERIES',
-    name: 'CAÇADOR DE PIRATAS',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/immortals-cacador-de-piratas',
-  },
-  {
-    id: 4,
-    image: '/images/products/placeholder-430x575.jpg',
-    supertitle: 'ORIGINAL USE KIN - IMMORTALS / COLEETION | INK SERIES',
-    name: 'RAINHA DO CAOS',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/immortals-rainha-do-caos',
-  },
-];
+interface Produto {
+  id: string
+  nome: string
+  tipo: string
+  categoria: string
+  precoAtual: number
+  precoDe: number | null
+  status: string
+  colecaoId: string | null
+  imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+}
 
-export default function ImmortalsCollectionSection() {
+interface Props {
+  produtos: Produto[]
+}
+
+export default function ImmortalsCollectionSection({ produtos }: Props) {
+  // Mapear produtos para o formato existente do componente:
+  const products = produtos.map(p => ({
+    id: p.id,
+    image: p.imagens.find(i => i.isPrincipal)?.url || 
+           p.imagens[0]?.url || 
+           '/images/products/placeholder-430x575.jpg',
+    supertitle: 'ORIGINAL USE KIN - IMMORTALS / COLEETION | INK SERIES',
+    name: p.nome,
+    price: p.precoAtual,
+    originalPrice: p.precoDe,
+    discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
+    href: `/produto/${p.id}`,
+  }))
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",

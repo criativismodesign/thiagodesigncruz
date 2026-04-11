@@ -4,70 +4,36 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
 
-const products = [
-  {
-    id: 1,
-    image: '/images/products/placeholder-mousepad-600x290.jpg',
-    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
-    name: 'DOCE GUARDIÃ',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/mousepad-doce-guardia',
-  },
-  {
-    id: 2,
-    image: '/images/products/placeholder-mousepad-600x290.jpg',
-    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
-    name: 'CAÇADOR DE PIRATAS',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/mousepad-cacador-de-piratas',
-  },
-  {
-    id: 3,
-    image: '/images/products/placeholder-mousepad-600x290.jpg',
-    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
-    name: 'RAINHA DO CAOS',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/mousepad-rainha-do-caos',
-  },
-  {
-    id: 4,
-    image: '/images/products/placeholder-mousepad-600x290.jpg',
-    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
-    name: 'PRODUTO 4',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/mousepad-4',
-  },
-  {
-    id: 5,
-    image: '/images/products/placeholder-mousepad-600x290.jpg',
-    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
-    name: 'PRODUTO 5',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/mousepad-5',
-  },
-  {
-    id: 6,
-    image: '/images/products/placeholder-mousepad-600x290.jpg',
-    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
-    name: 'PRODUTO 6',
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: '/produto/mousepad-6',
-  },
-];
+interface Produto {
+  id: string
+  nome: string
+  tipo: string
+  categoria: string
+  precoAtual: number
+  precoDe: number | null
+  status: string
+  colecaoId: string | null
+  imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+}
 
-export default function MousepadCollectionSection() {
+interface Props {
+  produtos: Produto[]
+}
+
+export default function MousepadCollectionSection({ produtos }: Props) {
+  // Mapear produtos para o formato existente do componente:
+  const products = produtos.map(p => ({
+    id: p.id,
+    image: p.imagens.find(i => i.isPrincipal)?.url || 
+           p.imagens[0]?.url || 
+           '/images/products/placeholder-mousepad-600x290.jpg',
+    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
+    name: p.nome,
+    price: p.precoAtual,
+    originalPrice: p.precoDe,
+    discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
+    href: `/produto/${p.id}`,
+  }))
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
