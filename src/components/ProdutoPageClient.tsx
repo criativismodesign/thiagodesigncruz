@@ -628,7 +628,7 @@ export default function ProdutoPageClient({ produto }: Props) {
                 <img 
                   src="/imagens/hero/PAG-PRODUTOS-MEDIDAS-CAMISETAS-SITE-USE-KIN-SESSAO-INFO-PRODUTO.jpg"
                   alt="Guia de Tamanhos"
-                  style={{ width: '100%', maxWidth: 600, display: 'block', marginBottom: 32, borderRadius: 8 }}
+                  style={{ width: '100%', maxWidth: 600, height: 500, objectFit: 'contain', display: 'block', marginBottom: 32, borderRadius: 8 }}
                 />
                 <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
                   <thead>
