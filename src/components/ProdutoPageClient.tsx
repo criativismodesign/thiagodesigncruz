@@ -42,6 +42,11 @@ export default function ProdutoPageClient({ produto }: Props) {
     ? produto.estoque?.filter(e => e.cor === corSelecionada && e.quantidade > 0) || []
     : produto.estoque?.filter(e => !e.cor && e.quantidade > 0) || []
 
+  // Obter cores únicas
+  const coresUnicas = produto.tipo === 'camiseta'
+    ? [...new Set((produto.cores || []).map((c: string) => c.trim().toLowerCase()))]
+    : []
+
   // Formatar preço
   const formatarPreco = (valor: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -55,17 +60,22 @@ export default function ProdutoPageClient({ produto }: Props) {
 
   // Renderizar markdown simples
   const renderMarkdown = (texto: string) => {
-    const partes = texto.split(/(\*\*__.*?__\*\*|\*\*.*?\*\*)/g)
-    return partes.map((parte, i) => {
-      if (parte.startsWith('**__') && parte.endsWith('__**')) {
-        const conteudo = parte.slice(4, -4)
-        return <strong key={i}><u>{conteudo}</u></strong>
-      }
-      if (parte.startsWith('**') && parte.endsWith('**')) {
-        const conteudo = parte.slice(2, -2)
-        return <strong key={i}>{conteudo}</strong>
-      }
-      return <span key={i}>{parte}</span>
+    return texto.split('\n').map((linha, idx) => {
+      if (!linha.trim()) return <br key={idx} />
+      const partes = linha.split(/(\*\*__.*?__\*\*|\*\*.*?\*\*)/g)
+      return (
+        <p key={idx} style={{ marginBottom: 8 }}>
+          {partes.map((parte, i) => {
+            if (parte.startsWith('**__') && parte.endsWith('__**')) {
+              return <strong key={i}><u>{parte.slice(4, -4)}</u></strong>
+            }
+            if (parte.startsWith('**') && parte.endsWith('**')) {
+              return <strong key={i}>{parte.slice(2, -2)}</strong>
+            }
+            return <span key={i}>{parte}</span>
+          })}
+        </p>
+      )
     })
   }
 
