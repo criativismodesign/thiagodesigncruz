@@ -102,12 +102,12 @@ export default function HeroCarousel({ slides }: Props) {
         {/* Supertítulo */}
         {currentSlideData.supertitulo && (
           <p style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '28px',
+            fontSize: '16px',
             fontWeight: 300,
             color: '#DAA520',
             textTransform: 'uppercase',
-            marginBottom: '8px',
+            marginBottom: '4px', // reduzir espaço com título
+            lineHeight: 1.2,
           }}>
             {currentSlideData.supertitulo}
           </p>
@@ -115,13 +115,12 @@ export default function HeroCarousel({ slides }: Props) {
 
         {/* Título */}
         <h1 style={{
-          fontFamily: 'Inter, sans-serif',
-          fontSize: '70px',
+          fontSize: '40px',
           fontWeight: 600,
           color: '#000000',
-          textTransform: 'uppercase',
+          textTransform: 'none', // remover CAPS — só primeiras letras maiúsculas
           lineHeight: 1.1,
-          marginBottom: '20px',
+          marginBottom: '16px',
         }}>
           {currentSlideData.titulo}
         </h1>
@@ -129,14 +128,13 @@ export default function HeroCarousel({ slides }: Props) {
         {/* Descrição */}
         {currentSlideData.descricao && (
           <p style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '18px',
+            fontSize: '12px',
             fontWeight: 400,
             color: '#292929',
             textTransform: 'uppercase',
             maxWidth: '627px',
             lineHeight: 1.6,
-            marginBottom: '36px',
+            marginBottom: '24px',
           }}>
             {currentSlideData.descricao}
           </p>
@@ -145,12 +143,11 @@ export default function HeroCarousel({ slides }: Props) {
         {/* Botão CTA */}
         {currentSlideData.linkBotao && (
           <a href={currentSlideData.linkBotao} style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '15px',
+            fontSize: '10px',
             fontWeight: 700,
             color: '#FFFFFF',
             background: '#DAA520',
-            padding: '14px 36px',
+            padding: '14px 26px',
             borderRadius: '999px',
             textDecoration: 'none',
             display: 'inline-block',
