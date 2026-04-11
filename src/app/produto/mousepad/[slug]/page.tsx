@@ -24,5 +24,5 @@ export default async function ProdutoMousepadPage({
   
   if (!produto) redirect('/categorias/todos-produtos')
   
-  return <ProdutoPageClient produto={produto} />
+  return <ProdutoPageClient produto={produto as any} />
 }

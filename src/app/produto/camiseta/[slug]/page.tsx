@@ -24,5 +24,5 @@ export default async function ProdutoCamisetaPage({
   
   if (!produto) redirect('/categorias/todos-produtos')
   
-  return <ProdutoPageClient produto={produto} />
+  return <ProdutoPageClient produto={produto as any} />
 }

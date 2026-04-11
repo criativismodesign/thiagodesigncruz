@@ -20,5 +20,5 @@ export default async function Page({
 
   if (!produto) redirect('/categorias/todos-produtos')
 
-  return <ProdutoPageClient produto={produto} />
+  return <ProdutoPageClient produto={produto as any} />
 }

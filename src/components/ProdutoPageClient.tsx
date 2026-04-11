@@ -4,6 +4,13 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
+interface Estoque { 
+  id: string
+  tamanho: string | null
+  cor: string | null
+  quantidade: number 
+}
+
 interface Produto {
   id: string
   nome: string
@@ -17,7 +24,7 @@ interface Produto {
   status: string
   colecaoId: string | null
   imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
-  estoque?: { id: string; tamanho: string; quantidade: number; cor?: string }[]
+  estoque?: Estoque[]
   colecao?: { id: string; nome: string; slug: string }
 }
 
