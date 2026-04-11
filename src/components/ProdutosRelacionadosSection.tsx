@@ -3,11 +3,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import SectionHeader from './SectionHeader'
-import { useCartStore } from '@/store/cart-store'
-import { toast } from 'sonner'
 
 export default function ProdutosRelacionadosSection() {
-  const addItem = useCartStore((s) => s.addItem)
 
   const camisetas = [
     { 
@@ -85,20 +82,7 @@ export default function ProdutosRelacionadosSection() {
     },
   ]
 
-  const handleAddToCart = (produto: any, tipo: string) => {
-    addItem({
-      id: `${produto.id}-${tipo}`,
-      productId: produto.id.toString(),
-      name: produto.name,
-      price: produto.price,
-      image: produto.image,
-      quantity: 1,
-      type: tipo,
-    })
-    
-    toast.success("Produto adicionado ao carrinho!")
-  }
-
+  
   return (
     <section style={{ backgroundColor: '#FFFFFF', padding: '100px 40px' }}>
       <SectionHeader 
@@ -190,145 +174,169 @@ export default function ProdutosRelacionadosSection() {
             </div>
 
             {/* Botão COMPRAR */}
-            <button
-              onClick={() => handleAddToCart(camiseta, 'camiseta')}
+            <Link
+              href={camiseta.href}
               style={{
+                display: 'inline-block',
                 width: 'fit-content',
                 minWidth: '45%',
                 maxWidth: '50%',
                 padding: '12px 24px',
-                backgroundColor: '#46A520',
+                backgroundColor: '#DAA520',
                 color: '#FFFFFF',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '999px',
                 fontSize: '14px',
-                fontWeight: 600,
+                fontWeight: 700,
                 cursor: 'pointer',
                 margin: '16px 0 0 0',
+                textDecoration: 'none',
+                textAlign: 'center',
                 transition: 'background-color 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#3A8C1A'
+                e.currentTarget.style.backgroundColor = '#B8941F'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#46A520'
+                e.currentTarget.style.backgroundColor = '#DAA520'
               }}
             >
               COMPRAR
-            </button>
+            </Link>
           </div>
         ))}
       </div>
 
       {/* BLOCO 2 - 3 Mousepads */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(3, 1fr)', 
-        gap: '24px'
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '24px',
+        marginTop: '48px'
       }}>
         {mousepads.map((mousepad) => (
-          <div key={mousepad.id} style={{ textAlign: 'center' }}>
-            {/* Imagem */}
-            <Link href={mousepad.href}>
-              <div style={{ 
-                position: 'relative', 
-                width: '100%', 
-                height: '290px',
-                marginBottom: '16px',
-                cursor: 'pointer'
-              }}>
-                <Image
-                  src={mousepad.image}
-                  alt={mousepad.name}
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  sizes="(max-width: 600px) 100vw, 600px"
-                />
-              </div>
-            </Link>
-
-            {/* Supertítulo */}
-            <div style={{ 
-              fontSize: '12px', 
-              color: '#AAAAAA', 
-              fontWeight: 400, 
-              marginBottom: '8px',
-              lineHeight: 1.4
-            }}>
-              {mousepad.supertitle}
+          <div key={mousepad.id} style={{ width: '380px', flex: '0 0 380px' }}>
+            {/* Product Image */}
+            <div style={{ position: 'relative', overflow: 'hidden' }}>
+              <Image
+                src={mousepad.image}
+                alt={mousepad.name}
+                width={600}
+                height={290}
+                style={{ 
+                  width: '100%', 
+                  height: 'auto', 
+                  objectFit: 'cover',
+                  transition: 'transform 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)'
+                }}
+              />
             </div>
 
-            {/* Nome */}
-            <Link href={mousepad.href}>
+            {/* Product Info - Centered */}
+            <div style={{ paddingTop: '16px', textAlign: 'center' }}>
+              {/* Supertítulo */}
+              <p style={{ 
+                fontSize: '14px',
+                color: '#292929',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 400,
+                lineHeight: '1.4',
+                textTransform: 'uppercase'
+              }}>
+                {mousepad.supertitle}
+              </p>
+
+              {/* Product Name */}
               <h3 style={{ 
-                fontSize: '20px', 
-                color: '#292929', 
-                fontWeight: 700, 
-                marginBottom: '8px',
-                lineHeight: 1.2,
-                cursor: 'pointer'
+                fontSize: '24px',
+                color: '#292929',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 600,
+                marginTop: '8px',
+                lineHeight: '1.2',
+                textTransform: 'uppercase'
               }}>
                 {mousepad.name}
               </h3>
-            </Link>
 
-            {/* Preço */}
-            <div style={{ marginBottom: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-                <span style={{ fontSize: '20px', color: '#292929', fontWeight: 600 }}>
-                  R$ {mousepad.price.toFixed(2).replace('.', ',')}
-                </span>
-                {mousepad.discount && (
-                  <span style={{ 
-                    fontSize: '14px', 
-                    color: '#F0484A', 
-                    fontWeight: 400,
-                    backgroundColor: '#FFEBEB',
-                    padding: '2px 6px',
-                    borderRadius: '4px'
-                  }}>
-                    -{mousepad.discount}%
-                  </span>
-                )}
-              </div>
-              {mousepad.originalPrice && (
-                <span style={{ 
-                  fontSize: '16px', 
-                  color: '#AAAAAA', 
-                  textDecoration: 'line-through' 
-                }}>
-                  R$ {mousepad.originalPrice.toFixed(2).replace('.', ',')}
-                </span>
-              )}
-            </div>
-
-            {/* Botão COMPRAR */}
-            <button
-              onClick={() => handleAddToCart(mousepad, 'mousepad')}
-              style={{
-                width: 'fit-content',
-                minWidth: '45%',
-                maxWidth: '50%',
-                padding: '12px 24px',
-                backgroundColor: '#46A520',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '14px',
+              {/* Current Price */}
+              <div style={{ 
+                fontSize: '18px',
+                color: '#292929',
+                fontFamily: 'Inter, sans-serif',
                 fontWeight: 600,
-                cursor: 'pointer',
-                margin: '16px auto 0',
-                transition: 'background-color 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#3A8C1A'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#46A520'
-              }}
-            >
-              COMPRAR
-            </button>
+                textTransform: 'uppercase',
+                lineHeight: '1.2'
+              }}>
+                R$ {mousepad.price.toFixed(2).replace('.', ',')}
+              </div>
+
+              {/* Discount Line */}
+              {mousepad.discount && (
+                <div style={{ 
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginTop: '4px'
+                }}>
+                  <span style={{ 
+                    fontSize: '12px',
+                    color: '#F0484A',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 400
+                  }}>
+                    -{mousepad.discount}% OFF
+                  </span>
+                  <span style={{ 
+                    fontSize: '14px',
+                    color: '#AAAAAA',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 400,
+                    textDecoration: 'line-through'
+                  }}>
+                    DE: R$ {mousepad.originalPrice?.toFixed(2).replace('.', ',')}
+                  </span>
+                </div>
+              )}
+
+              {/* Buy Button */}
+              <Link
+                href={mousepad.href}
+                style={{
+                  display: 'block',
+                  textAlign: 'center',
+                  color: '#FFFFFF',
+                  borderRadius: '999px',
+                  transition: 'all 0.3s ease',
+                  fontSize: '15px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  backgroundColor: '#DAA520',
+                  padding: '14px',
+                  width: 'fit-content',
+                  minWidth: '45%',
+                  maxWidth: '50%',
+                  margin: '16px auto 0',
+                  textDecoration: 'none'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.filter = 'brightness(1.1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.filter = 'brightness(1)'
+                }}
+              >
+                COMPRAR
+              </Link>
+            </div>
           </div>
         ))}
       </div>
@@ -344,8 +352,9 @@ export default function ProdutosRelacionadosSection() {
             grid-template-columns: repeat(2, 1fr) !important;
           }
           
-          div[style*="grid-template-columns: repeat(3, 1fr)"] {
-            grid-template-columns: 1fr !important;
+          div[style*="width: '380px'"] {
+            width: 100% !important;
+            flex: 1 1 100% !important;
           }
         }
       `}</style>

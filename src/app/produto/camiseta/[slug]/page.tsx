@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import ProdutoPageClient from '@/components/ProdutoPageClient'
 import ProdutosRelacionadosSection from '@/components/ProdutosRelacionadosSection'
+import NewsletterSection from '@/components/NewsletterSection'
+import BannerBoxSection from '@/components/BannerBoxSection'
 
 export default async function ProdutoPage({
   params,
@@ -44,6 +46,8 @@ export default async function ProdutoPage({
     <>
       <ProdutoPageClient produto={produtoAdaptado as any} />
       <ProdutosRelacionadosSection />
+      <NewsletterSection source="produto" />
+      <BannerBoxSection />
     </>
   )
 }
