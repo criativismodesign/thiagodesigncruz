@@ -61,34 +61,33 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
   };
 
   return (
-    <section className="relative w-full">
+    <section style={{
+      position: 'relative',
+      width: '100%',
+      minHeight: '721px',
+      overflow: 'hidden',
+    }}>
       {/* Imagem de fundo */}
+      <Image
+        src="/imagens/hero/LIGHT-BANNER-SITE-USE-KIN-LISTA-VIP-1920x721px.jpg"
+        alt="Newsletter"
+        fill
+        style={{ objectFit: 'cover', objectPosition: 'center' }}
+        priority
+      />
+      
+      {/* Conteúdo sobre a imagem */}
       <div style={{
         position: 'relative',
-        width: '100%',
-        aspectRatio: '1920/721',
-        overflow: 'hidden',
+        zIndex: 1,
+        height: "100%",
+        paddingTop: "79.5px",
+        paddingBottom: "79.5px",
+        paddingLeft: "120px",
+        paddingRight: "120px",
+        display: "flex",
+        alignItems: "center"
       }}>
-        <Image
-          src="/imagens/hero/LIGHT-BANNER-SITE-USE-KIN-LISTA-VIP-1920x721px.jpg"
-          alt="Newsletter"
-          fill
-          style={{ objectFit: 'contain', objectPosition: 'center' }}
-          priority
-        />
-      </div>
-
-      {/* Conteúdo */}
-      <div 
-        className="relative z-10 flex items-center"
-        style={{ 
-          height: "100%",
-          paddingTop: "79.5px",
-          paddingBottom: "79.5px",
-          paddingLeft: "120px",
-          paddingRight: "120px"
-        }}
-      >
         <div className="max-w-[40%]">
           {/* Tag LISTA VIP */}
           <div 

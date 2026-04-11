@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     // Verificar se email já existe
     const { data: existingSubscriber } = await supabase
-      .from("newsletter_subscribers")
+      .from("Newsletter")
       .select("email")
       .eq("email", email)
       .single();
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
     // Inserir novo subscriber
     const { data, error } = await supabase
-      .from("newsletter_subscribers")
+      .from("Newsletter")
       .insert({
         nome: nome.trim(),
         whatsapp: whatsapp.replace(/\D/g, ""),
