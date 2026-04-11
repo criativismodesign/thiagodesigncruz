@@ -31,13 +31,13 @@ export default async function ProdutosRelacionadosWrapper({
         colecao: true
       },
       orderBy: { ordemSecao: 'asc' },
-      take: 6, // Buscar até 6 para depois filtrar
+      take: 7, // Buscar até 7 para garantir 4 camisetas + 3 mousepads
     })
 
-    // Separar e limitar: 3 camisetas + 3 mousepads
+    // Separar e limitar: 4 camisetas + 3 mousepads
     const camisetas = produtos
       .filter((p: any) => p.tipo === 'camiseta')
-      .slice(0, 3)
+      .slice(0, 4)
       .map((p: any) => ({
         id: p.id,
         image: p.imagens.find((i: any) => i.isPrincipal)?.url || 

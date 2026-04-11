@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
+import { gerarUrlProduto } from "@/lib/produto-url";
 
 interface Produto {
   id: string
@@ -13,7 +14,9 @@ interface Produto {
   precoDe: number | null
   status: string
   colecaoId: string | null
+  slug: string | null
   imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
+  colecao?: { slug: string } | null
   href?: string
 }
 
@@ -33,7 +36,12 @@ export default function MousepadCollectionSection({ produtos }: Props) {
     price: p.precoAtual,
     originalPrice: p.precoDe,
     discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
-    href: p.href || `/produto/${p.id}`,
+    href: p.href || gerarUrlProduto({
+      slug: p.slug || '',
+      tipo: p.tipo,
+      categoria: p.categoria,
+      colecao: p.colecao
+    }),
   }))
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
