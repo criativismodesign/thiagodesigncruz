@@ -86,10 +86,7 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error("Erro no servidor:", error);
-    return NextResponse.json(
-      { error: "Erro interno do servidor" },
-      { status: 500 }
-    );
-  }
+  console.error('Erro newsletter:', error)
+  return Response.json({ success: false, error: String(error) }, { status: 500 })
+}
 }

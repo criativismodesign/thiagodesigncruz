@@ -7,13 +7,19 @@ import Link from "next/link";
 const banners = [
   {
     id: 'esquerdo',
-    image: '/images/banners/banner-box-esquerdo.jpg',
-    cta: { label: 'ENTRE EM CONTATO AGORA!', href: '#' },
+    image: '/imagens/hero/DUAL-BANNER-ESQUERDO-SITE-USE-KIN-LISTA-VIP-960x750px.jpg',
+    cta: { 
+      label: 'ENTRE EM CONTATO AGORA!', 
+      href: 'https://wa.me/5562981316462?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20como%20funciona%20para%20personalizar%20uma%20camiseta.' 
+    },
   },
   {
     id: 'direito',
-    image: '/images/banners/banner-box-direito.jpg',
-    cta: { label: 'ENTRE EM CONTATO AGORA!', href: '#' },
+    image: '/imagens/hero/DUAL-BANNER-DIREITO-SITE-USE-KIN-LISTA-VIP-960x750px.jpg',
+    cta: { 
+      label: 'ENTRE EM CONTATO AGORA!', 
+      href: 'https://wa.me/5562981316462?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20como%20funciona%20para%20personalizar%20uma%20desckpad.' 
+    },
   },
 ];
 

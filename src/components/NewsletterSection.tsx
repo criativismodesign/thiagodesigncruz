@@ -65,7 +65,7 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
       {/* Imagem de fundo */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/banners/newsletter-bg.jpg"
+          src="/imagens/hero/LIGHT-BANNER-SITE-USE-KIN-LISTA-VIP-1920x721px.jpg"
           alt="Newsletter Background"
           fill
           className="object-cover"
