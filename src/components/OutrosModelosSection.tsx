@@ -53,7 +53,7 @@ export default function OutrosModelosSection() {
         justifyContent: 'center',
         gap: '24px',
       }}>
-        {products.map((product) => (
+        {products.map((product, index) => (
           <div key={product.id} style={{ width: '220px', flex: '0 0 220px' }}>
             {/* Imagem do Produto */}
             <div className="relative overflow-hidden">
