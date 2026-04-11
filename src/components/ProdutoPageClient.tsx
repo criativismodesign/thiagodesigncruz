@@ -79,36 +79,13 @@ export default function ProdutoPageClient({ produto }: Props) {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
-      {/* Header */}
-      <div style={{ 
-        background: '#fff', 
-        borderBottom: '1px solid #E5E5E5', 
-        padding: '16px 32px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '16px'
-      }}>
-        <Link href="/" style={{ color: '#888', textDecoration: 'none' }}>
-          Início
-        </Link>
-        <span style={{ color: '#888' }}>/</span>
-        <Link href="/categorias/todos-produtos" style={{ color: '#888', textDecoration: 'none' }}>
-          Produtos
-        </Link>
-        <span style={{ color: '#888' }}>/</span>
-        <span style={{ color: '#292929', fontWeight: 500 }}>
-          {produto.nome}
-        </span>
-      </div>
-
-      <div style={{ 
-        display: 'flex', 
-        gap: '60px',
-        padding: '40px',
-        maxWidth: '1200px',
-        margin: '0 auto'
-      }}>
+    <div style={{ 
+      display: 'flex', 
+      gap: '60px',
+      padding: '40px',
+      maxWidth: '1200px',
+      margin: '0 auto'
+    }}>
         {/* Galeria de Imagens */}
         <div style={{ flex: 1 }}>
           <div style={{ 
@@ -418,7 +395,6 @@ export default function ProdutoPageClient({ produto }: Props) {
             </p>
           </div>
         </div>
-      </div>
 
       {/* Abas */}
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px 40px' }}>
