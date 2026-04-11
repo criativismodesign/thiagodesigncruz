@@ -61,15 +61,14 @@ export default function OriginalCollectionSection({ produtos }: Props) {
       </div>
 
       {/* Products Grid */}
-      <div 
-        className="grid"
-        style={{ 
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '24px'
-        }}
-      >
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '24px',
+      }}>
         {products.map((product) => (
-          <div key={product.id} className="w-full">
+          <div key={product.id} style={{ width: '285px', flex: '0 0 285px' }}>
             {/* Product Image */}
             <div className="relative overflow-hidden">
               <Image

@@ -47,15 +47,14 @@ export default function OutrosModelosSection() {
       />
 
       {/* Grid de Produtos */}
-      <div 
-        className="grid"
-        style={{ 
-          gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: '24px'
-        }}
-      >
-        {products.map((product, index) => (
-          <div key={product.id} className="w-full">
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '24px',
+      }}>
+        {products.map((product) => (
+          <div key={product.id} style={{ width: '220px', flex: '0 0 220px' }}>
             {/* Imagem do Produto */}
             <div className="relative overflow-hidden">
               <Image

@@ -61,15 +61,14 @@ export default function MousepadCollectionSection({ produtos }: Props) {
       </div>
 
       {/* Products Grid */}
-      <div 
-        className="grid"
-        style={{ 
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '24px'
-        }}
-      >
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '24px',
+      }}>
         {products.map((product) => (
-          <div key={product.id} className="w-full">
+          <div key={product.id} style={{ width: '380px', flex: '0 0 380px' }}>
             {/* Product Image */}
             <div className="relative overflow-hidden">
               <Image
