@@ -4,83 +4,33 @@ import Image from 'next/image'
 import Link from 'next/link'
 import SectionHeader from './SectionHeader'
 
-export default function ProdutosRelacionadosSection() {
+interface Produto {
+  id: string
+  image: string
+  supertitle: string
+  name: string
+  price: number
+  originalPrice: number | null
+  discount: number | null
+  href: string
+}
 
-  const camisetas = [
-    { 
-      id: 1, 
-      image: '/images/products/placeholder-430x575.jpg', 
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART', 
-      name: 'DOCE GUARDIÃ', 
-      price: 169.90, 
-      originalPrice: 189.90, 
-      discount: 8, 
-      href: '/produto/doce-guardia' 
-    },
-    { 
-      id: 2, 
-      image: '/images/products/placeholder-430x575.jpg', 
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART', 
-      name: 'VIAJANTE DO FUTURO', 
-      price: 169.90, 
-      originalPrice: 189.90, 
-      discount: 8, 
-      href: '/produto/viajante-do-futuro' 
-    },
-    { 
-      id: 3, 
-      image: '/images/products/placeholder-430x575.jpg', 
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART', 
-      name: 'CAÇADOR DE PIRATAS', 
-      price: 169.90, 
-      originalPrice: 189.90, 
-      discount: 8, 
-      href: '/produto/cacador-de-piratas' 
-    },
-    { 
-      id: 4, 
-      image: '/images/products/placeholder-430x575.jpg', 
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART', 
-      name: 'RAINHA DO CAOS', 
-      price: 169.90, 
-      originalPrice: 189.90, 
-      discount: 8, 
-      href: '/produto/rainha-do-caos' 
-    },
-  ]
+interface Props {
+  produtos: Produto[]
+}
 
-  const mousepads = [
-    { 
-      id: 1, 
-      image: '/images/products/placeholder-mousepad-600x290.jpg', 
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART', 
-      name: 'DOCE GUARDIÃ', 
-      price: 169.90, 
-      originalPrice: 189.90, 
-      discount: 8, 
-      href: '/produto/mousepad-doce-guardia' 
-    },
-    { 
-      id: 2, 
-      image: '/images/products/placeholder-mousepad-600x290.jpg', 
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART', 
-      name: 'CAÇADOR DE PIRATAS', 
-      price: 169.90, 
-      originalPrice: 189.90, 
-      discount: 8, 
-      href: '/produto/mousepad-cacador-de-piratas' 
-    },
-    { 
-      id: 3, 
-      image: '/images/products/placeholder-mousepad-600x290.jpg', 
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART', 
-      name: 'RAINHA DO CAOS', 
-      price: 169.90, 
-      originalPrice: 189.90, 
-      discount: 8, 
-      href: '/produto/mousepad-rainha-do-caos' 
-    },
-  ]
+export default function ProdutosRelacionadosSection({ produtos }: Props) {
+
+  // Separar produtos dinamicamente
+  const camisetas = produtos.filter(p => 
+    p.href.includes('/camiseta/') || 
+    (p.image.includes('430x575') || p.image.includes('camiseta'))
+  ).slice(0, 4)
+
+  const mousepads = produtos.filter(p => 
+    p.href.includes('/mousepad/') || 
+    (p.image.includes('600x290') || p.image.includes('mousepad'))
+  ).slice(0, 3)
 
   
   return (

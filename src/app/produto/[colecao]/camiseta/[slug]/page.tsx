@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import ProdutoPageClient from '@/components/ProdutoPageClient'
-import ProdutosRelacionadosSection from '@/components/ProdutosRelacionadosSection'
+import ProdutosRelacionadosWrapper from '@/components/ProdutosRelacionadosWrapper'
 import NewsletterSection from '@/components/NewsletterSection'
 import BannerBoxSection from '@/components/BannerBoxSection'
 
@@ -45,7 +45,11 @@ export default async function ProdutoPage({
   return (
     <>
       <ProdutoPageClient produto={produtoAdaptado as any} />
-      <ProdutosRelacionadosSection />
+      <ProdutosRelacionadosWrapper 
+        produtoId={produto.id}
+        tipo={produto.tipo}
+        colecaoId={produto.colecaoId}
+      />
       <NewsletterSection source="produto" />
       <BannerBoxSection />
     </>
