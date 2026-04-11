@@ -23,7 +23,9 @@ export default function LoginUseKIN() {
     const data = await res.json()
     
     if (data.success) {
-      window.location.href = '/login-usekin/dashboard'
+      // Aguardar um momento para o cookie ser salvo antes de redirecionar
+      await new Promise(resolve => setTimeout(resolve, 500))
+      window.location.replace('/login-usekin/dashboard')
     } else {
       setError('Email ou senha inválidos')
     }
