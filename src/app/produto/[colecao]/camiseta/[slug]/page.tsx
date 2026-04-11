@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
+import ProdutoPageClient from '@/components/ProdutoPageClient'
 
 export default async function Page({
   params,
@@ -20,10 +20,5 @@ export default async function Page({
 
   if (!produto) redirect('/categorias/todos-produtos')
 
-  return (
-    <div>
-      <h1>{produto.nome}</h1>
-      <p>Página do produto em construção</p>
-    </div>
-  )
+  return <ProdutoPageClient produto={produto} />
 }

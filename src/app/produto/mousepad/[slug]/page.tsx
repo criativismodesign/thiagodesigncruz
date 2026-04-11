@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
+import ProdutoPageClient from '@/components/ProdutoPageClient'
 
 export default async function ProdutoMousepadPage({
   params,
@@ -25,12 +24,5 @@ export default async function ProdutoMousepadPage({
   
   if (!produto) redirect('/categorias/todos-produtos')
   
-  // TODO: Criar ProdutoPageClient component
-  return (
-    <div>
-      <h1>{produto.nome}</h1>
-      <p>Mousepad avulso - {produto.slug}</p>
-      <p>Preço: R$ {produto.precoAtual}</p>
-    </div>
-  )
+  return <ProdutoPageClient produto={produto} />
 }

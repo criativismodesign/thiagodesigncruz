@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
+import ProdutoPageClient from '@/components/ProdutoPageClient'
 
 export default async function ProdutoCamisetaPage({
   params,
@@ -23,12 +24,5 @@ export default async function ProdutoCamisetaPage({
   
   if (!produto) redirect('/categorias/todos-produtos')
   
-  // TODO: Criar ProdutoPageClient component
-  return (
-    <div>
-      <h1>{produto.nome}</h1>
-      <p>Camiseta avulsa - {produto.slug}</p>
-      <p>Preço: R$ {produto.precoAtual}</p>
-    </div>
-  )
+  return <ProdutoPageClient produto={produto} />
 }
