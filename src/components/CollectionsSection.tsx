@@ -49,15 +49,17 @@ export default function CollectionsSection({ colecoes }: Props) {
       </div>
 
       {/* Collections Grid */}
-      <div 
-        className="grid"
-        style={{ 
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '24px'
-        }}
-      >
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '24px',
+      }}>
         {collections.map((collection) => (
-          <div key={collection.id} className="w-full">
+          <div key={collection.id} style={{
+            width: '384px',
+            flex: '0 0 384px',
+          }}>
             {/* Container do bloco de imagens */}
             <div style={{ position: 'relative', width: '100%' }}>
 
