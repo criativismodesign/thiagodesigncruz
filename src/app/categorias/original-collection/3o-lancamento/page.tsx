@@ -1,12 +1,13 @@
-import BannerCategoria from '@/components/BannerCategoria'
+import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 
 export default function TerceiroLancamentoPage() {
   return (
     <main>
-      <BannerCategoria 
+      <BannerCategoriaWrapper 
         titulo="3º LANÇAMENTO" 
+        colecaoSlug="3o-lancamento"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Original Collection', href: '/categorias/original-collection' },

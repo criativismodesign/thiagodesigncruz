@@ -1,15 +1,16 @@
-import BannerCategoria from '@/components/BannerCategoria'
+import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 
 export default function CategoriasPage() {
   return (
     <main>
-      <BannerCategoria 
-        titulo="TODAS CATEGORIAS" 
+      <BannerCategoriaWrapper 
+        titulo="CATEGORIAS" 
+        chave="banner-categoria-todos-produtos"
         breadcrumb={[
           { label: 'Home', href: '/' },
-          { label: 'Todos Produtos', href: '/categorias', ativo: true },
+          { label: 'Categorias', href: '/categorias', ativo: true },
         ]} 
       />
       <div style={{ 

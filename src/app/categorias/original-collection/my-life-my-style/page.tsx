@@ -1,12 +1,13 @@
-import BannerCategoria from '@/components/BannerCategoria'
+import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 
 export default function MyLifeMyStylePage() {
   return (
     <main>
-      <BannerCategoria 
+      <BannerCategoriaWrapper 
         titulo="MY LIFE MY STYLE" 
+        colecaoSlug="my-life-my-style"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Original Collection', href: '/categorias/original-collection' },
