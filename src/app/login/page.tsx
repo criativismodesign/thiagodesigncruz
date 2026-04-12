@@ -68,18 +68,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center px-4 py-12">
+    <div className="flex min-h-[80vh] items-center justify-center px-4 py-12 bg-white">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--accent)]">
-              <Palette className="h-7 w-7 text-white" />
-            </div>
+            <img 
+              src="/icons/logo.svg" 
+              alt="Use KIN Logo" 
+              style={{ width: "205.57px", height: "74.75px" }}
+            />
           </Link>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-[#292929]">
             {isLogin ? "Entrar na sua conta" : "Criar sua conta"}
           </h1>
-          <p className="mt-2 text-sm text-[var(--muted-foreground)]">
+          <p className="mt-2 text-sm text-[#AAAAAA]">
             {isLogin
               ? "Acesse sua conta para continuar comprando"
               : "Cadastre-se para começar a comprar"}
@@ -88,11 +90,11 @@ export default function LoginPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 space-y-4"
+          className="rounded-2xl border border-[#E5E5E5] bg-white p-6 space-y-4"
         >
           {!isLogin && (
             <div>
-              <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-1.5">
+              <label className="block text-sm font-medium text-[#292929] mb-1.5">
                 Nome completo
               </label>
               <input
@@ -100,14 +102,14 @@ export default function LoginPage() {
                 required={!isLogin}
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+                className="w-full rounded-lg border border-[#E5E5E5] bg-white px-4 py-2.5 text-sm text-[#292929] placeholder:text-[#AAAAAA] focus:border-[#DAA520] focus:outline-none focus:ring-1 focus:ring-[#DAA520]"
                 placeholder="Seu nome"
               />
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-1.5">
+            <label className="block text-sm font-medium text-[#292929] mb-1.5">
               Email
             </label>
             <input
@@ -115,13 +117,13 @@ export default function LoginPage() {
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+              className="w-full rounded-lg border border-[#E5E5E5] bg-white px-4 py-2.5 text-sm text-[#292929] placeholder:text-[#AAAAAA] focus:border-[#DAA520] focus:outline-none focus:ring-1 focus:ring-[#DAA520]"
               placeholder="seu@email.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-1.5">
+            <label className="block text-sm font-medium text-[#292929] mb-1.5">
               Senha
             </label>
             <div className="relative">
@@ -130,13 +132,13 @@ export default function LoginPage() {
                 required
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 pr-10 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+                className="w-full rounded-lg border border-[#E5E5E5] bg-white px-4 py-2.5 pr-10 text-sm text-[#292929] placeholder:text-[#AAAAAA] focus:border-[#DAA520] focus:outline-none focus:ring-1 focus:ring-[#DAA520]"
                 placeholder="Mínimo 6 caracteres"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#AAAAAA] hover:text-[#292929]"
               >
                 {showPassword ? (
                   <EyeOff className="h-4 w-4" />
@@ -149,14 +151,14 @@ export default function LoginPage() {
 
           {!isLogin && (
             <div>
-              <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-1.5">
+              <label className="block text-sm font-medium text-[#292929] mb-1.5">
                 Telefone (opcional)
               </label>
               <input
                 type="tel"
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+                className="w-full rounded-lg border border-[#E5E5E5] bg-white px-4 py-2.5 text-sm text-[#292929] placeholder:text-[#AAAAAA] focus:border-[#DAA520] focus:outline-none focus:ring-1 focus:ring-[#DAA520]"
                 placeholder="(XX) XXXXX-XXXX"
               />
             </div>
@@ -165,18 +167,18 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-[var(--primary)] py-2.5 text-sm font-semibold text-white hover:bg-[var(--primary)]/80 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full rounded-lg bg-[#DAA520] py-2.5 text-sm font-semibold text-white hover:bg-[#46A520] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
             {isLogin ? "Entrar" : "Criar Conta"}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-[var(--muted-foreground)]">
+        <p className="mt-6 text-center text-sm text-[#AAAAAA]">
           {isLogin ? "Não tem uma conta?" : "Já tem uma conta?"}{" "}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="font-medium text-[var(--accent)] hover:text-white transition-colors"
+            className="font-medium text-[#DAA520] hover:text-[#46A520] transition-colors"
           >
             {isLogin ? "Cadastre-se" : "Faça login"}
           </button>

@@ -170,8 +170,8 @@ export default function MinhaContaPage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
-        <div className="text-white">Carregando...</div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-[#292929]">Carregando...</div>
       </div>
     );
   }
@@ -190,23 +190,23 @@ export default function MinhaContaPage() {
   const recentOrders = orders.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 mb-8">
+        <div className="rounded-2xl border border-[#E5E5E5] bg-white p-6 mb-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="h-16 w-16 rounded-full bg-[var(--primary)] flex items-center justify-center text-white text-xl font-bold">
+              <div className="h-16 w-16 rounded-full bg-[#DAA520] flex items-center justify-center text-white text-xl font-bold">
                 {userInitials}
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">{userData.name}</h1>
-                <p className="text-[var(--muted-foreground)]">{userData.email}</p>
+                <h1 className="text-2xl font-bold text-[#292929]">{userData.name}</h1>
+                <p className="text-[#AAAAAA]">{userData.email}</p>
               </div>
             </div>
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-2 px-4 py-2 bg-[var(--destructive)] text-white rounded-lg hover:bg-[var(--destructive)]/90 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-[#F0484A] text-white rounded-lg hover:bg-[#F0484A]/90 transition-colors"
             >
               <LogOut className="h-4 w-4" />
               Sair
@@ -215,7 +215,7 @@ export default function MinhaContaPage() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-[var(--border)]">
+        <div className="flex flex-wrap gap-2 mb-8 border-b border-[#E5E5E5]">
           {[
             { id: "overview", label: "Visão Geral", icon: Home },
             { id: "orders", label: "Meus Pedidos", icon: ShoppingBag },
@@ -227,8 +227,8 @@ export default function MinhaContaPage() {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? "border-[var(--primary)] text-white"
-                  : "border-transparent text-[var(--muted-foreground)] hover:text-white"
+                  ? "border-[#DAA520] text-[#DAA520]"
+                  : "border-transparent text-[#AAAAAA] hover:text-[#292929]"
               }`}
             >
               <tab.icon className="h-4 w-4" />
@@ -238,39 +238,39 @@ export default function MinhaContaPage() {
         </div>
 
         {/* Content */}
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
+        <div className="rounded-2xl border border-[#E5E5E5] bg-white p-6">
           {activeTab === "overview" && (
             <div className="space-y-8">
               {/* Stats */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div className="bg-[var(--secondary)] rounded-xl p-4">
+                <div className="bg-[#F5F5F5] rounded-xl p-4">
                   <div className="flex items-center gap-3">
-                    <ShoppingBag className="h-8 w-8 text-[var(--primary)]" />
+                    <ShoppingBag className="h-8 w-8 text-[#DAA520]" />
                     <div>
-                      <p className="text-2xl font-bold text-white">{orders.length}</p>
-                      <p className="text-sm text-[var(--muted-foreground)]">Total de Pedidos</p>
+                      <p className="text-2xl font-bold text-[#292929]">{orders.length}</p>
+                      <p className="text-sm text-[#AAAAAA]">Total de Pedidos</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-[var(--secondary)] rounded-xl p-4">
+                <div className="bg-[#F5F5F5] rounded-xl p-4">
                   <div className="flex items-center gap-3">
-                    <CheckCircle className="h-8 w-8 text-[var(--success)]" />
+                    <CheckCircle className="h-8 w-8 text-[#46A520]" />
                     <div>
-                      <p className="text-2xl font-bold text-white">
+                      <p className="text-2xl font-bold text-[#292929]">
                         {orders.filter((o) => o.status === "delivered").length}
                       </p>
-                      <p className="text-sm text-[var(--muted-foreground)]">Pedidos Entregues</p>
+                      <p className="text-sm text-[#AAAAAA]">Pedidos Entregues</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-[var(--secondary)] rounded-xl p-4">
+                <div className="bg-[#F5F5F5] rounded-xl p-4">
                   <div className="flex items-center gap-3">
-                    <Clock className="h-8 w-8 text-[var(--accent)]" />
+                    <Clock className="h-8 w-8 text-[#F0484A]" />
                     <div>
-                      <p className="text-2xl font-bold text-white">
+                      <p className="text-2xl font-bold text-[#292929]">
                         {orders.filter((o) => o.status === "pending" || o.status === "paid").length}
                       </p>
-                      <p className="text-sm text-[var(--muted-foreground)]">Pedidos em Andamento</p>
+                      <p className="text-sm text-[#AAAAAA]">Pedidos em Andamento</p>
                     </div>
                   </div>
                 </div>
@@ -278,29 +278,29 @@ export default function MinhaContaPage() {
 
               {/* Recent Orders */}
               <div>
-                <h2 className="text-xl font-bold text-white mb-4">Pedidos Recentes</h2>
+                <h2 className="text-xl font-bold text-[#292929] mb-4">Pedidos Recentes</h2>
                 {recentOrders.length > 0 ? (
                   <div className="space-y-4">
                     {recentOrders.map((order) => (
-                      <div key={order.id} className="bg-[var(--secondary)] rounded-xl p-4">
+                      <div key={order.id} className="bg-[#F5F5F5] rounded-xl p-4">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                           <div>
-                            <p className="font-medium text-white">Pedido #{order.id.slice(-8)}</p>
-                            <p className="text-sm text-[var(--muted-foreground)]">{formatDate(order.createdAt)}</p>
+                            <p className="font-medium text-[#292929]">Pedido #{order.id.slice(-8)}</p>
+                            <p className="text-sm text-[#AAAAAA]">{formatDate(order.createdAt)}</p>
                           </div>
                           <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
                               {getStatusIcon(order.status)}
-                              <span className="text-sm text-white">{getStatusText(order.status)}</span>
+                              <span className="text-sm text-[#292929]">{getStatusText(order.status)}</span>
                             </div>
-                            <p className="font-bold text-white">{formatCurrency(order.total)}</p>
+                            <p className="font-bold text-[#292929]">{formatCurrency(order.total)}</p>
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[var(--muted-foreground)]">Você ainda não tem pedidos.</p>
+                  <p className="text-[#AAAAAA]">Você ainda não tem pedidos.</p>
                 )}
               </div>
             </div>
@@ -308,50 +308,50 @@ export default function MinhaContaPage() {
 
           {activeTab === "orders" && (
             <div>
-              <h2 className="text-xl font-bold text-white mb-6">Histórico de Pedidos</h2>
+              <h2 className="text-xl font-bold text-[#292929] mb-6">Histórico de Pedidos</h2>
               {orders.length > 0 ? (
                 <div className="space-y-4">
                   {orders.map((order) => (
-                    <div key={order.id} className="bg-[var(--secondary)] rounded-xl p-6">
+                    <div key={order.id} className="bg-[#F5F5F5] rounded-xl p-6">
                       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
                         <div>
-                          <p className="font-medium text-white text-lg">Pedido #{order.id.slice(-8)}</p>
-                          <p className="text-sm text-[var(--muted-foreground)]">{formatDate(order.createdAt)}</p>
+                          <p className="font-medium text-[#292929] text-lg">Pedido #{order.id.slice(-8)}</p>
+                          <p className="text-sm text-[#AAAAAA]">{formatDate(order.createdAt)}</p>
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-2">
                             {getStatusIcon(order.status)}
-                            <span className="text-sm text-white">{getStatusText(order.status)}</span>
+                            <span className="text-sm text-[#292929]">{getStatusText(order.status)}</span>
                           </div>
-                          <p className="font-bold text-white text-lg">{formatCurrency(order.total)}</p>
+                          <p className="font-bold text-[#292929] text-lg">{formatCurrency(order.total)}</p>
                         </div>
                       </div>
                       
-                      <div className="border-t border-[var(--border)] pt-4">
-                        <p className="font-medium text-white mb-2">Itens do Pedido:</p>
+                      <div className="border-t border-[#E5E5E5] pt-4">
+                        <p className="font-medium text-[#292929] mb-2">Itens do Pedido:</p>
                         <div className="space-y-2">
                           {order.items.map((item, index) => (
                             <div key={index} className="flex justify-between text-sm">
-                              <span className="text-[var(--muted-foreground)]">
+                              <span className="text-[#AAAAAA]">
                                 {item.quantity}x {item.name}
                               </span>
-                              <span className="text-white">{formatCurrency(item.price * item.quantity)}</span>
+                              <span className="text-[#292929]">{formatCurrency(item.price * item.quantity)}</span>
                             </div>
                           ))}
                         </div>
                       </div>
 
                       {order.trackingCode && (
-                        <div className="border-t border-[var(--border)] pt-4 mt-4">
-                          <p className="font-medium text-white mb-2">Código de Rastreamento:</p>
-                          <p className="text-[var(--accent)]">{order.trackingCode}</p>
+                        <div className="border-t border-[#E5E5E5] pt-4 mt-4">
+                          <p className="font-medium text-[#292929] mb-2">Código de Rastreamento:</p>
+                          <p className="text-[#DAA520]">{order.trackingCode}</p>
                         </div>
                       )}
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-[var(--muted-foreground)]">Você ainda não tem pedidos.</p>
+                <p className="text-[#AAAAAA]">Você ainda não tem pedidos.</p>
               )}
             </div>
           )}
@@ -359,10 +359,10 @@ export default function MinhaContaPage() {
           {activeTab === "profile" && (
             <div>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white">Meus Dados</h2>
+                <h2 className="text-xl font-bold text-[#292929]">Meus Dados</h2>
                 <button
                   onClick={() => setEditingProfile(!editingProfile)}
-                  className="flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--primary)]/90 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-[#DAA520] text-white rounded-lg hover:bg-[#46A520] transition-colors"
                 >
                   <Edit className="h-4 w-4" />
                   {editingProfile ? "Cancelar" : "Editar"}
@@ -372,39 +372,39 @@ export default function MinhaContaPage() {
               {editingProfile ? (
                 <form onSubmit={handleUpdateProfile} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">Nome</label>
+                    <label className="block text-sm font-medium text-[#292929] mb-2">Nome</label>
                     <input
                       type="text"
                       value={userData.name}
                       onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                      className="w-full bg-[var(--secondary)] border border-[var(--border)] rounded-lg px-4 py-3 text-white"
+                      className="w-full bg-white border border-[#E5E5E5] rounded-lg px-4 py-3 text-[#292929]"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">Email</label>
+                    <label className="block text-sm font-medium text-[#292929] mb-2">Email</label>
                     <input
                       type="email"
                       value={userData.email}
                       disabled
-                      className="w-full bg-[var(--secondary)] border border-[var(--border)] rounded-lg px-4 py-3 text-white opacity-50"
+                      className="w-full bg-white border border-[#E5E5E5] rounded-lg px-4 py-3 text-[#292929] opacity-50"
                     />
-                    <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                    <p className="text-xs text-[#AAAAAA] mt-1">
                       Para alterar o email, entre em contato com o suporte
                     </p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">Telefone</label>
+                    <label className="block text-sm font-medium text-[#292929] mb-2">Telefone</label>
                     <input
                       type="tel"
                       value={userData.phone}
                       onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
-                      className="w-full bg-[var(--secondary)] border border-[var(--border)] rounded-lg px-4 py-3 text-white"
+                      className="w-full bg-white border border-[#E5E5E5] rounded-lg px-4 py-3 text-[#292929]"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-[var(--primary)] text-white py-3 rounded-lg font-semibold hover:bg-[var(--primary)]/90 transition-colors"
+                    className="w-full bg-[#DAA520] text-white py-3 rounded-lg font-semibold hover:bg-[#46A520] transition-colors"
                   >
                     Salvar Alterações
                   </button>
@@ -412,24 +412,24 @@ export default function MinhaContaPage() {
               ) : (
                 <div className="space-y-6">
                   <div className="flex items-center gap-3">
-                    <User className="h-5 w-5 text-[var(--muted-foreground)]" />
+                    <User className="h-5 w-5 text-[#AAAAAA]" />
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">Nome</p>
-                      <p className="text-white">{userData.name}</p>
+                      <p className="text-sm text-[#AAAAAA]">Nome</p>
+                      <p className="text-[#292929]">{userData.name}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Mail className="h-5 w-5 text-[var(--muted-foreground)]" />
+                    <Mail className="h-5 w-5 text-[#AAAAAA]" />
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">Email</p>
-                      <p className="text-white">{userData.email}</p>
+                      <p className="text-sm text-[#AAAAAA]">Email</p>
+                      <p className="text-[#292929]">{userData.email}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-[var(--muted-foreground)]" />
+                    <Phone className="h-5 w-5 text-[#AAAAAA]" />
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">Telefone</p>
-                      <p className="text-white">{userData.phone || "Não informado"}</p>
+                      <p className="text-sm text-[#AAAAAA]">Telefone</p>
+                      <p className="text-[#292929]">{userData.phone || "Não informado"}</p>
                     </div>
                   </div>
                 </div>
@@ -439,23 +439,23 @@ export default function MinhaContaPage() {
 
           {activeTab === "addresses" && (
             <div>
-              <h2 className="text-xl font-bold text-white mb-6">Meus Endereços</h2>
+              <h2 className="text-xl font-bold text-[#292929] mb-6">Meus Endereços</h2>
               {userData.addresses?.length > 0 ? (
                 <div className="space-y-4">
                   {userData.addresses.map((address) => (
-                    <div key={address.id} className="bg-[var(--secondary)] rounded-xl p-6">
+                    <div key={address.id} className="bg-[#F5F5F5] rounded-xl p-6">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="font-medium text-white mb-2">{address.label}</p>
-                          <p className="text-[var(--muted-foreground)]">
+                          <p className="font-medium text-[#292929] mb-2">{address.label}</p>
+                          <p className="text-[#AAAAAA]">
                             {address.street}, {address.number} {address.complement && `- ${address.complement}`}
                           </p>
-                          <p className="text-[var(--muted-foreground)]">
+                          <p className="text-[#AAAAAA]">
                             {address.neighborhood}, {address.city} - {address.state}
                           </p>
-                          <p className="text-[var(--muted-foreground)]">CEP: {address.zipCode}</p>
+                          <p className="text-[#AAAAAA]">CEP: {address.zipCode}</p>
                         </div>
-                        <button className="text-[var(--primary)] hover:text-[var(--primary)]/80">
+                        <button className="text-[#DAA520] hover:text-[#46A520]">
                           <Edit className="h-4 w-4" />
                         </button>
                       </div>
@@ -464,9 +464,9 @@ export default function MinhaContaPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <MapPin className="h-12 w-12 text-[var(--muted-foreground)] mx-auto mb-4" />
-                  <p className="text-[var(--muted-foreground)] mb-4">Você ainda não tem endereços cadastrados.</p>
-                  <button className="bg-[var(--primary)] text-white px-6 py-2 rounded-lg hover:bg-[var(--primary)]/90 transition-colors">
+                  <MapPin className="h-12 w-12 text-[#AAAAAA] mx-auto mb-4" />
+                  <p className="text-[#AAAAAA] mb-4">Você ainda não tem endereços cadastrados.</p>
+                  <button className="bg-[#DAA520] text-white px-6 py-2 rounded-lg hover:bg-[#46A520] transition-colors">
                     Adicionar Endereço
                   </button>
                 </div>
