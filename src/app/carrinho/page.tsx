@@ -26,17 +26,17 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-20 text-center">
-        <ShoppingBag className="mx-auto h-16 w-16 text-[var(--muted-foreground)]/30 mb-6" />
-        <h1 className="text-2xl font-bold text-white mb-2">
+      <div className="mx-auto max-w-7xl px-4 py-20 text-center bg-white">
+        <ShoppingBag className="mx-auto h-16 w-16 text-[#AAAAAA]/30 mb-6" />
+        <h1 className="text-2xl font-bold text-[#292929] mb-2">
           Seu carrinho está vazio
         </h1>
-        <p className="text-[var(--muted-foreground)] mb-8">
+        <p className="text-[#AAAAAA] mb-8">
           Que tal explorar nossos produtos?
         </p>
         <Link
           href="/produtos"
-          className="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#DAA520] px-6 py-3 text-sm font-semibold text-white"
         >
           <ArrowLeft className="h-4 w-4" /> Ver Produtos
         </Link>
@@ -63,12 +63,12 @@ export default function CartPage() {
   const total = subtotal + shipping;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 bg-white">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-white">Carrinho</h1>
+        <h1 className="text-3xl font-bold text-[#292929]">Carrinho</h1>
         <button
           onClick={clearCart}
-          className="text-sm text-[var(--muted-foreground)] hover:text-red-400 transition-colors"
+          className="text-sm text-[#AAAAAA] hover:text-[#F0484A] transition-colors"
         >
           Limpar carrinho
         </button>
@@ -80,26 +80,26 @@ export default function CartPage() {
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4"
+              className="flex gap-4 rounded-2xl border border-[#E5E5E5] bg-white p-4"
             >
-              <div className="h-24 w-24 shrink-0 rounded-xl bg-[var(--secondary)] flex items-center justify-center">
+              <div className="h-24 w-24 shrink-0 rounded-xl bg-[#F5F5F5] flex items-center justify-center">
                 {item.type === "camiseta" ? (
-                  <Shirt className="h-10 w-10 text-[var(--muted-foreground)]/30" />
+                  <Shirt className="h-10 w-10 text-[#AAAAAA]/30" />
                 ) : (
-                  <Mouse className="h-10 w-10 text-[var(--muted-foreground)]/30" />
+                  <Mouse className="h-10 w-10 text-[#AAAAAA]/30" />
                 )}
               </div>
 
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-white truncate">
+                <h3 className="font-semibold text-[#292929] truncate">
                   {item.name}
                 </h3>
-                <div className="mt-1 flex flex-wrap gap-2 text-xs text-[var(--muted-foreground)]">
+                <div className="mt-1 flex flex-wrap gap-2 text-xs text-[#AAAAAA]">
                   {item.size && <span>Tamanho: {item.size}</span>}
                   {item.color && <span>Cor: {item.color}</span>}
                 </div>
                 <div className="mt-3 flex items-center justify-between">
-                  <div className="inline-flex items-center rounded-lg border border-[var(--border)]">
+                  <div className="inline-flex items-center rounded-lg border border-[#E5E5E5]">
                     <button
                       onClick={() =>
                         updateQuantity(
@@ -107,29 +107,29 @@ export default function CartPage() {
                           Math.max(1, item.quantity - 1)
                         )
                       }
-                      className="px-2 py-1 text-[var(--muted-foreground)] hover:text-white"
+                      className="px-2 py-1 text-[#AAAAAA] hover:text-[#292929]"
                     >
                       <Minus className="h-3 w-3" />
                     </button>
-                    <span className="px-3 py-1 text-sm text-white">
+                    <span className="px-3 py-1 text-sm text-[#292929]">
                       {item.quantity}
                     </span>
                     <button
                       onClick={() =>
                         updateQuantity(item.id, item.quantity + 1)
                       }
-                      className="px-2 py-1 text-[var(--muted-foreground)] hover:text-white"
+                      className="px-2 py-1 text-[#AAAAAA] hover:text-[#292929]"
                     >
                       <Plus className="h-3 w-3" />
                     </button>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-bold text-white">
+                    <span className="font-bold text-[#292929]">
                       {formatCurrency(item.price * item.quantity)}
                     </span>
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="text-[var(--muted-foreground)] hover:text-red-400 transition-colors"
+                      className="text-[#AAAAAA] hover:text-[#F0484A] transition-colors"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -142,48 +142,48 @@ export default function CartPage() {
 
         {/* Order Summary */}
         <div className="lg:col-span-1">
-          <div className="sticky top-24 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
+          <div className="sticky top-24 rounded-2xl border border-[#E5E5E5] bg-[#292929] p-6">
             <h2 className="text-lg font-bold text-white mb-4">
               Resumo do Pedido
             </h2>
 
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between text-[var(--muted-foreground)]">
+              <div className="flex justify-between text-[#AAAAAA]">
                 <span>
                   Subtotal ({items.length} item
                   {items.length !== 1 ? "s" : ""})
                 </span>
                 <span>{formatCurrency(subtotal)}</span>
               </div>
-              <div className="flex justify-between text-[var(--muted-foreground)]">
+              <div className="flex justify-between text-[#AAAAAA]">
                 <span>Frete</span>
                 <span>
                   {shipping === 0 ? (
-                    <span className="text-[var(--success)]">Grátis</span>
+                    <span className="text-[#46A520]">Grátis</span>
                   ) : (
                     formatCurrency(shipping)
                   )}
                 </span>
               </div>
-              <div className="border-t border-[var(--border)] pt-3 flex justify-between font-bold text-white text-base">
+              <div className="border-t border-[#E5E5E5] pt-3 flex justify-between font-bold text-white text-base">
                 <span>Total</span>
                 <span>{formatCurrency(total)}</span>
               </div>
-              <div className="flex justify-between text-[var(--success)] text-xs">
+              <div className="flex justify-between text-[#46A520] text-xs">
                 <span>No Pix (10% off)</span>
                 <span>{formatCurrency(total - pixDiscount)}</span>
               </div>
             </div>
 
             {shipping > 0 && (
-              <p className="mt-4 text-xs text-[var(--muted-foreground)] bg-[var(--secondary)] rounded-lg p-3">
+              <p className="mt-4 text-xs text-[#AAAAAA] bg-[#1a1a1a] rounded-lg p-3">
                 Falta {formatCurrency(250 - subtotal)} para frete grátis!
               </p>
             )}
 
             <Link
               href="/checkout"
-              className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--primary)]/25 hover:shadow-[var(--primary)]/40 transition-all"
+              className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#46A520] py-3 text-sm font-semibold text-white shadow-lg shadow-[#46A520]/25 hover:shadow-[#46A520]/40 transition-all"
             >
               <CreditCard className="h-4 w-4" />
               Finalizar Compra
@@ -191,7 +191,7 @@ export default function CartPage() {
 
             <Link
               href="/produtos"
-              className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl border border-[var(--border)] py-3 text-sm font-medium text-[var(--muted-foreground)] hover:text-white transition-colors"
+              className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl border border-[#E5E5E5] py-3 text-sm font-medium text-[#AAAAAA] hover:text-[#DAA520] transition-colors"
             >
               Continuar Comprando
             </Link>
