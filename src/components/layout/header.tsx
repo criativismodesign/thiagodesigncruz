@@ -59,13 +59,22 @@ export function Header() {
               onMouseEnter={() => setProductsDropdownOpen(true)}
               onMouseLeave={() => setProductsDropdownOpen(false)}
             >
-              <button className="flex items-center gap-1 text-sm font-medium text-[#292929] hover:text-[#D8D8D8] transition-colors">
+              <Link 
+                href="/categorias/todos-produtos"
+                className="flex items-center gap-1 text-sm font-medium text-[#292929] hover:text-[#D8D8D8] transition-colors"
+              >
                 PRODUTOS
                 <ChevronDown className="h-4 w-4" />
-              </button>
+              </Link>
               
               {productsDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-48 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]">
+                <div 
+                  className="absolute top-full left-0 w-48 bg-[#EFEFEF] border border-[#D8D8D8] shadow-[0px_5px_5px_rgba(0,0,0,0.15)]"
+                  style={{
+                    paddingTop: '8px', // área de transição invisível
+                    marginTop: '-8px' // compensar o paddingTop para manter posição
+                  }}
+                >
                   <Link
                     href="/categorias/oversizeds"
                     className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
@@ -89,7 +98,7 @@ export function Header() {
               onMouseLeave={() => setCollectionsDropdownOpen(false)}
             >
               <Link 
-                href="/categorias/todos-produtos"
+                href="/categorias/original-collection"
                 className="flex items-center gap-1 text-sm font-medium text-[#292929] hover:text-[#D8D8D8] transition-colors"
               >
                 COLEÇÕES
