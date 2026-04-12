@@ -4,7 +4,23 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function CategoriasLadoDireito() {
+interface Produto {
+  id: string
+  nome: string
+  tipo: string
+  categoria: string
+  precoAtual: number
+  precoDe: number | null
+  slug: string | null
+  imagens: { url: string; isPrincipal: boolean; ordem: number }[]
+  colecao: { slug: string } | null
+}
+
+interface Props {
+  produtos: Produto[]
+}
+
+export default function CategoriasLadoDireito({ produtos }: Props) {
   const [selectedOrder, setSelectedOrder] = useState('Classificação Padrão')
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(16)
@@ -18,21 +34,29 @@ export default function CategoriasLadoDireito() {
     'Ordenar Por Preço: Maior Para Menor',
   ]
 
-  const allProducts = Array.from({ length: 100 }, (_, i) => ({
-    id: i + 1,
-    image: '/images/products/placeholder-categorias-285x332.jpg',
-    name: `NOME DO PRODUTO ${i + 1}`,
-    price: 169.90,
-    originalPrice: 189.90,
-    discount: 8,
-    href: `/produto/produto-${i + 1}`,
+  const produtosMapeados = produtos.map(p => ({
+    id: p.id,
+    image: p.imagens.find(i => i.isPrincipal)?.url || p.imagens[0]?.url || '/images/products/placeholder-categorias-285x332.jpg',
+    supertitle: p.tipo === 'camiseta' ? 'Camiseta Oversized' : 'MousePad/Deskpad',
+    name: p.nome,
+    price: p.precoAtual,
+    originalPrice: p.precoDe,
+    discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
+    href: p.categoria === 'colecao' && p.colecao?.slug
+      ? `/produto/${p.colecao.slug}/${p.tipo === 'camiseta' ? 'camiseta' : 'mousepad'}/${p.slug}` 
+      : `/produto/${p.tipo === 'camiseta' ? 'camiseta' : 'mousepad'}/${p.slug}`,
   }))
 
-  const visibleProducts = allProducts.slice(0, visibleCount)
-  const hasMore = visibleCount < allProducts.length
+  const produtosVisiveis = produtosMapeados.slice(0, visibleCount)
+  const temMais = produtosMapeados.length > visibleCount
 
-  const getSupertitle = (index: number) => {
-    return index % 2 === 0 ? 'MousePad' : 'Camiseta Oversized'
+  // Quando não tem produtos mostrar mensagem
+  if (produtos.length === 0) {
+    return (
+      <div style={{ flex: 1, padding: '48px 0', textAlign: 'center' }}>
+        <p style={{ color: '#888', fontSize: 16 }}>Não foi encontrado nenhum produto nesta categoria</p>
+      </div>
+    )
   }
 
   return (
@@ -55,7 +79,7 @@ export default function CategoriasLadoDireito() {
             color: '#AAAAAA',
             fontFamily: 'Inter, sans-serif'
           }}>
-            Visualização de {visibleProducts.length} de {allProducts.length} produtos
+            Visualização de {produtosVisiveis.length} de {produtosMapeados.length} produtos
           </span>
 
           {/* Dropdown de ordenação */}
@@ -168,7 +192,7 @@ export default function CategoriasLadoDireito() {
           gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '24px'
         }}>
-          {visibleProducts.map((product, index) => (
+          {produtosVisiveis.map((product: any, index: number) => (
             <div key={product.id}>
               <Link href={product.href} style={{ textDecoration: 'none' }}>
                 <div style={{
@@ -207,7 +231,7 @@ export default function CategoriasLadoDireito() {
                   fontFamily: 'Inter, sans-serif',
                   margin: 0
                 }}>
-                  {getSupertitle(index)}
+                  {product.supertitle}
                 </p>
                 
                 {/* Nome do produto */}
@@ -300,7 +324,7 @@ export default function CategoriasLadoDireito() {
         </div>
 
         {/* SETA REVELAR MAIS - BOT */}
-        {hasMore && (
+        {temMais && (
           <div style={{
             marginTop: '120px',
             marginBottom: '100px',

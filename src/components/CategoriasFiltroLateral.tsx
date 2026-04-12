@@ -5,24 +5,32 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function CategoriasFiltroLateral() {
+interface Colecao {
+  id: string
+  nome: string
+  slug: string
+}
+
+interface Props {
+  colecoes: Colecao[]
+}
+
+export default function CategoriasFiltroLateral({ colecoes }: Props) {
   const pathname = usePathname()
   const [originalCollectionExpanded, setOriginalCollectionExpanded] = useState(true)
 
   const categorias = [
+    { label: 'Todos Produtos', href: '/categorias/todos-produtos', sublinhas: [] },
     { label: 'Oversizeds', href: '/categorias/oversizeds', sublinhas: [] },
     { label: 'MousePad/Deskpad', href: '/categorias/mousepads', sublinhas: [] },
     {
       label: 'Original Collection',
       href: '/categorias/original-collection',
-      sublinhas: [
-        { label: 'My Life My Style', href: '/categorias/original-collection/my-life-my-style' },
-        { label: 'IMMORTALS', href: '/categorias/original-collection/immortals' },
-        { label: '3º LANÇAMENTO', href: '/categorias/original-collection/3o-lancamento' },
-        { label: '4º LANÇAMENTO', href: '/categorias/original-collection/4o-lancamento' },
-      ]
+      sublinhas: colecoes.map(c => ({
+        label: c.nome,
+        href: `/categorias/original-collection/${c.slug}`,
+      }))
     },
-    { label: 'Todos Produtos', href: '/categorias/todos-produtos', sublinhas: [] },
   ]
 
   return (

@@ -1,6 +1,6 @@
 import BannerCategoria from '@/components/BannerCategoria'
-import CategoriasFiltroLateral from '@/components/CategoriasFiltroLateral'
-import CategoriasLadoDireito from '@/components/CategoriasLadoDireito'
+import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
+import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 
 export default function MousepadsPage() {
   return (
@@ -19,8 +19,8 @@ export default function MousepadsPage() {
         paddingRight: '120px'
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <CategoriasFiltroLateral />
-          <CategoriasLadoDireito />
+          <CategoriasFiltroLateralWrapper />
+          <CategoriasLadoDireitoWrapper tipo="mousepad" categoria="avulso" />
         </div>
       </div>
     </main>
