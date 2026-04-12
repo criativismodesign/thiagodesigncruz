@@ -43,7 +43,7 @@ export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/
       }}>
         {/* Título */}
         <h1 style={{
-          fontSize: '70px',
+          fontSize: '50px',
           fontWeight: 600,
           color: '#292929',
           textTransform: 'uppercase',
