@@ -13,9 +13,10 @@ interface Colecao {
 
 interface Props {
   colecoes: Colecao[]
+  bannerLateral?: string
 }
 
-export default function CategoriasFiltroLateral({ colecoes }: Props) {
+export default function CategoriasFiltroLateral({ colecoes, bannerLateral }: Props) {
   const pathname = usePathname()
   const [originalCollectionExpanded, setOriginalCollectionExpanded] = useState(true)
 
@@ -177,7 +178,7 @@ export default function CategoriasFiltroLateral({ colecoes }: Props) {
         {/* BANNER PUBLICITÁRIO */}
       <div style={{ margin: '48px auto 0', textAlign: 'center' }}>
         <Image
-          src="/images/banners/banner-promocional-366x634.jpg"
+          src={bannerLateral || "/images/banners/banner-promocional-366x634.jpg"}
           alt="Banner promocional"
           width={366}
           height={634}

@@ -8,6 +8,7 @@ interface Colecao {
   subtitulo: string
   imagemCamiseta: string | null
   imagemMousepad: string | null
+  imagemBannerCategoria: string | null
   visivelHome: boolean
   ordemHome: number
   status: string
@@ -29,8 +30,9 @@ export default function EditarColecaoClient({ colecao }: Props) {
   })
   const [imagemCamiseta, setImagemCamiseta] = useState<string>(colecao.imagemCamiseta || '')
   const [imagemMousepad, setImagemMousepad] = useState<string>(colecao.imagemMousepad || '')
+  const [imagemBannerCategoria, setImagemBannerCategoria] = useState<string>(colecao.imagemBannerCategoria || '')
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, tipo: 'camiseta' | 'mousepad') => {
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, tipo: 'camiseta' | 'mousepad' | 'bannerCategoria') => {
     const file = e.target.files?.[0]
     if (!file) return
     const formDataUpload = new FormData()
@@ -40,7 +42,8 @@ export default function EditarColecaoClient({ colecao }: Props) {
     const data = await response.json()
     if (data.success) {
       if (tipo === 'camiseta') setImagemCamiseta(data.url)
-      else setImagemMousepad(data.url)
+      else if (tipo === 'mousepad') setImagemMousepad(data.url)
+      else if (tipo === 'bannerCategoria') setImagemBannerCategoria(data.url)
     }
   }
 
@@ -54,7 +57,7 @@ export default function EditarColecaoClient({ colecao }: Props) {
       const response = await fetch(`/api/admin/colecoes/${colecao.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, imagemCamiseta, imagemMousepad })
+        body: JSON.stringify({ ...formData, imagemCamiseta, imagemMousepad, imagemBannerCategoria })
       })
       if (response.ok) {
         router.push('/login-usekin/dashboard/colecoes')
@@ -78,6 +81,7 @@ export default function EditarColecaoClient({ colecao }: Props) {
         <a href="/login-usekin/dashboard/produtos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Produtos</a>
         <a href="/login-usekin/dashboard/colecoes" style={{ background: '#2563eb', color: '#fff', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Coleções</a>
         <a href="/login-usekin/dashboard/banners" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners</a>
+        <a href="/login-usekin/dashboard/banners-categoria" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners Categoria</a>
         <div style={{ marginLeft: 'auto' }}>
           <button onClick={async () => { await fetch('/api/admin/logout', { method: 'POST' }); window.location.href = '/login-usekin' }}
             style={{ color: '#888', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}>Sair</button>
@@ -203,6 +207,30 @@ export default function EditarColecaoClient({ colecao }: Props) {
               </div>
             )}
           </div>
+
+        {/* Banner Categoria */}
+        <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, marginTop: 24 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>
+            Imagem Banner Categoria (1920x440px)
+          </h2>
+          <p style={{ fontSize: 13, color: '#888', marginBottom: 16 }}>
+            Aparece no topo da página de categoria desta coleção. Se excluir a coleção, este banner é removido automaticamente.
+          </p>
+          <div
+            onClick={() => document.getElementById('upload-banner-categoria')?.click()}
+            style={{
+              width: '100%', height: 120, border: '2px dashed #E5E5E5', borderRadius: 8,
+              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: imagemBannerCategoria ? 'transparent' : '#F9F9F9', overflow: 'hidden'
+            }}
+          >
+            {imagemBannerCategoria
+              ? <img src={imagemBannerCategoria} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              : <span style={{ color: '#AAAAAA', fontSize: 13 }}>+ Clique para adicionar imagem 1920x440px</span>
+            }
+          </div>
+          <input id="upload-banner-categoria" type="file" accept="image/*" style={{ display: 'none' }}
+            onChange={e => handleUpload(e, 'bannerCategoria')} />
         </div>
       </div>
     </div>

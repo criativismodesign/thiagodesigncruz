@@ -1,12 +1,13 @@
-import BannerCategoria from '@/components/BannerCategoria'
+import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 
 export default function OversizedsPage() {
   return (
     <main>
-      <BannerCategoria 
+      <BannerCategoriaWrapper 
         titulo="OVERSIZEDS" 
+        chave="banner-categoria-oversizeds"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Oversizeds', href: '/categorias/oversizeds', ativo: true },

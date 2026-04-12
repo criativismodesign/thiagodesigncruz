@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
         subtitulo: data.subtitulo,
         imagemCamiseta: data.imagemCamiseta || null,
         imagemMousepad: data.imagemMousepad || null,
+        imagemBannerCategoria: data.imagemBannerCategoria || null,
         visivelHome: data.visivelHome || false,
         ordemHome: parseInt(data.ordemHome) || 0,
         status: data.status || 'ativa',

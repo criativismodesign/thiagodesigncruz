@@ -1,12 +1,13 @@
-import BannerCategoria from '@/components/BannerCategoria'
+import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 
 export default function MousepadsPage() {
   return (
     <main>
-      <BannerCategoria 
+      <BannerCategoriaWrapper 
         titulo="MOUSEPADS" 
+        chave="banner-categoria-mousepads"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Mousepads', href: '/categorias/mousepads', ativo: true },

@@ -10,9 +10,10 @@ interface BannerCategoriaProps {
     href: string
     ativo?: boolean
   }[]
+  imagem?: string
 }
 
-export default function BannerCategoria({ titulo, breadcrumb }: BannerCategoriaProps) {
+export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/banners/banner-categoria.jpg" }: BannerCategoriaProps) {
   return (
     <div style={{ 
       position: 'relative',
@@ -23,7 +24,7 @@ export default function BannerCategoria({ titulo, breadcrumb }: BannerCategoriaP
     }}>
       {/* Imagem de fundo */}
       <Image
-        src="/images/banners/banner-categoria.jpg"
+        src={imagem}
         alt="Banner de categoria"
         fill
         style={{ objectFit: 'contain', objectPosition: 'center' }}
