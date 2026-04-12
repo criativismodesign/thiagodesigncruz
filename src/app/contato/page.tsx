@@ -8,6 +8,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    whatsapp: "",
     subject: "",
     message: "",
   });
@@ -15,14 +16,39 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name || !formData.email || !formData.whatsapp || !formData.subject || !formData.message) {
       toast.error("Preencha todos os campos obrigatórios.");
       return;
     }
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    toast.success("Mensagem enviada com sucesso! Responderemos em breve.");
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nome: formData.name,
+          email: formData.email,
+          whatsapp: formData.whatsapp,
+          assunto: formData.subject,
+          mensagem: formData.message,
+          source: 'contato'
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        window.location.href = '/obrigado-cadastro';
+      } else {
+        toast.error("Erro ao enviar mensagem. Tente novamente.");
+      }
+    } catch (error) {
+      toast.error("Erro ao enviar mensagem. Tente novamente.");
+    }
+    
     setLoading(false);
   };
 
@@ -323,7 +349,39 @@ export default function ContactPage() {
                 marginBottom: '6px',
                 fontFamily: 'Inter, sans-serif'
               }}>
-                Assunto
+                WhatsApp (com DDD) *
+              </label>
+              <input
+                type="tel"
+                value={formData.whatsapp}
+                onChange={(e) =>
+                  setFormData({ ...formData, whatsapp: e.target.value })
+                }
+                style={{
+                  width: '100%',
+                  borderRadius: '8px',
+                  border: '1px solid #E5E5E5',
+                  backgroundColor: '#FFFFFF',
+                  padding: '10px 16px',
+                  fontSize: '14px',
+                  color: '#292929',
+                  fontFamily: 'Inter, sans-serif',
+                  outline: 'none'
+                }}
+                placeholder="+55 (00) 00000-0000"
+              />
+            </div>
+
+            <div>
+              <label style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#292929',
+                marginBottom: '6px',
+                fontFamily: 'Inter, sans-serif'
+              }}>
+                Assunto *
               </label>
               <input
                 type="text"

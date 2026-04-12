@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { nome, whatsapp, email, source = "home" } = await request.json();
+    const { nome, whatsapp, email, source = "home", assunto, mensagem } = await request.json();
 
     // Email é sempre obrigatório
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -29,19 +29,43 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Nome e whatsapp são opcionais - só valida se foram enviados
-    if (nome && nome.trim().length < 3) {
-      return NextResponse.json(
-        { error: "Nome deve ter pelo menos 3 caracteres" },
-        { status: 400 }
-      )
-    }
-
-    if (whatsapp && !/^\d{10,}$/.test(whatsapp.replace(/\D/g, ""))) {
-      return NextResponse.json(
-        { error: "WhatsApp deve ter pelo menos 10 dígitos" },
-        { status: 400 }
-      )
+    // Validação específica para formulário de contato
+    if (source === 'contato') {
+      if (!nome || nome.trim().length < 3) {
+        return NextResponse.json(
+          { error: "Nome é obrigatório e deve ter pelo menos 3 caracteres" },
+          { status: 400 }
+        )
+      }
+      
+      if (!whatsapp || !/^\d{10,}$/.test(whatsapp.replace(/\D/g, ""))) {
+        return NextResponse.json(
+          { error: "WhatsApp é obrigatório e deve ter pelo menos 10 dígitos" },
+          { status: 400 }
+        )
+      }
+      
+      if (!assunto || assunto.trim().length < 3) {
+        return NextResponse.json(
+          { error: "Assunto é obrigatório e deve ter pelo menos 3 caracteres" },
+          { status: 400 }
+        )
+      }
+      
+      if (!mensagem || mensagem.trim().length < 10) {
+        return NextResponse.json(
+          { error: "Mensagem é obrigatória e deve ter pelo menos 10 caracteres" },
+          { status: 400 }
+        )
+      }
+    } else {
+      // Para newsletter normal, nome e whatsapp são opcionais - só valida se foram enviados
+      if (nome && nome.trim().length < 3) {
+        return NextResponse.json(
+          { error: "Nome deve ter pelo menos 3 caracteres" },
+          { status: 400 }
+        )
+      }
     }
 
     // Verificar se email já existe
@@ -67,6 +91,8 @@ export async function POST(request: NextRequest) {
         email: email.toLowerCase().trim(),
         source,
         active: true,
+        assunto: assunto?.trim() || null,
+        mensagem: mensagem?.trim() || null,
       })
       .select()
 
