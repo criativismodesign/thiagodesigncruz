@@ -191,6 +191,7 @@ export default function NovaColecaoClient() {
               </div>
             )}
           </div>
+        </div>
 
         {/* Banner Categoria */}
         <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, marginTop: 24 }}>
