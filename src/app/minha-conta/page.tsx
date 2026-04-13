@@ -59,6 +59,20 @@ export default function MinhaContaPage() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [editingProfile, setEditingProfile] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [addresses, setAddresses] = useState<any[]>([])
+  const [showAddressForm, setShowAddressForm] = useState(false)
+  const [editingAddress, setEditingAddress] = useState<any>(null)
+  const [addressForm, setAddressForm] = useState({
+    label: 'Casa',
+    zipCode: '',
+    street: '',
+    number: '',
+    complement: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    isDefault: false,
+  })
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -69,6 +83,7 @@ export default function MinhaContaPage() {
     if (status === "authenticated") {
       fetchUserData();
       fetchOrders();
+      fetchAddresses();
     }
   }, [status, router]);
 
@@ -95,6 +110,56 @@ export default function MinhaContaPage() {
       }
     } catch (error) {
       console.error("Error fetching orders:", error);
+    }
+  };
+
+  const fetchAddresses = async () => {
+    try {
+      const resAddresses = await fetch('/api/user/address')
+      const addressData = await resAddresses.json()
+      setAddresses(Array.isArray(addressData) ? addressData : [])
+    } catch (error) {
+      console.error("Error fetching addresses:", error);
+    }
+  };
+
+  const buscarCep = async (cep: string) => {
+    const cepLimpo = cep.replace(/\D/g, '')
+    if (cepLimpo.length !== 8) return
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+      const data = await res.json()
+      if (!data.erro) {
+        setAddressForm(prev => ({
+          ...prev,
+          street: data.logradouro || '',
+          neighborhood: data.bairro || '',
+          city: data.localidade || '',
+          state: data.uf || '',
+        }))
+      }
+    } catch {}
+  };
+
+  const handleSalvarEndereco = async () => {
+    try {
+      const method = editingAddress ? 'PUT' : 'POST'
+      const url = editingAddress ? `/api/user/address/${editingAddress.id}` : '/api/user/address'
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(addressForm)
+      })
+      if (res.ok) {
+        const resAddresses = await fetch('/api/user/address')
+        const data = await resAddresses.json()
+        setAddresses(data)
+        setShowAddressForm(false)
+        setEditingAddress(null)
+        setAddressForm({ label: 'Casa', zipCode: '', street: '', number: '', complement: '', neighborhood: '', city: '', state: '', isDefault: false })
+      }
+    } catch (error) {
+      alert('Erro ao salvar endereço')
     }
   };
 
@@ -439,36 +504,150 @@ export default function MinhaContaPage() {
 
           {activeTab === "addresses" && (
             <div>
-              <h2 className="text-xl font-bold text-[#292929] mb-6">Meus Endereços</h2>
-              {userData.addresses?.length > 0 ? (
-                <div className="space-y-4">
-                  {userData.addresses.map((address) => (
-                    <div key={address.id} className="bg-[#F5F5F5] rounded-xl p-6">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className="font-medium text-[#292929] mb-2">{address.label}</p>
-                          <p className="text-[#AAAAAA]">
-                            {address.street}, {address.number} {address.complement && `- ${address.complement}`}
-                          </p>
-                          <p className="text-[#AAAAAA]">
-                            {address.neighborhood}, {address.city} - {address.state}
-                          </p>
-                          <p className="text-[#AAAAAA]">CEP: {address.zipCode}</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: '#fff' }}>Meus Endereços</h2>
+                {!showAddressForm && (
+                  <button
+                    onClick={() => { setShowAddressForm(true); setEditingAddress(null) }}
+                    style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 999, padding: '10px 20px', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}
+                  >
+                    + Adicionar Endereço
+                  </button>
+                )}
+              </div>
+
+              {/* Lista de endereços */}
+              {!showAddressForm && (
+                <>
+                  {addresses.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '48px 0', color: '#888' }}>
+                      <p>Nenhum endereço cadastrado</p>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                      {addresses.map(addr => (
+                        <div key={addr.id} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 20, position: 'relative' }}>
+                          {addr.isDefault && (
+                            <span style={{ position: 'absolute', top: 12, right: 12, background: '#DAA520', color: '#fff', fontSize: 11, padding: '2px 8px', borderRadius: 999, fontWeight: 600 }}>
+                              Padrão
+                            </span>
+                          )}
+                          <p style={{ fontWeight: 600, color: '#fff', marginBottom: 4 }}>{addr.label}</p>
+                          <p style={{ color: '#888', fontSize: 14 }}>{addr.street}, {addr.number} {addr.complement && `- ${addr.complement}`}</p>
+                          <p style={{ color: '#888', fontSize: 14 }}>{addr.neighborhood} - {addr.city}/{addr.state}</p>
+                          <p style={{ color: '#888', fontSize: 14 }}>CEP: {addr.zipCode}</p>
+                          <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
+                            <button
+                              onClick={() => {
+                                setEditingAddress(addr)
+                                setAddressForm({ label: addr.label, zipCode: addr.zipCode, street: addr.street, number: addr.number, complement: addr.complement || '', neighborhood: addr.neighborhood, city: addr.city, state: addr.state, isDefault: addr.isDefault })
+                                setShowAddressForm(true)
+                              }}
+                              style={{ background: 'transparent', border: '1px solid #DAA520', color: '#DAA520', borderRadius: 8, padding: '6px 16px', cursor: 'pointer', fontSize: 13 }}
+                            >
+                              Editar
+                            </button>
+                            <button
+                              onClick={async () => {
+                                if (!confirm('Excluir este endereço?')) return
+                                await fetch(`/api/user/address/${addr.id}`, { method: 'DELETE' })
+                                setAddresses(addresses.filter(a => a.id !== addr.id))
+                              }}
+                              style={{ background: 'transparent', border: '1px solid #F0484A', color: '#F0484A', borderRadius: 8, padding: '6px 16px', cursor: 'pointer', fontSize: 13 }}
+                            >
+                              Excluir
+                            </button>
+                          </div>
                         </div>
-                        <button className="text-[#DAA520] hover:text-[#46A520]">
-                          <Edit className="h-4 w-4" />
-                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* Formulário de endereço */}
+              {showAddressForm && (
+                <div>
+                  <h3 style={{ fontSize: 18, fontWeight: 600, color: '#fff', marginBottom: 20 }}>
+                    {editingAddress ? 'Editar Endereço' : 'Novo Endereço'}
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    <div>
+                      <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>Identificação</label>
+                      <select value={addressForm.label} onChange={e => setAddressForm({...addressForm, label: e.target.value})}
+                        style={{ width: '100%', background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff' }}>
+                        <option value="Casa">Casa</option>
+                        <option value="Trabalho">Trabalho</option>
+                        <option value="Outro">Outro</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>CEP *</label>
+                      <input
+                        value={addressForm.zipCode}
+                        onChange={e => {
+                          const val = e.target.value.replace(/\D/g, '').slice(0, 8)
+                          const formatted = val.length > 5 ? `${val.slice(0,5)}-${val.slice(5)}` : val
+                          setAddressForm({...addressForm, zipCode: formatted})
+                          if (val.length === 8) buscarCep(val)
+                        }}
+                        placeholder="00000-000"
+                        maxLength={9}
+                        style={{ width: '100%', background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff', boxSizing: 'border-box' as const }}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 12 }}>
+                      <div>
+                        <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>Rua *</label>
+                        <input value={addressForm.street} onChange={e => setAddressForm({...addressForm, street: e.target.value})}
+                          style={{ width: '100%', background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff', boxSizing: 'border-box' as const }} />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>Número *</label>
+                        <input value={addressForm.number} onChange={e => setAddressForm({...addressForm, number: e.target.value})}
+                          style={{ width: 100, background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff' }} />
                       </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <MapPin className="h-12 w-12 text-[#AAAAAA] mx-auto mb-4" />
-                  <p className="text-[#AAAAAA] mb-4">Você ainda não tem endereços cadastrados.</p>
-                  <button className="bg-[#DAA520] text-white px-6 py-2 rounded-lg hover:bg-[#46A520] transition-colors">
-                    Adicionar Endereço
-                  </button>
+                    <div>
+                      <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>Complemento</label>
+                      <input value={addressForm.complement} onChange={e => setAddressForm({...addressForm, complement: e.target.value})}
+                        placeholder="Apto, bloco, etc."
+                        style={{ width: '100%', background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff', boxSizing: 'border-box' as const }} />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>Bairro *</label>
+                      <input value={addressForm.neighborhood} onChange={e => setAddressForm({...addressForm, neighborhood: e.target.value})}
+                        style={{ width: '100%', background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff', boxSizing: 'border-box' as const }} />
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 12 }}>
+                      <div>
+                        <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>Cidade *</label>
+                        <input value={addressForm.city} onChange={e => setAddressForm({...addressForm, city: e.target.value})}
+                          style={{ width: '100%', background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff', boxSizing: 'border-box' as const }} />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>UF *</label>
+                        <input value={addressForm.state} onChange={e => setAddressForm({...addressForm, state: e.target.value})} maxLength={2}
+                          style={{ width: 70, background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff' }} />
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <input type="checkbox" id="isDefault" checked={addressForm.isDefault}
+                        onChange={e => setAddressForm({...addressForm, isDefault: e.target.checked})}
+                        style={{ width: 16, height: 16, accentColor: '#DAA520' }} />
+                      <label htmlFor="isDefault" style={{ fontSize: 14, color: '#888', cursor: 'pointer' }}>Definir como endereço padrão</label>
+                    </div>
+                    <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+                      <button onClick={() => { setShowAddressForm(false); setEditingAddress(null) }}
+                        style={{ flex: 1, background: 'transparent', border: '1px solid var(--border)', color: '#888', borderRadius: 999, padding: '12px', cursor: 'pointer', fontSize: 14 }}>
+                        Cancelar
+                      </button>
+                      <button onClick={handleSalvarEndereco}
+                        style={{ flex: 1, background: '#DAA520', color: '#fff', border: 'none', borderRadius: 999, padding: '12px', cursor: 'pointer', fontSize: 14, fontWeight: 700 }}>
+                        Salvar Endereço
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
