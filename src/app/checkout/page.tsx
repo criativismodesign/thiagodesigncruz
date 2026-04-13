@@ -238,10 +238,27 @@ export default function CheckoutPage() {
   };
 
   if (items.length === 0) {
-    if (typeof window !== 'undefined') {
-      router.push("/carrinho");
-    }
-    return null;
+    return (
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', textAlign: 'center' }}>
+        <h1 style={{ color: '#292929', marginBottom: '20px' }}>Checkout</h1>
+        <p style={{ color: '#888', marginBottom: '20px' }}>Seu carrinho está vazio.</p>
+        <button
+          onClick={() => router.push('/produtos')}
+          style={{
+            background: '#DAA520',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '12px 24px',
+            cursor: 'pointer',
+            fontSize: 14,
+            fontWeight: 600
+          }}
+        >
+          Continuar Comprando
+        </button>
+      </div>
+    );
   }
 
   return (
