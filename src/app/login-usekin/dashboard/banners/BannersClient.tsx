@@ -159,6 +159,7 @@ export default function BannersClient() {
           alignItems: 'center',
           marginBottom: '32px'
         }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Banners Hero</h1>
         <button 
           onClick={() => setShowModal(true)}
           style={{
