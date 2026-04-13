@@ -221,8 +221,7 @@ export default function NovaColecaoClient() {
           </div>
           <input id="upload-banner-categoria" type="file" accept="image/*" style={{ display: 'none' }}
             onChange={e => handleUpload(e, 'bannerCategoria')} />
-        </div>
-      </div>
-    </div>
-  )
+        </div></div>)
 }
+
+

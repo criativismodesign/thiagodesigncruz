@@ -284,8 +284,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
               Nenhum cupom encontrado
             </div>
           )}
-        </div>
-      </div>
-    </div>
-  )
+        </div></div>)
 }
+
+

@@ -197,10 +197,9 @@ export default function ProdutosClient({ produtosIniciais }: Props) {
               <button onClick={handleSubmit} disabled={loading} style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 999, padding: '10px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
                 {loading ? 'Salvando...' : 'Criar'}
               </button>
-            </div>
-          </div>
-        </div>
-      )}
+            </div></div>)}
     </div>
   )
 }
+
+

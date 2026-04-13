@@ -164,8 +164,7 @@ export default function BannersCategoriaClient({ banners }: Props) {
               )}
             </div>
           ))}
-        </div>
-      </div>
-    </div>
-  )
+        </div></div>)
 }
+
+

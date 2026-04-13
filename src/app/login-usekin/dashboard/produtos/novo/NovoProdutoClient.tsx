@@ -488,10 +488,7 @@ export default function NovoProdutoClient({ colecoes, configs }: Props) {
                     onChange={e => setEstoqueMinimo(parseInt(e.target.value) || 3)}
                     style={{ width: 100, border: '1px solid #E5E5E5', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#292929' }}
                   />
-                </div>
-              </div>
-            </div>
-          )}
+                </div></div>)}
 
           {/* Botões */}
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
@@ -515,3 +512,5 @@ export default function NovoProdutoClient({ colecoes, configs }: Props) {
     </div>
   )
 }
+
+

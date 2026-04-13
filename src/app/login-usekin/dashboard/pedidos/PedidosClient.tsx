@@ -193,11 +193,7 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
                             >
                               Salvar
                             </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                          </div></div>)}
                 </div>
               )
             })}
@@ -207,3 +203,5 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
     </div>
   )
 }
+
+

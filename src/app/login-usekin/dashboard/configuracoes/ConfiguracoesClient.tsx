@@ -173,9 +173,7 @@ export default function ConfiguracoesClient({ configs }: Props) {
               }}
               placeholder="Digite as informações técnicas do mousepad..."
             />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+          </div></div>)
 }
+
+
