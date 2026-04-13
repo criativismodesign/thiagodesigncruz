@@ -21,6 +21,7 @@ export default async function DashboardPage() {
         <a href="/login-usekin/dashboard/colecoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Coleções</a>
         <a href="/login-usekin/dashboard/banners" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners</a>
         <a href="/login-usekin/dashboard/banners-categoria" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners Categoria</a>
+        <a href="/login-usekin/dashboard/dados-envio" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Dados de Envio</a>
         <a href="/login-usekin/dashboard/configuracoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Configurações</a>
         <div style={{ marginLeft: 'auto' }}>
           <DashboardSairButton />
@@ -57,6 +58,13 @@ export default async function DashboardPage() {
             <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, cursor: 'pointer' }}>
               <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Banners Categoria</h2>
               <p style={{ color: '#888', fontSize: 14 }}>Imagens dos banners das páginas de categoria</p>
+            </div>
+          </Link>
+
+          <Link href="/login-usekin/dashboard/dados-envio" style={{ textDecoration: 'none' }}>
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, cursor: 'pointer' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Dados de Envio</h2>
+              <p style={{ color: '#888', fontSize: 14 }}>Configurações de frete e dimensões</p>
             </div>
           </Link>
 

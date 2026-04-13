@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useCartStore } from '@/store/cart-store'
 import { toast } from 'sonner'
+import CalculadorFrete from './CalculadorFrete'
 
 interface Imagem { id: string; url: string; ordem: number; isPrincipal: boolean }
 interface Estoque { tamanho: string | null; cor: string | null; quantidade: number }
@@ -565,6 +566,15 @@ export default function ProdutoPageClient({ produto }: Props) {
               />
               ADICIONAR AO CARRINHO
             </button>
+
+            {/* Calculador de Frete */}
+            <CalculadorFrete
+              produtos={[{
+                tipo: produto.tipo,
+                tamanho: tamanhoSelecionado || undefined,
+                quantidade: quantity,
+              }]}
+            />
           </div>
         </div>
 
