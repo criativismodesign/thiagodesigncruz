@@ -466,9 +466,7 @@ export default function BannersClient() {
             </form>
           </div>
         </div>
-        </div>
-      </div>
-    )}
+      )}
     </div>
   )
 }
