@@ -70,7 +70,6 @@ model Product {
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
   cartItems    CartItem[]
-  orderItems   OrderItem[]
   category     Category           @relation(fields: [categoryId], references: [id])
   analytics    ProductAnalytics[]
   reviews      Review[]
@@ -128,7 +127,7 @@ model OrderItem {
   color        String?
   customDesign String?
   order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product      Product @relation(fields: [productId], references: [id])
+  produto      Produto @relation(fields: [productId], references: [id])
 
   @@index([orderId])
   @@index([productId])
@@ -227,7 +226,8 @@ model Produto {
   atualizadoEm        DateTime         @updatedAt
   imagens             ImagemProduto[]
   estoque             Estoque[]
-  relacionados        ProdutoRelacionado[] @relation("ProdutoPrincipal")
+  produtosRelacionados ProdutoRelacionado[] @relation("ProdutoPrincipal")
+  orderItems          OrderItem[]
   apareceComo         ProdutoRelacionado[] @relation("ProdutoRelacionado")
 }
 
