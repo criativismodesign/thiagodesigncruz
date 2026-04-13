@@ -210,13 +210,16 @@ export default function CheckoutPage() {
       }
 
       // Redirect to MercadoPago checkout for all payment methods
-      clearCart();
       console.log("Redirecting to:", data.initPoint || data.sandboxInitPoint);
       
       if (typeof window !== 'undefined') {
         if (data.initPoint) {
+          // Clear cart only after successful redirect
+          clearCart();
           window.location.href = data.initPoint;
         } else if (data.sandboxInitPoint) {
+          // Clear cart only after successful redirect
+          clearCart();
           window.location.href = data.sandboxInitPoint;
         } else {
           console.error("No payment URL returned:", data);

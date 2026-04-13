@@ -160,6 +160,17 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Add cupom discount as negative item if applicable
+    if (cupomDesconto && cupomDesconto > 0) {
+      mpItems.push({
+        id: `${order.id}-cupom`,
+        title: "Cupom de Desconto",
+        quantity: 1,
+        unit_price: -Number(cupomDesconto),
+        currency_id: "BRL" as const,
+      });
+    }
+
     
     // Create MercadoPago preference for all payment methods (Pix, Cartão, Boleto)
     console.log("=== CRIANDO PREFERÊNCIA MERCADO PAGO ===");
