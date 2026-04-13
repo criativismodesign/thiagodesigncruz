@@ -6,11 +6,11 @@ import { authOptions } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    // Return early if database is disabled
+    // Prisma should always be available in production
     if (!prisma) {
       return NextResponse.json({ 
-        error: "Pagamentos temporariamente desabilitados. Tente novamente mais tarde." 
-      }, { status: 503 });
+        error: "Erro de conexão com o banco de dados." 
+      }, { status: 500 });
     }
 
     const body = await request.json();

@@ -34,9 +34,10 @@ const mockPrisma = {
 };
 
 // Production mode: use real database with DATABASE_URL for Vercel
-export const prisma = process.env.NODE_ENV === "production" 
+// Always use real Prisma if DATABASE_URL is available (Vercel production)
+export const prisma = process.env.DATABASE_URL 
   ? new PrismaClient({
-      log: ["error", "warn"],
+      log: process.env.NODE_ENV === "production" ? ["error", "warn"] : ["query", "error", "warn"],
       datasources: {
         db: {
           url: process.env.DATABASE_URL
