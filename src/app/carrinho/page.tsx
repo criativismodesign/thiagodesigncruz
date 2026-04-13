@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
 import {
@@ -23,6 +24,52 @@ function formatCurrency(value: number) {
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } =
     useCartStore();
+  
+  const [cep, setCep] = useState('')
+  const [freteOpcoes, setFreteOpcoes] = useState<any[]>([])
+  const [freteSelecionado, setFreteSelecionado] = useState<any>(null)
+  const [loadingFrete, setLoadingFrete] = useState(false)
+  const [erroFrete, setErroFrete] = useState('')
+
+  const calcularFrete = async () => {
+    const cepLimpo = cep.replace(/\D/g, '')
+    if (cepLimpo.length !== 8) {
+      setErroFrete('CEP inválido')
+      return
+    }
+    setLoadingFrete(true)
+    setErroFrete('')
+    setFreteOpcoes([])
+    setFreteSelecionado(null)
+    try {
+      const produtos = items.map(item => ({
+        tipo: item.type,
+        tamanho: item.size,
+        quantidade: item.quantity,
+      }))
+      const response = await fetch('/api/frete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cepDestino: cepLimpo, produtos })
+      })
+      const data = await response.json()
+      if (data.fretes?.length > 0) {
+        setFreteOpcoes(data.fretes)
+        setFreteSelecionado(data.fretes[0])
+      } else {
+        setErroFrete('Nenhuma opção encontrada para este CEP')
+      }
+    } catch {
+      setErroFrete('Erro ao calcular frete')
+    } finally {
+      setLoadingFrete(false)
+    }
+  }
+
+  const formatCep = (value: string) => {
+    const nums = value.replace(/\D/g, '').slice(0, 8)
+    return nums.length > 5 ? `${nums.slice(0, 5)}-${nums.slice(5)}` : nums
+  }
 
   if (items.length === 0) {
     return (
@@ -51,12 +98,12 @@ export default function CartPage() {
     item.name === "Camiseta e Mouse Pad Teste"
   );
   
-  let shipping = subtotal >= 250 ? 0 : 19.9;
+  const shippingCalculado = freteSelecionado ? freteSelecionado.preco : (subtotal >= 250 ? 0 : 19.9)
+  let shipping = isTestProductOnly ? 0 : shippingCalculado
   let pixDiscount = subtotal * 0.1;
   
   // Special pricing for test product only
   if (isTestProductOnly && items.length > 0) {
-    shipping = 0; // Free shipping
     pixDiscount = subtotal + 19.90 - 1.00; // Discount to make total exactly R$1.00
   }
   
@@ -82,12 +129,17 @@ export default function CartPage() {
               key={item.id}
               className="flex gap-4 rounded-2xl border border-[#E5E5E5] bg-white p-4"
             >
-              <div className="h-24 w-24 shrink-0 rounded-xl bg-[#F5F5F5] flex items-center justify-center">
-                {item.type === "camiseta" ? (
-                  <Shirt className="h-10 w-10 text-[#AAAAAA]/30" />
-                ) : (
-                  <Mouse className="h-10 w-10 text-[#AAAAAA]/30" />
-                )}
+              <div className="h-24 w-24 shrink-0 rounded-xl bg-[#F5F5F5] overflow-hidden flex items-center justify-center">
+                {item.image ? (
+                  <img 
+                    src={item.image} 
+                    alt={item.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+                  />
+                ) : item.type === "camiseta"
+                  ? <Shirt className="h-10 w-10 text-[#AAAAAA]/30" />
+                  : <Mouse className="h-10 w-10 text-[#AAAAAA]/30" />
+                }
               </div>
 
               <div className="flex-1 min-w-0">
@@ -156,7 +208,7 @@ export default function CartPage() {
                 <span>{formatCurrency(subtotal)}</span>
               </div>
               <div className="flex justify-between text-[#AAAAAA]">
-                <span>Frete</span>
+                <span>Frete {freteSelecionado ? `(${freteSelecionado.nome})` : ''}</span>
                 <span>
                   {shipping === 0 ? (
                     <span className="text-[#46A520]">Grátis</span>
@@ -173,6 +225,54 @@ export default function CartPage() {
                 <span>No Pix (10% off)</span>
                 <span>{formatCurrency(total - pixDiscount)}</span>
               </div>
+            </div>
+
+            {/* Campo CEP */}
+            <div style={{ marginTop: 16, marginBottom: 16 }}>
+              <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Calcular Frete</p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <input
+                  value={cep}
+                  onChange={e => setCep(formatCep(e.target.value))}
+                  placeholder="00000-000"
+                  maxLength={9}
+                  style={{ flex: 1, border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 13, color: '#fff', background: '#1a1a1a' }}
+                />
+                <button
+                  onClick={calcularFrete}
+                  disabled={loadingFrete}
+                  style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
+                >
+                  {loadingFrete ? '...' : 'OK'}
+                </button>
+              </div>
+              {erroFrete && <p style={{ fontSize: 12, color: '#F0484A', marginTop: 6 }}>{erroFrete}</p>}
+              
+              {/* Opções de frete */}
+              {freteOpcoes.length > 0 && (
+                <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {freteOpcoes.map(frete => (
+                    <div
+                      key={frete.id}
+                      onClick={() => setFreteSelecionado(frete)}
+                      style={{
+                        padding: '8px 12px', borderRadius: 8, cursor: 'pointer',
+                        border: freteSelecionado?.id === frete.id ? '2px solid #DAA520' : '1px solid #E5E5E5',
+                        background: freteSelecionado?.id === frete.id ? 'rgba(218,165,32,0.1)' : '#1a1a1a',
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                      }}
+                    >
+                      <div>
+                        <p style={{ fontSize: 12, fontWeight: 600, color: '#fff', margin: 0 }}>{frete.empresa} - {frete.nome}</p>
+                        <p style={{ fontSize: 11, color: '#AAAAAA', margin: 0 }}>{frete.prazo} dias úteis</p>
+                      </div>
+                      <p style={{ fontSize: 13, fontWeight: 700, color: '#DAA520', margin: 0 }}>
+                        R$ {frete.preco.toFixed(2).replace('.', ',')}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {shipping > 0 && (
