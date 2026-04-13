@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function CuponsClient({ cupons }: { cupons: any[] }) {
   const [cuponsState, setCuponsState] = useState(cupons)
