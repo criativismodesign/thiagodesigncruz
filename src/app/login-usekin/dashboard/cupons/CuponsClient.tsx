@@ -36,16 +36,27 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
       const method = editando ? 'PUT' : 'POST'
       const url = editando ? `/api/admin/cupons/${editando}` : '/api/admin/cupons'
       
+      console.log('Enviando:', method, url, formulario)
+      
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formulario)
+        body: JSON.stringify({
+          codigo: formulario.codigo,
+          tipo: formulario.tipo,
+          valor: formulario.valor,
+          validade: formulario.validade || null,
+          limiteUsos: formulario.limiteUsos || null,
+          status: formulario.status,
+        })
       })
 
+      console.log('Status resposta:', res.status)
       const data = await res.json()
+      console.log('Resposta:', data)
       
       if (!res.ok) {
-        alert(data.error || 'Erro ao salvar cupom')
+        alert(data.error || 'Erro ao salvar cupom: ' + res.status)
         return
       }
 
@@ -56,9 +67,10 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
       }
       
       resetFormulario()
+      alert('Cupom salvo com sucesso!')
     } catch (error) {
-      alert('Erro ao salvar cupom')
-      console.error(error)
+      console.error('Erro:', error)
+      alert('Erro ao salvar cupom: ' + error)
     }
   }
 
