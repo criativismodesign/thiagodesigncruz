@@ -15,7 +15,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   
   const codigo = body.codigo.toUpperCase().replace(/[^A-Z0-9]/g, '')
   
-  const cupom = await prisma.cupom.update({
+  const cupom = await (prisma as any).cupom.update({
     where: { id },
     data: {
       codigo,
@@ -32,6 +32,6 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!await verificarAdmin()) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   const { id } = await params
-  await prisma.cupom.delete({ where: { id } })
+  await (prisma as any).cupom.delete({ where: { id } })
   return NextResponse.json({ success: true })
 }

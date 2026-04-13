@@ -11,7 +11,7 @@ export default async function CuponsPage() {
   }
   let cupons: any[] = []
   try {
-    cupons = await prisma.cupom.findMany({ orderBy: { criadoEm: 'desc' } })
+    cupons = await (prisma as any).cupom.findMany({ orderBy: { criadoEm: 'desc' } })
   } catch (error) {
     console.error('Erro ao buscar cupons:', error)
     cupons = []
