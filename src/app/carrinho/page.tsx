@@ -22,7 +22,7 @@ function formatCurrency(value: number) {
 }
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, getTotal, clearCart } =
+  const { items, removeItem, updateQuantity, getTotal, clearCart, setFreteInfo } =
     useCartStore();
   
   const [cep, setCep] = useState('')
@@ -55,7 +55,9 @@ export default function CartPage() {
       const data = await response.json()
       if (data.fretes?.length > 0) {
         setFreteOpcoes(data.fretes)
-        setFreteSelecionado(data.fretes[0])
+        const primeiroFrete = data.fretes[0]
+        setFreteSelecionado(primeiroFrete)
+        setFreteInfo({ nome: primeiroFrete.nome, preco: primeiroFrete.preco, prazo: primeiroFrete.prazo })
       } else {
         setErroFrete('Nenhuma opção encontrada para este CEP')
       }
@@ -241,7 +243,10 @@ export default function CartPage() {
                     {freteOpcoes.map(frete => (
                       <div
                         key={frete.id}
-                        onClick={() => setFreteSelecionado(frete)}
+                        onClick={() => {
+  setFreteSelecionado(frete)
+  setFreteInfo({ nome: frete.nome, preco: frete.preco, prazo: frete.prazo })
+}}
                         style={{
                           padding: '8px 12px', borderRadius: 8, cursor: 'pointer',
                           border: freteSelecionado?.id === frete.id ? '2px solid #DAA520' : '1px solid #E5E5E5',

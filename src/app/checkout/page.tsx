@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart-store";
+import { useSession } from "next-auth/react";
 import { Loader2, Lock, CreditCard, QrCode, Barcode } from "lucide-react";
 import { toast } from "sonner";
 
@@ -15,11 +16,14 @@ function formatCurrency(value: number) {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, getTotal, clearCart } = useCartStore();
+  const { items, getTotal, clearCart, freteInfo } = useCartStore();
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<
     "pix" | "credit" | "boleto"
   >("pix");
+  const [enderecoSalvo, setEnderecoSalvo] = useState<any>(null);
+  const [alterandoEndereco, setAlterandoEndereco] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -41,7 +45,7 @@ export default function CheckoutPage() {
     item.name === "Camiseta e Mouse Pad Teste"
   );
   
-  let shipping = subtotal >= 250 ? 0 : 19.9;
+  let shipping = isTestProductOnly ? 0 : subtotal >= 250 ? 0 : (freteInfo?.preco || 19.9);
   let discount = paymentMethod === "pix" ? subtotal * 0.1 : 0;
   
   // Special pricing for test product only
@@ -52,6 +56,36 @@ export default function CheckoutPage() {
   
   // Ensure discount never exceeds subtotal - minimum payment (R$1.00)
   const maxDiscount = subtotal - 1.00;
+
+  useEffect(() => {
+    if (session?.user) {
+      fetch('/api/user/profile')
+        .then(r => r.json())
+        .then(data => {
+          setForm(prev => ({
+            ...prev,
+            name: data.name || '',
+            email: data.email || '',
+            phone: data.phone || '',
+          }))
+          // Preencher endereço padrão se existir
+          const endPadrao = data.addresses?.find((a: any) => a.isDefault) || data.addresses?.[0]
+          if (endPadrao) {
+            setForm(prev => ({
+              ...prev,
+              cep: endPadrao.zipCode || '',
+              street: endPadrao.street || '',
+              number: endPadrao.number || '',
+              complement: endPadrao.complement || '',
+              neighborhood: endPadrao.neighborhood || '',
+              city: endPadrao.city || '',
+              state: endPadrao.state || '',
+            }))
+            setEnderecoSalvo(endPadrao)
+          }
+        })
+    }
+  }, [session])
   if (discount > maxDiscount) {
     discount = maxDiscount;
   }
@@ -196,7 +230,12 @@ export default function CheckoutPage() {
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
               <div>
@@ -208,7 +247,12 @@ export default function CheckoutPage() {
                   required
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
               <div>
@@ -220,7 +264,12 @@ export default function CheckoutPage() {
                   required
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
               <div>
@@ -232,7 +281,12 @@ export default function CheckoutPage() {
                   required
                   value={form.cpf}
                   onChange={(e) => setForm({ ...form, cpf: e.target.value })}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
             </div>
@@ -252,7 +306,12 @@ export default function CheckoutPage() {
                   value={form.cep}
                   onChange={(e) => setForm({ ...form, cep: e.target.value })}
                   onBlur={handleCepLookup}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                   placeholder="00000-000"
                 />
               </div>
@@ -265,7 +324,12 @@ export default function CheckoutPage() {
                   required
                   value={form.street}
                   onChange={(e) => setForm({ ...form, street: e.target.value })}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
               <div>
@@ -277,7 +341,12 @@ export default function CheckoutPage() {
                   required
                   value={form.number}
                   onChange={(e) => setForm({ ...form, number: e.target.value })}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
               <div>
@@ -290,7 +359,12 @@ export default function CheckoutPage() {
                   onChange={(e) =>
                     setForm({ ...form, complement: e.target.value })
                   }
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
               <div>
@@ -304,7 +378,12 @@ export default function CheckoutPage() {
                   onChange={(e) =>
                     setForm({ ...form, neighborhood: e.target.value })
                   }
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
               <div>
@@ -316,7 +395,12 @@ export default function CheckoutPage() {
                   required
                   value={form.city}
                   onChange={(e) => setForm({ ...form, city: e.target.value })}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                 />
               </div>
               <div>
@@ -328,11 +412,25 @@ export default function CheckoutPage() {
                   required
                   value={form.state}
                   onChange={(e) => setForm({ ...form, state: e.target.value })}
-                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
+                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
+                  enderecoSalvo && !alterandoEndereco 
+                    ? 'bg-[#f0f0f0] text-[#666]' 
+                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
+                }`}
+                readOnly={enderecoSalvo && !alterandoEndereco}
                   placeholder="UF"
                 />
               </div>
             </div>
+            {enderecoSalvo && !alterandoEndereco && (
+              <button
+                type="button"
+                onClick={() => setAlterandoEndereco(true)}
+                style={{ background: 'transparent', border: '1px solid #DAA520', color: '#DAA520', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13, marginTop: 8 }}
+              >
+                Mudar endereço de entrega
+              </button>
+            )}
           </div>
 
           {/* Payment */}
@@ -419,7 +517,7 @@ export default function CheckoutPage() {
                 <span>{formatCurrency(subtotal)}</span>
               </div>
               <div className="flex justify-between text-[#AAAAAA]">
-                <span>Frete</span>
+                <span>Frete {freteInfo ? `(${freteInfo.nome})` : ''}</span>
                 <span>
                   {shipping === 0 ? (
                     <span className="text-[#46A520]">Grátis</span>

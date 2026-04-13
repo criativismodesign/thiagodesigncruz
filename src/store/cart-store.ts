@@ -16,10 +16,12 @@ export interface CartItemType {
 
 interface CartStore {
   items: CartItemType[];
+  freteInfo: { nome: string; preco: number; prazo: number } | null;
   addItem: (item: CartItemType) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
+  setFreteInfo: (frete: { nome: string; preco: number; prazo: number } | null) => void;
   getTotal: () => number;
   getItemCount: () => number;
 }
@@ -28,6 +30,7 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+      freteInfo: null,
 
       addItem: (item) => {
         const items = get().items;
@@ -65,6 +68,8 @@ export const useCartStore = create<CartStore>()(
       },
 
       clearCart: () => set({ items: [] }),
+
+      setFreteInfo: (frete) => set({ freteInfo: frete }),
 
       getTotal: () => {
         return get().items.reduce(

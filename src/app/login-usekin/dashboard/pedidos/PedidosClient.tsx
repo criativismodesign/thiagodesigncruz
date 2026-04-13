@@ -15,6 +15,7 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
   const [pedidosState, setPedidosState] = useState(pedidos)
   const [pedidoExpandido, setPedidoExpandido] = useState<string | null>(null)
   const [trackingInput, setTrackingInput] = useState<Record<string, string>>({})
+  const [statusEditado, setStatusEditado] = useState<Record<string, string>>({})
 
   const handleAtualizarStatus = async (id: string, status: string) => {
     const res = await fetch(`/api/admin/pedidos/${id}`, {
@@ -26,6 +27,11 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
       setPedidosState(prev => 
         prev.map(p => p.id === id ? { ...p, status } : p)
       )
+      setStatusEditado(prev => {
+        const newStatus = { ...prev }
+        delete newStatus[id]
+        return newStatus
+      })
     }
   }
 
@@ -149,17 +155,25 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
                         {/* Atualizar status */}
                         <div>
                           <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>Status</label>
-                          <select
-                            value={pedido.status}
-                            onChange={e => handleAtualizarStatus(pedido.id, e.target.value)}
-                            style={{ border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929' }}
-                          >
-                            <option value="pending">Pendente</option>
-                            <option value="paid">Pago</option>
-                            <option value="shipped">Enviado</option>
-                            <option value="delivered">Entregue</option>
-                            <option value="cancelled">Cancelado</option>
-                          </select>
+                          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+                            <select
+                              value={statusEditado[pedido.id] ?? pedido.status}
+                              onChange={e => setStatusEditado({ ...statusEditado, [pedido.id]: e.target.value })}
+                              style={{ border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929', flex: 1 }}
+                            >
+                              <option value="pending">Pendente</option>
+                              <option value="paid">Pago</option>
+                              <option value="shipped">Enviado</option>
+                              <option value="delivered">Entregue</option>
+                              <option value="cancelled">Cancelado</option>
+                            </select>
+                            <button
+                              onClick={() => handleAtualizarStatus(pedido.id, statusEditado[pedido.id] ?? pedido.status)}
+                              style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}
+                            >
+                              Salvar
+                            </button>
+                          </div>
                         </div>
 
                         {/* Código de rastreamento */}
