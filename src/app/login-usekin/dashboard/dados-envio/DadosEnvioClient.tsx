@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
+import Link from 'next/link'
 
 interface Props {
   initialData: any
@@ -74,5 +75,158 @@ export default function DadosEnvioClient({ initialData }: Props) {
 
   return (
     <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
-      {/* Header navegação */}
+      {/* Header navegação padrão */}
       <div style={{ background: '#fff', borderBottom: '1px solid #E5E5E5', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
+        <span style={{ fontWeight: 700, fontSize: 18, color: '#292929' }}>Use KIN Admin</span>
+        <Link href="/login-usekin/dashboard" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Dashboard</Link>
+        <Link href="/login-usekin/dashboard/produtos" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Produtos</Link>
+        <Link href="/login-usekin/dashboard/colecoes" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Coleções</Link>
+        <Link href="/login-usekin/dashboard/banners" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Banners</Link>
+        <Link href="/login-usekin/dashboard/banners-categoria" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Banners Categoria</Link>
+        <Link href="/login-usekin/dashboard/pedidos" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Pedidos</Link>
+        <Link href="/login-usekin/dashboard/cupons" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Cupons</Link>
+        <Link href="/login-usekin/dashboard/dados-envio" style={{ background: '#2563eb', color: '#fff', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Dados de Envio</Link>
+        <Link href="/login-usekin/dashboard/configuracoes" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Configurações</Link>
+        <div style={{ marginLeft: 'auto' }}>
+          <button
+            onClick={async () => {
+              await fetch('/api/admin/logout', { method: 'POST' })
+              window.location.href = '/login-usekin'
+            }}
+            style={{ color: '#888', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+          >
+            Sair
+          </button>
+        </div>
+      </div>
+
+      {/* Conteúdo */}
+      <div style={{ padding: '32px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Dados de Envio</h1>
+        </div>
+
+        <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: '24px' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', margin: '0 0 20px 0' }}>Configurações de Envio</h2>
+          
+          <div style={{ display: 'grid', gap: '20px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: '6px' }}>
+                CEP de Origem
+              </label>
+              <input
+                type="text"
+                value={formData.cepOrigem}
+                onChange={(e) => handleChange('cepOrigem', e.target.value)}
+                style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+              />
+            </div>
+
+            <div>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: '#292929', margin: '0 0 16px 0' }}>Camiseta</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: '6px' }}>
+                    Prazo (dias)
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.camiseta.prazo}
+                    onChange={(e) => handleChange('camiseta.prazo', e.target.value)}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: '6px' }}>
+                    Preço
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.camiseta.preco}
+                    onChange={(e) => handleChange('camiseta.preco', e.target.value)}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: '#292929', margin: '0 0 16px 0' }}>Mousepad</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: '6px' }}>
+                    Prazo (dias)
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.mousepad.prazo}
+                    onChange={(e) => handleChange('mousepad.prazo', e.target.value)}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: '6px' }}>
+                    Preço
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.mousepad.preco}
+                    onChange={(e) => handleChange('mousepad.preco', e.target.value)}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: '#292929', margin: '0 0 16px 0' }}>Caneca</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: '6px' }}>
+                    Prazo (dias)
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.caneca.prazo}
+                    onChange={(e) => handleChange('caneca.prazo', e.target.value)}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: '6px' }}>
+                    Preço
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.caneca.preco}
+                    onChange={(e) => handleChange('caneca.preco', e.target.value)}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ marginTop: '24px', display: 'flex', gap: '12px' }}>
+            <button
+              onClick={handleSalvar}
+              disabled={loading}
+              style={{ 
+                padding: '10px 24px', 
+                background: loading ? '#ccc' : '#DAA520', 
+                color: '#fff', 
+                border: 'none', 
+                borderRadius: 8, 
+                fontSize: 14, 
+                fontWeight: 600, 
+                cursor: loading ? 'not-allowed' : 'pointer' 
+              }}
+            >
+              {loading ? 'Salvando...' : 'Salvar Configurações'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
