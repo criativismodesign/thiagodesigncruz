@@ -289,3 +289,16 @@ model BannerConfig {
   imagem       String?
   atualizadoEm DateTime @default(now()) @updatedAt
 }
+
+model Cupom {
+  id         String    @id @default(cuid())
+  codigo     String    @unique
+  tipo       String    @default("fixo")
+  valor      Float
+  validade   DateTime?
+  limiteUsos Int?
+  totalUsado Int       @default(0)
+  status     String    @default("ativo")
+  criadoEm   DateTime  @default(now())
+  atualizadoEm DateTime @updatedAt
+}

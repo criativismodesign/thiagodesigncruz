@@ -20,6 +20,8 @@ export async function POST(request: NextRequest) {
       shippingAddress,
       shippingCost,
       discount,
+      cupomId,
+      cupomDesconto,
       paymentMethod,
     } = body;
 
@@ -41,7 +43,7 @@ export async function POST(request: NextRequest) {
         acc + item.price * item.quantity,
       0
     );
-    const total = subtotal + shippingCost - (discount || 0);
+    const total = subtotal + shippingCost - (discount || 0) - (cupomDesconto || 0);
 
     // Create order in database
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,6 +89,14 @@ export async function POST(request: NextRequest) {
     };
 
     const order = await prisma.order.create({ data: orderData });
+
+    // Incrementar uso do cupom se aplicado
+    if (cupomId) {
+      await prisma.cupom.update({
+        where: { id: cupomId },
+        data: { totalUsado: { increment: 1 } }
+      })
+    }
 
     const siteUrl = process.env.NEXTAUTH_URL || "https://thiagodesigncruz.com.br";
 

@@ -32,6 +32,10 @@ export default function CheckoutPage() {
   >("pix");
   const [enderecoSalvo, setEnderecoSalvo] = useState<any>(null);
   const [alterandoEndereco, setAlterandoEndereco] = useState(false);
+  const [cupomCodigo, setCupomCodigo] = useState('');
+  const [cupomAplicado, setCupomAplicado] = useState<any>(null);
+  const [cupomErro, setCupomErro] = useState('');
+  const [cupomLoading, setCupomLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -94,11 +98,36 @@ export default function CheckoutPage() {
         })
     }
   }, [session])
+
+  const aplicarCupom = async () => {
+    if (!cupomCodigo.trim()) return
+    setCupomLoading(true)
+    setCupomErro('')
+    try {
+      const res = await fetch('/api/cupom', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codigo: cupomCodigo, total: subtotal + shipping })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setCupomAplicado(data.cupom)
+      } else {
+        setCupomErro(data.error || 'Cupom inválido')
+      }
+    } catch {
+      setCupomErro('Erro ao validar cupom')
+    } finally {
+      setCupomLoading(false)
+    }
+  }
+
   if (discount > maxDiscount) {
     discount = maxDiscount;
   }
   
-  const total = subtotal + shipping - discount;
+  const descontoCupom = cupomAplicado ? cupomAplicado.desconto : 0
+  const total = subtotal + shipping - discount - descontoCupom;
 
   const handleCepLookup = async () => {
     if (form.cep.length < 8) return;
@@ -166,6 +195,8 @@ export default function CheckoutPage() {
           },
           shippingCost: shipping,
           discount,
+          cupomId: cupomAplicado?.id || null,
+          cupomDesconto: descontoCupom,
           paymentMethod,
         }),
       });
@@ -535,6 +566,12 @@ export default function CheckoutPage() {
                   <span>-{formatCurrency(discount)}</span>
                 </div>
               )}
+              {cupomAplicado && (
+                <div className="flex justify-between text-[#46A520]">
+                  <span>Cupom ({cupomAplicado.codigo})</span>
+                  <span>-{formatCurrency(cupomAplicado.desconto)}</span>
+                </div>
+              )}
               <div className="flex justify-between font-bold text-white text-base border-t border-[#E5E5E5] pt-3">
                 <span>Total</span>
                 <span>{formatCurrency(total)}</span>
@@ -553,6 +590,39 @@ export default function CheckoutPage() {
               )}
               {loading ? "Processando..." : "Finalizar Pedido"}
             </button>
+
+            {/* Campo Cupom */}
+            <div style={{ marginTop: 16 }}>
+              <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Cupom de Desconto</p>
+              {cupomAplicado ? (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: 'rgba(70,165,32,0.1)', border: '1px solid #46A520', borderRadius: 8 }}>
+                  <div>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: '#46A520', margin: 0 }}>{'\u2713'} {cupomAplicado.codigo}</p>
+                    <p style={{ fontSize: 12, color: '#888', margin: 0 }}>-R$ {cupomAplicado.desconto.toFixed(2).replace('.', ',')}</p>
+                  </div>
+                  <button onClick={() => { setCupomAplicado(null); setCupomCodigo('') }}
+                    style={{ background: 'transparent', border: 'none', color: '#F0484A', cursor: 'pointer', fontSize: 12 }}>
+                    Remover
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <input
+                      value={cupomCodigo}
+                      onChange={e => setCupomCodigo(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
+                      placeholder="C\u00d3DIGO DO CUPOM"
+                      style={{ flex: 1, background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px', fontSize: 13, color: '#fff', textTransform: 'uppercase' }}
+                    />
+                    <button onClick={aplicarCupom} disabled={cupomLoading}
+                      style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
+                      {cupomLoading ? '...' : 'Aplicar'}
+                    </button>
+                  </div>
+                  {cupomErro && <p style={{ fontSize: 12, color: '#F0484A', marginTop: 6 }}>{cupomErro}</p>}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </form>
