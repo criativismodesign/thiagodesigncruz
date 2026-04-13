@@ -169,10 +169,10 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8 bg-white">
       <div className="flex items-center gap-2 mb-8">
-        <Lock className="h-5 w-5 text-[var(--success)]" />
-        <h1 className="text-3xl font-bold text-white">Checkout Seguro</h1>
+        <Lock className="h-5 w-5 text-[#46A520]" />
+        <h1 className="text-3xl font-bold text-[#292929]">Checkout Seguro</h1>
       </div>
 
       <form
@@ -182,13 +182,13 @@ export default function CheckoutPage() {
         {/* Form */}
         <div className="lg:col-span-3 space-y-6">
           {/* Personal Info */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
-            <h2 className="text-lg font-bold text-white mb-4">
+          <div className="rounded-2xl border border-[#E5E5E5] bg-white p-6">
+            <h2 className="text-lg font-bold text-[#292929] mb-4">
               Dados Pessoais
             </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Nome completo
                 </label>
                 <input
@@ -196,11 +196,11 @@ export default function CheckoutPage() {
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Email
                 </label>
                 <input
@@ -208,11 +208,11 @@ export default function CheckoutPage() {
                   required
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Telefone
                 </label>
                 <input
@@ -220,11 +220,11 @@ export default function CheckoutPage() {
                   required
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   CPF
                 </label>
                 <input
@@ -232,18 +232,18 @@ export default function CheckoutPage() {
                   required
                   value={form.cpf}
                   onChange={(e) => setForm({ ...form, cpf: e.target.value })}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Address */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
-            <h2 className="text-lg font-bold text-white mb-4">Endereço</h2>
+          <div className="rounded-2xl border border-[#E5E5E5] bg-white p-6">
+            <h2 className="text-lg font-bold text-[#292929] mb-4">Endereço</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   CEP
                 </label>
                 <input
@@ -252,12 +252,12 @@ export default function CheckoutPage() {
                   value={form.cep}
                   onChange={(e) => setForm({ ...form, cep: e.target.value })}
                   onBlur={handleCepLookup}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                   placeholder="00000-000"
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Rua
                 </label>
                 <input
@@ -265,11 +265,11 @@ export default function CheckoutPage() {
                   required
                   value={form.street}
                   onChange={(e) => setForm({ ...form, street: e.target.value })}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Número
                 </label>
                 <input
@@ -277,11 +277,11 @@ export default function CheckoutPage() {
                   required
                   value={form.number}
                   onChange={(e) => setForm({ ...form, number: e.target.value })}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Complemento
                 </label>
                 <input
@@ -290,11 +290,11 @@ export default function CheckoutPage() {
                   onChange={(e) =>
                     setForm({ ...form, complement: e.target.value })
                   }
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Bairro
                 </label>
                 <input
@@ -304,11 +304,11 @@ export default function CheckoutPage() {
                   onChange={(e) =>
                     setForm({ ...form, neighborhood: e.target.value })
                   }
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Cidade
                 </label>
                 <input
@@ -316,11 +316,11 @@ export default function CheckoutPage() {
                   required
                   value={form.city}
                   onChange={(e) => setForm({ ...form, city: e.target.value })}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-[var(--muted-foreground)] mb-1">
+                <label className="block text-sm text-[#AAAAAA] mb-1">
                   Estado
                 </label>
                 <input
@@ -328,7 +328,7 @@ export default function CheckoutPage() {
                   required
                   value={form.state}
                   onChange={(e) => setForm({ ...form, state: e.target.value })}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--secondary)] px-4 py-2.5 text-sm text-white focus:border-[var(--primary)] focus:outline-none"
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                   placeholder="UF"
                 />
               </div>
@@ -336,22 +336,22 @@ export default function CheckoutPage() {
           </div>
 
           {/* Payment */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
-            <h2 className="text-lg font-bold text-white mb-4">Pagamento</h2>
+          <div className="rounded-2xl border border-[#E5E5E5] bg-white p-6">
+            <h2 className="text-lg font-bold text-[#292929] mb-4">Pagamento</h2>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <button
                 type="button"
                 onClick={() => setPaymentMethod("pix")}
                 className={`flex items-center gap-3 rounded-xl border p-4 transition-colors ${
                   paymentMethod === "pix"
-                    ? "border-[var(--primary)] bg-[var(--primary)]/10"
-                    : "border-[var(--border)] hover:border-[var(--primary)]/50"
+                    ? "border-[#DAA520] bg-[#DAA520]/10"
+                    : "border-[#E5E5E5] hover:border-[#DAA520]/50"
                 }`}
               >
-                <QrCode className="h-5 w-5 text-[var(--accent)]" />
+                <QrCode className="h-5 w-5 text-[#DAA520]" />
                 <div className="text-left">
-                  <p className="text-sm font-medium text-white">Pix</p>
-                  <p className="text-xs text-[var(--success)]">10% off</p>
+                  <p className="text-sm font-medium text-[#292929]">Pix</p>
+                  <p className="text-xs text-[#46A520]">10% off</p>
                 </div>
               </button>
               <button
@@ -359,14 +359,14 @@ export default function CheckoutPage() {
                 onClick={() => setPaymentMethod("credit")}
                 className={`flex items-center gap-3 rounded-xl border p-4 transition-colors ${
                   paymentMethod === "credit"
-                    ? "border-[var(--primary)] bg-[var(--primary)]/10"
-                    : "border-[var(--border)] hover:border-[var(--primary)]/50"
+                    ? "border-[#DAA520] bg-[#DAA520]/10"
+                    : "border-[#E5E5E5] hover:border-[#DAA520]/50"
                 }`}
               >
-                <CreditCard className="h-5 w-5 text-[var(--accent)]" />
+                <CreditCard className="h-5 w-5 text-[#DAA520]" />
                 <div className="text-left">
-                  <p className="text-sm font-medium text-white">Cartão</p>
-                  <p className="text-xs text-[var(--muted-foreground)]">
+                  <p className="text-sm font-medium text-[#292929]">Cartão</p>
+                  <p className="text-xs text-[#AAAAAA]">
                     Até 12x
                   </p>
                 </div>
@@ -376,14 +376,14 @@ export default function CheckoutPage() {
                 onClick={() => setPaymentMethod("boleto")}
                 className={`flex items-center gap-3 rounded-xl border p-4 transition-colors ${
                   paymentMethod === "boleto"
-                    ? "border-[var(--primary)] bg-[var(--primary)]/10"
-                    : "border-[var(--border)] hover:border-[var(--primary)]/50"
+                    ? "border-[#DAA520] bg-[#DAA520]/10"
+                    : "border-[#E5E5E5] hover:border-[#DAA520]/50"
                 }`}
               >
-                <Barcode className="h-5 w-5 text-[var(--accent)]" />
+                <Barcode className="h-5 w-5 text-[#DAA520]" />
                 <div className="text-left">
-                  <p className="text-sm font-medium text-white">Boleto</p>
-                  <p className="text-xs text-[var(--muted-foreground)]">
+                  <p className="text-sm font-medium text-[#292929]">Boleto</p>
+                  <p className="text-xs text-[#AAAAAA]">
                     3 dias úteis
                   </p>
                 </div>
@@ -394,7 +394,7 @@ export default function CheckoutPage() {
 
         {/* Summary */}
         <div className="lg:col-span-2">
-          <div className="sticky top-24 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
+          <div className="sticky top-24 rounded-2xl border border-[#E5E5E5] bg-[#292929] p-6">
             <h2 className="text-lg font-bold text-white mb-4">
               Resumo do Pedido
             </h2>
@@ -402,7 +402,7 @@ export default function CheckoutPage() {
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex justify-between text-[var(--muted-foreground)]"
+                  className="flex justify-between text-[#AAAAAA]"
                 >
                   <span className="truncate pr-2">
                     {item.quantity}x {item.name}
@@ -413,28 +413,28 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
-            <div className="space-y-2 border-t border-[var(--border)] pt-4 text-sm">
-              <div className="flex justify-between text-[var(--muted-foreground)]">
+            <div className="space-y-2 border-t border-[#E5E5E5] pt-4 text-sm">
+              <div className="flex justify-between text-[#AAAAAA]">
                 <span>Subtotal</span>
                 <span>{formatCurrency(subtotal)}</span>
               </div>
-              <div className="flex justify-between text-[var(--muted-foreground)]">
+              <div className="flex justify-between text-[#AAAAAA]">
                 <span>Frete</span>
                 <span>
                   {shipping === 0 ? (
-                    <span className="text-[var(--success)]">Grátis</span>
+                    <span className="text-[#46A520]">Grátis</span>
                   ) : (
                     formatCurrency(shipping)
                   )}
                 </span>
               </div>
               {discount > 0 && (
-                <div className="flex justify-between text-[var(--success)]">
+                <div className="flex justify-between text-[#46A520]">
                   <span>Desconto Pix</span>
                   <span>-{formatCurrency(discount)}</span>
                 </div>
               )}
-              <div className="flex justify-between font-bold text-white text-base border-t border-[var(--border)] pt-3">
+              <div className="flex justify-between font-bold text-white text-base border-t border-[#E5E5E5] pt-3">
                 <span>Total</span>
                 <span>{formatCurrency(total)}</span>
               </div>
@@ -443,7 +443,7 @@ export default function CheckoutPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] py-3.5 text-sm font-semibold text-white shadow-lg shadow-[var(--primary)]/25 disabled:opacity-50"
+              className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#46A520] py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#46A520]/25 disabled:opacity-50"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
