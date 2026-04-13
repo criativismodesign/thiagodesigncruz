@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const statusLabels: Record<string, { label: string; color: string }> = {
   pending: { label: 'Pendente', color: '#F59E0B' },
@@ -10,6 +11,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 }
 
 export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
+  const router = useRouter()
   const [pedidoExpandido, setPedidoExpandido] = useState<string | null>(null)
   const [trackingInput, setTrackingInput] = useState<Record<string, string>>({})
 
@@ -19,7 +21,7 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })
     })
-    window.location.reload()
+    router.refresh()
   }
 
   const handleSalvarTracking = async (id: string) => {
@@ -28,7 +30,7 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ trackingCode: trackingInput[id] })
     })
-    window.location.reload()
+    router.refresh()
   }
 
   return (
