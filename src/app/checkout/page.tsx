@@ -243,7 +243,7 @@ export default function CheckoutPage() {
         <h1 style={{ color: '#292929', marginBottom: '20px' }}>Checkout</h1>
         <p style={{ color: '#888', marginBottom: '20px' }}>Seu carrinho está vazio.</p>
         <button
-          onClick={() => router.push('/produtos')}
+          onClick={() => router.push('/categorias/todos-produtos')}
           style={{
             background: '#DAA520',
             color: '#fff',

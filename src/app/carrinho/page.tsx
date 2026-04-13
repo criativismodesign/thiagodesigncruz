@@ -312,7 +312,7 @@ export default function CartPage() {
             )}
 
             <Link
-              href="/produtos"
+              href="/categorias/todos-produtos"
               className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl border border-[#E5E5E5] py-3 text-sm font-medium text-[#AAAAAA] hover:text-[#DAA520] transition-colors"
             >
               Continuar Comprando
