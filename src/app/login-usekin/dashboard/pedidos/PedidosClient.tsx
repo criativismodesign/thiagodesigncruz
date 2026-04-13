@@ -137,7 +137,7 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
                         {pedido.items?.map((item: any) => (
                           <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: '#888', padding: '8px 0', borderBottom: '1px solid #F5F5F5' }}>
-                            <span>{item.quantity}x {item.product?.name || item.name || 'Produto'} {item.size ? `(${item.size})` : ''} {item.color ? `- ${item.color}` : ''}</span>
+                            <span>{item.quantity}x {item.produto?.nome || item.name || 'Produto'} {item.size ? `(${item.size})` : ''} {item.color ? `- ${item.color}` : ''}</span>
                             <span>R$ {(item.price * item.quantity).toFixed(2).replace('.', ',')}</span>
                           </div>
                         ))}

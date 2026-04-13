@@ -10,11 +10,11 @@ export default async function PedidosPage() {
     redirect('/login-usekin')
   }
 
-  const pedidos: any[] = await prisma.order.findMany({
+  const pedidos: any[] = await (prisma as any).order.findMany({
     orderBy: { createdAt: 'desc' },
     include: {
       user: { select: { name: true, email: true, phone: true } },
-      items: { include: { product: { select: { name: true } } } }
+      items: { include: { produto: { select: { nome: true } } } }
     }
   })
 
