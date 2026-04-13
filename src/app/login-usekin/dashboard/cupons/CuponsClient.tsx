@@ -104,3 +104,261 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
     <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
       {/* Header navegação padrão */}
       <div style={{ background: '#fff', borderBottom: '1px solid #E5E5E5', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
+        <span style={{ fontWeight: 700, fontSize: 18, color: '#292929' }}>Use KIN Admin</span>
+        <Link href="/login-usekin/dashboard" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Dashboard</Link>
+        <Link href="/login-usekin/dashboard/produtos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Produtos</Link>
+        <Link href="/login-usekin/dashboard/colecoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Coleções</Link>
+        <Link href="/login-usekin/dashboard/banners" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners</Link>
+        <Link href="/login-usekin/dashboard/banners-categoria" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners Categoria</Link>
+        <Link href="/login-usekin/dashboard/pedidos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Pedidos</Link>
+        <Link href="/login-usekin/dashboard/cupons" style={{ color: '#2563eb', textDecoration: 'none', fontSize: 14 }}>Cupons</Link>
+        <Link href="/login-usekin/dashboard/dados-envio" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Dados de Envio</Link>
+        <Link href="/login-usekin/dashboard/configuracoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Configurações</Link>
+        <div style={{ marginLeft: 'auto' }}>
+          <button
+            onClick={async () => {
+              await fetch('/api/admin/logout', { method: 'POST' })
+              window.location.href = '/login-usekin'
+            }}
+            style={{ color: '#888', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+          >
+            Sair
+          </button>
+        </div>
+      </div>
+
+      {/* Conteúdo */}
+      <div style={{ padding: '32px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Cupons de Desconto</h1>
+          <button
+            onClick={() => setEditando('novo')}
+            style={{ 
+              padding: '10px 24px', 
+              background: '#DAA520', 
+              color: '#fff', 
+              border: 'none', 
+              borderRadius: 8, 
+              fontSize: 14, 
+              fontWeight: 600, 
+              cursor: 'pointer' 
+            }}
+          >
+            Novo Cupom
+          </button>
+        </div>
+
+        {editando && (
+          <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: '24px', marginBottom: 24 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', margin: '0 0 20px 0' }}>
+              {editando === 'novo' ? 'Novo Cupom' : 'Editar Cupom'}
+            </h2>
+            <form onSubmit={handleSubmit}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: 6 }}>
+                    Código *
+                  </label>
+                  <input
+                    type="text"
+                    value={formulario.codigo}
+                    onChange={(e) => setFormulario(prev => ({ ...prev, codigo: e.target.value }))}
+                    required
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: 6 }}>
+                    Tipo *
+                  </label>
+                  <select
+                    value={formulario.tipo}
+                    onChange={(e) => setFormulario(prev => ({ ...prev, tipo: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  >
+                    <option value="fixo">Fixo (R$)</option>
+                    <option value="percentual">Percentual (%)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: 6 }}>
+                    Valor *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={formulario.valor}
+                    onChange={(e) => setFormulario(prev => ({ ...prev, valor: e.target.value }))}
+                    required
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: 6 }}>
+                    Validade
+                  </label>
+                  <input
+                    type="date"
+                    value={formulario.validade}
+                    onChange={(e) => setFormulario(prev => ({ ...prev, validade: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: 6 }}>
+                    Limite de Usos
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formulario.limiteusos}
+                    onChange={(e) => setFormulario(prev => ({ ...prev, limiteusos: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#292929', marginBottom: 6 }}>
+                    Status *
+                  </label>
+                  <select
+                    value={formulario.status}
+                    onChange={(e) => setFormulario(prev => ({ ...prev, status: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
+                  >
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <button
+                  type="submit"
+                  style={{ 
+                    padding: '10px 24px', 
+                    background: '#DAA520', 
+                    color: '#fff', 
+                    border: 'none', 
+                    borderRadius: 8, 
+                    fontSize: 14, 
+                    fontWeight: 600, 
+                    cursor: 'pointer' 
+                  }}
+                >
+                  Salvar
+                </button>
+                <button
+                  type="button"
+                  onClick={resetFormulario}
+                  style={{ 
+                    padding: '10px 24px', 
+                    background: '#fff', 
+                    color: '#888', 
+                    border: '1px solid #E5E5E5', 
+                    borderRadius: 8, 
+                    fontSize: 14, 
+                    fontWeight: 600, 
+                    cursor: 'pointer' 
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: '24px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ borderBottom: '1px solid #E5E5E5' }}>
+                <th style={{ padding: '12px', textAlign: 'left', fontSize: 14, fontWeight: 600, color: '#292929' }}>Código</th>
+                <th style={{ padding: '12px', textAlign: 'left', fontSize: 14, fontWeight: 600, color: '#292929' }}>Tipo</th>
+                <th style={{ padding: '12px', textAlign: 'left', fontSize: 14, fontWeight: 600, color: '#292929' }}>Valor</th>
+                <th style={{ padding: '12px', textAlign: 'left', fontSize: 14, fontWeight: 600, color: '#292929' }}>Validade</th>
+                <th style={{ padding: '12px', textAlign: 'left', fontSize: 14, fontWeight: 600, color: '#292929' }}>Usos</th>
+                <th style={{ padding: '12px', textAlign: 'left', fontSize: 14, fontWeight: 600, color: '#292929' }}>Status</th>
+                <th style={{ padding: '12px', textAlign: 'left', fontSize: 14, fontWeight: 600, color: '#292929' }}>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cuponsState.map((cupom) => (
+                <tr key={cupom.id} style={{ borderBottom: '1px solid #E5E5E5' }}>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>{cupom.codigo}</td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>
+                    {cupom.tipo === 'fixo' ? `R$ ${cupom.valor}` : `${cupom.valor}%`}
+                  </td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>{cupom.valor}</td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>
+                    {cupom.validade ? new Date(cupom.validade).toLocaleDateString('pt-BR') : 'Sem validade'}
+                  </td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>
+                    {cupom.usos || 0} / {cupom.limiteusos || 'Ilimitado'}
+                  </td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>
+                    <span style={{ 
+                      padding: '4px 8px', 
+                      borderRadius: 4, 
+                      fontSize: 12, 
+                      fontWeight: 500,
+                      background: cupom.status === 'ativo' ? '#46A520' : '#F0484A',
+                      color: '#fff'
+                    }}>
+                      {cupom.status === 'ativo' ? 'Ativo' : 'Inativo'}
+                    </span>
+                  </td>
+                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>
+                    <button
+                      onClick={() => {
+                        setEditando(cupom.id)
+                        setFormulario({
+                          codigo: cupom.codigo,
+                          tipo: cupom.tipo,
+                          valor: cupom.valor.toString(),
+                          validade: cupom.validade ? new Date(cupom.validade).toISOString().split('T')[0] : '',
+                          limiteusos: cupom.limiteusos?.toString() || '',
+                          status: cupom.status
+                        })
+                      }}
+                      style={{ 
+                        padding: '4px 8px', 
+                        background: '#2563eb', 
+                        color: '#fff', 
+                        border: 'none', 
+                        borderRadius: 4, 
+                        fontSize: 12, 
+                        cursor: 'pointer',
+                        marginRight: 8
+                      }}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (confirm('Tem certeza que deseja excluir este cupom?')) {
+                          await fetch(`/api/admin/cupons/${cupom.id}`, { method: 'DELETE' })
+                          setCuponsState(prev => prev.filter(c => c.id !== cupom.id))
+                        }
+                      }}
+                      style={{ 
+                        padding: '4px 8px', 
+                        background: '#F0484A', 
+                        color: '#fff', 
+                        border: 'none', 
+                        borderRadius: 4, 
+                        fontSize: 12, 
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Excluir
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  )
+}
