@@ -68,11 +68,19 @@ export async function POST(request: NextRequest) {
               color?: string;
               customDesign?: string;
             }) => {
-              // Find real product by slug
-              const realProduct = await (prisma as any).product.findUnique({
-                where: { slug: item.productId },
+              // productId pode ser ID ou slug - tentar ID primeiro, depois slug
+              let realProduct = await (prisma as any).product.findUnique({
+                where: { id: item.productId },
                 select: { id: true },
               });
+              
+              // Se não encontrar por ID, tentar por slug
+              if (!realProduct) {
+                realProduct = await (prisma as any).product.findUnique({
+                  where: { slug: item.productId },
+                  select: { id: true },
+                });
+              }
               
               if (!realProduct) {
                 throw new Error(`Produto não encontrado: ${item.productId}`);
