@@ -10,7 +10,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
     tipo: 'fixo',
     valor: '',
     validade: '',
-    limiteUsos: '',
+    limiteusos: '',
     status: 'ativo'
   })
 
@@ -20,7 +20,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
       tipo: 'fixo',
       valor: '',
       validade: '',
-      limiteUsos: '',
+      limiteusos: '',
       status: 'ativo'
     })
     setEditando(null)
@@ -47,7 +47,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
       tipo: formulario.tipo || 'fixo',
       valor: parseFloat(String(formulario.valor)),
       validade: formulario.validade || null,
-      limiteUsos: formulario.limiteUsos ? parseInt(String(formulario.limiteUsos)) : null,
+      limiteusos: formulario.limiteusos ? parseInt(String(formulario.limiteusos)) : null,
       status: formulario.status || 'ativo',
     }
 
@@ -81,7 +81,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
       tipo: cupom.tipo,
       valor: cupom.valor.toString(),
       validade: cupom.validade ? new Date(cupom.validade).toISOString().split('T')[0] : '',
-      limiteUsos: cupom.limiteUsos?.toString() || '',
+      limiteusos: cupom.limiteusos?.toString() || '',
       status: cupom.status
     })
     setEditando(cupom.id)
@@ -176,8 +176,8 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
               <label style={{ fontSize: 13, color: '#888', display: 'block', marginBottom: 6 }}>Limite de Usos</label>
               <input
                 type="number"
-                value={formulario.limiteUsos}
-                onChange={e => setFormulario({ ...formulario, limiteUsos: e.target.value })}
+                value={formulario.limiteusos}
+                onChange={e => setFormulario({ ...formulario, limiteusos: e.target.value })}
                 placeholder="Opcional"
                 style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929' }}
               />
@@ -242,10 +242,10 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
                     {cupom.validade ? new Date(cupom.validade).toLocaleDateString('pt-BR') : 'Indefinida'}
                   </td>
                   <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>
-                    {cupom.limiteUsos || 'Ilimitado'}
+                    {cupom.limiteusos || 'Ilimitado'}
                   </td>
                   <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>
-                    {cupom.totalUsado} / {cupom.limiteUsos || 'Ilimitado'}
+                    {cupom.totalusado} / {cupom.limiteusos || 'Ilimitado'}
                   </td>
                   <td style={{ padding: '12px 16px' }}>
                     <span style={{

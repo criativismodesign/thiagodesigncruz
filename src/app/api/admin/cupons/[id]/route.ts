@@ -22,7 +22,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       tipo: body.tipo,
       valor: parseFloat(body.valor),
       validade: body.validade ? new Date(body.validade) : null,
-      limiteUsos: body.limiteUsos ? parseInt(body.limiteUsos) : null,
+      limiteusos: body.limiteusos ? parseInt(body.limiteusos) : null,
       status: body.status,
     }
   })

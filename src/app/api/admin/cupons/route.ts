@@ -42,7 +42,7 @@ export async function POST(request: Request) {
         tipo: body.tipo || 'fixo',
         valor,
         validade: body.validade ? new Date(body.validade) : null,
-        limiteUsos: body.limiteUsos ? parseInt(body.limiteUsos) : null,
+        limiteusos: body.limiteusos ? parseInt(body.limiteusos) : null,
         status: body.status || 'ativo',
       }
     })

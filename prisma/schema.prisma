@@ -291,14 +291,14 @@ model BannerConfig {
 }
 
 model Cupom {
-  id         String    @id @default(cuid())
-  codigo     String    @unique
-  tipo       String    @default("fixo")
-  valor      Float
-  validade   DateTime?
-  limiteUsos Int?
-  totalUsado Int       @default(0)
-  status     String    @default("ativo")
-  criadoEm   DateTime  @default(now())
-  atualizadoEm DateTime @updatedAt
+  id           String    @id @default(cuid())
+  codigo       String    @unique
+  tipo         String    @default("fixo")
+  valor        Float
+  validade     DateTime?
+  limiteusos   Int?
+  totalusado   Int       @default(0)
+  status       String    @default("ativo")
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
 }
