@@ -75,10 +75,12 @@ export default async function DashboardPage() {
             </div>
           </Link>
 
-          <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, opacity: 0.5 }}>
-            <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Pedidos</h2>
-            <p style={{ color: '#888', fontSize: 14 }}>Em breve</p>
-          </div>
+          <Link href="/login-usekin/dashboard/pedidos" style={{ textDecoration: 'none' }}>
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, cursor: 'pointer' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>Pedidos</h2>
+              <p style={{ color: '#888', fontSize: 14 }}>Gerencie os pedidos dos clientes</p>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

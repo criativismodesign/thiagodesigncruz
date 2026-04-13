@@ -73,6 +73,10 @@ export default function MinhaContaPage() {
     state: '',
     isDefault: false,
   })
+  const [showPasswordForm, setShowPasswordForm] = useState(false)
+  const [passwordForm, setPasswordForm] = useState({ senhaAtual: '', novaSenha: '', confirmarSenha: '' })
+  const [passwordError, setPasswordError] = useState('')
+  const [passwordSuccess, setPasswordSuccess] = useState(false)
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -162,6 +166,36 @@ export default function MinhaContaPage() {
       alert('Erro ao salvar endereço')
     }
   };
+
+  const handleAlterarSenha = async () => {
+    setPasswordError('')
+    if (passwordForm.novaSenha !== passwordForm.confirmarSenha) {
+      setPasswordError('As senhas não coincidem')
+      return
+    }
+    if (passwordForm.novaSenha.length < 6) {
+      setPasswordError('Nova senha deve ter pelo menos 6 caracteres')
+      return
+    }
+    try {
+      const res = await fetch('/api/user/password', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ senhaAtual: passwordForm.senhaAtual, novaSenha: passwordForm.novaSenha })
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setPasswordSuccess(true)
+        setPasswordForm({ senhaAtual: '', novaSenha: '', confirmarSenha: '' })
+        setShowPasswordForm(false)
+        setTimeout(() => setPasswordSuccess(false), 3000)
+      } else {
+        setPasswordError(data.error || 'Erro ao alterar senha')
+      }
+    } catch {
+      setPasswordError('Erro ao alterar senha')
+    }
+  }
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -499,6 +533,42 @@ export default function MinhaContaPage() {
                   </div>
                 </div>
               )}
+
+              <div style={{ marginTop: 24, borderTop: '1px solid var(--border)', paddingTop: 24 }}>
+                {!showPasswordForm ? (
+                  <button onClick={() => setShowPasswordForm(true)}
+                    style={{ background: 'transparent', border: '1px solid var(--border)', color: '#888', borderRadius: 999, padding: '10px 20px', cursor: 'pointer', fontSize: 14 }}>
+                    Alterar Senha
+                  </button>
+                ) : (
+                  <div>
+                    <h3 style={{ fontSize: 16, fontWeight: 600, color: '#fff', marginBottom: 16 }}>Alterar Senha</h3>
+                    {passwordSuccess && <p style={{ color: '#46A520', marginBottom: 12, fontSize: 14 }}>Senha alterada com sucesso!</p>}
+                    {passwordError && <p style={{ color: '#F0484A', marginBottom: 12, fontSize: 14 }}>{passwordError}</p>}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                      <input type="password" placeholder="Senha atual" value={passwordForm.senhaAtual}
+                        onChange={e => setPasswordForm({...passwordForm, senhaAtual: e.target.value})}
+                        style={{ background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff', width: '100%', boxSizing: 'border-box' as const }} />
+                      <input type="password" placeholder="Nova senha" value={passwordForm.novaSenha}
+                        onChange={e => setPasswordForm({...passwordForm, novaSenha: e.target.value})}
+                        style={{ background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff', width: '100%', boxSizing: 'border-box' as const }} />
+                      <input type="password" placeholder="Confirmar nova senha" value={passwordForm.confirmarSenha}
+                        onChange={e => setPasswordForm({...passwordForm, confirmarSenha: e.target.value})}
+                        style={{ background: 'var(--secondary)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#fff', width: '100%', boxSizing: 'border-box' as const }} />
+                      <div style={{ display: 'flex', gap: 12 }}>
+                        <button onClick={() => { setShowPasswordForm(false); setPasswordError('') }}
+                          style={{ flex: 1, background: 'transparent', border: '1px solid var(--border)', color: '#888', borderRadius: 999, padding: '10px', cursor: 'pointer', fontSize: 14 }}>
+                          Cancelar
+                        </button>
+                        <button onClick={handleAlterarSenha}
+                          style={{ flex: 1, background: '#DAA520', color: '#fff', border: 'none', borderRadius: 999, padding: '10px', cursor: 'pointer', fontSize: 14, fontWeight: 700 }}>
+                          Salvar Senha
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
