@@ -10,29 +10,29 @@ export async function GET() {
     }
 
     // Buscar todos os produtos
-    const products = await (prisma as any).product.findMany({
+    const products = await (prisma as any).produto.findMany({
       select: {
         id: true,
         slug: true,
-        name: true,
+        nome: true,
         status: true
       },
       take: 50 // Limitar para não sobrecarregar
     })
 
-    console.log(`Found ${products.length} products`)
+    console.log(`Found ${products.length} produtos`)
     
     // Verificar se o produto específico existe
     const targetId = "cmnwbsncl0001lf04tryuhn3l"
-    const targetProduct = products.find(p => p.id === targetId || p.slug === targetId)
+    const targetProduct = products.find((p: any) => p.id === targetId || p.slug === targetId)
     
     return NextResponse.json({
       totalProducts: products.length,
       targetProduct: targetProduct || "NOT FOUND",
-      products: products.map(p => ({
+      products: products.map((p: any) => ({
         id: p.id,
         slug: p.slug,
-        name: p.name,
+        name: p.nome,
         status: p.status
       }))
     })

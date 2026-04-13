@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
               // productId pode ser ID ou slug - tentar ID primeiro, depois slug
               console.log(`Buscando produto: ${item.productId}`);
               
-              let realProduct = await (prisma as any).product.findUnique({
+              let realProduct = await (prisma as any).produto.findUnique({
                 where: { id: item.productId },
                 select: { id: true },
               });
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
               // Se não encontrar por ID, tentar por slug
               if (!realProduct) {
                 console.log(`Tentando busca por slug: ${item.productId}`);
-                realProduct = await (prisma as any).product.findUnique({
+                realProduct = await (prisma as any).produto.findUnique({
                   where: { slug: item.productId },
                   select: { id: true },
                 });
