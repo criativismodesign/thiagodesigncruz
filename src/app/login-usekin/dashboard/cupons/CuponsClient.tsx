@@ -28,27 +28,33 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault()
-  
-  if (!formulario.codigo || !formulario.valor) {
-    alert('Código e Valor são obrigatórios')
+
+  if (!formulario.codigo.trim()) {
+    alert('Código do cupom é obrigatório')
+    return
+  }
+  if (!formulario.valor || isNaN(parseFloat(String(formulario.valor)))) {
+    alert('Valor do desconto é obrigatório e deve ser um número')
     return
   }
 
   try {
     const url = editando ? `/api/admin/cupons/${editando}` : '/api/admin/cupons'
     const method = editando ? 'PUT' : 'POST'
-    
+
+    const payload = {
+      codigo: formulario.codigo.toUpperCase().replace(/[^A-Z0-9]/g, ''),
+      tipo: formulario.tipo || 'fixo',
+      valor: parseFloat(String(formulario.valor)),
+      validade: formulario.validade || null,
+      limiteUsos: formulario.limiteUsos ? parseInt(String(formulario.limiteUsos)) : null,
+      status: formulario.status || 'ativo',
+    }
+
     const res = await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        codigo: formulario.codigo,
-        tipo: formulario.tipo,
-        valor: formulario.valor,
-        validade: formulario.validade || null,
-        limiteUsos: formulario.limiteUsos || null,
-        status: formulario.status,
-      })
+      body: JSON.stringify(payload)
     })
 
     const data = await res.json()
@@ -61,11 +67,11 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
       }
       resetFormulario()
     } else {
-      alert(data.error || 'Erro ao salvar cupom')
+      alert(data.error || 'Erro ao salvar cupom - verifique os campos preenchidos')
     }
   } catch (error) {
-    console.error('Erro ao salvar cupom:', error)
-    alert('Erro ao salvar cupom')
+    console.error('Erro:', error)
+    alert('Erro de conexão ao salvar cupom')
   }
 }
 
