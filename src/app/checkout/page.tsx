@@ -14,6 +14,14 @@ function formatCurrency(value: number) {
   }).format(value);
 }
 
+const formatCPF = (value: string) => {
+  const nums = value.replace(/\D/g, '').slice(0, 11)
+  if (nums.length <= 3) return nums
+  if (nums.length <= 6) return `${nums.slice(0,3)}.${nums.slice(3)}` 
+  if (nums.length <= 9) return `${nums.slice(0,3)}.${nums.slice(3,6)}.${nums.slice(6)}` 
+  return `${nums.slice(0,3)}.${nums.slice(3,6)}.${nums.slice(6,9)}-${nums.slice(9)}` 
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, getTotal, clearCart, freteInfo } = useCartStore();
@@ -280,13 +288,8 @@ export default function CheckoutPage() {
                   type="text"
                   required
                   value={form.cpf}
-                  onChange={(e) => setForm({ ...form, cpf: e.target.value })}
-                  className={`w-full rounded-lg border border-[#E5E5E5] px-4 py-2.5 text-sm focus:outline-none ${
-                  enderecoSalvo && !alterandoEndereco 
-                    ? 'bg-[#f0f0f0] text-[#666]' 
-                    : 'bg-[#F5F5F5] text-[#292929] focus:border-[#DAA520]'
-                }`}
-                readOnly={enderecoSalvo && !alterandoEndereco}
+                  onChange={e => setForm({ ...form, cpf: formatCPF(e.target.value) })}
+                  className="w-full rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] px-4 py-2.5 text-sm text-[#292929] focus:border-[#DAA520] focus:outline-none"
                 />
               </div>
             </div>
