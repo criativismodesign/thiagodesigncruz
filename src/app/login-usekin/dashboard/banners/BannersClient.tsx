@@ -465,11 +465,10 @@ export default function BannersClient() {
               </div>
             </form>
           </div>
-        )}
-          </div>
         </div>
-      )}
+        </div>
       </div>
+    )}
     </div>
   )
 }
