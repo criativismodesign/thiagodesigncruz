@@ -574,6 +574,7 @@ export default function ProdutoPageClient({ produto }: Props) {
                 tamanho: tamanhoSelecionado || undefined,
                 quantidade: quantity,
               }]}
+              podeCalcular={produto.tipo === 'mousepad' || (!!corSelecionada && !!tamanhoSelecionado)}
             />
           </div>
         </div>

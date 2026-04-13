@@ -9,13 +9,24 @@ interface Produto {
 
 interface Props {
   produtos: Produto[]
+  podeCalcular?: boolean
 }
 
-export default function CalculadorFrete({ produtos }: Props) {
+export default function CalculadorFrete({ produtos, podeCalcular = true }: Props) {
   const [cep, setCep] = useState('')
   const [loading, setLoading] = useState(false)
   const [fretes, setFretes] = useState<any[]>([])
   const [erro, setErro] = useState('')
+
+  if (!podeCalcular) {
+    return (
+      <div style={{ marginTop: 16, padding: '16px', background: '#F9F9F9', borderRadius: 8, border: '1px solid #E5E5E5' }}>
+        <p style={{ fontSize: 13, color: '#888', margin: 0 }}>
+          Selecione cor e tamanho para calcular o frete
+        </p>
+      </div>
+    )
+  }
 
   const calcular = async () => {
     const cepLimpo = cep.replace(/\D/g, '')
