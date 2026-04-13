@@ -242,6 +242,7 @@ export default function BannersClient() {
           </div>
         )}
       </div>
+      </div>
 
       {/* Modal Criar/Editar */}
       {showModal && (
@@ -464,9 +465,11 @@ export default function BannersClient() {
               </div>
             </form>
           </div>
+        )}
+          </div>
         </div>
+      )}
       </div>
-    )}
     </div>
   )
 }
