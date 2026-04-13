@@ -5,6 +5,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
+  console.log("=== API PAYMENTS/CREATE START ===");
+  console.log("Timestamp:", new Date().toISOString());
+  
   try {
     console.log("=== API PAYMENTS/CREATE DEBUG ===");
     
