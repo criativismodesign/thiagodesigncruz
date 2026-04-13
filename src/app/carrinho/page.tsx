@@ -98,8 +98,13 @@ export default function CartPage() {
     item.name === "Camiseta e Mouse Pad Teste"
   );
   
-  const shippingCalculado = freteSelecionado ? freteSelecionado.preco : (subtotal >= 250 ? 0 : 19.9)
-  let shipping = isTestProductOnly ? 0 : shippingCalculado
+  const shipping = isTestProductOnly 
+  ? 0 
+  : subtotal >= 250 
+    ? 0 
+    : freteSelecionado 
+      ? freteSelecionado.preco 
+      : 0 // não soma frete até o cliente escolher
   let pixDiscount = subtotal * 0.1;
   
   // Special pricing for test product only
@@ -108,6 +113,7 @@ export default function CartPage() {
   }
   
   const total = subtotal + shipping;
+  const podeFinalizarCompra = isTestProductOnly || subtotal >= 250 || freteSelecionado !== null
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 bg-white">
@@ -207,14 +213,64 @@ export default function CartPage() {
                 </span>
                 <span>{formatCurrency(subtotal)}</span>
               </div>
+              
+              {/* Campo CEP */}
+              <div style={{ marginTop: 8, marginBottom: 8 }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Calcular Frete</p>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <input
+                    value={cep}
+                    onChange={e => setCep(formatCep(e.target.value))}
+                    placeholder="00000-000"
+                    maxLength={9}
+                    style={{ flex: 1, border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 13, color: '#fff', background: '#1a1a1a' }}
+                  />
+                  <button
+                    onClick={calcularFrete}
+                    disabled={loadingFrete}
+                    style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
+                  >
+                    {loadingFrete ? '...' : 'OK'}
+                  </button>
+                </div>
+                {erroFrete && <p style={{ fontSize: 12, color: '#F0484A', marginTop: 6 }}>{erroFrete}</p>}
+                
+                {/* Opções de frete */}
+                {freteOpcoes.length > 0 && (
+                  <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {freteOpcoes.map(frete => (
+                      <div
+                        key={frete.id}
+                        onClick={() => setFreteSelecionado(frete)}
+                        style={{
+                          padding: '8px 12px', borderRadius: 8, cursor: 'pointer',
+                          border: freteSelecionado?.id === frete.id ? '2px solid #DAA520' : '1px solid #E5E5E5',
+                          background: freteSelecionado?.id === frete.id ? 'rgba(218,165,32,0.1)' : '#1a1a1a',
+                          display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                        }}
+                      >
+                        <div>
+                          <p style={{ fontSize: 12, fontWeight: 600, color: '#fff', margin: 0 }}>{frete.empresa} - {frete.nome}</p>
+                          <p style={{ fontSize: 11, color: '#AAAAAA', margin: 0 }}>{frete.prazo} dias úteis</p>
+                        </div>
+                        <p style={{ fontSize: 13, fontWeight: 700, color: '#DAA520', margin: 0 }}>
+                          R$ {frete.preco.toFixed(2).replace('.', ',')}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
               <div className="flex justify-between text-[#AAAAAA]">
-                <span>Frete {freteSelecionado ? `(${freteSelecionado.nome})` : ''}</span>
+                <span>Frete</span>
                 <span>
-                  {shipping === 0 ? (
-                    <span className="text-[#46A520]">Grátis</span>
-                  ) : (
-                    formatCurrency(shipping)
-                  )}
+                  {subtotal >= 250 
+                    ? <span style={{ color: '#46A520' }}>Grátis</span>
+                    : freteSelecionado 
+                      ? formatCurrency(freteSelecionado.preco)
+                      : <span style={{ color: '#DAA520', fontSize: 12 }}>Calcule o frete</span>
+                  }
                 </span>
               </div>
               <div className="border-t border-[#E5E5E5] pt-3 flex justify-between font-bold text-white text-base">
@@ -227,67 +283,28 @@ export default function CartPage() {
               </div>
             </div>
 
-            {/* Campo CEP */}
-            <div style={{ marginTop: 16, marginBottom: 16 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Calcular Frete</p>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <input
-                  value={cep}
-                  onChange={e => setCep(formatCep(e.target.value))}
-                  placeholder="00000-000"
-                  maxLength={9}
-                  style={{ flex: 1, border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 13, color: '#fff', background: '#1a1a1a' }}
-                />
-                <button
-                  onClick={calcularFrete}
-                  disabled={loadingFrete}
-                  style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                >
-                  {loadingFrete ? '...' : 'OK'}
-                </button>
-              </div>
-              {erroFrete && <p style={{ fontSize: 12, color: '#F0484A', marginTop: 6 }}>{erroFrete}</p>}
-              
-              {/* Opções de frete */}
-              {freteOpcoes.length > 0 && (
-                <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {freteOpcoes.map(frete => (
-                    <div
-                      key={frete.id}
-                      onClick={() => setFreteSelecionado(frete)}
-                      style={{
-                        padding: '8px 12px', borderRadius: 8, cursor: 'pointer',
-                        border: freteSelecionado?.id === frete.id ? '2px solid #DAA520' : '1px solid #E5E5E5',
-                        background: freteSelecionado?.id === frete.id ? 'rgba(218,165,32,0.1)' : '#1a1a1a',
-                        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-                      }}
-                    >
-                      <div>
-                        <p style={{ fontSize: 12, fontWeight: 600, color: '#fff', margin: 0 }}>{frete.empresa} - {frete.nome}</p>
-                        <p style={{ fontSize: 11, color: '#AAAAAA', margin: 0 }}>{frete.prazo} dias úteis</p>
-                      </div>
-                      <p style={{ fontSize: 13, fontWeight: 700, color: '#DAA520', margin: 0 }}>
-                        R$ {frete.preco.toFixed(2).replace('.', ',')}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
             {shipping > 0 && (
               <p className="mt-4 text-xs text-[#AAAAAA] bg-[#1a1a1a] rounded-lg p-3">
                 Falta {formatCurrency(250 - subtotal)} para frete grátis!
               </p>
             )}
 
-            <Link
-              href="/checkout"
-              className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#46A520] py-3 text-sm font-semibold text-white shadow-lg shadow-[#46A520]/25 hover:shadow-[#46A520]/40 transition-all"
-            >
-              <CreditCard className="h-4 w-4" />
-              Finalizar Compra
-            </Link>
+            {podeFinalizarCompra ? (
+              <Link
+                href="/checkout"
+                className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#46A520] py-3 text-sm font-semibold text-white shadow-lg shadow-[#46A520]/25 hover:shadow-[#46A520]/40 transition-all"
+              >
+                <CreditCard className="h-4 w-4" />
+                Finalizar Compra
+              </Link>
+            ) : (
+              <button 
+                disabled
+                style={{ marginTop: 24, width: '100%', padding: '12px', borderRadius: 12, background: '#E5E5E5', color: '#AAAAAA', border: 'none', fontSize: 14, fontWeight: 600, cursor: 'not-allowed' }}
+              >
+                Selecione o frete para continuar
+              </button>
+            )}
 
             <Link
               href="/produtos"
