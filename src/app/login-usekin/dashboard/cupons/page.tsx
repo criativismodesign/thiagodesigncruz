@@ -9,6 +9,12 @@ export default async function CuponsPage() {
   if (!session || session !== process.env.ADMIN_SESSION_TOKEN) {
     redirect('/login-usekin')
   }
-  const cupons: any[] = await prisma.cupom.findMany({ orderBy: { criadoEm: 'desc' } })
+  let cupons: any[] = []
+  try {
+    cupons = await prisma.cupom.findMany({ orderBy: { criadoEm: 'desc' } })
+  } catch (error) {
+    console.error('Erro ao buscar cupons:', error)
+    cupons = []
+  }
   return <CuponsClient cupons={cupons} />
 }
