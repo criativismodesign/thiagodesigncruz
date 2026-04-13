@@ -76,7 +76,7 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
                         #{pedido.id.slice(-8).toUpperCase()}
                       </p>
                       <p style={{ color: '#888', fontSize: 13, margin: 0 }}>
-                        {pedido.user?.name || 'Cliente'} - {new Date(pedido.createdAt).toLocaleDateString('pt-BR')}
+                        {pedido.user?.name || 'Cliente'} - {new Date(pedido.createdAt).toISOString().split('T')[0].split('-').reverse().join('/')}
                       </p>
                     </div>
                     <span style={{ background: status.color + '20', color: status.color, padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600 }}>
