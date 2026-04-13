@@ -92,9 +92,9 @@ export async function POST(request: NextRequest) {
 
     // Incrementar uso do cupom se aplicado
     if (cupomId) {
-      await prisma.cupom.update({
+      await (prisma as any).cupom.update({
         where: { id: cupomId },
-        data: { totalUsado: { increment: 1 } }
+        data: { totalusado: { increment: 1 } }
       })
     }
 
