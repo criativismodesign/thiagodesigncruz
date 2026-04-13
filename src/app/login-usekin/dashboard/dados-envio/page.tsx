@@ -17,10 +17,10 @@ async function getConfigEnvio() {
 }
 
 export default async function DadosEnvioPage() {
-  const cookieStore = cookies()
-  const authCookie = cookieStore.get('auth-token')
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin-session')?.value
 
-  if (!authCookie?.value) {
+  if (!session || session !== process.env.ADMIN_SESSION_TOKEN) {
     redirect('/login-usekin')
   }
 
