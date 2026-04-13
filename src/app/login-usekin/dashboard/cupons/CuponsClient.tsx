@@ -26,53 +26,48 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
     setEditando(null)
   }
 
-  const handleSubmit = async () => {
-    if (!formulario.codigo || !formulario.valor) {
-      alert('Código e Valor são obrigatórios')
-      return
-    }
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault()
+  
+  if (!formulario.codigo || !formulario.valor) {
+    alert('Código e Valor são obrigatórios')
+    return
+  }
 
-    try {
-      const method = editando ? 'PUT' : 'POST'
-      const url = editando ? `/api/admin/cupons/${editando}` : '/api/admin/cupons'
-      
-      console.log('Enviando:', method, url, formulario)
-      
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          codigo: formulario.codigo,
-          tipo: formulario.tipo,
-          valor: formulario.valor,
-          validade: formulario.validade || null,
-          limiteUsos: formulario.limiteUsos || null,
-          status: formulario.status,
-        })
+  try {
+    const url = editando ? `/api/admin/cupons/${editando}` : '/api/admin/cupons'
+    const method = editando ? 'PUT' : 'POST'
+    
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        codigo: formulario.codigo,
+        tipo: formulario.tipo,
+        valor: formulario.valor,
+        validade: formulario.validade || null,
+        limiteUsos: formulario.limiteUsos || null,
+        status: formulario.status,
       })
+    })
 
-      console.log('Status resposta:', res.status)
-      const data = await res.json()
-      console.log('Resposta:', data)
-      
-      if (!res.ok) {
-        alert(data.error || 'Erro ao salvar cupom: ' + res.status)
-        return
-      }
+    const data = await res.json()
 
+    if (res.ok) {
       if (editando) {
         setCuponsState(prev => prev.map(c => c.id === editando ? data.cupom : c))
       } else {
         setCuponsState(prev => [data.cupom, ...prev])
       }
-      
       resetFormulario()
-      alert('Cupom salvo com sucesso!')
-    } catch (error) {
-      console.error('Erro:', error)
-      alert('Erro ao salvar cupom: ' + error)
+    } else {
+      alert(data.error || 'Erro ao salvar cupom')
     }
+  } catch (error) {
+    console.error('Erro ao salvar cupom:', error)
+    alert('Erro ao salvar cupom')
   }
+}
 
   const handleEdit = (cupom: any) => {
     setFormulario({
