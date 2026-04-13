@@ -26,11 +26,15 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
     setEditando(null)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async () => {
+    if (!formulario.codigo || !formulario.valor) {
+      alert('Código e Valor são obrigatórios')
+      return
+    }
+
     try {
-      const url = editando ? `/api/admin/cupons/${editando}` : '/api/admin/cupons'
       const method = editando ? 'PUT' : 'POST'
+      const url = editando ? `/api/admin/cupons/${editando}` : '/api/admin/cupons'
       
       const res = await fetch(url, {
         method,
@@ -38,17 +42,23 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
         body: JSON.stringify(formulario)
       })
 
-      if (res.ok) {
-        const data = await res.json()
-        if (editando) {
-          setCuponsState(prev => prev.map(c => c.id === editando ? data.cupom : c))
-        } else {
-          setCuponsState(prev => [data.cupom, ...prev])
-        }
-        resetFormulario()
+      const data = await res.json()
+      
+      if (!res.ok) {
+        alert(data.error || 'Erro ao salvar cupom')
+        return
       }
+
+      if (editando) {
+        setCuponsState(prev => prev.map(c => c.id === editando ? data.cupom : c))
+      } else {
+        setCuponsState(prev => [data.cupom, ...prev])
+      }
+      
+      resetFormulario()
     } catch (error) {
-      console.error('Erro ao salvar cupom:', error)
+      alert('Erro ao salvar cupom')
+      console.error(error)
     }
   }
 
