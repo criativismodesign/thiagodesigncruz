@@ -114,7 +114,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
                 onChange={e => setFormulario({ ...formulario, codigo: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '') })}
                 placeholder="CÓDIGO10"
                 required
-                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14 }}
+                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929' }}
               />
             </div>
             <div>
@@ -122,7 +122,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
               <select
                 value={formulario.tipo}
                 onChange={e => setFormulario({ ...formulario, tipo: e.target.value })}
-                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14 }}
+                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929' }}
               >
                 <option value="fixo">Valor Fixo (R$)</option>
                 <option value="percentual">Percentual (%)</option>
@@ -137,7 +137,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
                 onChange={e => setFormulario({ ...formulario, valor: e.target.value })}
                 placeholder={formulario.tipo === 'fixo' ? '10.00' : '10'}
                 required
-                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14 }}
+                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929' }}
               />
             </div>
             <div>
@@ -146,7 +146,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
                 type="date"
                 value={formulario.validade}
                 onChange={e => setFormulario({ ...formulario, validade: e.target.value })}
-                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14 }}
+                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929' }}
               />
             </div>
             <div>
@@ -156,7 +156,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
                 value={formulario.limiteUsos}
                 onChange={e => setFormulario({ ...formulario, limiteUsos: e.target.value })}
                 placeholder="Opcional"
-                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14 }}
+                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929' }}
               />
             </div>
             <div>
@@ -164,7 +164,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
               <select
                 value={formulario.status}
                 onChange={e => setFormulario({ ...formulario, status: e.target.value })}
-                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14 }}
+                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929' }}
               >
                 <option value="ativo">Ativo</option>
                 <option value="inativo">Inativo</option>
