@@ -162,6 +162,10 @@ export async function POST(request: NextRequest) {
 
     
     // Create MercadoPago preference for all payment methods (Pix, Cartão, Boleto)
+    console.log("=== CRIANDO PREFERÊNCIA MERCADO PAGO ===");
+    console.log("Items para MP:", mpItems.length);
+    console.log("Total items:", mpItems.reduce((acc: number, item: any) => acc + (item.unit_price * item.quantity), 0));
+    
     const preferenceData = await preference.create({
       body: {
         items: mpItems,
@@ -190,6 +194,13 @@ export async function POST(request: NextRequest) {
         },
       },
     });
+
+    console.log("=== PREFERÊNCIA CRIADA COM SUCESSO ===");
+    console.log("Preference ID:", preferenceData.id);
+    console.log("Init Point:", preferenceData.init_point);
+    console.log("Sandbox Init Point:", preferenceData.sandbox_init_point);
+    console.log("Order ID:", order.id);
+    console.log("=== FIM PREFERÊNCIA ===");
 
     return NextResponse.json({
       preferenceId: preferenceData.id,
