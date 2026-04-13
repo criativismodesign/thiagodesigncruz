@@ -12,25 +12,34 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 
 export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
   const router = useRouter()
+  const [pedidosState, setPedidosState] = useState(pedidos)
   const [pedidoExpandido, setPedidoExpandido] = useState<string | null>(null)
   const [trackingInput, setTrackingInput] = useState<Record<string, string>>({})
 
   const handleAtualizarStatus = async (id: string, status: string) => {
-    await fetch(`/api/admin/pedidos/${id}`, {
+    const res = await fetch(`/api/admin/pedidos/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })
     })
-    router.refresh()
+    if (res.ok) {
+      setPedidosState(prev => 
+        prev.map(p => p.id === id ? { ...p, status } : p)
+      )
+    }
   }
 
   const handleSalvarTracking = async (id: string) => {
-    await fetch(`/api/admin/pedidos/${id}`, {
+    const res = await fetch(`/api/admin/pedidos/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ trackingCode: trackingInput[id] })
     })
-    router.refresh()
+    if (res.ok) {
+      setPedidosState(prev =>
+        prev.map(p => p.id === id ? { ...p, trackingCode: trackingInput[id] } : p)
+      )
+    }
   }
 
   return (
@@ -61,7 +70,7 @@ export default function PedidosClient({ pedidos }: { pedidos: any[] }) {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {pedidos.map(pedido => {
+            {pedidosState.map(pedido => {
               const status = statusLabels[pedido.status] || { label: pedido.status, color: '#888' }
               const expandido = pedidoExpandido === pedido.id
               return (
