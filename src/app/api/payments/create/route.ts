@@ -50,7 +50,18 @@ export async function POST(request: NextRequest) {
         acc + item.price * item.quantity,
       0
     );
+    
+    console.log("=== CÁLCULO DE TOTAIS ===");
+    console.log("Subtotal:", subtotal);
+    console.log("Shipping Cost:", shippingCost);
+    console.log("Discount:", discount || 0);
+    console.log("Cupom Desconto:", cupomDesconto || 0);
+    console.log("Cupom ID:", cupomId || null);
+    
     const total = subtotal + shippingCost - (discount || 0) - (cupomDesconto || 0);
+    
+    console.log("Total Final:", total);
+    console.log("=== FIM CÁLCULO ===");
 
     // Create order in database without items first
     const orderData: any = {
