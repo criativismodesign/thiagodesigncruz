@@ -38,7 +38,7 @@ export async function GET() {
       updatedAt: order.updatedAt,
       items: order.items.map((item) => ({
         id: item.id,
-        name: `Produto ${item.productId}`, // We'll need to join with product table for real names
+        name: `Produto ${item.produtoId}`, // We'll need to join with product table for real names
         quantity: item.quantity,
         price: item.price,
         size: item.size,

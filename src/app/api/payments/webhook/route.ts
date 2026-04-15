@@ -63,19 +63,17 @@ export async function POST(request: NextRequest) {
           where: { orderId },
         });
 
-        for (const item of orderItems) {
-          await prisma.product.update({
-            where: { id: item.productId },
-            data: {
-              stock: { decrement: item.quantity },
-            },
-          });
+        const order = await prisma.order.findUnique({
+          where: { id: orderId },
+        });
 
+        for (const item of orderItems) {
           // Log purchase analytics
           await prisma.productAnalytics.create({
             data: {
-              productId: item.productId,
               event: "purchase",
+              produtoId: item.produtoId,
+              userId: order?.userId,
               metadata: JSON.stringify({
                 orderId,
                 quantity: item.quantity,

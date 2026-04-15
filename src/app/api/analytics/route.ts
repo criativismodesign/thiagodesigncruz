@@ -9,13 +9,13 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { event, productId, sessionId, userId, metadata, page } = body;
+    const { event, produtoId, sessionId, userId, metadata, page } = body;
 
-    if (productId) {
+    if (produtoId) {
       await prisma.productAnalytics.create({
         data: {
           event,
-          productId,
+          produtoId,
           sessionId,
           userId,
           metadata: metadata ? JSON.stringify(metadata) : null,
@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
       ]);
 
     const topProducts = await prisma.productAnalytics.groupBy({
-      by: ["productId"],
+      by: ["produtoId"],
       where: { event: "view", createdAt: { gte: startDate } },
       _count: { id: true },
       orderBy: { _count: { id: "desc" } },
@@ -91,14 +91,14 @@ export async function GET(request: NextRequest) {
     });
 
     const topProductDetails = await Promise.all(
-      topProducts.map(async (item: { productId: string; _count: { id: number } }) => {
-        const product = await prisma!.product.findUnique({
-          where: { id: item.productId },
-          select: { name: true, slug: true },
+      topProducts.map(async (item: { produtoId: string; _count: { id: number } }) => {
+        const produto = await prisma!.produto.findUnique({
+          where: { id: item.produtoId },
+          select: { nome: true, slug: true },
         });
         return {
-          productId: item.productId,
-          name: product?.name || "Produto removido",
+          produtoId: item.produtoId,
+          nome: produto?.nome || "Produto removido",
           views: item._count.id,
         };
       })

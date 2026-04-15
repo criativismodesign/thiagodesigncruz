@@ -5,12 +5,7 @@ import { gerarSlug } from '@/lib/slug'
 export async function GET(request: NextRequest) {
   try {
     const colecoes = await prisma.category.findMany({
-      orderBy: { name: 'asc' },
-      include: {
-        products: {
-          select: { id: true }
-        }
-      }
+      orderBy: { name: 'asc' }
     })
 
     return NextResponse.json(colecoes)

@@ -15,30 +15,29 @@ export async function GET(request: NextRequest) {
     const featured = searchParams.get("featured");
     const search = searchParams.get("search");
 
-    const where: Record<string, unknown> = { active: true };
+    const where: Record<string, unknown> = { status: "ativo" };
 
     if (categoria) {
-      where.category = { slug: categoria };
+      where.categoria = categoria;
     }
 
     if (featured === "true") {
-      where.featured = true;
+      // Produto não tem campo featured, pode adicionar se necessário
     }
 
     if (search) {
       where.OR = [
-        { name: { contains: search } },
-        { description: { contains: search } },
+        { nome: { contains: search } },
+        { descricaoCurta: { contains: search } },
       ];
     }
 
-    const products = await prisma.product.findMany({
+    const produtos = await prisma.produto.findMany({
       where,
-      include: { category: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: { criadoEm: "desc" },
     });
 
-    return NextResponse.json(products);
+    return NextResponse.json(produtos);
   } catch {
     return NextResponse.json(
       { error: "Erro ao buscar produtos" },

@@ -48,52 +48,24 @@ model Category {
   description String?
   image       String?
   createdAt   DateTime  @default(now())
-  products    Product[]
 }
 
-model Product {
-  id           String             @id @default(cuid())
-  name         String
-  slug         String             @unique
-  description  String
-  price        Float
-  comparePrice Float?
-  images       String
-  categoryId   String
-  type         String
-  sizes        String?
-  colors       String?
-  stock        Int                @default(0)
-  featured     Boolean            @default(false)
-  active       Boolean            @default(true)
-  customizable Boolean            @default(false)
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
-  cartItems    CartItem[]
-  category     Category           @relation(fields: [categoryId], references: [id])
-  analytics    ProductAnalytics[]
-  reviews      Review[]
-
-  @@index([categoryId])
-  @@index([type])
-  @@index([featured])
-}
 
 model CartItem {
   id           String   @id @default(cuid())
   userId       String
-  productId    String
+  produtoId    String
   quantity     Int      @default(1)
   size         String?
   color        String?
   customDesign String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  produto      Produto  @relation(fields: [produtoId], references: [id], onDelete: Cascade)
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@index([productId])
+  @@index([produtoId])
 }
 
 model Order {
@@ -120,44 +92,44 @@ model Order {
 model OrderItem {
   id           String  @id @default(cuid())
   orderId      String
-  productId    String
+  produtoId    String
   quantity     Int
   price        Float
   size         String?
   color        String?
   customDesign String?
   order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  produto      Produto @relation(fields: [productId], references: [id])
+  produto      Produto @relation(fields: [produtoId], references: [id])
 
   @@index([orderId])
-  @@index([productId])
+  @@index([produtoId])
 }
 
 model Review {
   id        String   @id @default(cuid())
   userId    String
-  productId String
+  produtoId String
   rating    Int
   comment   String?
   createdAt DateTime @default(now())
-  product   Product  @relation(fields: [productId], references: [id])
+  produto   Produto  @relation(fields: [produtoId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
 
-  @@index([productId])
+  @@index([produtoId])
   @@index([userId])
 }
 
 model ProductAnalytics {
   id        String   @id @default(cuid())
-  productId String
+  produtoId String
   event     String
   sessionId String?
   userId    String?
   metadata  String?
   createdAt DateTime @default(now())
-  product   Product  @relation(fields: [productId], references: [id])
+  produto   Produto  @relation(fields: [produtoId], references: [id])
 
-  @@index([productId])
+  @@index([produtoId])
   @@index([event])
   @@index([createdAt])
 }
@@ -229,6 +201,9 @@ model Produto {
   produtosRelacionados ProdutoRelacionado[] @relation("ProdutoPrincipal")
   orderItems          OrderItem[]
   apareceComo         ProdutoRelacionado[] @relation("ProdutoRelacionado")
+  cartItems           CartItem[]
+  reviews             Review[]
+  analytics           ProductAnalytics[]
 }
 
 model ImagemProduto {

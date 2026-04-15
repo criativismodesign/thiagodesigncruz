@@ -53,14 +53,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic product pages
   let productPages: MetadataRoute.Sitemap = [];
   try {
-    const products = await prisma.product.findMany({
-      where: { active: true },
-      select: { slug: true, updatedAt: true },
+    const produtos = await prisma.produto.findMany({
+      where: { status: "ativo" },
+      select: { slug: true, atualizadoEm: true },
     });
 
-    productPages = products.map((product: { slug: string; updatedAt: Date }) => ({
-      url: `${siteUrl}/produtos/${product.slug}`,
-      lastModified: product.updatedAt,
+    productPages = produtos.map((produto: { slug: string; atualizadoEm: Date }) => ({
+      url: `${siteUrl}/produtos/${produto.slug}`,
+      lastModified: produto.atualizadoEm,
       changeFrequency: "weekly" as const,
       priority: 0.7,
     }));
