@@ -83,6 +83,4 @@ export default function BannersCategoriaClient({ banners }: Props) {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
-      {/* Header navegação padrão */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #E5E5E5', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
+    <div style={{ padding: '32px' }}>
