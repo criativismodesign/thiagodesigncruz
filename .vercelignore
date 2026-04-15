@@ -1,0 +1,9 @@
+# Arquivos para ignorar no deploy
+.env
+.env.local
+.env.development
+node_modules/
+.next/
+dist/
+.git/
+README.md
