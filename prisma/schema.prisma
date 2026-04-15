@@ -1,0 +1,279 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  password  String
+  phone     String?
+  role      String     @default("customer")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  addresses Address[]
+  cartItems CartItem[]
+  orders    Order[]
+  reviews   Review[]
+}
+
+model Address {
+  id           String   @id @default(cuid())
+  userId       String
+  label        String   @default("Casa")
+  street       String
+  number       String
+  complement   String?
+  neighborhood String
+  city         String
+  state        String
+  zipCode      String
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  image       String?
+  createdAt   DateTime  @default(now())
+}
+
+
+model CartItem {
+  id           String   @id @default(cuid())
+  userId       String
+  produtoId    String
+  quantity     Int      @default(1)
+  size         String?
+  color        String?
+  customDesign String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  produto      Produto  @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([produtoId])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String?
+  status          String      @default("pending")
+  total           Float
+  subtotal        Float
+  shipping        Float       @default(0)
+  discount        Float       @default(0)
+  paymentMethod   String?
+  paymentId       String?
+  trackingCode    String?
+  shippingAddress String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  user            User?       @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id           String  @id @default(cuid())
+  orderId      String
+  produtoId    String
+  quantity     Int
+  price        Float
+  size         String?
+  color        String?
+  customDesign String?
+  order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  produto      Produto @relation(fields: [produtoId], references: [id])
+
+  @@index([orderId])
+  @@index([produtoId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  produtoId String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  produto   Produto  @relation(fields: [produtoId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([produtoId])
+  @@index([userId])
+}
+
+model ProductAnalytics {
+  id        String   @id @default(cuid())
+  produtoId String
+  event     String
+  sessionId String?
+  userId    String?
+  metadata  String?
+  createdAt DateTime @default(now())
+  produto   Produto  @relation(fields: [produtoId], references: [id])
+
+  @@index([produtoId])
+  @@index([event])
+  @@index([createdAt])
+}
+
+model SiteAnalytics {
+  id        String   @id @default(cuid())
+  event     String
+  page      String?
+  sessionId String?
+  userId    String?
+  metadata  String?
+  createdAt DateTime @default(now())
+
+  @@index([event])
+  @@index([createdAt])
+}
+
+model Newsletter {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model AdminConfig {
+  key       String   @id
+  value     String
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Colecao {
+  id                   String     @id @default(cuid())
+  nome                 String
+  slug                 String     @unique
+  subtitulo            String
+  imagemCamiseta       String?
+  imagemMousepad       String?
+  imagemBannerCategoria String?
+  visivelHome          Boolean    @default(false)
+  ordemHome            Int        @default(0)
+  status               String     @default("ativa")
+  criadoEm             DateTime   @default(now())
+  atualizadoEm         DateTime   @updatedAt
+  produtos             Produto[]
+}
+
+model Produto {
+  id                  String           @id @default(cuid())
+  nome                String
+  slug                String           @unique
+  tipo                String           // "camiseta" ou "mousepad"
+  categoria           String           // "colecao" ou "avulso"
+  colecaoId           String?
+  colecao             Colecao?         @relation(fields: [colecaoId], references: [id])
+  precoAtual          Float
+  precoDe             Float?
+  descricaoCurta      String?
+  descricaoLonga      String?
+  entregaPrazo        String?
+  informacoes         String?
+  cores               String[]         // ["preto", "branco"]
+  imagemGuiaTamanhos  String?
+  status              String           @default("ativo")
+  ordemSecao          Int              @default(0)
+  criadoEm            DateTime         @default(now())
+  atualizadoEm        DateTime         @updatedAt
+  imagens             ImagemProduto[]
+  estoque             Estoque[]
+  produtosRelacionados ProdutoRelacionado[] @relation("ProdutoPrincipal")
+  orderItems          OrderItem[]
+  apareceComo         ProdutoRelacionado[] @relation("ProdutoRelacionado")
+  cartItems           CartItem[]
+  reviews             Review[]
+  analytics           ProductAnalytics[]
+}
+
+model ImagemProduto {
+  id          String   @id @default(cuid())
+  produtoId   String
+  produto     Produto  @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  url         String
+  ordem       Int      @default(0)
+  isPrincipal Boolean  @default(false)
+  criadoEm   DateTime  @default(now())
+}
+
+model Estoque {
+  id            String   @id @default(cuid())
+  produtoId     String
+  produto       Produto  @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  tamanho       String?  // "P", "M", "G", "GG" — null para mousepad
+  cor           String?  // "preto", "branco" — null para mousepad
+  quantidade    Int      @default(0)
+  minimo        Int      @default(3)
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
+}
+
+model ProdutoRelacionado {
+  id                  String   @id @default(cuid())
+  produtoPrincipalId  String
+  produtoPrincipal    Produto  @relation("ProdutoPrincipal", fields: [produtoPrincipalId], references: [id], onDelete: Cascade)
+  produtoRelacionadoId String
+  produtoRelacionado  Produto  @relation("ProdutoRelacionado", fields: [produtoRelacionadoId], references: [id], onDelete: Cascade)
+  ordem               Int      @default(0)
+}
+
+model HeroBanner {
+  id          String   @id @default(cuid())
+  imagem      String?
+  supertitulo String?
+  titulo      String
+  descricao   String?
+  textoBotao  String   @default("VER COLEÇÃO")
+  linkBotao   String?
+  ordem       Int      @default(0)
+  ativo       Boolean  @default(true)
+  criadoEm   DateTime  @default(now())
+  atualizadoEm DateTime @updatedAt
+}
+
+model ConfigSite {
+  id           String   @id @default(cuid())
+  chave        String   @unique
+  valor        String
+  atualizadoEm DateTime @updatedAt
+}
+
+model BannerConfig {
+  id           String   @id @default(cuid())
+  chave        String   @unique
+  imagem       String?
+  atualizadoEm DateTime @default(now()) @updatedAt
+}
+
+model Cupom {
+  id           String    @id @default(cuid())
+  codigo       String    @unique
+  tipo         String    @default("fixo")
+  valor        Float
+  validade     DateTime?
+  limiteusos   Int?
+  totalusado   Int       @default(0)
+  status       String    @default("ativo")
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
+}
