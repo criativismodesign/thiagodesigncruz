@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function DashboardPage() {
   return (
-    <>
+    <div style={{ padding: '32px' }}>
       <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', marginBottom: 8 }}>Dashboard</h1>
       <p style={{ color: '#888', marginBottom: 32, fontSize: 14 }}>Gerencie seu e-commerce Use KIN</p>
 
@@ -56,6 +56,6 @@ export default function DashboardPage() {
           </div>
         </Link>
       </div>
-    </>
+    </div>
   )
 }
