@@ -84,3 +84,98 @@ export default function BannersCategoriaClient({ banners }: Props) {
 
   return (
     <div style={{ padding: '32px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Banners de Categoria</h1>
+        <button onClick={handleSalvar} disabled={loading}
+          style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', cursor: 'pointer', fontWeight: 600, fontSize: 14 }}>
+          {loading ? 'Salvando...' : 'Salvar Todos'}
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+        {bannerConfigs.map((config) => (
+          <div key={config.chave} style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24 }}>
+            <div style={{ marginBottom: 16 }}>
+              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 4 }}>{config.nome}</h2>
+              <p style={{ fontSize: 13, color: '#888', marginBottom: 4 }}>{config.descricao}</p>
+              <p style={{ fontSize: 12, color: '#AAA' }}>Dimensão: {config.dimensao}</p>
+            </div>
+
+            <div>
+              <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 8 }}>
+                Imagem Atual
+              </label>
+              
+              {bannersState[config.chave] ? (
+                <div style={{ marginBottom: 16 }}>
+                  <img 
+                    src={bannersState[config.chave]} 
+                    alt={config.nome}
+                    style={{ 
+                      maxWidth: '100%', 
+                      height: 200, 
+                      objectFit: 'cover', 
+                      borderRadius: 8,
+                      border: '1px solid #E5E5E5'
+                    }}
+                  />
+                  <p style={{ fontSize: 12, color: '#888', marginTop: 4 }}>
+                    URL: {bannersState[config.chave]}
+                  </p>
+                </div>
+              ) : (
+                <div style={{ 
+                  width: '100%', 
+                  height: 200, 
+                  border: '2px dashed #E5E5E5', 
+                  borderRadius: 8, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  background: '#F9F9F9',
+                  marginBottom: 16
+                }}>
+                  <span style={{ color: '#AAA', fontSize: 14 }}>Nenhuma imagem configurada</span>
+                </div>
+              )}
+
+              <div
+                onClick={() => document.getElementById(`upload-${config.chave}`)?.click()}
+                style={{
+                  width: '100%',
+                  height: 120,
+                  border: '2px dashed #E5E5E5',
+                  borderRadius: 8,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: '#F9F9F9',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#F0F0F0'
+                  e.currentTarget.style.borderColor = '#DAA520'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#F9F9F9'
+                  e.currentTarget.style.borderColor = '#E5E5E5'
+                }}
+              >
+                <span style={{ color: '#AAA', fontSize: 14 }}>+ Clique para substituir imagem</span>
+              </div>
+
+              <input
+                id={`upload-${config.chave}`}
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={(e) => handleUpload(e, config.chave)}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}

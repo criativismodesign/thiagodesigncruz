@@ -7,6 +7,8 @@ import NewsletterSection from '@/components/NewsletterSection'
 import OutrosModelosSectionWrapper from '@/components/OutrosModelosSectionWrapper'
 import BannerBoxSection from '@/components/BannerBoxSection'
 
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   return (
     <main>

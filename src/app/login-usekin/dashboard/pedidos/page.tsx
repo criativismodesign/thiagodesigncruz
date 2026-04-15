@@ -18,5 +18,5 @@ export default async function PedidosPage() {
     }
   })
 
-  return <PedidosClient pedidos={pedidos} />
+  return <PedidosClient />
 }
