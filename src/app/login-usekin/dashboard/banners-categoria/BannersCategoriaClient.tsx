@@ -83,98 +83,88 @@ export default function BannersCategoriaClient({ banners }: Props) {
   ]
 
   return (
-    <div style={{ padding: '32px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Banners de Categoria</h1>
-        <button onClick={handleSalvar} disabled={loading}
-          style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', cursor: 'pointer', fontWeight: 600, fontSize: 14 }}>
-          {loading ? 'Salvando...' : 'Salvar Todos'}
-        </button>
+    <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
+      {/* Header navegação padrão */}
+      <div style={{ background: '#fff', borderBottom: '1px solid #E5E5E5', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
+        <span style={{ fontWeight: 700, fontSize: 18, color: '#292929' }}>Use KIN Admin</span>
+        <a href="/login-usekin/dashboard" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Dashboard</a>
+        <a href="/login-usekin/dashboard/produtos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Produtos</a>
+        <a href="/login-usekin/dashboard/colecoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Coleções</a>
+        <a href="/login-usekin/dashboard/banners" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Banners</a>
+        <a href="/login-usekin/dashboard/banners-categoria" style={{ background: '#2563eb', color: '#fff', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Banners Categoria</a>
+        <a href="/login-usekin/dashboard/pedidos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Pedidos</a>
+        <a href="/login-usekin/dashboard/cupons" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Cupons</a>
+        <a href="/login-usekin/dashboard/dados-envio" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Dados de Envio</a>
+        <a href="/login-usekin/dashboard/configuracoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>Configurações</a>
+        <div style={{ marginLeft: 'auto' }}>
+          <button onClick={async () => { await fetch('/api/admin/logout', { method: 'POST' }); window.location.href = '/login-usekin' }}
+            style={{ color: '#888', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}>Sair</button>
+        </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-        {bannerConfigs.map((config) => (
-          <div key={config.chave} style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24 }}>
-            <div style={{ marginBottom: 16 }}>
-              <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 4 }}>{config.nome}</h2>
-              <p style={{ fontSize: 13, color: '#888', marginBottom: 4 }}>{config.descricao}</p>
-              <p style={{ fontSize: 12, color: '#AAA' }}>Dimensão: {config.dimensao}</p>
-            </div>
+      <div style={{ padding: '32px', maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Banners de Categoria</h1>
+          <button onClick={handleSalvar} disabled={loading}
+            style={{ background: '#DAA520', color: '#fff', border: 'none', borderRadius: 999, padding: '10px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
+            {loading ? 'Salvando...' : 'Salvar Todos'}
+          </button>
+        </div>
 
-            <div>
-              <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 8 }}>
-                Imagem Atual
-              </label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 24 }}>
+          {bannerConfigs.map((config) => (
+            <div key={config.chave} style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24 }}>
+              <h3 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 8 }}>
+                {config.nome}
+              </h3>
+              <p style={{ fontSize: 13, color: '#888', marginBottom: 16 }}>
+                {config.descricao} ({config.dimensao})
+              </p>
               
-              {bannersState[config.chave] ? (
-                <div style={{ marginBottom: 16 }}>
-                  <img 
-                    src={bannersState[config.chave]} 
-                    alt={config.nome}
-                    style={{ 
-                      maxWidth: '100%', 
-                      height: 200, 
-                      objectFit: 'cover', 
-                      borderRadius: 8,
-                      border: '1px solid #E5E5E5'
-                    }}
-                  />
-                  <p style={{ fontSize: 12, color: '#888', marginTop: 4 }}>
-                    URL: {bannersState[config.chave]}
-                  </p>
-                </div>
-              ) : (
-                <div style={{ 
-                  width: '100%', 
-                  height: 200, 
-                  border: '2px dashed #E5E5E5', 
-                  borderRadius: 8, 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  background: '#F9F9F9',
-                  marginBottom: 16
-                }}>
-                  <span style={{ color: '#AAA', fontSize: 14 }}>Nenhuma imagem configurada</span>
-                </div>
-              )}
-
               <div
                 onClick={() => document.getElementById(`upload-${config.chave}`)?.click()}
                 style={{
-                  width: '100%',
-                  height: 120,
-                  border: '2px dashed #E5E5E5',
+                  width: '100%', 
+                  height: 120, 
+                  border: '2px dashed #E5E5E5', 
                   borderRadius: 8,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
+                  cursor: 'pointer', 
+                  display: 'flex', 
+                  alignItems: 'center', 
                   justifyContent: 'center',
-                  background: '#F9F9F9',
-                  transition: 'all 0.2s'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#F0F0F0'
-                  e.currentTarget.style.borderColor = '#DAA520'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#F9F9F9'
-                  e.currentTarget.style.borderColor = '#E5E5E5'
+                  background: bannersState[config.chave] ? 'transparent' : '#F9F9F9', 
+                  overflow: 'hidden'
                 }}
               >
-                <span style={{ color: '#AAA', fontSize: 14 }}>+ Clique para substituir imagem</span>
+                {bannersState[config.chave]
+                  ? <img src={bannersState[config.chave]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  : <span style={{ color: '#AAAAAA', fontSize: 13 }}>+ Clique para adicionar imagem {config.dimensao}</span>
+                }
               </div>
-
-              <input
-                id={`upload-${config.chave}`}
-                type="file"
-                accept="image/*"
+              
+              <input 
+                id={`upload-${config.chave}`} 
+                type="file" 
+                accept="image/*" 
                 style={{ display: 'none' }}
-                onChange={(e) => handleUpload(e, config.chave)}
+                onChange={e => handleUpload(e, config.chave)} 
               />
+
+              {bannersState[config.chave] && (
+                <div style={{ marginTop: 12 }}>
+                  <a 
+                    href={bannersState[config.chave]} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none' }}
+                  >
+                    Ver imagem atual
+                  </a>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
