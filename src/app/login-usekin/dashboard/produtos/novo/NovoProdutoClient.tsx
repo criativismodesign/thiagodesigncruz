@@ -463,7 +463,8 @@ export default function NovoProdutoClient({ colecoes, configs }: Props) {
                   />
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
           {/* Botões */}
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
