@@ -167,7 +167,7 @@ export default function EditarColecaoClient({ colecao }: Props) {
                 background: imagemMousepad ? 'transparent' : '#F9F9F9', overflow: 'hidden', marginTop: 8 }}>
               {imagemMousepad
                 ? <img src={imagemMousepad} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                : <><span style={{ fontSize: 20, color: '#AAAAAA' }}>+</span><span style={{ fontSize: 11, color: '#AAAAAA' }}>Adicionar</span></>
+                : <><span style={{ fontSize: 20, color: '#AAAAAA' }}>+</span><span style={{ fontSize: 11, color: '#AAAAAA', marginTop: 4 }}>Adicionar</span></>
               }
             </div>
             <input id="upload-mousepad" type="file" accept="image/*" style={{ display: 'none' }}
