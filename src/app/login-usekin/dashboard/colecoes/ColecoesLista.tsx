@@ -12,34 +12,7 @@ export default function ColecoesLista({ colecoes }: { colecoes: any[] }) {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
-      {/* Header navegação padrão */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #E5E5E5', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
-        <span style={{ fontWeight: 700, fontSize: 18, color: '#292929' }}>Use KIN Admin</span>
-        <Link href="/login-usekin/dashboard" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Dashboard</Link>
-        <Link href="/login-usekin/dashboard/produtos" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Produtos</Link>
-        <Link href="/login-usekin/dashboard/colecoes" style={{ background: '#2563eb', color: '#fff', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Coleções</Link>
-        <Link href="/login-usekin/dashboard/banners" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Banners</Link>
-        <Link href="/login-usekin/dashboard/banners-categoria" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Banners Categoria</Link>
-        <Link href="/login-usekin/dashboard/pedidos" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Pedidos</Link>
-        <Link href="/login-usekin/dashboard/cupons" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Cupons</Link>
-        <Link href="/login-usekin/dashboard/dados-envio" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Dados de Envio</Link>
-        <Link href="/login-usekin/dashboard/configuracoes" style={{ background: 'transparent', color: '#888', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>Configurações</Link>
-        <div style={{ marginLeft: 'auto' }}>
-          <button
-            onClick={async () => {
-              await fetch('/api/admin/logout', { method: 'POST' })
-              window.location.href = '/login-usekin'
-            }}
-            style={{ color: '#888', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
-          >
-            Sair
-          </button>
-        </div>
-      </div>
-
-      {/* Conteúdo */}
-      <div style={{ padding: '32px' }}>
+    <div style={{ padding: '32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Coleções</h1>
           <a href="/login-usekin/dashboard/colecoes/nova"
@@ -62,9 +35,13 @@ export default function ColecoesLista({ colecoes }: { colecoes: any[] }) {
             </thead>
             <tbody>
               {colecoes.length === 0 ? (
-                <tr><td colSpan={6} style={{ padding: '48px', textAlign: 'center', color: '#888' }}>Nenhuma coleção encontrada</td></tr>
+                <tr>
+                  <td colSpan={6} style={{ padding: '32px', textAlign: 'center', fontSize: 14, color: '#888' }}>
+                    Nenhuma coleção encontrada
+                  </td>
+                </tr>
               ) : (
-                colecoes.map(colecao => (
+                colecoes.map((colecao) => (
                   <tr key={colecao.id} style={{ borderBottom: '1px solid #F5F5F5' }}>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929', fontWeight: 500 }}>{colecao.nome}</td>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#888' }}>{colecao.subtitulo}</td>
@@ -79,15 +56,18 @@ export default function ColecoesLista({ colecoes }: { colecoes: any[] }) {
                         {colecao.status}
                       </span>
                     </td>
-                    <td style={{ padding: '12px 16px', display: 'flex', gap: 8 }}>
-                      <a href={`/login-usekin/dashboard/colecoes/${colecao.id}`}
-                        style={{ background: '#2563eb', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 12, textDecoration: 'none' }}>
-                        Editar
-                      </a>
-                      <button onClick={() => handleExcluir(colecao.id, colecao.nome)}
-                        style={{ background: '#F0484A', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 12 }}>
-                        Excluir
-                      </button>
+                    <td style={{ padding: '12px 16px', fontSize: 14 }}>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <a href={`/login-usekin/dashboard/colecoes/${colecao.id}`}
+                          style={{ background: '#2563eb', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 12, textDecoration: 'none' }}>
+                          Editar
+                        </a>
+                        <button
+                          onClick={() => handleExcluir(colecao.id, colecao.nome)}
+                          style={{ background: '#F0484A', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 12 }}>
+                          Excluir
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -95,7 +75,6 @@ export default function ColecoesLista({ colecoes }: { colecoes: any[] }) {
             </tbody>
           </table>
         </div>
-      </div>
     </div>
   )
 }
