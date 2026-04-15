@@ -127,47 +127,7 @@ export default function BannersClient() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F5F5F5' }}>
-      {/* Header navegação */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #E5E5E5', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
-        <Link href="/login-usekin/dashboard" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>
-          Dashboard
-        </Link>
-        <span style={{ color: '#888' }}>|</span>
-        <Link href="/login-usekin/dashboard/produtos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>
-          Produtos
-        </Link>
-        <span style={{ color: '#888' }}>|</span>
-        <Link href="/login-usekin/dashboard/colecoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>
-          Coleções
-        </Link>
-        <span style={{ color: '#888' }}>|</span>
-        <Link href="/login-usekin/dashboard/banners" style={{ background: '#2563eb', color: '#fff', padding: '6px 16px', borderRadius: 8, textDecoration: 'none', fontSize: 14 }}>
-          Banners
-        </Link>
-        <span style={{ color: '#888' }}>|</span>
-        <Link href="/login-usekin/dashboard/banners-categoria" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>
-          Banners Categoria
-        </Link>
-        <span style={{ color: '#888' }}>|</span>
-        <Link href="/login-usekin/dashboard/pedidos" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>
-          Pedidos
-        </Link>
-        <span style={{ color: '#888' }}>|</span>
-        <Link href="/login-usekin/dashboard/cupons" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>
-          Cupons
-        </Link>
-        <span style={{ color: '#888' }}>|</span>
-        <Link href="/login-usekin/dashboard/dados-envio" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>
-          Dados de Envio
-        </Link>
-        <span style={{ color: '#888' }}>|</span>
-        <Link href="/login-usekin/dashboard/configuracoes" style={{ color: '#888', textDecoration: 'none', fontSize: 14 }}>
-          Configurações
-        </Link>
-      </div>
-
-      <div style={{ padding: '32px' }}>
+    <div style={{ padding: '32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: '#292929', margin: 0 }}>Banners Hero</h1>
           <button
@@ -362,6 +322,5 @@ export default function BannersClient() {
           </div>
         )}
       </div>
-    </div>
   )
 }
