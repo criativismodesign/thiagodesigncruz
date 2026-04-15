@@ -1,4 +1,4 @@
-import { headers } from 'next/headers'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export default async function DashboardLayout({
@@ -6,10 +6,10 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  const headersList = await headers()
-  const token = headersList.get('authorization')
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin-session')?.value
 
-  if (!token || token !== process.env.ADMIN_SESSION_TOKEN) {
+  if (!session || session !== process.env.ADMIN_SESSION_TOKEN) {
     redirect('/login-usekin')
   }
 
