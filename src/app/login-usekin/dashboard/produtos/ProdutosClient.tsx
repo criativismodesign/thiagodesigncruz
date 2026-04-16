@@ -9,6 +9,7 @@ interface Produto {
   descricao: string
   preco: number
   categoria: string
+  tipo: string
   colecaoId: string | null
   colecao?: {
     id: string
@@ -211,7 +212,19 @@ export default function ProdutosClient() {
                       </div>
                     </div>
                   </td>
-                  <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>{produto.categoria}</td>
+                  <td style={{ padding: '12px' }}>
+  <span style={{
+    display: 'inline-block',
+    padding: '3px 10px',
+    borderRadius: 999,
+    fontSize: 12,
+    fontWeight: 600,
+    background: produto.tipo === 'mousepad' ? '#FFF3E0' : '#F3E8FF',
+    color: produto.tipo === 'mousepad' ? '#E65100' : '#6B21A8',
+  }}>
+    {produto.tipo === 'mousepad' ? 'MousePad' : 'Camiseta'}
+  </span>
+</td>
                   <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>
                     {produto.colecao?.nome || '-'}
                   </td>
