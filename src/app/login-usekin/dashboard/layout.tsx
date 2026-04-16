@@ -35,7 +35,8 @@ export default async function DashboardLayout({
         <DashboardMenu />
         <div style={{ padding: '16px 20px', borderTop: '1px solid #2A2A2A' }}>
           <form action="/api/admin/logout" method="POST">
-            <button type="submit" style={{ color: '#888', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}>
+            <button type="submit"
+              style={{ color: '#EF4444', background: 'transparent', border: '1px solid #EF4444', borderRadius: 8, cursor: 'pointer', fontSize: 14, padding: '8px 16px', width: '100%', fontWeight: 600 }}>
               Sair
             </button>
           </form>
