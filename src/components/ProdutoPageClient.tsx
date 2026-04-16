@@ -30,6 +30,12 @@ export default function ProdutoPageClient({ produto }: Props) {
   const [corSelecionada, setCorSelecionada] = useState<string>('')
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState<string>('')
   
+  const estoqueDisponivel = tamanhoSelecionado && corSelecionada
+    ? produto.estoque?.find(e => e.tamanho === tamanhoSelecionado && e.cor === corSelecionada)?.quantidade || 0
+    : tamanhoSelecionado
+    ? produto.estoque?.find(e => e.tamanho === tamanhoSelecionado)?.quantidade || 0
+    : 99
+  
   const addItem = useCartStore((s) => s.addItem)
 
   // Obter miniaturas ordenadas
@@ -90,6 +96,10 @@ export default function ProdutoPageClient({ produto }: Props) {
       return
     }
 
+    if (estoqueDisponivel < quantity) {
+      toast.error(`Estoque insuficiente. Disponível: ${estoqueDisponivel} unidade(s)`)
+      return
+    }
     addItem({
       id: `${produto.id}-${tamanhoSelecionado || 'default'}-${corSelecionada || 'default'}`,
       productId: produto.id,
@@ -520,7 +530,7 @@ export default function ProdutoPageClient({ produto }: Props) {
                   {quantity}
                 </div>
                 <button
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={() => setQuantity(Math.min(quantity + 1, estoqueDisponivel))}
                   style={{
                     backgroundColor: '#DAA520',
                     color: '#FFFFFF',
