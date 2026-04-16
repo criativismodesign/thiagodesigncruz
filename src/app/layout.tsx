@@ -111,7 +111,16 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
           <WhatsAppButton />
-          <Toaster position="top-right" richColors />
+          <Toaster 
+            position="top-right" 
+            richColors 
+            offset={{ top: 140 }}
+            toastOptions={{
+              style: {
+                marginTop: '0px',
+              }
+            }}
+          />
         </Providers>
       </body>
     </html>
