@@ -12,7 +12,12 @@ export default async function BannersCategoriaPage() {
 
   const banners: any[] = await prisma.bannerConfig.findMany()
   const bannerMap: Record<string, string> = {}
-  banners.forEach(b => { bannerMap[b.chave] = b.imagem || '' })
+  const linkMap: Record<string, string> = {}
+  
+  banners.forEach(b => {
+    bannerMap[b.chave] = b.imagem || ''
+    linkMap[b.chave] = b.link || ''
+  })
 
-  return <BannersCategoriaClient banners={bannerMap} />
+  return <BannersCategoriaClient banners={bannerMap} links={linkMap} />
 }
