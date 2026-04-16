@@ -14,6 +14,7 @@ interface Produto {
   slug: string | null
   imagens: { url: string; isPrincipal: boolean; ordem: number }[]
   colecao: { slug: string } | null
+  criadoEm?: string | Date
 }
 
 interface Props {
@@ -36,7 +37,22 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
     'Ordenar Por Preço: Maior Para Menor',
   ]
 
-  const produtosMapeados = produtos.map(p => ({
+  const produtosOrdenados = [...produtos].sort((a, b) => {
+    switch (selectedOrder) {
+      case 'Ordenar Por Preço: Menor Para Maior':
+        return a.precoAtual - b.precoAtual
+      case 'Ordenar Por Preço: Maior Para Menor':
+        return b.precoAtual - a.precoAtual
+      case 'Ordenar Por Mais Recente':
+        return new Date(b.criadoEm || 0).getTime() - new Date(a.criadoEm || 0).getTime()
+      case 'Ordenar Por Mais Antigas':
+        return new Date(a.criadoEm || 0).getTime() - new Date(b.criadoEm || 0).getTime()
+      default:
+        return 0
+    }
+  })
+
+  const produtosMapeados = produtosOrdenados.map(p => ({
     id: p.id,
     image: p.imagens.find(i => i.isPrincipal)?.url || p.imagens[0]?.url || '/images/products/placeholder-categorias-285x332.jpg',
     supertitle: p.tipo === 'camiseta' ? 'Camiseta Oversized' : 'MousePad/Deskpad',
