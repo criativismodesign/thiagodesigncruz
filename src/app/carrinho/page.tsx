@@ -84,7 +84,7 @@ export default function CartPage() {
           Que tal explorar nossos produtos?
         </p>
         <Link
-          href="/produtos"
+          href="/categorias/todos-produtos"
           className="inline-flex items-center gap-2 rounded-xl bg-[#DAA520] px-6 py-3 text-sm font-semibold text-white"
         >
           <ArrowLeft className="h-4 w-4" /> Ver Produtos
