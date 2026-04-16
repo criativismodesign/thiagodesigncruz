@@ -207,45 +207,6 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-
-          <div style={{
-            borderRadius: '16px',
-            border: '1px solid #E5E5E5',
-            backgroundColor: '#FFFFFF',
-            padding: '24px'
-          }}>
-            <h3 style={{
-              fontSize: '14px',
-              fontWeight: 600,
-              color: '#292929',
-              marginBottom: '12px',
-              fontFamily: 'Inter, sans-serif'
-            }}>
-              Horário de Atendimento
-            </h3>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              fontSize: '14px',
-              color: '#AAAAAA',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 400
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Seg — Sex</span>
-                <span style={{ color: '#292929', fontWeight: 500 }}>09:00 — 18:00</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Sábado</span>
-                <span style={{ color: '#292929', fontWeight: 500 }}>09:00 — 13:00</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Domingo</span>
-                <span style={{ color: '#AAAAAA' }}>Fechado</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Contact Form */}
