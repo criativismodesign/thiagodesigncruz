@@ -8,6 +8,7 @@ interface OrderItem {
   size?: string
   color?: string
   productId: string
+  product?: { nome: string; sku?: string }
 }
 
 interface Pedido {
@@ -18,10 +19,13 @@ interface Pedido {
   shipping: number
   discount: number
   paymentMethod?: string
+  paymentId?: string
+  paymentDate?: string
+  paymentHour?: string
   trackingCode?: string
   shippingAddress: string
   createdAt: string
-  user?: { name: string; email: string }
+  user?: { name: string; email: string; phone?: string; cpf?: string }
   items: OrderItem[]
 }
 
@@ -86,6 +90,8 @@ const PROXIMOS_STATUS: Record<string, string> = {
   em_logistica: 'enviado',
   enviado: 'entregue',
 }
+
+const PODE_CANCELAR = ['aguardando_pagamento', 'pending', 'pago', 'paid', 'approved', 'entregue']
 
 const LABEL_PROXIMO: Record<string, string> = {
   pagamento_confirmado: 'Confirmar Pagamento',
@@ -257,7 +263,8 @@ export default function PedidosClient() {
                   {pedido.items.map(item => (
                     <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #F5F5F5', fontSize: 14 }}>
                       <div>
-                        <span style={{ color: '#888', fontSize: 12 }}>Produto: {item.productId.slice(-8)}</span>
+                        <span style={{ fontWeight: 500, color: '#292929' }}>{item.product?.nome || 'Produto'}</span>
+                        {item.product?.sku && <span style={{ color: '#888', fontSize: 12, marginLeft: 8 }}>SKU: {item.product.sku}</span>}
                         {item.size && <span style={{ color: '#555', marginLeft: 12 }}>Tam: {item.size}</span>}
                         {item.color && <span style={{ color: '#555', marginLeft: 8 }}>Cor: {item.color}</span>}
                         <span style={{ color: '#555', marginLeft: 8 }}>Qtd: {item.quantity}</span>
@@ -298,6 +305,22 @@ export default function PedidosClient() {
                     </div>
                   )}
 
+                  {(pedido.paymentId || pedido.paymentDate) && (
+                    <div style={{ marginTop: 8, padding: 12, background: '#EEF2FF', borderRadius: 8, fontSize: 13, color: '#3730A3' }}>
+                      <strong>Transação:</strong>
+                      {pedido.paymentId && <span style={{ marginLeft: 8 }}>Cód: {pedido.paymentId}</span>}
+                      {pedido.paymentDate && <span style={{ marginLeft: 8 }}>Data: {new Date(pedido.paymentDate).toLocaleDateString('pt-BR')}</span>}
+                      {pedido.paymentHour && <span style={{ marginLeft: 8 }}>Hora: {pedido.paymentHour}</span>}
+                    </div>
+                  )}
+
+                  {(pedido.user?.cpf || pedido.user?.phone) && (
+                    <div style={{ marginTop: 8, padding: 12, background: '#F0FDF4', borderRadius: 8, fontSize: 13, color: '#166534' }}>
+                      {pedido.user?.cpf && <span><strong>CPF:</strong> {pedido.user.cpf}</span>}
+                      {pedido.user?.phone && <span style={{ marginLeft: 16 }}><strong>WhatsApp:</strong> {pedido.user.phone}</span>}
+                    </div>
+                  )}
+
                   {/* Ação */}
                   {proximoStatus && (
                     <div style={{ marginTop: 16, display: 'flex', gap: 12, alignItems: 'flex-end', flexWrap: 'wrap' }}>
@@ -314,9 +337,13 @@ export default function PedidosClient() {
                         style={{ padding: '10px 24px', borderRadius: 999, border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: 14, background: '#DAA520', color: '#fff' }}>
                         {LABEL_PROXIMO[proximoStatus]}
                       </button>
+                    </div>
+                  )}
+                  {PODE_CANCELAR.includes(pedido.status) && (
+                    <div style={{ marginTop: proximoStatus ? 8 : 16 }}>
                       <button onClick={() => atualizarStatus(pedido.id, 'cancelado')}
-                        style={{ padding: '10px 24px', borderRadius: 999, border: '1px solid #FFCCCC', cursor: 'pointer', fontWeight: 600, fontSize: 14, background: '#FFF0F0', color: '#CC0000' }}>
-                        Cancelar
+                        style={{ padding: '8px 20px', borderRadius: 999, border: '1px solid #FFCCCC', cursor: 'pointer', fontWeight: 600, fontSize: 13, background: '#FFF0F0', color: '#CC0000' }}>
+                        Cancelar Pedido
                       </button>
                     </div>
                   )}
