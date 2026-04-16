@@ -3,14 +3,14 @@ import { unstable_noStore as noStore } from 'next/cache'
 import CategoriasLadoDireito from './CategoriasLadoDireito'
 
 interface Props {
-  tipo?: string        // 'camiseta' | 'mousepad'
-  categoria?: string   // 'avulso' | 'colecao'
-  colecaoSlug?: string // slug da coleção específica
+  tipo?: string
+  categoria?: string
+  colecaoSlug?: string
+  busca?: string
 }
 
-export default async function CategoriasLadoDireitoWrapper({ tipo, categoria, colecaoSlug }: Props) {
+export default async function CategoriasLadoDireitoWrapper({ tipo, categoria, colecaoSlug, busca }: Props) {
   noStore()
-
   let produtos: any[] = []
   try {
     produtos = await prisma.produto.findMany({
@@ -19,6 +19,7 @@ export default async function CategoriasLadoDireitoWrapper({ tipo, categoria, co
         ...(tipo ? { tipo } : {}),
         ...(categoria ? { categoria } : {}),
         ...(colecaoSlug ? { colecao: { slug: colecaoSlug } } : {}),
+        ...(busca ? { nome: { contains: busca, mode: 'insensitive' } } : {}),
       },
       include: {
         imagens: { orderBy: { ordem: 'asc' } },
@@ -30,6 +31,5 @@ export default async function CategoriasLadoDireitoWrapper({ tipo, categoria, co
     console.error('Erro ao buscar produtos categoria:', error)
     produtos = []
   }
-
-  return <CategoriasLadoDireito produtos={produtos} />
+  return <CategoriasLadoDireito produtos={produtos} busca={busca} />
 }

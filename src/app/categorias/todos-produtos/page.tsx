@@ -2,26 +2,28 @@ import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 
-export default function TodosProdutosPage() {
+interface Props {
+  searchParams: Promise<{ busca?: string }>
+}
+
+export default async function TodosProdutosPage({ searchParams }: Props) {
+  const params = await searchParams
+  const busca = params?.busca || ''
+
   return (
     <main>
       <BannerCategoriaWrapper 
-        titulo="TODOS PRODUTOS" 
+        titulo={busca ? `Resultados para: "${busca}"` : "TODOS PRODUTOS"}
         chave="banner-categoria-todos-produtos"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Todos Produtos', href: '/categorias/todos-produtos', ativo: true },
         ]} 
       />
-      <div style={{ 
-        maxWidth: '1920px', 
-        margin: '0 auto',
-        paddingLeft: '120px',
-        paddingRight: '120px'
-      }}>
+      <div style={{ maxWidth: '1920px', margin: '0 auto', paddingLeft: '120px', paddingRight: '120px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
           <CategoriasFiltroLateralWrapper />
-          <CategoriasLadoDireitoWrapper />
+          <CategoriasLadoDireitoWrapper busca={busca} />
         </div>
       </div>
     </main>

@@ -18,12 +18,14 @@ interface Produto {
 
 interface Props {
   produtos: Produto[]
+  busca?: string
 }
 
-export default function CategoriasLadoDireito({ produtos }: Props) {
+export default function CategoriasLadoDireito({ produtos, busca }: Props) {
   const [selectedOrder, setSelectedOrder] = useState('Classificação Padrão')
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(16)
+  const termoBusca = busca || ''
 
   const opcoes = [
     'Classificação Padrão',
@@ -54,7 +56,17 @@ export default function CategoriasLadoDireito({ produtos }: Props) {
   if (produtos.length === 0) {
     return (
       <div style={{ flex: 1, padding: '48px 0', textAlign: 'center' }}>
-        <p style={{ color: '#888', fontSize: 16 }}>Não foi encontrado nenhum produto nesta categoria</p>
+        <p style={{ color: '#888', fontSize: 16 }}>
+          {termoBusca 
+            ? `Nenhum produto encontrado para "${termoBusca}"` 
+            : 'Não foi encontrado nenhum produto nesta categoria'
+          }
+        </p>
+        {termoBusca && (
+          <a href="/categorias/todos-produtos" style={{ color: '#DAA520', fontSize: 14, marginTop: 12, display: 'block' }}>
+            Ver todos os produtos
+          </a>
+        )}
       </div>
     )
   }
