@@ -79,6 +79,12 @@ export default function BannersCategoriaClient({ banners }: Props) {
       nome: 'Banner Lateral Categorias', 
       dimensao: '366x634px',
       descricao: 'Banner lateral na página de categorias'
+    },
+    { 
+      chave: 'banner-lateral-mousepads', 
+      nome: 'Banner Lateral Mousepads', 
+      dimensao: '366x634px',
+      descricao: 'Banner lateral na página de mousepads (com link para WhatsApp)'
     }
   ]
 
