@@ -3,11 +3,13 @@ import { useState } from 'react'
 
 interface Props {
   banners: Record<string, string>
+  links?: Record<string, string>
 }
 
-export default function BannersCategoriaClient({ banners }: Props) {
+export default function BannersCategoriaClient({ banners, links }: Props) {
   const [loading, setLoading] = useState(false)
   const [bannersState, setBannersState] = useState(banners)
+  const [linksState, setLinksState] = useState<Record<string, string>>(links || {})
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, chave: string) => {
     const file = e.target.files?.[0]
@@ -34,7 +36,7 @@ export default function BannersCategoriaClient({ banners }: Props) {
       const response = await fetch('/api/admin/banners-categoria', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bannersState)
+        body: JSON.stringify({ banners: bannersState, links: linksState })
       })
       
       if (response.ok) {
@@ -147,6 +149,21 @@ export default function BannersCategoriaClient({ banners }: Props) {
                   >
                     Ver imagem atual
                   </a>
+                </div>
+              )}
+
+              {(config.chave === 'banner-lateral-categorias' || config.chave === 'banner-lateral-mousepads') && (
+                <div style={{ marginTop: 16 }}>
+                  <label style={{ fontSize: 13, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 6 }}>
+                    Link do banner (abre em nova aba)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="https://..."
+                    value={linksState[config.chave] || ''}
+                    onChange={e => setLinksState(prev => ({ ...prev, [config.chave]: e.target.value }))}
+                    style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 13, color: '#292929' }}
+                  />
                 </div>
               )}
             </div>
