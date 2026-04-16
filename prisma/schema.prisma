@@ -92,17 +92,17 @@ model Order {
 model OrderItem {
   id           String  @id @default(cuid())
   orderId      String
-  produtoId    String
+  productId    String
   quantity     Int
   price        Float
   size         String?
   color        String?
   customDesign String?
   order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  produto      Produto @relation(fields: [produtoId], references: [id])
+  product      Produto @relation(fields: [productId], references: [id])
 
   @@index([orderId])
-  @@index([produtoId])
+  @@index([productId])
 }
 
 model Review {

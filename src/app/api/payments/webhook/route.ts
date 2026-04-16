@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
           await prisma.productAnalytics.create({
             data: {
               event: "purchase",
-              produtoId: item.produtoId,
+              produtoId: item.productId,
               userId: order?.userId,
               metadata: JSON.stringify({
                 orderId,
