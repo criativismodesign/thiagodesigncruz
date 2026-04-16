@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useCartStore } from "@/store/cart-store";
 import { ChevronDown } from "lucide-react";
@@ -13,9 +13,17 @@ export function Header() {
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const [collectionsDropdownOpen, setCollectionsDropdownOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [colecoes, setColecoes] = useState<{id: string, nome: string, slug: string}[]>([])
   const { data: session } = useSession();
   const itemCount = useCartStore((state) => state.getItemCount());
   const pathname = usePathname();
+
+  useEffect(() => {
+    fetch('/api/colecoes-menu')
+      .then(r => r.json())
+      .then(data => setColecoes(Array.isArray(data) ? data : []))
+      .catch(() => {})
+  }, [])
 
   const handleLogout = () => {
     signOut({ callbackUrl: "/" });
@@ -113,30 +121,15 @@ export function Header() {
                     marginTop: '-8px' // compensar o paddingTop para manter posição
                   }}
                 >
-                  <Link
-                    href="/categorias/original-collection/my-life-my-style"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
-                  >
-                    My Life My Style
-                  </Link>
-                  <Link
-                    href="/categorias/original-collection/immortals"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
-                  >
-                    IMMORTALS
-                  </Link>
-                  <Link
-                    href="/categorias/original-collection/3o-lancamento"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
-                  >
-                    3º Lançamento
-                  </Link>
-                  <Link
-                    href="/categorias/original-collection/4o-lancamento"
-                    className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
-                  >
-                    4º Lançamento
-                  </Link>
+                  {colecoes.map(colecao => (
+                    <Link
+                      key={colecao.id}
+                      href={`/categorias/original-collection/${colecao.slug}`}
+                      className="block px-4 py-3 text-sm text-[#292929] hover:text-[#DAA520] transition-colors"
+                    >
+                      {colecao.nome}
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
@@ -335,34 +328,16 @@ export function Header() {
             </div>
             <div className="py-2">
               <div className="text-sm font-medium text-[#292929] mb-2">COLEÇÕES</div>
-              <Link
-                href="/categorias/original-collection/my-life-my-style"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 pl-4 text-sm text-[#292929]"
-              >
-                My Life My Style
-              </Link>
-              <Link
-                href="/categorias/original-collection/immortals"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 pl-4 text-sm text-[#292929]"
-              >
-                IMMORTALS
-              </Link>
-              <Link
-                href="/categorias/original-collection/3o-lancamento"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 pl-4 text-sm text-[#292929]"
-              >
-                3º Lançamento
-              </Link>
-              <Link
-                href="/categorias/original-collection/4o-lancamento"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 pl-4 text-sm text-[#292929]"
-              >
-                4º Lançamento
-              </Link>
+              {colecoes.map(colecao => (
+                <Link
+                  key={colecao.id}
+                  href={`/categorias/original-collection/${colecao.slug}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-2 pl-4 text-sm text-[#292929]"
+                >
+                  {colecao.nome}
+                </Link>
+              ))}
             </div>
             <Link
               href="/sobre"
