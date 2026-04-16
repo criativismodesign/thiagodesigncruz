@@ -79,15 +79,17 @@ export default function MousepadCollectionSection({ produtos }: Props) {
         {products.map((product) => (
           <div key={product.id} style={{ width: '380px', flex: '0 0 380px' }}>
             {/* Product Image */}
-            <div className="relative overflow-hidden">
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={600}
-                height={290}
-                className="w-full h-auto object-cover transition-transform duration-300 ease hover:scale-105"
-              />
-            </div>
+            <Link href={product.href}>
+              <div className="relative overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={600}
+                  height={290}
+                  className="w-full h-auto object-cover transition-transform duration-300 ease hover:scale-105"
+                />
+              </div>
+            </Link>
 
             {/* Product Info - Centered */}
             <div style={{ paddingTop: '16px', textAlign: 'center' }}>
@@ -106,19 +108,21 @@ export default function MousepadCollectionSection({ produtos }: Props) {
               </p>
 
               {/* Product Name */}
-              <h3 
-                className="font-semibold uppercase"
-                style={{ 
-                  fontSize: '24px',
-                  color: '#292929',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 600,
-                  marginTop: '8px',
-                  lineHeight: '1.2'
-                }}
-              >
-                {product.name}
-              </h3>
+              <Link href={product.href} style={{ textDecoration: 'none' }}>
+                <h3 
+                  className="font-semibold uppercase"
+                  style={{ 
+                    fontSize: '24px',
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 600,
+                    marginTop: '8px',
+                    lineHeight: '1.2'
+                  }}
+                >
+                  {product.name}
+                </h3>
+              </Link>
 
               {/* Current Price */}
               <div 
@@ -171,25 +175,30 @@ export default function MousepadCollectionSection({ produtos }: Props) {
               )}
 
               {/* Buy Button */}
-              <Link
+              <a
                 href={product.href}
-                className="block text-center font-bold text-white rounded-full transition-all hover:brightness-110"
                 style={{ 
+                  display: 'block',
+                  textAlign: 'center',
                   fontSize: '15px',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 700,
                   backgroundColor: '#DAA520',
+                  color: '#fff',
                   padding: '14px',
                   borderRadius: '999px',
                   width: 'fit-content',
                   minWidth: '45%',
                   maxWidth: '50%',
                   margin: '16px auto 0',
-                  textDecoration: 'none'
+                  textDecoration: 'none',
+                  transition: 'background-color 0.3s ease'
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#46A520'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#DAA520'}
               >
                 COMPRAR
-              </Link>
+              </a>
             </div>
           </div>
         ))}

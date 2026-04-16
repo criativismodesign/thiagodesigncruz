@@ -263,6 +263,7 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
                 </p>
                 
                 {/* Nome do produto */}
+                <Link href={product.href} style={{ textDecoration: 'none' }}>
                 <h3 style={{
                   fontSize: '19px',
                   fontWeight: 600,
@@ -275,6 +276,7 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
                 }}>
                   {product.name}
                 </h3>
+              </Link>
                 
                 {/* Linha de preço */}
                 <div style={{
