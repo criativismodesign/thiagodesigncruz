@@ -64,7 +64,7 @@ export default function CollectionsSection({ colecoes }: Props) {
             <div style={{ position: 'relative', width: '100%' }}>
 
               {/* Camiseta - com margem lateral de 22px em cada lado */}
-              <Link href={`/colecao/${collection.slug}`}>
+              <Link href={`/categorias/original-collection/${collection.slug}`}>
                 <Image
                   src={collection.imageCamiseta}
                   alt={collection.supertitle1}
@@ -82,7 +82,7 @@ export default function CollectionsSection({ colecoes }: Props) {
 
               {/* Mousepad - menor que a camiseta, com 22px de margem em cada lado */}
               <Link
-                href={`/colecao/${collection.slug}`}
+                href={`/categorias/original-collection/${collection.slug}`}
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -112,7 +112,7 @@ export default function CollectionsSection({ colecoes }: Props) {
 
             {/* Text Block */}
             <Link
-              href={`/colecao/${collection.slug}`}
+              href={`/categorias/original-collection/${collection.slug}`}
               style={{ textDecoration: 'none' }}
             >
               <div style={{ paddingTop: '16px', textAlign: 'center' }}>
