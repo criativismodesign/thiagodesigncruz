@@ -25,13 +25,13 @@ export default async function CategoriasFiltroLateralWrapper({ chaveBanner }: Pr
       where: { chave } 
     })
     bannerLateral = banner?.imagem || ''
-    const bannerLateralLink = (banner as any)?.link || ''
+    bannerLateralLink = (banner as any)?.link || ''
 
     const bannerMousepad = await prisma.bannerConfig.findUnique({ 
       where: { chave: 'banner-lateral-mousepads' } 
     })
     bannerLateralMousepad = bannerMousepad?.imagem || ''
-    const bannerLateralMousepadLink = (bannerMousepad as any)?.link || ''
+    bannerLateralMousepadLink = (bannerMousepad as any)?.link || ''
   } catch (error) {
     colecoes = []
     bannerLateral = ''
