@@ -11,6 +11,8 @@ export default async function CategoriasFiltroLateralWrapper({ chaveBanner }: Pr
   let colecoes: any[] = []
   let bannerLateral = ''
   let bannerLateralMousepad = ''
+  let bannerLateralLink = ''
+  let bannerLateralMousepadLink = ''
   
   try {
     colecoes = await prisma.colecao.findMany({
@@ -23,15 +25,26 @@ export default async function CategoriasFiltroLateralWrapper({ chaveBanner }: Pr
       where: { chave } 
     })
     bannerLateral = banner?.imagem || ''
+    const bannerLateralLink = (banner as any)?.link || ''
 
     const bannerMousepad = await prisma.bannerConfig.findUnique({ 
       where: { chave: 'banner-lateral-mousepads' } 
     })
     bannerLateralMousepad = bannerMousepad?.imagem || ''
+    const bannerLateralMousepadLink = (bannerMousepad as any)?.link || ''
   } catch (error) {
     colecoes = []
     bannerLateral = ''
     bannerLateralMousepad = ''
+    bannerLateralLink = ''
+    bannerLateralMousepadLink = ''
   }
-  return <CategoriasFiltroLateral colecoes={colecoes} bannerLateral={bannerLateral} bannerLateralMousepad={bannerLateralMousepad} chaveBanner={chaveBanner} />
+  return <CategoriasFiltroLateral 
+    colecoes={colecoes} 
+    bannerLateral={bannerLateral} 
+    bannerLateralMousepad={bannerLateralMousepad}
+    bannerLateralLink={bannerLateralLink}
+    bannerLateralMousepadLink={bannerLateralMousepadLink}
+    chaveBanner={chaveBanner} 
+  />
 }
