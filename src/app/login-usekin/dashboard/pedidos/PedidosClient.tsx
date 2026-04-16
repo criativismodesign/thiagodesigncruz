@@ -7,7 +7,7 @@ interface OrderItem {
   price: number
   size?: string
   color?: string
-  produto: { nome: string }
+  productId: string
 }
 
 interface Pedido {
@@ -37,6 +37,7 @@ const STATUS_LABELS: Record<string, string> = {
   cancelado: 'Cancelado',
   pending: 'Aguardando Pagamento',
   approved: 'Pago',
+  paid: 'Pago',
 }
 
 const STATUS_CORES: Record<string, string> = {
@@ -50,9 +51,10 @@ const STATUS_CORES: Record<string, string> = {
   enviado: '#DAA520',
   entregue: '#46A520',
   cancelado: '#EF4444',
+  paid: '#3B82F6',
 }
 
-const STATUS_ATIVOS = ['aguardando_pagamento', 'pending', 'pago', 'approved', 'pagamento_confirmado', 'em_producao', 'em_logistica', 'enviado']
+const STATUS_ATIVOS = ['aguardando_pagamento', 'pending', 'pago', 'approved', 'paid', 'pagamento_confirmado', 'em_producao', 'em_logistica', 'enviado']
 const STATUS_HISTORICO = ['entregue', 'cancelado']
 
 const PROXIMOS_STATUS: Record<string, string[]> = {
@@ -60,6 +62,7 @@ const PROXIMOS_STATUS: Record<string, string[]> = {
   pending: ['pagamento_confirmado', 'cancelado'],
   pago: ['pagamento_confirmado', 'cancelado'],
   approved: ['pagamento_confirmado', 'cancelado'],
+  paid: ['pagamento_confirmado', 'cancelado'],
   pagamento_confirmado: ['em_producao'],
   em_producao: ['em_logistica'],
   em_logistica: ['enviado'],
@@ -204,7 +207,7 @@ export default function PedidosClient() {
                 {pedido.items.map(item => (
                   <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #F5F5F5', fontSize: 14 }}>
                     <div>
-                      <span style={{ fontWeight: 500 }}>{item.produto.nome}</span>
+                      <span style={{ fontWeight: 500 }}>Produto {item.productId}</span>
                       {item.size && <span style={{ color: '#888', marginLeft: 8 }}>Tam: {item.size}</span>}
                       {item.color && <span style={{ color: '#888', marginLeft: 8 }}>Cor: {item.color}</span>}
                       <span style={{ color: '#888', marginLeft: 8 }}>Qtd: {item.quantity}</span>
