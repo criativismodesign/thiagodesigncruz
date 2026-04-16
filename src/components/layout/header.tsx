@@ -278,20 +278,52 @@ export function Header() {
 
       {/* Search Bar */}
       {searchOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-b border-[#D8D8D8] px-[120px] py-4">
-          <div className="relative max-w-[1920px] mx-auto">
-            <img 
-              src="/icons/pesquisa.svg" 
-              alt="Pesquisar" 
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5"
-              style={{ filter: "invert(16%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(96%) contrast(90%)" }}
-            />
-            <input
-              type="text"
-              placeholder="Buscar produtos..."
-              className="w-full pl-10 pr-4 py-2 border border-[#D8D8D8] rounded text-[#292929] placeholder-[#AAAAAA] focus:outline-none focus:border-[#DAA520]"
-              autoFocus
-            />
+        <div className="absolute top-full left-0 right-0 bg-white border-b border-[#D8D8D8] px-[120px] py-4" style={{ zIndex: 50 }}>
+          <div className="relative max-w-[1920px] mx-auto flex items-center gap-4">
+            <div className="relative flex-1">
+              <img 
+                src="/icons/pesquisa.svg" 
+                alt="Pesquisar" 
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5"
+                style={{ filter: "invert(16%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(96%) contrast(90%)" }}
+              />
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Buscar produtos..."
+                className="w-full pl-10 pr-4 py-2 border border-[#D8D8D8] rounded text-[#292929] placeholder-[#AAAAAA] focus:outline-none focus:border-[#DAA520]"
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const value = (e.target as HTMLInputElement).value.trim()
+                    if (value) {
+                      setSearchOpen(false)
+                      window.location.href = `/categorias/todos-produtos?busca=${encodeURIComponent(value)}` 
+                    }
+                  }
+                }}
+              />
+            </div>
+            <button
+              onClick={() => {
+                const input = document.getElementById('search-input') as HTMLInputElement
+                const value = input?.value.trim()
+                if (value) {
+                  setSearchOpen(false)
+                  window.location.href = `/categorias/todos-produtos?busca=${encodeURIComponent(value)}` 
+                }
+              }}
+              className="flex items-center justify-center px-4 py-2 rounded bg-[#DAA520] text-white text-sm font-semibold hover:bg-[#46A520] transition-colors flex-shrink-0"
+            >
+              Buscar
+            </button>
+            <button
+              onClick={() => setSearchOpen(false)}
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-[#F5F5F5] hover:bg-[#E5E5E5] transition-colors flex-shrink-0"
+              style={{ fontSize: 18, color: '#292929', fontWeight: 700 }}
+            >
+              ×
+            </button>
           </div>
         </div>
       )}
