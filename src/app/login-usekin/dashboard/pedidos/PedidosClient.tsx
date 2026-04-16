@@ -258,70 +258,69 @@ export default function PedidosClient() {
 
               {isExpandido && (
                 <div style={{ borderTop: '1px solid #F0F0F0', padding: '20px' }}>
-                  {/* Itens */}
-                  <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 12, color: '#292929' }}>Itens do Pedido</h3>
-                  {pedido.items.map(item => (
-                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #F5F5F5', fontSize: 14 }}>
-                      <div>
-                        <span style={{ fontWeight: 500, color: '#292929' }}>{item.product?.nome || 'Produto'}</span>
-                        {item.product?.sku && <span style={{ color: '#888', fontSize: 12, marginLeft: 8 }}>SKU: {item.product.sku}</span>}
-                        {item.size && <span style={{ color: '#555', marginLeft: 12 }}>Tam: {item.size}</span>}
-                        {item.color && <span style={{ color: '#555', marginLeft: 8 }}>Cor: {item.color}</span>}
-                        <span style={{ color: '#555', marginLeft: 8 }}>Qtd: {item.quantity}</span>
+                  {/* DADOS DO PRODUTO */}
+                  <div style={{ marginBottom: 16 }}>
+                    <h3 style={{ fontSize: 13, fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>DADOS DO PRODUTO</h3>
+                    {pedido.items.map(item => (
+                      <div key={item.id} style={{ padding: '10px 14px', background: '#F9F9F9', borderRadius: 8, marginBottom: 8 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                          <div>
+                            <div style={{ fontSize: 15, fontWeight: 700, color: '#292929' }}>{item.product?.nome || 'Produto'}</div>
+                            {item.product?.sku && <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>SKU: {item.product.sku}</div>}
+                            <div style={{ fontSize: 13, color: '#555', marginTop: 4, display: 'flex', gap: 12 }}>
+                              {item.size && <span>Tamanho: <strong>{item.size}</strong></span>}
+                              {item.color && <span>Cor: <strong>{item.color}</strong></span>}
+                              <span>Qtd: <strong>{item.quantity}</strong></span>
+                            </div>
+                          </div>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: '#292929' }}>R$ {(item.price * item.quantity).toFixed(2)}</div>
+                        </div>
                       </div>
-                      <div style={{ fontWeight: 600 }}>R$ {(item.price * item.quantity).toFixed(2)}</div>
-                    </div>
-                  ))}
-
-                  {/* Totais */}
-                  <div style={{ marginTop: 12, fontSize: 14 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#888', marginBottom: 4 }}>
-                      <span>Subtotal</span><span>R$ {pedido.subtotal.toFixed(2)}</span>
-                    </div>
-                    {pedido.shipping > 0 && (
-                      <div style={{ display: 'flex', justifyContent: 'space-between', color: '#888', marginBottom: 4 }}>
-                        <span>Frete</span><span>R$ {pedido.shipping.toFixed(2)}</span>
-                      </div>
-                    )}
-                    {pedido.discount > 0 && (
-                      <div style={{ display: 'flex', justifyContent: 'space-between', color: '#46A520', marginBottom: 4 }}>
-                        <span>Desconto</span><span>- R$ {pedido.discount.toFixed(2)}</span>
-                      </div>
-                    )}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: 16, marginTop: 8, paddingTop: 8, borderTop: '1px solid #E5E5E5' }}>
-                      <span>Total</span><span>R$ {pedido.total.toFixed(2)}</span>
+                    ))}
+                    <div style={{ fontSize: 13, color: '#888', padding: '8px 0', borderTop: '1px solid #F0F0F0', marginTop: 4 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}><span>Subtotal</span><span>R$ {pedido.subtotal.toFixed(2)}</span></div>
+                      {pedido.shipping > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}><span>Frete</span><span>R$ {pedido.shipping.toFixed(2)}</span></div>}
+                      {pedido.discount > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', color: '#16A34A', marginBottom: 2 }}><span>Desconto</span><span>- R$ {pedido.discount.toFixed(2)}</span></div>}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: 15, color: '#292929', paddingTop: 6, borderTop: '1px solid #E5E5E5', marginTop: 4 }}><span>Total</span><span>R$ {pedido.total.toFixed(2)}</span></div>
                     </div>
                   </div>
 
-                  {/* Endereço */}
-                  <div style={{ marginTop: 16, padding: 12, background: '#F9F9F9', borderRadius: 8, fontSize: 13, color: '#555' }}>
-                    <strong>Endereço:</strong> {formatarEndereco(pedido.shippingAddress)}
+                  {/* DADOS DO CLIENTE */}
+                  <div style={{ marginBottom: 16, padding: 14, background: '#F0FDF4', borderRadius: 8, borderLeft: '3px solid #16A34A' }}>
+                    <h3 style={{ fontSize: 13, fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>DADOS DO CLIENTE</h3>
+                    <div style={{ fontSize: 14, color: '#292929', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                      <div><span style={{ color: '#888', fontSize: 12 }}>Nome</span><div style={{ fontWeight: 600 }}>{pedido.user?.name || 'Não informado'}</div></div>
+                      <div><span style={{ color: '#888', fontSize: 12 }}>Email</span><div style={{ fontWeight: 600 }}>{pedido.user?.email || 'Não informado'}</div></div>
+                      {pedido.user?.phone && <div><span style={{ color: '#888', fontSize: 12 }}>WhatsApp</span><div style={{ fontWeight: 600 }}>{pedido.user.phone}</div></div>}
+                      {pedido.user?.cpf && <div><span style={{ color: '#888', fontSize: 12 }}>CPF</span><div style={{ fontWeight: 600 }}>{pedido.user.cpf}</div></div>}
+                    </div>
                   </div>
 
-                  {/* Tracking */}
-                  {pedido.trackingCode && (
-                    <div style={{ marginTop: 8, padding: 12, background: '#DCFCE7', borderRadius: 8, fontSize: 13, color: '#16A34A' }}>
-                      <strong>Rastreio:</strong> {pedido.trackingCode}
-                    </div>
-                  )}
+                  {/* DADOS DE ENTREGA */}
+                  <div style={{ marginBottom: 16, padding: 14, background: '#FFF7ED', borderRadius: 8, borderLeft: '3px solid #EA580C' }}>
+                    <h3 style={{ fontSize: 13, fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>DADOS DE ENTREGA</h3>
+                    <div style={{ fontSize: 14, color: '#292929', fontWeight: 500 }}>{formatarEndereco(pedido.shippingAddress)}</div>
+                    {pedido.trackingCode && (
+                      <div style={{ marginTop: 8, fontSize: 13, color: '#EA580C' }}>
+                        <strong>Código de Rastreio:</strong> {pedido.trackingCode}
+                      </div>
+                    )}
+                  </div>
 
+                  {/* DADOS DA TRANSAÇÃO */}
                   {(pedido.paymentId || pedido.paymentDate) && (
-                    <div style={{ marginTop: 8, padding: 12, background: '#EEF2FF', borderRadius: 8, fontSize: 13, color: '#3730A3' }}>
-                      <strong>Transação:</strong>
-                      {pedido.paymentId && <span style={{ marginLeft: 8 }}>Cód: {pedido.paymentId}</span>}
-                      {pedido.paymentDate && <span style={{ marginLeft: 8 }}>Data: {new Date(pedido.paymentDate).toLocaleDateString('pt-BR')}</span>}
-                      {pedido.paymentHour && <span style={{ marginLeft: 8 }}>Hora: {pedido.paymentHour}</span>}
+                    <div style={{ marginBottom: 16, padding: 14, background: '#EEF2FF', borderRadius: 8, borderLeft: '3px solid #4F46E5' }}>
+                      <h3 style={{ fontSize: 13, fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>DADOS DA TRANSAÇÃO</h3>
+                      <div style={{ fontSize: 14, color: '#292929', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                        {pedido.paymentId && <div><span style={{ color: '#888', fontSize: 12 }}>Código MP</span><div style={{ fontWeight: 600 }}>{pedido.paymentId}</div></div>}
+                        {pedido.paymentMethod && <div><span style={{ color: '#888', fontSize: 12 }}>Forma de Pagamento</span><div style={{ fontWeight: 600 }}>{pedido.paymentMethod}</div></div>}
+                        {pedido.paymentDate && <div><span style={{ color: '#888', fontSize: 12 }}>Data</span><div style={{ fontWeight: 600 }}>{new Date(pedido.paymentDate).toLocaleDateString('pt-BR')}</div></div>}
+                        {pedido.paymentHour && <div><span style={{ color: '#888', fontSize: 12 }}>Horário</span><div style={{ fontWeight: 600 }}>{pedido.paymentHour}</div></div>}
+                      </div>
                     </div>
                   )}
 
-                  {(pedido.user?.cpf || pedido.user?.phone) && (
-                    <div style={{ marginTop: 8, padding: 12, background: '#F0FDF4', borderRadius: 8, fontSize: 13, color: '#166534' }}>
-                      {pedido.user?.cpf && <span><strong>CPF:</strong> {pedido.user.cpf}</span>}
-                      {pedido.user?.phone && <span style={{ marginLeft: 16 }}><strong>WhatsApp:</strong> {pedido.user.phone}</span>}
-                    </div>
-                  )}
-
-                  {/* Ação */}
+                  {/* AÇÕES */}
                   {proximoStatus && (
                     <div style={{ marginTop: 16, display: 'flex', gap: 12, alignItems: 'flex-end', flexWrap: 'wrap' }}>
                       {pedido.status === 'em_logistica' && (
@@ -340,7 +339,7 @@ export default function PedidosClient() {
                     </div>
                   )}
                   {PODE_CANCELAR.includes(pedido.status) && (
-                    <div style={{ marginTop: proximoStatus ? 8 : 16 }}>
+                    <div style={{ marginTop: 8 }}>
                       <button onClick={() => atualizarStatus(pedido.id, 'cancelado')}
                         style={{ padding: '8px 20px', borderRadius: 999, border: '1px solid #FFCCCC', cursor: 'pointer', fontWeight: 600, fontSize: 13, background: '#FFF0F0', color: '#CC0000' }}>
                         Cancelar Pedido
