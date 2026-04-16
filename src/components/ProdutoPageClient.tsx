@@ -34,6 +34,10 @@ export default function ProdutoPageClient({ produto }: Props) {
     ? produto.estoque?.find(e => e.tamanho === tamanhoSelecionado && e.cor === corSelecionada)?.quantidade || 0
     : tamanhoSelecionado
     ? produto.estoque?.find(e => e.tamanho === tamanhoSelecionado)?.quantidade || 0
+    : corSelecionada
+    ? produto.estoque?.find(e => e.cor === corSelecionada)?.quantidade || 0
+    : produto.estoque && produto.estoque.length > 0
+    ? produto.estoque.reduce((total, e) => total + e.quantidade, 0)
     : 99
   
   const addItem = useCartStore((s) => s.addItem)
