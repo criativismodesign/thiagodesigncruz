@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import DashboardMenu from '@/components/admin/DashboardMenu'
+import LogoutButton from '@/components/admin/LogoutButton'
 
 export default async function DashboardLayout({
   children,
@@ -34,12 +35,7 @@ export default async function DashboardLayout({
         </div>
         <DashboardMenu />
         <div style={{ padding: '16px 20px', borderTop: '1px solid #2A2A2A' }}>
-          <form action="/api/admin/logout" method="POST">
-            <button type="submit"
-              style={{ color: '#EF4444', background: 'transparent', border: '1px solid #EF4444', borderRadius: 8, cursor: 'pointer', fontSize: 14, padding: '8px 16px', width: '100%', fontWeight: 600 }}>
-              Sair
-            </button>
-          </form>
+          <LogoutButton />
         </div>
       </aside>
       <main style={{ flex: 1, overflow: 'auto' }}>
