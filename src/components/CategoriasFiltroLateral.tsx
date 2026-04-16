@@ -14,9 +14,11 @@ interface Colecao {
 interface Props {
   colecoes: Colecao[]
   bannerLateral?: string
+  bannerLateralMousepad?: string
+  chaveBanner?: string
 }
 
-export default function CategoriasFiltroLateral({ colecoes, bannerLateral }: Props) {
+export default function CategoriasFiltroLateral({ colecoes, bannerLateral, bannerLateralMousepad, chaveBanner }: Props) {
   const pathname = usePathname()
   const [originalCollectionExpanded, setOriginalCollectionExpanded] = useState(true)
 
@@ -177,17 +179,29 @@ export default function CategoriasFiltroLateral({ colecoes, bannerLateral }: Pro
 
         {/* BANNER PUBLICITÁRIO */}
       <div style={{ margin: '48px auto 0', textAlign: 'center' }}>
-        <Image
-          src={bannerLateral || "/images/banners/banner-promocional-366x634.jpg"}
-          alt="Banner promocional"
-          width={366}
-          height={634}
-          style={{
-            objectFit: 'cover',
-            maxWidth: '100%',
-            height: 'auto'
-          }}
-        />
+        {chaveBanner === 'banner-lateral-mousepads' ? (
+          <a
+            href="https://wa.me/5562981316462?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20como%20funciona%20para%20personalizar%20uma%20desckpad."
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src={bannerLateralMousepad || bannerLateral || "/images/banners/banner-promocional-366x634.jpg"}
+              alt="Personalize seu Mousepad"
+              width={366}
+              height={634}
+              style={{ objectFit: 'cover', maxWidth: '100%', height: 'auto' }}
+            />
+          </a>
+        ) : (
+          <Image
+            src={bannerLateral || "/images/banners/banner-promocional-366x634.jpg"}
+            alt="Banner promocional"
+            width={366}
+            height={634}
+            style={{ objectFit: 'cover', maxWidth: '100%', height: 'auto' }}
+          />
+        )}
       </div>
 
       {/* RESPONSIVIDADE */}

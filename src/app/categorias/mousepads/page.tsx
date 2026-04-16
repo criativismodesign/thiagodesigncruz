@@ -20,7 +20,7 @@ export default function MousepadsPage() {
         paddingRight: '120px'
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <CategoriasFiltroLateralWrapper />
+          <CategoriasFiltroLateralWrapper chaveBanner="banner-lateral-mousepads" />
           <CategoriasLadoDireitoWrapper tipo="mousepad" categoria="avulso" />
         </div>
       </div>
