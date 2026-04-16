@@ -73,6 +73,10 @@ export async function POST(request: NextRequest) {
       discount: discount || 0,
       paymentMethod: paymentMethod || "mercadopago",
       shippingAddress: JSON.stringify(shippingAddress),
+      payerName: payer?.name || null,
+      payerEmail: payer?.email || null,
+      payerPhone: payer?.phone || null,
+      payerCpf: payer?.cpf?.replace(/\D/g, '') || null,
     };
 
     const order = await (prisma as any).order.create({ data: orderData });
