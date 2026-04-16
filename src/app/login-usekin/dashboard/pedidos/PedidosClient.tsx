@@ -104,9 +104,8 @@ export default function PedidosClient() {
   }
 
   const pedidosFiltrados = pedidos.filter(p => {
-    const isAtivo = STATUS_ATIVOS.includes(p.status)
     const isHistorico = STATUS_HISTORICO.includes(p.status)
-    if (aba === 'ativos' && !isAtivo) return false
+    if (aba === 'ativos' && isHistorico) return false
     if (aba === 'historico' && !isHistorico) return false
     if (filtroStatus && p.status !== filtroStatus) return false
     if (filtroBusca) {
@@ -150,11 +149,17 @@ export default function PedidosClient() {
           style={{ flex: 1, minWidth: 200, border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14 }}
         />
         <select value={filtroStatus} onChange={e => setFiltroStatus(e.target.value)}
-          style={{ border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14 }}>
+          style={{ border: '1px solid #E5E5E5', borderRadius: 8, padding: '8px 12px', fontSize: 14, color: '#292929', background: '#fff' }}>
           <option value="">Todos os status</option>
-          {Object.entries(STATUS_LABELS).map(([v, l]) => (
-            <option key={v} value={v}>{l}</option>
-          ))}
+          <option value="pending">Aguardando Pagamento</option>
+          <option value="pago">Pago</option>
+          <option value="approved">Pago (MP)</option>
+          <option value="pagamento_confirmado">Pagamento Confirmado</option>
+          <option value="em_producao">Em Produção</option>
+          <option value="em_logistica">Em Logística</option>
+          <option value="enviado">Enviado</option>
+          <option value="entregue">Entregue</option>
+          <option value="cancelado">Cancelado</option>
         </select>
       </div>
 
