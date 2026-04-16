@@ -70,15 +70,17 @@ export default function OutrosModelosSection({ produtos }: Props) {
         {products.map((product, index) => (
           <div key={product.id} style={{ width: '220px', flex: '0 0 220px' }}>
             {/* Imagem do Produto */}
-            <div className="relative overflow-hidden">
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={337}
-                height={393}
-                className="w-full h-auto object-cover transition-transform duration-300 ease hover:scale-105"
-              />
-            </div>
+            <Link href={product.href}>
+              <div className="relative overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={337}
+                  height={393}
+                  className="w-full h-auto object-cover transition-transform duration-300 ease hover:scale-105"
+                />
+              </div>
+            </Link>
 
             {/* Bloco de Texto */}
             <div style={{ paddingTop: '16px' }}>
@@ -97,19 +99,21 @@ export default function OutrosModelosSection({ produtos }: Props) {
               </p>
 
               {/* Nome do Produto */}
-              <h3 
-                className="font-semibold uppercase"
-                style={{ 
-                  fontSize: '18px',
-                  color: '#292929',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  lineHeight: '1.2'
-                }}
-              >
-                {product.name}
-              </h3>
+              <Link href={product.href} style={{ textDecoration: 'none' }}>
+                <h3 
+                  className="font-semibold uppercase"
+                  style={{ 
+                    fontSize: '18px',
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    lineHeight: '1.2'
+                  }}
+                >
+                  {product.name}
+                </h3>
+              </Link>
 
               {/* Preço Atual */}
               <p 
@@ -164,27 +168,29 @@ export default function OutrosModelosSection({ produtos }: Props) {
               )}
 
               {/* Botão COMPRAR */}
-              <Link href={product.href} style={{ textDecoration: 'none' }}>
-                <button
-                  className="font-bold text-white rounded-full transition-all hover:brightness-110"
-                  style={{ 
-                    fontSize: '15px',
-                    color: '#FFFFFF',
-                    fontFamily: 'Inter, sans-serif',
-                    fontWeight: 700,
-                    backgroundColor: '#DAA520',
-                    padding: '14px',
-                    borderRadius: '999px',
-                    width: 'fit-content',
-                    minWidth: '45%',
-                    maxWidth: '50%',
-                    margin: '16px 0 0 0',
-                    cursor: 'pointer'
-                  }}
-                >
-                  COMPRAR
-                </button>
-              </Link>
+              <a
+                href={product.href}
+                style={{ 
+                  display: 'block',
+                  fontSize: '15px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  backgroundColor: '#DAA520',
+                  color: '#fff',
+                  padding: '14px',
+                  borderRadius: '999px',
+                  width: 'fit-content',
+                  minWidth: '45%',
+                  maxWidth: '50%',
+                  margin: '16px 0 0 0',
+                  textDecoration: 'none',
+                  transition: 'background-color 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#46A520'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#DAA520'}
+              >
+                COMPRAR
+              </a>
             </div>
           </div>
         ))}

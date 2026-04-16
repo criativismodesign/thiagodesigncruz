@@ -145,7 +145,7 @@ export default function ProdutosRelacionadosSection({ produtos }: Props) {
                 transition: 'background-color 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#B8941F'
+                e.currentTarget.style.backgroundColor = '#46A520'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#DAA520'
@@ -168,26 +168,28 @@ export default function ProdutosRelacionadosSection({ produtos }: Props) {
         {mousepads.map((mousepad) => (
           <div key={mousepad.id} style={{ width: '380px', flex: '0 0 380px' }}>
             {/* Product Image */}
-            <div style={{ position: 'relative', overflow: 'hidden' }}>
-              <Image
-                src={mousepad.image}
-                alt={mousepad.name}
-                width={600}
-                height={290}
-                style={{ 
-                  width: '100%', 
-                  height: 'auto', 
-                  objectFit: 'cover',
-                  transition: 'transform 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)'
-                }}
-              />
-            </div>
+            <Link href={mousepad.href}>
+              <div style={{ position: 'relative', overflow: 'hidden' }}>
+                <Image
+                  src={mousepad.image}
+                  alt={mousepad.name}
+                  width={600}
+                  height={290}
+                  style={{ 
+                    width: '100%', 
+                    height: 'auto', 
+                    objectFit: 'cover',
+                    transition: 'transform 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)'
+                  }}
+                />
+              </div>
+            </Link>
 
             {/* Product Info - Centered */}
             <div style={{ paddingTop: '16px', textAlign: 'center' }}>
@@ -204,17 +206,19 @@ export default function ProdutosRelacionadosSection({ produtos }: Props) {
               </p>
 
               {/* Product Name */}
-              <h3 style={{ 
-                fontSize: '24px',
-                color: '#292929',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 600,
-                marginTop: '8px',
-                lineHeight: '1.2',
-                textTransform: 'uppercase'
-              }}>
-                {mousepad.name}
-              </h3>
+              <Link href={mousepad.href} style={{ textDecoration: 'none' }}>
+                <h3 style={{ 
+                  fontSize: '24px',
+                  color: '#292929',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 600,
+                  marginTop: '8px',
+                  lineHeight: '1.2',
+                  textTransform: 'uppercase'
+                }}>
+                  {mousepad.name}
+                </h3>
+              </Link>
 
               {/* Current Price */}
               <div style={{ 
@@ -258,14 +262,13 @@ export default function ProdutosRelacionadosSection({ produtos }: Props) {
               )}
 
               {/* Buy Button */}
-              <Link
+              <a
                 href={mousepad.href}
                 style={{
                   display: 'block',
                   textAlign: 'center',
                   color: '#FFFFFF',
                   borderRadius: '999px',
-                  transition: 'all 0.3s ease',
                   fontSize: '15px',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 700,
@@ -275,17 +278,14 @@ export default function ProdutosRelacionadosSection({ produtos }: Props) {
                   minWidth: '45%',
                   maxWidth: '50%',
                   margin: '16px auto 0',
-                  textDecoration: 'none'
+                  textDecoration: 'none',
+                  transition: 'background-color 0.3s ease'
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.filter = 'brightness(1.1)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.filter = 'brightness(1)'
-                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#46A520'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#DAA520'}
               >
                 COMPRAR
-              </Link>
+              </a>
             </div>
           </div>
         ))}

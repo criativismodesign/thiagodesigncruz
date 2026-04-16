@@ -71,15 +71,17 @@ export default function OriginalCollectionSection({ produtos }: Props) {
         {products.map((product) => (
           <div key={product.id} style={{ width: '285px', flex: '0 0 285px' }}>
             {/* Product Image */}
-            <div className="relative overflow-hidden">
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={430}
-                height={575}
-                className="w-full h-auto object-cover transition-transform duration-300 ease hover:scale-105"
-              />
-            </div>
+            <Link href={product.href}>
+              <div className="relative overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={430}
+                  height={575}
+                  className="w-full h-auto object-cover transition-transform duration-300 ease hover:scale-105"
+                />
+              </div>
+            </Link>
 
             {/* Product Info */}
             <div style={{ paddingTop: '16px' }}>
@@ -98,19 +100,21 @@ export default function OriginalCollectionSection({ produtos }: Props) {
               </p>
 
               {/* Product Name */}
-              <h3 
-                className="font-semibold uppercase"
-                style={{ 
-                  fontSize: '18px',
-                  color: '#292929',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  lineHeight: '1.2'
-                }}
-              >
-                {product.name}
-              </h3>
+              <Link href={product.href} style={{ textDecoration: 'none' }}>
+                <h3 
+                  className="font-semibold uppercase"
+                  style={{ 
+                    fontSize: '18px',
+                    color: '#292929',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    lineHeight: '1.2'
+                  }}
+                >
+                  {product.name}
+                </h3>
+              </Link>
 
               {/* Price Line */}
               <div 
@@ -166,25 +170,30 @@ export default function OriginalCollectionSection({ produtos }: Props) {
               )}
 
               {/* Buy Button */}
-              <Link
+              <a
                 href={product.href}
-                className="block text-center font-bold text-white rounded-full transition-all hover:brightness-110"
                 style={{ 
+                  display: 'block',
+                  textAlign: 'center',
                   fontSize: '15px',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 700,
                   backgroundColor: '#DAA520',
+                  color: '#fff',
                   padding: '14px',
                   borderRadius: '999px',
                   width: 'fit-content',
                   minWidth: '45%',
                   maxWidth: '50%',
                   margin: '16px 0 0 0',
-                  textDecoration: 'none'
+                  textDecoration: 'none',
+                  transition: 'background-color 0.3s ease'
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#46A520'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#DAA520'}
               >
                 COMPRAR
-              </Link>
+              </a>
             </div>
           </div>
         ))}
