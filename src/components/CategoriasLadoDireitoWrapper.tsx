@@ -24,6 +24,7 @@ export default async function CategoriasLadoDireitoWrapper({ tipo, categoria, co
       include: {
         imagens: { orderBy: { ordem: 'asc' } },
         colecao: true,
+        estoque: true,
       },
       orderBy: { ordemSecao: 'asc' },
     })

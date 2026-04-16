@@ -15,6 +15,7 @@ interface Produto {
   imagens: { url: string; isPrincipal: boolean; ordem: number }[]
   colecao: { slug: string } | null
   criadoEm?: string | Date
+  estoque?: { tamanho: string; quantidade: number }[]
 }
 
 interface Props {
@@ -60,6 +61,8 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
     price: p.precoAtual,
     originalPrice: p.precoDe,
     discount: p.precoDe ? Math.round((1 - p.precoAtual / p.precoDe) * 100) : null,
+    estoque: p.estoque || [],
+    temEstoque: p.estoque ? p.estoque.some((e: any) => e.quantidade > 0) : true,
     href: p.categoria === 'colecao' && p.colecao?.slug
       ? `/produto/${p.colecao.slug}/${p.tipo === 'camiseta' ? 'camiseta' : 'mousepad'}/${p.slug}` 
       : `/produto/${p.tipo === 'camiseta' ? 'camiseta' : 'mousepad'}/${p.slug}`,
@@ -321,33 +324,53 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
                   </span>
                 )}
                 
-                {/* Botão COMPRAR */}
-                <Link href={product.href} style={{ textDecoration: 'none' }}>
+                {product.temEstoque ? (
+                  <Link href={product.href} style={{ textDecoration: 'none' }}>
+                    <button
+                      style={{
+                        width: '55%',
+                        padding: '10px',
+                        backgroundColor: '#DAA520',
+                        color: '#FFFFFF',
+                        border: 'none',
+                        borderRadius: '999px',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        fontFamily: 'Inter, sans-serif',
+                        cursor: 'pointer',
+                        marginTop: '16px',
+                        transition: 'background-color 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#46A520'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#DAA520'
+                      }}
+                    >
+                      COMPRAR
+                    </button>
+                  </Link>
+                ) : (
                   <button
+                    disabled
                     style={{
                       width: '55%',
                       padding: '10px',
-                      backgroundColor: '#DAA520',
-                      color: '#FFFFFF',
+                      backgroundColor: '#E5E5E5',
+                      color: '#AAAAAA',
                       border: 'none',
                       borderRadius: '999px',
                       fontSize: '12px',
                       fontWeight: 700,
                       fontFamily: 'Inter, sans-serif',
-                      cursor: 'pointer',
+                      cursor: 'not-allowed',
                       marginTop: '16px',
-                      transition: 'background-color 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#46A520'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#DAA520'
                     }}
                   >
-                    COMPRAR
+                    ESGOTADO
                   </button>
-                </Link>
+                )}
               </div>
             </div>
           ))}
