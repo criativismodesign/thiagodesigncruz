@@ -22,6 +22,10 @@ interface Pedido {
   paymentId?: string
   paymentDate?: string
   paymentHour?: string
+  payerName?: string
+  payerEmail?: string
+  payerPhone?: string
+  payerCpf?: string
   trackingCode?: string
   shippingAddress: string
   createdAt: string
@@ -288,11 +292,23 @@ export default function PedidosClient() {
                   {/* DADOS DO CLIENTE */}
                   <div style={{ marginBottom: 16, padding: 14, background: '#F0FDF4', borderRadius: 8, borderLeft: '3px solid #16A34A' }}>
                     <h3 style={{ fontSize: 13, fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>DADOS DO CLIENTE</h3>
-                    <div style={{ fontSize: 14, color: '#292929', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-                      <div><span style={{ color: '#888', fontSize: 12 }}>Nome</span><div style={{ fontWeight: 600 }}>{pedido.user?.name || 'Não informado'}</div></div>
-                      <div><span style={{ color: '#888', fontSize: 12 }}>Email</span><div style={{ fontWeight: 600 }}>{pedido.user?.email || 'Não informado'}</div></div>
-                      {pedido.user?.phone && <div><span style={{ color: '#888', fontSize: 12 }}>WhatsApp</span><div style={{ fontWeight: 600 }}>{pedido.user.phone}</div></div>}
-                      {pedido.user?.cpf && <div><span style={{ color: '#888', fontSize: 12 }}>CPF</span><div style={{ fontWeight: 600 }}>{pedido.user.cpf}</div></div>}
+                    <div style={{ fontSize: 14, color: '#292929', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                      <div>
+                        <span style={{ color: '#888', fontSize: 12 }}>Nome</span>
+                        <div style={{ fontWeight: 600 }}>{pedido.payerName || pedido.user?.name || 'Não informado'}</div>
+                      </div>
+                      <div>
+                        <span style={{ color: '#888', fontSize: 12 }}>Email</span>
+                        <div style={{ fontWeight: 600 }}>{pedido.payerEmail || pedido.user?.email || 'Não informado'}</div>
+                      </div>
+                      <div>
+                        <span style={{ color: '#888', fontSize: 12 }}>WhatsApp</span>
+                        <div style={{ fontWeight: 600 }}>{pedido.payerPhone || pedido.user?.phone || 'Não informado'}</div>
+                      </div>
+                      <div>
+                        <span style={{ color: '#888', fontSize: 12 }}>CPF</span>
+                        <div style={{ fontWeight: 600 }}>{pedido.payerCpf || pedido.user?.cpf || 'Não informado'}</div>
+                      </div>
                     </div>
                   </div>
 
