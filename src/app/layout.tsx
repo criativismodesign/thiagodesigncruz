@@ -16,13 +16,13 @@ const interFont = InterFont({
   display: "swap",
 });
 
-const siteUrl = "https://thiagodesigncruz.com.br";
+const siteUrl = "https://usekin.com.br";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Thiago Design Cruz | Camisetas & Mouse Pads Personalizados",
-    template: "%s | Thiago Design Cruz",
+    default: "UseKIN | Camisetas & Mouse Pads Personalizados",
+    template: "%s | UseKIN",
   },
   description:
     "Crie suas próprias estampas! Camisetas e mouse pads com designs exclusivos feitos por você. Qualidade premium, entrega para todo o Brasil.",
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
     "loja de camisetas",
     "camisetas online",
   ],
-  authors: [{ name: "Thiago Design Cruz" }],
-  creator: "Thiago Design Cruz",
-  publisher: "Thiago Design Cruz",
+  authors: [{ name: "UseKIN" }],
+  creator: "UseKIN",
+  publisher: "UseKIN",
   robots: {
     index: true,
     follow: true,
@@ -56,17 +56,17 @@ export const metadata: Metadata = {
     canonical: siteUrl,
   },
   openGraph: {
-    title: "Thiago Design Cruz | Camisetas & Mouse Pads Personalizados",
+    title: "UseKIN | Camisetas & Mouse Pads Personalizados",
     description:
       "Crie suas próprias estampas! Camisetas e mouse pads com designs exclusivos. Qualidade premium, entrega para todo o Brasil.",
     url: siteUrl,
-    siteName: "Thiago Design Cruz",
+    siteName: "UseKIN",
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Thiago Design Cruz | Camisetas & Mouse Pads Personalizados",
+    title: "UseKIN | Camisetas & Mouse Pads Personalizados",
     description:
       "Crie suas próprias estampas! Camisetas e mouse pads com designs exclusivos.",
   },
@@ -103,7 +103,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} ${interFont.variable}`}>
+      <body className={`${inter.className} ${interFont.variable}`} style={{ overflowX: 'hidden', maxWidth: '100vw' }}>
         <WebsiteJsonLd />
         <OrganizationJsonLd />
         <Providers>
