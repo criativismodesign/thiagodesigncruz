@@ -61,10 +61,15 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
     const data = await res.json()
 
     if (res.ok) {
-      if (editando) {
+      const isNovo = editando === 'novo'
+      if (!isNovo && editando) {
         setCuponsState(prev => prev.map(c => c.id === editando ? data.cupom : c))
       } else {
-        setCuponsState(prev => [data.cupom, ...prev])
+        if (data.cupom) {
+          setCuponsState(prev => [data.cupom, ...prev])
+        } else {
+          window.location.reload()
+        }
       }
       resetFormulario()
     } else {
