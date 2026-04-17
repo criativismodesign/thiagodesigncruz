@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { payment } from "@/lib/mercadopago";
 import { prisma } from "@/lib/db";
+import { enviarEmailNovoPedido, enviarEmailConfirmacaoCliente } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   try {
@@ -57,18 +58,22 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      // If payment approved, update product stock
       if (orderStatus === "paid") {
         const orderItems = await prisma.orderItem.findMany({
           where: { orderId },
+          include: {
+            product: { select: { nome: true, sku: true } }
+          }
         });
 
         const order = await prisma.order.findUnique({
           where: { id: orderId },
+          include: {
+            user: { select: { name: true, email: true, phone: true, cpf: true } }
+          }
         });
 
         for (const item of orderItems) {
-          // Log purchase analytics
           await prisma.productAnalytics.create({
             data: {
               event: "purchase",
@@ -81,6 +86,53 @@ export async function POST(request: NextRequest) {
               }),
             },
           });
+        }
+
+        if (order) {
+          const clienteNome = order.payerName || order.user?.name || 'Cliente'
+          const clienteEmail = order.payerEmail || order.user?.email || ''
+          const clienteTelefone = order.payerPhone || order.user?.phone || ''
+          const clienteCpf = order.payerCpf || order.user?.cpf || ''
+
+          let enderecoFormatado = order.shippingAddress
+          try {
+            const e = JSON.parse(order.shippingAddress)
+            enderecoFormatado = `${e.street}, ${e.number}${e.complement ? `, ${e.complement}` : ''} — ${e.neighborhood}, ${e.city}/${e.state} — CEP ${e.zipCode}` 
+          } catch {}
+
+          const produtos = orderItems.map((item: any) => ({
+            nome: item.product?.nome || 'Produto',
+            sku: item.product?.sku || undefined,
+            quantidade: item.quantity,
+            tamanho: item.size || undefined,
+            cor: item.color || undefined,
+            preco: item.price,
+          }))
+
+          if (clienteEmail) {
+            await Promise.all([
+              enviarEmailNovoPedido({
+                pedidoId: orderId,
+                clienteNome,
+                clienteEmail,
+                clienteTelefone,
+                clienteCpf,
+                produtos,
+                endereco: enderecoFormatado,
+                total: order.total,
+                frete: order.shipping,
+                formaPagamento: paymentData.payment_method_id || 'pix',
+              }),
+              enviarEmailConfirmacaoCliente({
+                pedidoId: orderId,
+                clienteNome,
+                clienteEmail,
+                produtos,
+                total: order.total,
+                frete: order.shipping,
+              })
+            ])
+          }
         }
       }
     }

@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
 export async function enviarEmailNovoPedido({
   pedidoId,
@@ -26,6 +26,10 @@ export async function enviarEmailNovoPedido({
   formaPagamento: string
 }) {
   try {
+    if (!resend) {
+      console.log('Resend não configurado - email novo pedido não enviado')
+      return
+    }
     await resend.emails.send({
       from: 'UseKIN <onboarding@resend.dev>',
       to: 'usekin@gmail.com',
@@ -114,6 +118,10 @@ export async function enviarEmailConfirmacaoCliente({
   frete: number
 }) {
   try {
+    if (!resend) {
+      console.log('Resend não configurado - email confirmação cliente não enviado')
+      return
+    }
     await resend.emails.send({
       from: 'UseKIN <onboarding@resend.dev>',
       to: clienteEmail,
