@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
+export const revalidate = 30
+
 const STATUS_CONFIG: Record<string, { label: string; icone: string; cor: string; corFundo: string }> = {
   aguardando_pagamento: { label: 'Aguardando Pagamento', icone: '🛒', cor: '#D97706', corFundo: '#FEF3C7' },
   pending:              { label: 'Aguardando Pagamento', icone: '🛒', cor: '#D97706', corFundo: '#FEF3C7' },
@@ -243,6 +245,14 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
         }}>
           Continuar Comprando
         </Link>
+
+      {/* Botão atualizar */}
+      <div style={{ textAlign: 'center', marginBottom: 16 }}>
+        <a href={`/acompanhar/${(await params).id}`}
+          style={{ fontSize: 13, color: '#888', textDecoration: 'none', padding: '8px 16px', border: '1px solid #E5E5E5', borderRadius: 999, display: 'inline-block' }}>
+          Atualizar status
+        </a>
+      </div>
       </div>
     </div>
   )
