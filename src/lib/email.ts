@@ -83,7 +83,7 @@ export async function enviarEmailNovoPedido({
             </div>
 
             <div style="margin-top: 24px; text-align: center;">
-              <a href="https://thiagodesigncruz.vercel.app/login-usekin/dashboard/pedidos" 
+              <a href="https://usekin.com.br/login-usekin/dashboard/pedidos" 
                 style="background: #DAA520; color: #fff; padding: 12px 24px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 14px;">
                 Ver Pedido no Painel
               </a>
@@ -166,7 +166,7 @@ export async function enviarEmailConfirmacaoCliente({
             </div>
 
             <div style="margin-top: 24px; text-align: center;">
-              <a href="https://thiagodesigncruz.vercel.app/acompanhar/${pedidoId.slice(-8).toLowerCase()}"
+              <a href="https://usekin.com.br/acompanhar/${pedidoId.slice(-8).toLowerCase()}"
                 style="background: #DAA520; color: #fff; padding: 12px 24px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 14px;">
                 Acompanhar Pedido
               </a>
