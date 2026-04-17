@@ -442,41 +442,68 @@ export default function MinhaContaPage() {
               {orders.length > 0 ? (
                 <div className="space-y-4">
                   {orders.map((order) => (
-                    <div key={order.id} className="bg-[#F5F5F5] rounded-xl p-6">
-                      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
+                    <div key={order.id} style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 20, marginBottom: 12 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
                         <div>
-                          <p className="font-medium text-[#292929] text-lg">Pedido #{order.id.slice(-8)}</p>
-                          <p className="text-sm text-[#AAAAAA]">{formatDate(order.createdAt)}</p>
+                          <p style={{ fontWeight: 700, color: '#292929', fontSize: 15, marginBottom: 4 }}>
+                            Pedido #{order.id.slice(-8).toUpperCase()}
+                          </p>
+                          <p style={{ fontSize: 13, color: '#888' }}>{formatDate(order.createdAt)}</p>
                         </div>
-                        <div className="flex items-center gap-4">
-                          <div className="flex items-center gap-2">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                             {getStatusIcon(order.status)}
-                            <span className="text-sm text-[#292929]">{getStatusText(order.status)}</span>
+                            <span style={{ fontSize: 13, color: '#292929' }}>{getStatusText(order.status)}</span>
                           </div>
-                          <p className="font-bold text-[#292929] text-lg">{formatCurrency(order.total)}</p>
+                          <p style={{ fontWeight: 700, color: '#292929', fontSize: 16 }}>{formatCurrency(order.total)}</p>
                         </div>
                       </div>
-                      
-                      <div className="border-t border-[#E5E5E5] pt-4">
-                        <p className="font-medium text-[#292929] mb-2">Itens do Pedido:</p>
-                        <div className="space-y-2">
-                          {order.items.map((item, index) => (
-                            <div key={index} className="flex justify-between text-sm">
-                              <span className="text-[#AAAAAA]">
-                                {item.quantity}x {item.name}
-                              </span>
-                              <span className="text-[#292929]">{formatCurrency(item.price * item.quantity)}</span>
+
+                      <div style={{ borderTop: '1px solid #F0F0F0', marginTop: 16, paddingTop: 16 }}>
+                        <p style={{ fontWeight: 600, color: '#292929', fontSize: 13, marginBottom: 8 }}>Itens do Pedido:</p>
+                        <div>
+                          {order.items.map((item: any, index: number) => (
+                            <div key={index} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 4 }}>
+                              <span style={{ color: '#888' }}>{item.quantity}x {item.name}</span>
+                              <span style={{ color: '#292929' }}>{formatCurrency(item.price * item.quantity)}</span>
                             </div>
                           ))}
                         </div>
                       </div>
 
                       {order.trackingCode && (
-                        <div className="border-t border-[#E5E5E5] pt-4 mt-4">
-                          <p className="font-medium text-[#292929] mb-2">Código de Rastreamento:</p>
-                          <p className="text-[#DAA520]">{order.trackingCode}</p>
+                        <div style={{ borderTop: '1px solid #F0F0F0', marginTop: 12, paddingTop: 12 }}>
+                          <p style={{ fontSize: 13, color: '#888' }}>Rastreio: <span style={{ color: '#DAA520', fontWeight: 600 }}>{order.trackingCode}</span></p>
                         </div>
                       )}
+
+                      <div style={{ marginTop: 16, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        <a
+                          href={`/acompanhar/${order.id.slice(-8).toLowerCase()}`}
+                          style={{
+                            padding: '8px 18px', borderRadius: 999, background: '#DAA520', color: '#fff',
+                            textDecoration: 'none', fontSize: 13, fontWeight: 700
+                          }}
+                        >
+                          Acompanhar Pedido
+                        </a>
+                        {(order.status === 'pending') && (
+                          <button
+                            onClick={() => {
+                              if (confirm('Tem certeza que deseja cancelar este pedido?')) {
+                                fetch(`/api/user/orders/${order.id}/cancel`, { method: 'PUT' })
+                                  .then(r => { if (r.ok) window.location.reload() })
+                              }
+                            }}
+                            style={{
+                              padding: '8px 18px', borderRadius: 999, border: '1px solid #FFCCCC',
+                              background: '#FFF0F0', color: '#CC0000', fontSize: 13, fontWeight: 600, cursor: 'pointer'
+                            }}
+                          >
+                            Cancelar Pedido
+                          </button>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
