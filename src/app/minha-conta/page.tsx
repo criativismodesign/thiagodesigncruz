@@ -399,7 +399,7 @@ export default function MinhaContaPage() {
                     <CheckCircle className="h-8 w-8 text-[#46A520]" />
                     <div>
                       <p className="text-2xl font-bold text-[#292929]">
-                        {orders.filter((o) => o.status === "delivered").length}
+                        {orders.filter((o) => o.status === "entregue" || o.status === "delivered").length}
                       </p>
                       <p className="text-sm text-[#AAAAAA]">Pedidos Entregues</p>
                     </div>
@@ -410,7 +410,7 @@ export default function MinhaContaPage() {
                     <Clock className="h-8 w-8 text-[#F0484A]" />
                     <div>
                       <p className="text-2xl font-bold text-[#292929]">
-                        {orders.filter((o) => o.status === "pending" || o.status === "paid").length}
+                        {orders.filter((o) => ['pago', 'paid', 'approved', 'pagamento_confirmado', 'em_producao', 'em_logistica', 'enviado'].includes(o.status)).length}
                       </p>
                       <p className="text-sm text-[#AAAAAA]">Pedidos em Andamento</p>
                     </div>
