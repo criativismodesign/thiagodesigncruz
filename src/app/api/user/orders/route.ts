@@ -16,7 +16,11 @@ export async function GET() {
       where: { userId },
       orderBy: { createdAt: "desc" },
       include: {
-        items: true,
+        items: {
+          include: {
+            product: { select: { nome: true, sku: true } }
+          }
+        }
       },
     });
 
@@ -36,9 +40,10 @@ export async function GET() {
       trackingCode: order.trackingCode,
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
-      items: order.items.map((item) => ({
+      items: order.items.map((item: any) => ({
         id: item.id,
-        name: `Produto ${item.productId}`, // We'll need to join with product table for real names
+        name: item.product?.nome || `Produto ${item.productId}`,
+        sku: item.product?.sku || null,
         quantity: item.quantity,
         price: item.price,
         size: item.size,

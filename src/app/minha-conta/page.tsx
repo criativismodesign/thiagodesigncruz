@@ -271,21 +271,33 @@ export default function MinhaContaPage() {
   };
 
   const getStatusText = (status: string) => {
-    switch (status) {
-      case "pending":
-        return "Pendente";
-      case "paid":
-        return "Pago";
-      case "shipped":
-        return "Enviado";
-      case "delivered":
-        return "Entregue";
-      case "cancelled":
-        return "Cancelado";
-      default:
-        return status;
-    }
-  };
+  switch (status) {
+    case "pending":
+    case "aguardando_pagamento":
+      return "Aguardando Pagamento"
+    case "paid":
+    case "pago":
+    case "approved":
+      return "Pago"
+    case "pagamento_confirmado":
+      return "Pagamento Confirmado"
+    case "em_producao":
+      return "Em Produção"
+    case "em_logistica":
+      return "Em Logística"
+    case "shipped":
+    case "enviado":
+      return "Enviado"
+    case "delivered":
+    case "entregue":
+      return "Entregue"
+    case "cancelled":
+    case "cancelado":
+      return "Cancelado"
+    default:
+      return status
+  }
+}
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
