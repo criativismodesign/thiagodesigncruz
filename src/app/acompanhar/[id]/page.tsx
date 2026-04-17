@@ -157,7 +157,7 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
             {pedido.items.map(item => (
               <div key={item.id} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #F5F5F5' }}>
                 {item.product?.imagens?.[0]?.url && (
-                  <img src={item.product.imagens[0].url} alt={item.product?.nome}
+                  <img src={item.product.imagens[0].url} alt="Produto"
                     style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 8, flexShrink: 0 }} />
                 )}
                 <div style={{ flex: 1 }}>
