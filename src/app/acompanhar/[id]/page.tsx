@@ -6,6 +6,14 @@ import { authOptions } from '@/lib/auth'
 
 export const revalidate = 30
 
+async function buscarRastreio(codigo: string) {
+  try {
+    const res = await fetch(`${process.env.NEXTAUTH_URL || 'https://www.thiagodesigncruz.com.br'}/api/rastreio?codigo=${codigo}`)
+    if (res.ok) return await res.json()
+  } catch {}
+  return null
+}
+
 const STATUS_CONFIG: Record<string, { label: string; icone: string; cor: string; corFundo: string }> = {
   aguardando_pagamento: { label: 'Aguardando Pagamento', icone: '🛒', cor: '#D97706', corFundo: '#FEF3C7' },
   pending:              { label: 'Aguardando Pagamento', icone: '🛒', cor: '#D97706', corFundo: '#FEF3C7' },
@@ -69,6 +77,11 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
   const statusAtual = STATUS_CONFIG[statusNormalizado] || STATUS_CONFIG['aguardando_pagamento']
   const isCancelado = statusNormalizado === 'cancelado'
   const indexAtual = TIMELINE.indexOf(statusNormalizado)
+
+  let rastreioData = null
+  if (pedido.trackingCode) {
+    rastreioData = await buscarRastreio(pedido.trackingCode)
+  }
 
   return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '48px 24px' }}>
@@ -137,6 +150,26 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
                       Rastreio: {pedido.trackingCode}
                     </div>
                   )}
+
+              {rastreioData?.eventos && rastreioData.eventos.length > 0 && (
+                <div style={{ marginTop: 16 }}>
+                  <h3 style={{ fontSize: 14, fontWeight: 700, color: '#292929', marginBottom: 12 }}>
+                    ð Histórico de Rastreio
+                  </h3>
+                  {rastreioData.eventos.map((evento: any, index: number) => (
+                    <div key={index} style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#DAA520', flexShrink: 0, marginTop: 6 }} />
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: '#292929' }}>{evento.descricao}</div>
+                        {evento.local && <div style={{ fontSize: 12, color: '#888' }}>{evento.local}</div>}
+                        <div style={{ fontSize: 12, color: '#888' }}>
+                          {evento.data ? new Date(evento.data).toLocaleString('pt-BR') : ''}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
                 </div>
               </div>
             )
