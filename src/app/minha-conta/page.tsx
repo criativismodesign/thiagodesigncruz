@@ -504,7 +504,12 @@ export default function MinhaContaPage() {
                             onClick={() => {
                               if (confirm('Tem certeza que deseja cancelar este pedido?')) {
                                 fetch(`/api/user/orders/${order.id}/cancel`, { method: 'PUT' })
-                                  .then(r => { if (r.ok) window.location.reload() })
+                                  .then(r => { 
+                                    if (r.ok) {
+                                      fetchOrders()
+                                      setActiveTab('orders')
+                                    }
+                                  })
                               }
                             }}
                             style={{
