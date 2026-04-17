@@ -32,7 +32,7 @@ export async function enviarEmailNovoPedido({
     }
     await resend.emails.send({
       from: 'UseKIN <noreply@usekin.com.br>',
-      to: 'usekin@gmail.com',
+      to: 'contatousekin@gmail.com',
       subject: `Novo Pedido #${pedidoId.slice(-8).toUpperCase()} - R$ ${total.toFixed(2).replace('.', ',')}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
