@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle, Clock, XCircle, ArrowRight } from "lucide-react";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 
 function OrderContent() {
   const searchParams = useSearchParams();
@@ -16,6 +16,38 @@ function OrderContent() {
   const isSuccess = !isPending && !isFailed;
 
   const orderIdCurto = orderId ? orderId.slice(-8).toUpperCase() : null
+  const [criandoConta, setCriandoConta] = useState(false)
+  const [senha, setSenha] = useState('')
+  const [contaCriada, setContaCriada] = useState(false)
+  const [erroConta, setErroConta] = useState('')
+  const [carregando, setCarregando] = useState(false)
+
+  const handleCriarConta = async () => {
+    if (!senha || senha.length < 6) {
+      setErroConta('Senha deve ter pelo menos 6 caracteres')
+      return
+    }
+    setCarregando(true)
+    setErroConta('')
+    try {
+      const res = await fetch('/api/auth/register-after-purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, password: senha })
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setContaCriada(true)
+        setCriandoConta(false)
+      } else {
+        setErroConta(data.error || 'Erro ao criar conta')
+      }
+    } catch {
+      setErroConta('Erro ao criar conta')
+    } finally {
+      setCarregando(false)
+    }
+  }
 
   return (
     <div style={{ maxWidth: 560, margin: '0 auto', padding: '64px 24px', textAlign: 'center' }}>
@@ -88,6 +120,64 @@ function OrderContent() {
           </>
         )}
       </div>
+
+      {isSuccess && !contaCriada && (
+        <div style={{ marginTop: 32, padding: 24, background: '#F9F9F9', borderRadius: 16, border: '1px solid #E5E5E5', textAlign: 'center' }}>
+          {!criandoConta ? (
+            <>
+              <p style={{ fontSize: 14, color: '#888', marginBottom: 16 }}>
+                Crie uma conta para acompanhar seus pedidos com facilidade
+              </p>
+              <button
+                onClick={() => setCriandoConta(true)}
+                style={{ padding: '10px 24px', borderRadius: 999, background: '#292929', color: '#DAA520', border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 700 }}
+              >
+                Criar conta grátis
+              </button>
+            </>
+          ) : (
+            <div style={{ maxWidth: 320, margin: '0 auto' }}>
+              <p style={{ fontSize: 15, fontWeight: 600, color: '#292929', marginBottom: 16 }}>
+                Crie sua senha para acessar sua conta
+              </p>
+              <input
+                type="password"
+                placeholder="Mínimo 6 caracteres"
+                value={senha}
+                onChange={e => setSenha(e.target.value)}
+                style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#292929', marginBottom: 12, boxSizing: 'border-box' as const }}
+              />
+              {erroConta && <p style={{ fontSize: 13, color: '#F0484A', marginBottom: 12 }}>{erroConta}</p>}
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  onClick={() => setCriandoConta(false)}
+                  style={{ flex: 1, padding: '10px', borderRadius: 999, border: '1px solid #E5E5E5', background: '#fff', color: '#888', cursor: 'pointer', fontSize: 13 }}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleCriarConta}
+                  disabled={carregando}
+                  style={{ flex: 1, padding: '10px', borderRadius: 999, background: '#DAA520', color: '#fff', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 700 }}
+                >
+                  {carregando ? 'Criando...' : 'Criar Conta'}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {contaCriada && (
+        <div style={{ marginTop: 32, padding: 24, background: '#DCFCE7', borderRadius: 16, textAlign: 'center' }}>
+          <div style={{ fontSize: 32, marginBottom: 8 }}>🎉</div>
+          <p style={{ fontSize: 15, fontWeight: 700, color: '#16A34A', marginBottom: 8 }}>Conta criada com sucesso!</p>
+          <p style={{ fontSize: 13, color: '#888', marginBottom: 16 }}>Faça login para acompanhar seus pedidos</p>
+          <a href="/login" style={{ padding: '10px 24px', borderRadius: 999, background: '#16A34A', color: '#fff', textDecoration: 'none', fontSize: 14, fontWeight: 700 }}>
+            Fazer Login
+          </a>
+        </div>
+      )}
     </div>
   );
 }
