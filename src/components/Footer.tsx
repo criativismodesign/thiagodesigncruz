@@ -82,15 +82,13 @@ export default function Footer() {
       <div style={{ marginTop: '100px' }}>
         <div 
           style={{ 
-            width: '80%', 
-            height: '238px', 
+            width: '90%', 
             backgroundColor: '#EFEFEF', 
             margin: '0 auto',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            padding: '0 40px'
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '24px',
+            padding: '32px 24px'
           }}
         >
           {benefits.map((benefit, index) => (
