@@ -5,17 +5,17 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
 const STATUS_CONFIG: Record<string, { label: string; icone: string; cor: string; corFundo: string }> = {
-  aguardando_pagamento: { label: 'Aguardando Pagamento', icone: ' ', cor: '#D97706', corFundo: '#FEF3C7' },
-  pending:              { label: 'Aguardando Pagamento', icone: ' ', cor: '#D97706', corFundo: '#FEF3C7' },
-  pago:                 { label: 'Pago', icone: ' ', cor: '#2563EB', corFundo: '#DBEAFE' },
-  paid:                 { label: 'Pago', icone: ' ', cor: '#2563EB', corFundo: '#DBEAFE' },
-  approved:             { label: 'Pago', icone: ' ', cor: '#2563EB', corFundo: '#DBEAFE' },
-  pagamento_confirmado: { label: 'Pagamento Confirmado', icone: ' ', cor: '#7C3AED', corFundo: '#EDE9FE' },
-  em_producao:          { label: 'Em Produção', icone: ' ', cor: '#DB2777', corFundo: '#FCE7F3' },
-  em_logistica:         { label: 'Em Logística', icone: ' ', cor: '#0891B2', corFundo: '#CFFAFE' },
-  enviado:              { label: 'Enviado', icone: ' ', cor: '#CA8A04', corFundo: '#FEF9C3' },
-  entregue:             { label: 'Entregue', icone: ' ', cor: '#16A34A', corFundo: '#DCFCE7' },
-  cancelado:            { label: 'Cancelado', icone: ' ', cor: '#DC2626', corFundo: '#FEE2E2' },
+  aguardando_pagamento: { label: 'Aguardando Pagamento', icone: '🛒', cor: '#D97706', corFundo: '#FEF3C7' },
+  pending:              { label: 'Aguardando Pagamento', icone: '🛒', cor: '#D97706', corFundo: '#FEF3C7' },
+  pago:                 { label: 'Pago', icone: '💳', cor: '#2563EB', corFundo: '#DBEAFE' },
+  paid:                 { label: 'Pago', icone: '💳', cor: '#2563EB', corFundo: '#DBEAFE' },
+  approved:             { label: 'Pago', icone: '💳', cor: '#2563EB', corFundo: '#DBEAFE' },
+  pagamento_confirmado: { label: 'Pagamento Confirmado', icone: '🤚', cor: '#7C3AED', corFundo: '#EDE9FE' },
+  em_producao:          { label: 'Em Produção', icone: '🔨', cor: '#DB2777', corFundo: '#FCE7F3' },
+  em_logistica:         { label: 'Em Logística', icone: '📦', cor: '#0891B2', corFundo: '#CFFAFE' },
+  enviado:              { label: 'Enviado', icone: '🚚', cor: '#CA8A04', corFundo: '#FEF9C3' },
+  entregue:             { label: 'Entregue', icone: '🥳', cor: '#16A34A', corFundo: '#DCFCE7' },
+  cancelado:            { label: 'Cancelado', icone: '❌', cor: '#DC2626', corFundo: '#FEE2E2' },
 }
 
 const TIMELINE = [
@@ -31,7 +31,7 @@ const TIMELINE = [
 function formatarEndereco(json: string) {
   try {
     const e = JSON.parse(json)
-    return `${e.street}, ${e.number}${e.complement ? `, ${e.complement}` : ''} - ${e.neighborhood}, ${e.city}/${e.state} - CEP ${e.zipCode}` 
+    return `${e.street}, ${e.number}${e.complement ? `, ${e.complement}` : ''} — ${e.neighborhood}, ${e.city}/${e.state} — CEP ${e.zipCode}`
   } catch { return json }
 }
 
@@ -140,7 +140,7 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
       {/* Cancelado */}
       {isCancelado && (
         <div style={{ background: '#FEE2E2', borderRadius: 16, padding: 24, marginBottom: 24, textAlign: 'center' }}>
-          <div style={{ fontSize: 40, marginBottom: 8 }}></div>
+          <div style={{ fontSize: 40, marginBottom: 8 }}>❌</div>
           <div style={{ fontSize: 16, fontWeight: 700, color: '#DC2626' }}>Pedido Cancelado</div>
           <div style={{ fontSize: 14, color: '#888', marginTop: 8 }}>
             Dúvidas? Entre em contato: usekin@gmail.com
@@ -164,9 +164,9 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
                   <div style={{ fontSize: 14, fontWeight: 600, color: '#292929' }}>{item.product?.nome || 'Produto'}</div>
                   <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>
                     {item.size && `Tam: ${item.size}`}
-                    {item.color && `  Cor: ${item.color}`}
-                    {`  Qtd: ${item.quantity}`}
-                    {item.product?.sku && `  SKU: ${item.product.sku}`}
+                    {item.color && ` • Cor: ${item.color}`}
+                    {` • Qtd: ${item.quantity}`}
+                    {item.product?.sku && ` • SKU: ${item.product.sku}`}
                   </div>
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 600, color: '#292929' }}>
@@ -198,7 +198,7 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
       ) : (
         /* Bloco de login para ver detalhes */
         <div style={{ background: '#fff', borderRadius: 16, border: '2px dashed #E5E5E5', padding: 32, marginBottom: 24, textAlign: 'center' }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}></div>
+          <div style={{ fontSize: 40, marginBottom: 12 }}>🔒</div>
           <h2 style={{ fontSize: 18, fontWeight: 700, color: '#292929', marginBottom: 8 }}>
             Faça login para ver os detalhes
           </h2>
