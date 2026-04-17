@@ -24,6 +24,7 @@ interface Produto {
   informacoes: string | null
   status: string
   ordemSecao: number
+  sku: string | null
   imagens: { id: string; url: string; ordem: number; isPrincipal: boolean }[]
   estoque: { id: string; tamanho: string | null; cor: string | null; quantidade: number; minimo: number }[]
 }
@@ -160,6 +161,32 @@ export default function EditarProdutoClient({ produto, colecoes }: Props) {
                   style={{ width: '100%', padding: '8px 12px', border: '1px solid #E5E5E5', borderRadius: 6, fontSize: 14, color: '#292929' }}
                 />
               </div>
+
+              {produto.sku && (
+                <div>
+                  <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 6 }}>
+                    SKU do Produto
+                  </label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{
+                      fontSize: 16,
+                      fontFamily: 'monospace',
+                      fontWeight: 700,
+                      background: '#F5F5F5',
+                      border: '1px solid #E5E5E5',
+                      padding: '10px 16px',
+                      borderRadius: 8,
+                      color: '#292929',
+                      letterSpacing: 2
+                    }}>
+                      {produto.sku}
+                    </span>
+                    <span style={{ fontSize: 12, color: '#888' }}>
+                      Código único do produto (gerado automaticamente)
+                    </span>
+                  </div>
+                </div>
+              )}
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
