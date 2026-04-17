@@ -329,7 +329,7 @@ export default function MinhaContaPage() {
     .toUpperCase()
     .slice(0, 2);
 
-  const recentOrders = orders.slice(0, 3);
+  const recentOrders = orders.filter(o => o.status !== 'cancelado' && o.status !== 'cancelled').slice(0, 3);
 
   return (
     <div className="min-h-screen bg-white">
@@ -453,7 +453,7 @@ export default function MinhaContaPage() {
               <h2 className="text-xl font-bold text-[#292929] mb-6">Histórico de Pedidos</h2>
               {orders.length > 0 ? (
                 <div className="space-y-4">
-                  {orders.map((order) => (
+                  {orders.filter(o => o.status !== 'cancelado' && o.status !== 'cancelled').map((order) => (
                     <div key={order.id} style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 20, marginBottom: 12 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
                         <div>
