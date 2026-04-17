@@ -5,6 +5,12 @@ import { gerarSlug } from '@/lib/slug'
 
 const prisma = new PrismaClient()
 
+function gerarSku(tipo: string): string {
+  const prefixo = tipo === 'mousepad' ? 'MSP' : 'CAM'
+  const digitos = Math.floor(100000 + Math.random() * 900000).toString()
+  return `${prefixo}-${digitos}` 
+}
+
 async function verificarAdmin() {
   const cookieStore = await cookies()
   const session = cookieStore.get('admin-session')?.value
@@ -31,11 +37,14 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
     
+    const skuGerado = gerarSku(body.tipo || 'camiseta')
+    
     const produto = await prisma.produto.create({
       data: {
         nome: body.nome,
         slug: gerarSlug(body.nome),
         tipo: body.tipo || 'camiseta',
+        sku: skuGerado,
         categoria: body.categoria || 'avulso',
         precoAtual: parseFloat(body.precoAtual) || 0,
         precoDe: body.precoDe ? parseFloat(body.precoDe) : null,
