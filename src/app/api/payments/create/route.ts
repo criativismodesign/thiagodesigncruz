@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       total,
       subtotal,
       shipping: shippingCost,
-      discount: discount || 0,
+      discount: (discount || 0) + (cupomDesconto || 0),
       cupomId: cupomId || null,
       paymentMethod: paymentMethod || "mercadopago",
       shippingAddress: JSON.stringify(shippingAddress),
