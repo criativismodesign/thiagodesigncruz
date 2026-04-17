@@ -63,6 +63,8 @@ export async function POST(request: NextRequest) {
       });
 
       if (orderStatus === "paid") {
+        console.log('=== WEBHOOK PAID - INICIANDO ENVIO DE EMAIL ===')
+        console.log('Order ID:', orderId)
         const orderItems = await prisma.orderItem.findMany({
           where: { orderId },
           include: {
@@ -76,6 +78,10 @@ export async function POST(request: NextRequest) {
             user: { select: { name: true, email: true, phone: true, cpf: true } }
           }
         });
+
+        console.log('Order found:', order ? 'yes' : 'no')
+        console.log('payerEmail:', order?.payerEmail)
+        console.log('user email:', order?.user?.email)
 
         for (const item of orderItems) {
           await prisma.productAnalytics.create({
