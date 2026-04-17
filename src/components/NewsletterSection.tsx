@@ -81,13 +81,14 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
         position: 'relative',
         zIndex: 1,
         height: "100%",
-        paddingTop: "79.5px",
-        paddingBottom: "79.5px",
-        paddingLeft: "120px",
-        paddingRight: "120px",
+        paddingTop: "40px",
+        paddingBottom: "40px",
+        paddingLeft: "24px",
+        paddingRight: "24px",
         display: "flex",
         alignItems: "center"
-      }}>
+      }}
+      className="lg:!px-[120px] lg:!py-[79.5px]">
         <div className="max-w-[40%]">
           {/* Tag LISTA VIP */}
           <div 
@@ -105,15 +106,8 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
 
           {/* Título */}
           <h2 
-            className="font-semibold uppercase"
-            style={{ 
-              fontSize: "40px",
-              color: "#292929",
-              fontFamily: "Inter, sans-serif",
-              fontWeight: 600,
-              lineHeight: "1.1",
-              marginBottom: "20px"
-            }}
+            className="font-semibold uppercase lg:!text-[40px]"
+            style={{ fontSize: "24px", color: "#292929", fontFamily: "Inter, sans-serif", fontWeight: 600, lineHeight: "1.2", marginBottom: "20px" }}
           >
             SEJA O PRIMEIRO A SABER DOS NOVOS LANÇAMENTOS
           </h2>

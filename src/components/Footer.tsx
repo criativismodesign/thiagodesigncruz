@@ -128,15 +128,10 @@ export default function Footer() {
       </div>
 
       {/* PARTE 2 - ÁREA PRINCIPAL DO FOOTER */}
-      <div style={{ paddingTop: '210px', padding: '210px 40px 50px 40px' }}>
+      <div style={{ padding: '60px 20px 50px 20px' }} className="lg:!p-[210px_40px_50px_40px]">
         <div 
-          style={{ 
-            display: 'flex', 
-            flexDirection: 'row', 
-            justifyContent: 'space-between',
-            maxWidth: '1843px',
-            margin: '0 auto'
-          }}
+          className="grid grid-cols-1 gap-10 lg:grid-cols-4"
+          style={{ maxWidth: '1843px', margin: '0 auto' }}
         >
           
           {/* COLUNA 1 - LOGO + DESCRIÇÃO + REDES SOCIAIS */}

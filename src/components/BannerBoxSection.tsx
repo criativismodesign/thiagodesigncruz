@@ -25,16 +25,17 @@ const banners = [
 
 export default function BannerBoxSection() {
   return (
-    <section className="w-full flex flex-row">
+    <section className="w-full flex flex-col lg:flex-row">
       {banners.map((banner) => (
         <div
           key={banner.id}
           style={{
             position: 'relative',
-            width: '50%',
+            width: '100%',
             aspectRatio: '960/750',
             overflow: 'hidden',
           }}
+          className="lg:w-1/2"
         >
           {/* Imagem de fundo */}
           <Image
