@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       services: '1,2,3,4,17,18', // Correios PAC, SEDEX e outros
     }
 
-    const response = await fetch('https://sandbox.melhorenvio.com.br/api/v2/me/shipment/calculate', {
+    const response = await fetch('https://melhorenvio.com.br/api/v2/me/shipment/calculate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
