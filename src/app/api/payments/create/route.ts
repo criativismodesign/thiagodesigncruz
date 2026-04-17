@@ -71,6 +71,7 @@ export async function POST(request: NextRequest) {
       subtotal,
       shipping: shippingCost,
       discount: discount || 0,
+      cupomId: cupomId || null,
       paymentMethod: paymentMethod || "mercadopago",
       shippingAddress: JSON.stringify(shippingAddress),
       payerName: payer?.name || null,
@@ -121,14 +122,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Incrementar uso do cupom se aplicado
-    if (cupomId) {
-      await (prisma as any).cupom.update({
-        where: { id: cupomId },
-        data: { totalusado: { increment: 1 } }
-      })
-    }
-
+    
     const siteUrl = process.env.NEXTAUTH_URL || "https://thiagodesigncruz.com.br";
 
     // Create MercadoPago preference

@@ -146,6 +146,14 @@ export async function POST(request: NextRequest) {
                 frete: order.shipping,
               })
             ])
+
+          // Incrementar uso do cupom se aplicado
+          if (order.cupomId) {
+            await (prisma as any).cupom.update({
+              where: { id: order.cupomId },
+              data: { totalusado: { increment: 1 } }
+            })
+          }
           }
         }
       }

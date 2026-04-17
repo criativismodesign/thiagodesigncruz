@@ -272,7 +272,7 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
                     {cupom.validade ? new Date(cupom.validade).toLocaleDateString('pt-BR') : 'Sem validade'}
                   </td>
                   <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>
-                    {cupom.usos || 0} / {cupom.limiteusos || 'Ilimitado'}
+                    {cupom.totalusado || 0} / {cupom.limiteusos || 'Ilimitado'}
                   </td>
                   <td style={{ padding: '12px', fontSize: 14, color: '#292929' }}>
                     <span style={{ 
