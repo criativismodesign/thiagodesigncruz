@@ -105,7 +105,7 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
                       boxShadow: atual ? `0 0 0 4px ${cfg.corFundo}` : 'none',
                       transition: 'all 0.3s'
                     }}>
-                      {concluido ? cfg.icone : ''}
+                      {cfg.icone}
                     </div>
                     {index < TIMELINE.length - 1 && (
                       <div style={{
