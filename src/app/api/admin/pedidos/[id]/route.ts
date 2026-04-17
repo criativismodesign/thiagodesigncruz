@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { prisma } from '@/lib/db'
+import { enviarEmailStatusAtualizado } from '@/lib/email'
 
 async function verificarAdmin() {
   const cookieStore = await cookies()
@@ -18,6 +19,27 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   if (body.status) data.status = body.status
   if (body.trackingCode !== undefined) data.trackingCode = body.trackingCode
 
-  const pedido = await prisma.order.update({ where: { id }, data })
+  const pedido = await prisma.order.update({
+    where: { id },
+    data,
+    include: {
+      user: { select: { name: true, email: true } }
+    }
+  })
+
+  if (body.status) {
+    const clienteNome = pedido.payerName || pedido.user?.name || 'Cliente'
+    const clienteEmail = pedido.payerEmail || pedido.user?.email || ''
+    if (clienteEmail) {
+      await enviarEmailStatusAtualizado({
+        pedidoId: pedido.id,
+        clienteNome,
+        clienteEmail,
+        status: body.status,
+        trackingCode: pedido.trackingCode || undefined,
+      })
+    }
+  }
+
   return NextResponse.json({ success: true, pedido })
 }
