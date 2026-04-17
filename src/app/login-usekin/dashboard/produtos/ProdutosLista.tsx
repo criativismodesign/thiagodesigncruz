@@ -61,7 +61,19 @@ export default function ProdutosLista({ produtos }: Props) {
                 produtos.map(produto => (
                   <tr key={produto.id} style={{ borderBottom: '1px solid #F5F5F5' }}>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.nome}</td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.tipo}</td>
+                    <td style={{ padding: '12px 16px' }}>
+  <span style={{
+    display: 'inline-block',
+    padding: '3px 10px',
+    borderRadius: 999,
+    fontSize: 12,
+    fontWeight: 600,
+    background: produto.tipo === 'mousepad' ? '#FFF3E0' : '#F3E8FF',
+    color: produto.tipo === 'mousepad' ? '#E65100' : '#6B21A8',
+  }}>
+    {produto.tipo === 'mousepad' ? 'MousePad' : 'Camiseta'}
+  </span>
+</td>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.categoria}</td>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>R$ {produto.precoAtual ? Number(produto.precoAtual).toFixed(2) : '0.00'}</td>
                     <td style={{ padding: '12px 16px', fontSize: 14, color: '#292929' }}>{produto.status}</td>
