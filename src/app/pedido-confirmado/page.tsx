@@ -13,63 +13,80 @@ function OrderContent() {
 
   const isPending = paymentStatus === "pending";
   const isFailed = paymentStatus === "rejected" || paymentStatus === "failure";
+  const isSuccess = !isPending && !isFailed;
+
+  const orderIdCurto = orderId ? orderId.slice(-8).toUpperCase() : null
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-20 text-center">
-      {isFailed ? (
-        <XCircle className="mx-auto h-20 w-20 text-red-500 mb-6" />
-      ) : isPending ? (
-        <Clock className="mx-auto h-20 w-20 text-yellow-500 mb-6" />
-      ) : (
-        <CheckCircle className="mx-auto h-20 w-20 text-[var(--success)] mb-6" />
-      )}
+    <div style={{ maxWidth: 560, margin: '0 auto', padding: '64px 24px', textAlign: 'center' }}>
+      
+      {/* Ícone */}
+      <div style={{ fontSize: 72, marginBottom: 24, lineHeight: 1 }}>
+        {isFailed ? 'â' : isPending ? 'â³' : 'ð'}
+      </div>
 
-      <h1 className="text-3xl font-bold text-white mb-3">
-        {isFailed
-          ? "Pagamento não aprovado"
-          : isPending
-            ? "Pagamento Pendente"
-            : "Pedido Confirmado!"}
+      {/* Título */}
+      <h1 style={{ fontSize: 28, fontWeight: 700, color: '#292929', marginBottom: 12 }}>
+        {isFailed ? 'Pagamento não aprovado' : isPending ? 'Pagamento Pendente' : 'Pedido Confirmado!'}
       </h1>
 
-      <p className="text-[var(--muted-foreground)] mb-4 leading-relaxed">
+      {/* Descrição */}
+      <p style={{ fontSize: 15, color: '#888', lineHeight: 1.7, marginBottom: 24, maxWidth: 440, margin: '0 auto 24px' }}>
         {isFailed
-          ? "Houve um problema com o pagamento. Tente novamente ou escolha outro método."
+          ? 'Houve um problema com o pagamento. Tente novamente ou escolha outro método.'
           : isPending
-            ? "Seu pagamento está sendo processado. Você receberá uma confirmação em breve."
-            : "Obrigado pela sua compra! Você receberá um email com os detalhes do pedido e informações de rastreamento em breve."}
+          ? 'Seu pagamento está sendo processado. Você receberá uma confirmação em breve.'
+          : 'Obrigado pela sua compra! Assim que confirmarmos o pagamento, seu pedido entrará em produção.'}
       </p>
 
-      {orderId && (
-        <p className="text-sm text-[var(--muted-foreground)] mb-8">
-          Nº do pedido: <span className="font-mono text-white">{orderId}</span>
-        </p>
+      {/* ID do pedido */}
+      {orderIdCurto && isSuccess && (
+        <div style={{ background: '#F9F9F9', border: '1px solid #E5E5E5', borderRadius: 12, padding: '16px 24px', marginBottom: 32, display: 'inline-block' }}>
+          <p style={{ fontSize: 13, color: '#888', marginBottom: 4 }}>Número do seu pedido</p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: '#292929', fontFamily: 'monospace', letterSpacing: 2 }}>
+            #{orderIdCurto}
+          </p>
+          <p style={{ fontSize: 12, color: '#AAA', marginTop: 4 }}>Guarde este número para acompanhar sua compra</p>
+        </div>
       )}
 
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+      {/* Botões */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', marginTop: 8 }}>
         {isFailed ? (
-          <Link
-            href="/checkout"
-            className="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white"
-          >
+          <a href="/checkout" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '14px 32px', borderRadius: 999, background: '#DAA520', color: '#fff',
+            textDecoration: 'none', fontSize: 15, fontWeight: 700
+          }}>
             Tentar Novamente
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+          </a>
         ) : (
-          <Link
-            href="/produtos"
-            className="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white"
-          >
-            Continuar Comprando
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+          <>
+            {orderIdCurto && (
+              <a href={`/acompanhar/${orderIdCurto.toLowerCase()}`} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '14px 32px', borderRadius: 999, background: '#DAA520', color: '#fff',
+                textDecoration: 'none', fontSize: 15, fontWeight: 700
+              }}>
+                ð Acompanhar Pedido
+              </a>
+            )}
+            <a href="/minha-conta" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '12px 28px', borderRadius: 999, border: '1px solid #E5E5E5', color: '#292929',
+              textDecoration: 'none', fontSize: 14, fontWeight: 500
+            }}>
+              Minha Conta
+            </a>
+            <a href="/categorias/todos-produtos" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '12px 28px', borderRadius: 999, border: '1px solid #E5E5E5', color: '#888',
+              textDecoration: 'none', fontSize: 14
+            }}>
+              Continuar Comprando
+            </a>
+          </>
         )}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] px-6 py-3 text-sm font-medium text-[var(--muted-foreground)] hover:text-white transition-colors"
-        >
-          Voltar ao Início
-        </Link>
       </div>
     </div>
   );
