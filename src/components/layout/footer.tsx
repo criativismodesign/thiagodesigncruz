@@ -13,7 +13,7 @@ export function Footer() {
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--card)]">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
@@ -21,12 +21,11 @@ export function Footer() {
                 <Palette className="h-6 w-6 text-white" />
               </div>
               <span className="text-lg font-bold gradient-text">
-                Thiago Design Cruz
+                UseKIN
               </span>
             </Link>
             <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
-              Camisetas e mouse pads com designs exclusivos. Crie sua própria
-              arte ou escolha entre nossos designs únicos.
+              Camisetas e mouse pads com designs exclusivos. Escolha entre nossos designs únicos ou personalize do seu jeito.
             </p>
             <div className="mt-4 flex gap-3">
               <a
@@ -148,11 +147,11 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
                 <Mail className="h-4 w-4 shrink-0" />
-                contato@thiagodesigncruz.com.br
+                contato@usekin.com.br
               </li>
               <li className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
                 <Phone className="h-4 w-4 shrink-0" />
-                (XX) XXXXX-XXXX
+                (62) 9 8131-6462
               </li>
               <li className="flex items-start gap-2 text-sm text-[var(--muted-foreground)]">
                 <MapPin className="h-4 w-4 shrink-0 mt-0.5" />
@@ -186,8 +185,7 @@ export function Footer() {
         <div className="mt-12 border-t border-[var(--border)] pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-xs text-[var(--muted-foreground)]">
-              © {new Date().getFullYear()} Thiago Design Cruz. Todos os direitos
-              reservados.
+              © {new Date().getFullYear()} UseKIN. Todos os direitos reservados.
             </p>
             <div className="flex items-center gap-4 text-xs text-[var(--muted-foreground)]">
               <span>Frete Grátis acima de R$250</span>
