@@ -23,7 +23,6 @@ const STATUS_CONFIG: Record<string, { label: string; icone: string; cor: string;
 const TIMELINE = [
   'aguardando_pagamento',
   'pago',
-  'paid',
   'pagamento_confirmado',
   'em_producao',
   'em_logistica',
@@ -62,9 +61,14 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
 
   if (!pedido) notFound()
 
-  const statusAtual = STATUS_CONFIG[pedido.status] || STATUS_CONFIG['aguardando_pagamento']
-  const isCancelado = pedido.status === 'cancelado'
-  const indexAtual = TIMELINE.indexOf(pedido.status)
+  // Normalizar status
+  const statusNormalizado = pedido.status === 'paid' || pedido.status === 'approved' ? 'pago' : 
+    pedido.status === 'pending' ? 'aguardando_pagamento' :
+    pedido.status === 'cancelled' ? 'cancelado' : pedido.status
+
+  const statusAtual = STATUS_CONFIG[statusNormalizado] || STATUS_CONFIG['aguardando_pagamento']
+  const isCancelado = statusNormalizado === 'cancelado'
+  const indexAtual = TIMELINE.indexOf(statusNormalizado)
 
   return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '48px 24px' }}>

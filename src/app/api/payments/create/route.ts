@@ -196,9 +196,9 @@ export async function POST(request: NextRequest) {
           },
         },
         back_urls: {
-          success: `${siteUrl}/pedido-confirmado?order=${order.id}`,
+          success: `${siteUrl}/acompanhar/${order.id.slice(-8).toLowerCase()}`,
           failure: `${siteUrl}/checkout?error=payment_failed&order=${order.id}`,
-          pending: `${siteUrl}/pedido-confirmado?order=${order.id}&status=pending`,
+          pending: `${siteUrl}/acompanhar/${order.id.slice(-8).toLowerCase()}`,
         },
         auto_return: "approved",
         external_reference: order.id,
