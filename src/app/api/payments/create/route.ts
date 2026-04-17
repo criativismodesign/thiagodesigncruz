@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
     }
 
     
-    const siteUrl = process.env.NEXTAUTH_URL || "https://thiagodesigncruz.com.br";
+    const siteUrl = process.env.NEXTAUTH_URL || "https://www.usekin.com.br";
 
     // Create MercadoPago preference
     const mpItems = items.map(
