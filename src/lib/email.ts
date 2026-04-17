@@ -173,7 +173,7 @@ export async function enviarEmailConfirmacaoCliente({
             </div>
 
             <p style="color: #888; font-size: 13px; text-align: center; margin-top: 24px; line-height: 1.6;">
-              Dúvidas? Entre em contato: usekin@gmail.com<br>
+              Dúvidas? Entre em contato: contato@usekin.com.br<br>
               ou WhatsApp: (62) 9 8131-6462
             </p>
           </div>
@@ -220,7 +220,7 @@ export async function enviarEmailStatusAtualizado({
     },
     pagamento_confirmado: {
       assunto: `Pagamento confirmado! Pedido #${pedidoId.slice(-8).toUpperCase()}`,
-      icone: '??',
+      icone: '✅',
       titulo: 'Pagamento confirmado!',
       mensagem: 'Confirmamos seu pagamento! Seu pedido já está na fila de produção.',
       cor: '#7C3AED'
@@ -293,7 +293,7 @@ export async function enviarEmailStatusAtualizado({
             </a>
 
             <p style="color: #888; font-size: 13px; margin-top: 24px; line-height: 1.6;">
-              Dúvidas? Entre em contato: contatousekin@gmail.com
+              Dúvidas? Entre em contato: contato@usekin.com.br
             </p>
           </div>
 
