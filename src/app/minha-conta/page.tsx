@@ -38,6 +38,7 @@ interface UserData {
   name: string;
   email: string;
   phone: string;
+  cpf: string;
   addresses: Array<{
     id: string;
     label: string;
@@ -208,6 +209,7 @@ export default function MinhaContaPage() {
         body: JSON.stringify({
           name: userData.name,
           phone: userData.phone,
+          cpf: userData.cpf,
         }),
       });
 
@@ -501,6 +503,17 @@ export default function MinhaContaPage() {
                       className="w-full bg-white border border-[#E5E5E5] rounded-lg px-4 py-3 text-[#292929]"
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-[#292929] mb-2">CPF</label>
+                    <input
+                      type="text"
+                      value={userData.cpf}
+                      onChange={(e) => setUserData({ ...userData, cpf: e.target.value })}
+                      className="w-full bg-white border border-[#E5E5E5] rounded-lg px-4 py-3 text-[#292929]"
+                      placeholder="000.000.000-00"
+                      maxLength={14}
+                    />
+                  </div>
                   <button
                     type="submit"
                     className="w-full bg-[#DAA520] text-white py-3 rounded-lg font-semibold hover:bg-[#46A520] transition-colors"
@@ -529,6 +542,13 @@ export default function MinhaContaPage() {
                     <div>
                       <p className="text-sm text-[#AAAAAA]">Telefone</p>
                       <p className="text-[#292929]">{userData.phone || "Não informado"}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <User className="h-5 w-5 text-[#AAAAAA]" />
+                    <div>
+                      <p className="text-sm text-[#AAAAAA]">CPF</p>
+                      <p className="text-[#292929]">{userData.cpf || "Não informado"}</p>
                     </div>
                   </div>
                 </div>
