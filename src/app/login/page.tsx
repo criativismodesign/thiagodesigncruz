@@ -152,10 +152,11 @@ export default function LoginPage() {
           {!isLogin && (
             <div>
               <label className="block text-sm font-medium text-[#292929] mb-1.5">
-                Telefone (opcional)
+                Telefone (WhatsApp com DDD) *
               </label>
               <input
                 type="tel"
+                required
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="w-full rounded-lg border border-[#E5E5E5] bg-white px-4 py-2.5 text-sm text-[#292929] placeholder:text-[#AAAAAA] focus:border-[#DAA520] focus:outline-none focus:ring-1 focus:ring-[#DAA520]"
