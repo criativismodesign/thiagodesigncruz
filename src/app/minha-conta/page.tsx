@@ -47,7 +47,7 @@ function validarCPF(cpf: string): boolean {
 
 interface Order {
   id: string;
-  status: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
+  status: string;
   total: number;
   createdAt: string;
   items: Array<{
@@ -499,7 +499,7 @@ export default function MinhaContaPage() {
                         >
                           Acompanhar Pedido
                         </a>
-                        {(order.status === 'pending') && (
+                        {(order.status === 'pending' || order.status === 'aguardando_pagamento') && (
                           <button
                             onClick={() => {
                               if (confirm('Tem certeza que deseja cancelar este pedido?')) {
