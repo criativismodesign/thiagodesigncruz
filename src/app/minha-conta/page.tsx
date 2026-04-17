@@ -493,11 +493,13 @@ export default function MinhaContaPage() {
                         <a
                           href={`/acompanhar/${order.id.slice(-8).toLowerCase()}`}
                           style={{
-                            padding: '8px 18px', borderRadius: 999, background: '#DAA520', color: '#fff',
+                            padding: '8px 18px', borderRadius: 999, 
+                            background: (order.status === 'entregue' || order.status === 'delivered') ? '#16A34A' : '#DAA520', 
+                            color: '#fff',
                             textDecoration: 'none', fontSize: 13, fontWeight: 700
                           }}
                         >
-                          Acompanhar Pedido
+                          {(order.status === 'entregue' || order.status === 'delivered') ? 'Ver Pedido' : 'Acompanhar Pedido'}
                         </a>
                         {(order.status === 'pending' || order.status === 'aguardando_pagamento') && (
                           <button
