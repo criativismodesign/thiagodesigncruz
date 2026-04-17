@@ -21,6 +21,30 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+function formatarCPF(valor: string): string {
+  const nums = valor.replace(/\D/g, '').slice(0, 11)
+  if (nums.length <= 3) return nums
+  if (nums.length <= 6) return `${nums.slice(0,3)}.${nums.slice(3)}` 
+  if (nums.length <= 9) return `${nums.slice(0,3)}.${nums.slice(3,6)}.${nums.slice(6)}` 
+  return `${nums.slice(0,3)}.${nums.slice(3,6)}.${nums.slice(6,9)}-${nums.slice(9)}` 
+}
+
+function validarCPF(cpf: string): boolean {
+  const nums = cpf.replace(/\D/g, '')
+  if (nums.length !== 11) return false
+  if (/^(\d)\1+$/.test(nums)) return false
+  let soma = 0
+  for (let i = 0; i < 9; i++) soma += parseInt(nums[i]) * (10 - i)
+  let resto = (soma * 10) % 11
+  if (resto === 10 || resto === 11) resto = 0
+  if (resto !== parseInt(nums[9])) return false
+  soma = 0
+  for (let i = 0; i < 10; i++) soma += parseInt(nums[i]) * (11 - i)
+  resto = (soma * 10) % 11
+  if (resto === 10 || resto === 11) resto = 0
+  return resto === parseInt(nums[10])
+}
+
 interface Order {
   id: string;
   status: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
@@ -201,6 +225,11 @@ export default function MinhaContaPage() {
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userData) return;
+
+    if (userData.cpf && !validarCPF(userData.cpf)) {
+      toast.error('CPF inválido. Verifique o número digitado.')
+      return
+    }
 
     try {
       const res = await fetch("/api/user/profile", {
@@ -508,7 +537,7 @@ export default function MinhaContaPage() {
                     <input
                       type="text"
                       value={userData.cpf}
-                      onChange={(e) => setUserData({ ...userData, cpf: e.target.value })}
+                      onChange={(e) => setUserData({ ...userData, cpf: formatarCPF(e.target.value) })}
                       className="w-full bg-white border border-[#E5E5E5] rounded-lg px-4 py-3 text-[#292929]"
                       placeholder="000.000.000-00"
                       maxLength={14}
