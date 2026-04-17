@@ -69,7 +69,7 @@ export async function PUT(request: NextRequest) {
 
     const userId = (session.user as any).id;
     const body = await request.json();
-    const { name, phone } = body;
+    const { name, phone, cpf } = body;
 
     if (!name) {
       return NextResponse.json({ error: "Nome é obrigatório" }, { status: 400 });
@@ -80,12 +80,14 @@ export async function PUT(request: NextRequest) {
       data: {
         name,
         phone: phone || null,
+        cpf: cpf || null,
       },
       select: {
         id: true,
         name: true,
         email: true,
         phone: true,
+        cpf: true,
       },
     });
 
