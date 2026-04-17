@@ -39,8 +39,9 @@ export default function CuponsClient({ cupons }: { cupons: any[] }) {
   }
 
   try {
-    const url = editando ? `/api/admin/cupons/${editando}` : '/api/admin/cupons'
-    const method = editando ? 'PUT' : 'POST'
+    const isNovo = editando === 'novo'
+    const url = (!editando || isNovo) ? '/api/admin/cupons' : `/api/admin/cupons/${editando}` 
+    const method = (!editando || isNovo) ? 'POST' : 'PUT'
 
     const payload = {
       codigo: formulario.codigo.toUpperCase().replace(/[^A-Z0-9]/g, ''),
