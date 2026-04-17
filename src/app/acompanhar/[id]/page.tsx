@@ -23,6 +23,7 @@ const STATUS_CONFIG: Record<string, { label: string; icone: string; cor: string;
 const TIMELINE = [
   'aguardando_pagamento',
   'pago',
+  'paid',
   'pagamento_confirmado',
   'em_producao',
   'em_logistica',
