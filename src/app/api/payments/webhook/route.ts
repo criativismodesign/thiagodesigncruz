@@ -3,6 +3,10 @@ import { payment } from "@/lib/mercadopago";
 import { prisma } from "@/lib/db";
 import { enviarEmailNovoPedido, enviarEmailConfirmacaoCliente } from '@/lib/email'
 
+export async function GET() {
+  return new Response('OK', { status: 200 })
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Return early if database is disabled
