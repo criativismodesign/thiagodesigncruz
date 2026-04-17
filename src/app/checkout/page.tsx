@@ -214,9 +214,12 @@ export default function CheckoutPage() {
       
       if (typeof window !== 'undefined') {
         if (data.initPoint) {
-          // Clear cart only after successful redirect
           clearCart();
-          window.location.href = data.initPoint;
+          if (paymentMethod === 'pix') {
+            window.location.href = `/pagamento-pix?order=${data.orderId}&initPoint=${encodeURIComponent(data.initPoint)}` 
+          } else {
+            window.location.href = data.initPoint;
+          }
         } else if (data.sandboxInitPoint) {
           // Clear cart only after successful redirect
           clearCart();
