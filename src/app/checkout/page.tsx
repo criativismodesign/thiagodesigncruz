@@ -58,7 +58,7 @@ export default function CheckoutPage() {
   );
   
   let shipping = isTestProductOnly ? 0 : subtotal >= 250 ? 0 : (freteInfo?.preco || 19.9);
-  let discount = paymentMethod === "pix" ? subtotal * 0.1 : 0;
+  let discount = 0;
   
   // Special pricing for test product only
   if (isTestProductOnly && items.length > 0) {
@@ -502,7 +502,6 @@ export default function CheckoutPage() {
                 <QrCode className="h-5 w-5 text-[#DAA520]" />
                 <div className="text-left">
                   <p className="text-sm font-medium text-[#292929]">Pix</p>
-                  <p className="text-xs text-[#46A520]">10% off</p>
                 </div>
               </button>
               <button
@@ -579,13 +578,7 @@ export default function CheckoutPage() {
                   )}
                 </span>
               </div>
-              {discount > 0 && (
-                <div className="flex justify-between text-[#46A520]">
-                  <span>Desconto Pix</span>
-                  <span>-{formatCurrency(discount)}</span>
-                </div>
-              )}
-              {cupomAplicado && (
+                            {cupomAplicado && (
                 <div className="flex justify-between text-[#46A520]">
                   <span>Cupom ({cupomAplicado.codigo})</span>
                   <span>-{formatCurrency(cupomAplicado.desconto)}</span>

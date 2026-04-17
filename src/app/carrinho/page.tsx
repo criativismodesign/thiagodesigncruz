@@ -107,12 +107,6 @@ export default function CartPage() {
     : freteSelecionado 
       ? freteSelecionado.preco 
       : 0 // não soma frete até o cliente escolher
-  let pixDiscount = subtotal * 0.1;
-  
-  // Special pricing for test product only
-  if (isTestProductOnly && items.length > 0) {
-    pixDiscount = subtotal + 19.90 - 1.00; // Discount to make total exactly R$1.00
-  }
   
   const total = subtotal + shipping;
   const podeFinalizarCompra = isTestProductOnly || subtotal >= 250 || freteSelecionado !== null
@@ -281,10 +275,6 @@ export default function CartPage() {
               <div className="border-t border-[#E5E5E5] pt-3 flex justify-between font-bold text-white text-base">
                 <span>Total</span>
                 <span>{formatCurrency(total)}</span>
-              </div>
-              <div className="flex justify-between text-[#46A520] text-xs">
-                <span>No Pix (10% off)</span>
-                <span>{formatCurrency(total - pixDiscount)}</span>
               </div>
             </div>
 
