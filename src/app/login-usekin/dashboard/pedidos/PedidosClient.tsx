@@ -36,6 +36,9 @@ interface Pedido {
 const STATUS_CONFIG: Record<string, { label: string; cor: string; corTexto: string }> = {
   aguardando_pagamento: { label: 'Aguardando Pagamento', cor: '#FEF3C7', corTexto: '#D97706' },
   pago:                 { label: 'Pago', cor: '#DBEAFE', corTexto: '#2563EB' },
+  paid:                 { label: 'Pago', cor: '#DBEAFE', corTexto: '#2563EB' },
+  approved:             { label: 'Pago', cor: '#DBEAFE', corTexto: '#2563EB' },
+  pending:              { label: 'Aguardando Pagamento', cor: '#FEF3C7', corTexto: '#D97706' },
   pagamento_confirmado: { label: 'Pagamento Confirmado', cor: '#EDE9FE', corTexto: '#7C3AED' },
   em_producao:          { label: 'Em Produção', cor: '#FCE7F3', corTexto: '#DB2777' },
   em_logistica:         { label: 'Em Logística', cor: '#CFFAFE', corTexto: '#0891B2' },
