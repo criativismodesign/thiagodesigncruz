@@ -14,7 +14,6 @@ function PagamentoPixContent() {
   const orderId = searchParams.get("order");
   const qrCode = searchParams.get("qr");
   const qrCodeBase64 = searchParams.get("qrBase64");
-  const initPoint = searchParams.get("initPoint");
 
   useEffect(() => {
     if (!orderId || !qrCode) {
@@ -166,18 +165,10 @@ function PagamentoPixContent() {
         {/* Cancel Button */}
         <button
           onClick={() => router.push("/carrinho")}
-          className="w-full mt-4 bg-[var(--secondary)] text-[var(--muted-foreground)] py-2 rounded-lg"
+          className="w-full mt-6 bg-[var(--secondary)] text-[var(--muted-foreground)] py-2 rounded-lg hover:bg-[var(--secondary)]/80 transition-colors"
         >
           Cancelar e voltar
         </button>
-        {initPoint && (
-          <a
-            href={decodeURIComponent(initPoint)}
-            className="w-full mt-2 block text-center bg-[#DAA520] text-white py-2 rounded-lg font-semibold"
-          >
-            Pagar no Mercado Pago
-          </a>
-        )}
       </div>
     </div>
   );
