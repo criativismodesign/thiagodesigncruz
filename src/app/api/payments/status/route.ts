@@ -36,8 +36,11 @@ export async function GET(request: NextRequest) {
           });
         }
 
+        let statusNormalizado = paymentData.status
+        if (paymentData.status === 'approved') statusNormalizado = 'paid'
+
         return NextResponse.json({
-          status: paymentData.status,
+          status: statusNormalizado,
           orderId: orderId
         });
       } catch (mpError) {
