@@ -27,10 +27,11 @@ function PagamentoPixContent() {
         const res = await fetch(`/api/payments/status?order=${orderId}`);
         const data = await res.json();
         
-        if (data.status === "paid") {
+        if (data.status === "paid" || data.status === "approved") {
           setPaymentStatus("paid");
           setTimeout(() => {
-            router.push(`/pedido-confirmado?order=${orderId}`);
+            const idCurto = orderId.slice(-8).toLowerCase()
+            router.push(`/acompanhar/${idCurto}`);
           }, 2000);
         } else if (data.status === "expired") {
           setPaymentStatus("expired");

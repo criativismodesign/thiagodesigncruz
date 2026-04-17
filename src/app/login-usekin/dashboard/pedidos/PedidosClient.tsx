@@ -140,6 +140,13 @@ export default function PedidosClient() {
 
   useEffect(() => { carregarPedidos() }, [])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      carregarPedidos()
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
   const carregarPedidos = async () => {
     try {
       const r = await fetch('/api/admin/pedidos')
