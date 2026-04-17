@@ -206,49 +206,49 @@ export async function enviarEmailStatusAtualizado({
   const configs: Record<string, { assunto: string; icone: string; titulo: string; mensagem: string; cor: string }> = {
     aguardando_pagamento: {
       assunto: `Pedido #${pedidoId.slice(-8).toUpperCase()} aguardando pagamento`,
-      icone: '??',
+      icone: '&#128722;',
       titulo: 'Aguardando seu pagamento',
       mensagem: 'Seu pedido foi criado! Realize o pagamento para continuar.',
       cor: '#D97706'
     },
     pago: {
       assunto: `Pagamento recebido! Pedido #${pedidoId.slice(-8).toUpperCase()}`,
-      icone: '??',
+      icone: '&#128179;',
       titulo: 'Pagamento recebido!',
       mensagem: 'Recebemos seu pagamento! Em breve confirmaremos e seu pedido entrará em produção.',
       cor: '#2563EB'
     },
     pagamento_confirmado: {
       assunto: `Pagamento confirmado! Pedido #${pedidoId.slice(-8).toUpperCase()}`,
-      icone: '✅',
+      icone: '&#9989;',
       titulo: 'Pagamento confirmado!',
       mensagem: 'Confirmamos seu pagamento! Seu pedido já está na fila de produção.',
       cor: '#7C3AED'
     },
     em_producao: {
       assunto: `Seu pedido está sendo produzido! #${pedidoId.slice(-8).toUpperCase()}`,
-      icone: '??',
+      icone: '&#128296;',
       titulo: 'Em produção!',
       mensagem: 'Ótimas notícias! Seu pedido está sendo produzido com muito carinho pela nossa equipe.',
       cor: '#DB2777'
     },
     em_logistica: {
       assunto: `Pedido em logística! #${pedidoId.slice(-8).toUpperCase()}`,
-      icone: '??',
+      icone: '&#128230;',
       titulo: 'Pedido em logística!',
       mensagem: 'Seu pedido foi produzido e está sendo preparado para envio!',
       cor: '#0891B2'
     },
     enviado: {
       assunto: `Pedido enviado! #${pedidoId.slice(-8).toUpperCase()}`,
-      icone: '??',
+      icone: '&#128666;',
       titulo: 'Pedido enviado!',
       mensagem: 'Seu pedido saiu para entrega!' + (trackingCode ? ` Código de rastreio: <strong>${trackingCode}</strong>` : ''),
       cor: '#CA8A04'
     },
     entregue: {
       assunto: `Pedido entregue! #${pedidoId.slice(-8).toUpperCase()}`,
-      icone: '??',
+      icone: '&#129395;',
       titulo: 'Pedido entregue!',
       mensagem: 'Seu pedido foi entregue! Esperamos que você adorar. Obrigado por comprar na UseKIN!',
       cor: '#16A34A'
