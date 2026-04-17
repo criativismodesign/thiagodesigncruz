@@ -84,18 +84,22 @@ export async function POST(request: NextRequest) {
         console.log('user email:', order?.user?.email)
 
         for (const item of orderItems) {
-          await prisma.productAnalytics.create({
-            data: {
-              event: "purchase",
-              produtoId: item.productId,
-              userId: order?.userId,
-              metadata: JSON.stringify({
-                orderId,
-                quantity: item.quantity,
-                price: item.price,
-              }),
-            },
-          });
+          try {
+            await prisma.productAnalytics.create({
+              data: {
+                event: "purchase",
+                produtoId: item.productId,
+                userId: order?.userId,
+                metadata: JSON.stringify({
+                  orderId,
+                  quantity: item.quantity,
+                  price: item.price,
+                }),
+              },
+            });
+          } catch (analyticsError) {
+            console.log('Analytics error (ignorado):', analyticsError)
+          }
         }
 
         if (order) {
