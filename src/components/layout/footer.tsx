@@ -13,7 +13,7 @@ export function Footer() {
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--card)]">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
@@ -183,7 +183,7 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="mt-12 border-t border-[var(--border)] pt-8">
-          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-4 text-center">
             <p className="text-xs text-[var(--muted-foreground)]">
               © {new Date().getFullYear()} UseKIN. Todos os direitos reservados.
             </p>
