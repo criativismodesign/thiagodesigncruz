@@ -31,7 +31,7 @@ export async function enviarEmailNovoPedido({
       return
     }
     await resend.emails.send({
-      from: 'UseKIN <onboarding@resend.dev>',
+      from: 'UseKIN <noreply@usekin.com.br>',
       to: 'usekin@gmail.com',
       subject: `Novo Pedido #${pedidoId.slice(-8).toUpperCase()} - R$ ${total.toFixed(2).replace('.', ',')}`,
       html: `
@@ -123,7 +123,7 @@ export async function enviarEmailConfirmacaoCliente({
       return
     }
     await resend.emails.send({
-      from: 'UseKIN <onboarding@resend.dev>',
+      from: 'UseKIN <noreply@usekin.com.br>',
       to: clienteEmail,
       subject: `Pedido #${pedidoId.slice(-8).toUpperCase()} confirmado - UseKIN`,
       html: `
