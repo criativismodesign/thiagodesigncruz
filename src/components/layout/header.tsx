@@ -44,7 +44,7 @@ export function Header() {
             <img 
               src="/icons/logo.svg" 
               alt="Use KIN Logo" 
-              style={{ width: "140px", height: "auto" }}
+              style={{ width: "110px", height: "auto" }}
               className="lg:w-[205px]"
             />
           </Link>
@@ -156,7 +156,7 @@ export function Header() {
         </nav>
 
         {/* Ícones e Botão - Coluna Direita */}
-        <div className="flex items-center gap-4 flex-shrink-0">
+        <div className="flex items-center gap-2 flex-shrink-0">
           {/* Ícone Busca */}
           <button
             onClick={() => setSearchOpen(!searchOpen)}
@@ -251,7 +251,7 @@ export function Header() {
           ) : (
             <Link
               href="/login"
-              className="flex items-center gap-2 px-5 py-2.5 text-white font-bold rounded transition-colors"
+              className="hidden lg:flex items-center gap-2 px-4 py-2 text-white font-bold rounded transition-colors text-sm"
               style={{ backgroundColor: "#DAA520" }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#46A520"}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#DAA520"}
