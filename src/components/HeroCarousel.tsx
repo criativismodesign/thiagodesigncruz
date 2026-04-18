@@ -106,7 +106,7 @@ export default function HeroCarousel({ slides }: Props) {
 
       {/* Text Content Overlay */}
       <div 
-        className={`absolute top-1/2 z-10 transform -translate-y-1/2 ${isMobile ? 'left-6 right-6' : 'left-[120px]'}`}
+        className={`absolute z-10 ${isMobile ? 'bottom-8 left-6 right-6' : 'top-1/2 left-[120px] transform -translate-y-1/2'}`}
         style={{ maxWidth: isMobile ? 'calc(100% - 48px)' : '400px' }}
       >
         {/* Supertítulo */}
