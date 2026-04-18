@@ -101,7 +101,7 @@ export default function EditarColecaoClient({ colecao }: Props) {
           <div>
             <label style={{ fontSize: 14, fontWeight: 500, color: '#292929', display: 'block', marginBottom: 6 }}>Subtítulo *</label>
             <input value={formData.subtitulo} onChange={e => setFormData({...formData, subtitulo: e.target.value})}
-              placeholder="Ex: COLEETION | STREET ART"
+              placeholder="Ex: COLLECTION | STREET ART"
               style={{ width: '100%', border: '1px solid #E5E5E5', borderRadius: 8, padding: '10px 14px', fontSize: 14, color: '#292929', boxSizing: 'border-box' as const }} />
           </div>
           <div style={{ display: 'flex', gap: 24 }}>

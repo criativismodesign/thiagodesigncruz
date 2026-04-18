@@ -67,7 +67,7 @@ export default async function ProdutosRelacionadosWrapper({
       image: p.imagens.find((i: any) => i.isPrincipal)?.url || 
              p.imagens[0]?.url || 
              '/images/products/placeholder-430x575.jpg',
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
+      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLLECTION | STREET ART',
       name: p.nome,
       price: p.precoAtual,
       originalPrice: p.precoDe,
@@ -86,7 +86,7 @@ export default async function ProdutosRelacionadosWrapper({
       image: p.imagens.find((i: any) => i.isPrincipal)?.url || 
              p.imagens[0]?.url || 
              '/images/products/placeholder-mousepad-600x290.jpg',
-      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
+      supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLLECTION | STREET ART',
       name: p.nome,
       price: p.precoAtual,
       originalPrice: p.precoDe,

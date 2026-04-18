@@ -28,7 +28,7 @@ export default function OriginalCollectionSection({ produtos }: Props) {
     id: p.id,
     image: p.imagens[0]?.url || 
            '/images/products/placeholder-430x575.jpg',
-    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLEETION | STREET ART',
+    supertitle: 'ORIGINAL USE KIN - MY LIFE MY STYLE / COLLECTION | STREET ART',
     name: p.nome,
     price: p.precoAtual,
     originalPrice: p.precoDe,
@@ -57,7 +57,7 @@ export default function OriginalCollectionSection({ produtos }: Props) {
       <div className="mb-[60px]">
         <SectionHeader 
           title="MY LIFE MY STYLE"
-          subtitle="COLEETION | STREET ART"
+          subtitle="COLLECTION | STREET ART"
         />
       </div>
 

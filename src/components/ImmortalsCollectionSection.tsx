@@ -28,7 +28,7 @@ export default function ImmortalsCollectionSection({ produtos }: Props) {
     image: p.imagens.find(i => i.isPrincipal)?.url || 
            p.imagens[0]?.url || 
            '/images/products/placeholder-430x575.jpg',
-    supertitle: 'ORIGINAL USE KIN - IMMORTALS / COLEETION | INK SERIES',
+    supertitle: 'ORIGINAL USE KIN - IMMORTALS / COLLECTION | INK SERIES',
     name: p.nome,
     price: p.precoAtual,
     originalPrice: p.precoDe,
@@ -57,7 +57,7 @@ export default function ImmortalsCollectionSection({ produtos }: Props) {
       <div className="mb-[60px]">
         <SectionHeader 
           title="IMMORTALS"
-          subtitle="COLEETION | INK SERIES"
+          subtitle="COLLECTION | INK SERIES"
         />
       </div>
 
