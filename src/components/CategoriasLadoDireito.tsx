@@ -91,11 +91,9 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
   }
 
   return (
-    <div style={{
-      flex: 1,
-      marginTop: '100px',
-      marginBottom: '100px'
-    }}>
+    <div style={{ flex: 1 }}
+    className="mt-6 mb-10 lg:mt-[100px] lg:mb-[100px]"
+    >
         {/* CABEÇALHO - TOP */}
         <div style={{
           display: 'flex',
@@ -104,44 +102,25 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
           marginBottom: '16px'
         }}>
           {/* Texto de visualização */}
-          <span style={{
-            fontSize: '20px',
-            fontWeight: 400,
-            color: '#AAAAAA',
-            fontFamily: 'Inter, sans-serif'
-          }}>
+          <span style={{ fontSize: '12px', fontWeight: 400, color: '#AAAAAA', fontFamily: 'Inter, sans-serif' }}
+          className="lg:!text-[20px]"
+          >
             Visualização de {produtosVisiveis.length} de {produtosMapeados.length} produtos
           </span>
 
           {/* Dropdown de ordenação */}
           <div style={{ position: 'relative' }}>
-            <span style={{
-              fontSize: '20px',
-              fontWeight: 400,
-              color: '#AAAAAA',
-              fontFamily: 'Inter, sans-serif',
-              marginRight: '12px'
-            }}>
+            <span style={{ fontSize: '12px', fontWeight: 400, color: '#AAAAAA', fontFamily: 'Inter, sans-serif', marginRight: '8px' }}
+            className="lg:!text-[20px]"
+            >
               Ordenar por
             </span>
             
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              style={{
-                padding: '10px 24px',
-                backgroundColor: '#EFEFEF',
-                border: '1px solid #AAAAAA',
-                borderRadius: '999px',
-                fontSize: '20px',
-                fontWeight: 400,
-                color: '#AAAAAA',
-                fontFamily: 'Inter, sans-serif',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
+              style={{ padding: '8px 16px', backgroundColor: '#EFEFEF', border: '1px solid #AAAAAA', borderRadius: '999px', fontSize: '12px', fontWeight: 400, color: '#AAAAAA', fontFamily: 'Inter, sans-serif', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
+              className="lg:!text-[20px] lg:!p-[10px_24px]"
+              >
               {selectedOrder}
               <span style={{ fontSize: '16px' }}>{'\u203a'}</span>
             </button>
@@ -166,15 +145,7 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
                       setSelectedOrder(opcao)
                       setDropdownOpen(false)
                     }}
-                    style={{
-                      padding: '14px 20px',
-                      fontSize: '20px',
-                      fontWeight: 400,
-                      color: selectedOrder === opcao ? '#292929' : '#D8D8D8',
-                      backgroundColor: selectedOrder === opcao ? '#C4C4C4' : '#FFFFFF',
-                      cursor: 'pointer',
-                      fontFamily: 'Inter, sans-serif'
-                    }}
+                    style={{ padding: '10px 16px', fontSize: '13px', fontWeight: 400, color: selectedOrder === opcao ? '#292929' : '#D8D8D8', backgroundColor: selectedOrder === opcao ? '#C4C4C4' : '#FFFFFF', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
                     onMouseEnter={(e) => {
                       if (selectedOrder !== opcao) {
                         e.currentTarget.style.backgroundColor = '#EFEFEF'
@@ -222,7 +193,9 @@ export default function CategoriasLadoDireito({ produtos, busca }: Props) {
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '24px'
-        }}>
+        }}
+        className="!grid-cols-1 lg:!grid-cols-4"
+        >
           {produtosVisiveis.map((product: any, index: number) => (
             <div key={product.id}>
               <Link href={product.href} style={{ textDecoration: 'none' }}>

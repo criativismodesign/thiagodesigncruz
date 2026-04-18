@@ -29,7 +29,7 @@ export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/
     <div style={{ 
       position: 'relative',
       width: '100%',
-      aspectRatio: '1920/440',
+      aspectRatio: '1920/560',
       overflow: 'hidden',
       marginBottom: '40px'
     }}>
