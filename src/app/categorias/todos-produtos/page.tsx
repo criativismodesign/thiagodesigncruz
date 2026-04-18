@@ -1,6 +1,7 @@
 import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
+import BannerLateralCategorias from '@/components/BannerLateralCategorias'
 
 interface Props {
   searchParams: Promise<{ busca?: string }>
@@ -28,6 +29,7 @@ export default async function TodosProdutosPage({ searchParams }: Props) {
           <CategoriasLadoDireitoWrapper busca={busca} />
         </div>
       </div>
+      <BannerLateralCategorias />
     </main>
   )
 }

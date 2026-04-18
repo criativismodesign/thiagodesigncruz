@@ -1,6 +1,7 @@
 import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
+import BannerLateralCategorias from '@/components/BannerLateralCategorias'
 
 export default function MousepadsPage() {
   return (
@@ -26,6 +27,7 @@ export default function MousepadsPage() {
           <CategoriasLadoDireitoWrapper tipo="mousepad" categoria="avulso" />
         </div>
       </div>
+      <BannerLateralCategorias chaveBanner="banner-lateral-mousepads" />
     </main>
   )
 }
