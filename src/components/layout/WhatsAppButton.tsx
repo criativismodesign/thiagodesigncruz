@@ -54,7 +54,7 @@ export default function WhatsAppButton() {
 
       {/* Pulse animation overlay */}
       <div
-        className={`absolute inset-0 bg-green-400 rounded-full animate-ping ${
+        className={`absolute inset-0 bg-green-400 rounded-full animate-ping pointer-events-none ${
           isVisible ? "inline-block" : "hidden"
         }`}
         style={{ animationDuration: "2s" }}
