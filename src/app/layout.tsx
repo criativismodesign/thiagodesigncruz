@@ -73,6 +73,7 @@ export const metadata: Metadata = {
   verification: {
     google: "google-site-verification-code",
   },
+  themeColor: '#ffffff',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-96.png',
