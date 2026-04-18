@@ -1,6 +1,7 @@
 import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
+import BannerLateralCategorias from '@/components/BannerLateralCategorias'
 
 export default function TerceiroLancamentoPage() {
   return (
@@ -25,6 +26,7 @@ export default function TerceiroLancamentoPage() {
           <CategoriasLadoDireitoWrapper colecaoSlug="3o-lancamento" />
         </div>
       </div>
+      <BannerLateralCategorias />
     </main>
   )
 }

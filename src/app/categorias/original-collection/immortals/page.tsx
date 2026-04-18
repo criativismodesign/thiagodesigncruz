@@ -1,6 +1,7 @@
 import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
+import BannerLateralCategorias from '@/components/BannerLateralCategorias'
 
 export default function ImmortalsPage() {
   return (
@@ -27,6 +28,7 @@ export default function ImmortalsPage() {
           <CategoriasLadoDireitoWrapper colecaoSlug="immortals" />
         </div>
       </div>
+      <BannerLateralCategorias />
     </main>
   )
 }
