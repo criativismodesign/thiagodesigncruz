@@ -42,23 +42,23 @@ export default function BannerBoxSection() {
             src={banner.image}
             alt={banner.id}
             fill
-            style={{ objectFit: 'contain', objectPosition: 'center' }}
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
           />
 
           {/* Bloco de conteúdo */}
           <div
-            className="relative flex flex-col justify-center"
+            className="relative flex flex-col justify-center lg:!p-[65px]"
             style={{
               zIndex: 1,
-              padding: '65px',
+              padding: '32px 24px',
               height: '100%',
             }}
           >
             {/* Título - Bloco 1: PERSO NALIZE */}
             <div
-              className="font-extrabold uppercase"
+              className="font-extrabold uppercase lg:!text-[50px]"
               style={{
-                fontSize: '50px',
+                fontSize: '30px',
                 color: '#FFFFFF',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 800,
@@ -73,9 +73,9 @@ export default function BannerBoxSection() {
 
             {/* Título - Bloco 2: DO SEU JEITO */}
             <div
-              className="font-light uppercase"
+              className="font-light uppercase lg:!text-[50px]"
               style={{
-                fontSize: '50px',
+                fontSize: '30px',
                 color: '#FFFFFF',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 300,
@@ -92,17 +92,17 @@ export default function BannerBoxSection() {
             {/* Botão */}
             <Link
               href={banner.cta.href}
-              className="inline-block font-extrabold uppercase rounded-full transition-all"
+              className="inline-block font-extrabold uppercase rounded-full transition-all lg:!mt-[32px] lg:!text-[15px] lg:!p-[14px_36px]"
               style={{
-                fontSize: '15px',
+                fontSize: '13px',
                 color: '#FFFFFF',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 800,
                 backgroundColor: 'transparent',
                 border: '1px solid #FFFFFF',
                 borderRadius: '999px',
-                padding: '14px 36px',
-                marginTop: '32px',
+                padding: '12px 24px',
+                marginTop: '16px',
                 width: 'fit-content',
                 textDecoration: 'none',
                 transition: 'color 0.3s ease, border-color 0.3s ease',
