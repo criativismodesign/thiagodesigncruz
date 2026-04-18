@@ -125,6 +125,7 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-N4EGGQ2TS6');
+      gtag('config', 'AW-18100242553');
           `}
         </Script>
         <WebsiteJsonLd />
