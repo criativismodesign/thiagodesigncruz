@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface Slide {
   id: string
   imagem: string | null
+  imagemMobile: string | null
   supertitulo: string | null
   titulo: string
   descricao: string | null
@@ -24,6 +25,13 @@ interface Props {
 export default function HeroCarousel({ slides }: Props) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -54,13 +62,15 @@ export default function HeroCarousel({ slides }: Props) {
   };
 
   const currentSlideData = slides[currentSlide];
+  const imagemAtual = (isMobile && currentSlideData.imagemMobile) ? currentSlideData.imagemMobile : currentSlideData.imagem
 
   return (
     <div style={{
       position: 'relative',
       width: '100%',
-      aspectRatio: '1920/832',
+      aspectRatio: isMobile ? '9/16' : '1920/832',
       overflow: 'hidden',
+      maxHeight: isMobile ? '812px' : 'none',
     }}
     onMouseEnter={() => setIsAutoPlaying(false)}
     onMouseLeave={() => setIsAutoPlaying(true)}
@@ -74,11 +84,11 @@ export default function HeroCarousel({ slides }: Props) {
       }}>
         {currentSlideData.imagem ? (
           <Image
-            src={currentSlideData.imagem}
+            src={imagemAtual || ''}
             alt={currentSlideData.titulo}
             fill
             style={{ 
-              objectFit: 'contain',
+              objectFit: 'cover',
               objectPosition: 'center center'
             }}
             priority={currentSlide === 0}
@@ -96,8 +106,8 @@ export default function HeroCarousel({ slides }: Props) {
 
       {/* Text Content Overlay */}
       <div 
-        className="absolute top-1/2 left-[120px] transform -translate-y-1/2 z-10"
-        style={{ maxWidth: '400px' }}
+        className={`absolute top-1/2 z-10 transform -translate-y-1/2 ${isMobile ? 'left-6 right-6' : 'left-[120px]'}`}
+        style={{ maxWidth: isMobile ? 'calc(100% - 48px)' : '400px' }}
       >
         {/* Supertítulo */}
         {currentSlideData.supertitulo && (
@@ -127,16 +137,15 @@ export default function HeroCarousel({ slides }: Props) {
 
         {/* Descrição */}
         {currentSlideData.descricao && (
-          <p style={{
-            fontSize: '12px',
-            fontWeight: 400,
-            color: '#292929',
-            textTransform: 'uppercase',
-            lineHeight: 1.6,
-            marginBottom: '24px',
+          <h1 style={{
+            fontSize: isMobile ? '28px' : '40px',
+            fontWeight: 600,
+            color: '#000000',
+            lineHeight: 1.1,
+            marginBottom: '16px',
           }}>
             {currentSlideData.descricao}
-          </p>
+          </h1>
         )}
 
         {/* Botão CTA */}
