@@ -72,7 +72,7 @@ export const metadata: Metadata = {
       "Crie suas próprias estampas! Camisetas e mouse pads com designs exclusivos.",
   },
   verification: {
-    google: "G-N4EGGQ2TS6",
+    google: "IUFVWQStFMAvUouAIIONwMF8EW1m7pBQLQX8x0Il3R4",
   },
   themeColor: '#ffffff',
   icons: {
