@@ -51,7 +51,6 @@ export async function PUT(
         ordem: parseInt(data.ordem) || 1,
         ativo: data.ativo ?? true,
         imagem: data.imagem || null,
-        imagemMobile: data.imagemMobile || null,
       }
     })
 

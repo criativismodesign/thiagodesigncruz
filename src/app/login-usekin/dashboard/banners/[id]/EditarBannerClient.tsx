@@ -7,7 +7,6 @@ export default function EditarBannerClient({ banner }: { banner: any }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [imagem, setImagem] = useState<string>(banner.imagem || '')
-  const [imagemMobile, setImagemMobile] = useState<string>(banner.imagemMobile || '')
   const [formData, setFormData] = useState({
     supertitulo: banner.supertitulo || '',
     titulo: banner.titulo || '',
@@ -29,17 +28,6 @@ export default function EditarBannerClient({ banner }: { banner: any }) {
     if (data.success) setImagem(data.url)
   }
 
-  const handleUploadMobile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const formDataUpload = new FormData()
-    formDataUpload.append('file', file)
-    formDataUpload.append('pasta', 'banners')
-    const response = await fetch('/api/admin/upload', { method: 'POST', body: formDataUpload })
-    const data = await response.json()
-    if (data.success) setImagemMobile(data.url)
-  }
-
   const handleSalvar = async () => {
     if (!formData.titulo) {
       alert('Título é obrigatório')
@@ -50,7 +38,7 @@ export default function EditarBannerClient({ banner }: { banner: any }) {
       const response = await fetch(`/api/admin/hero-banners/${banner.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, imagem, imagemMobile })
+        body: JSON.stringify({ ...formData, imagem })
       })
       if (response.ok) {
         router.push('/login-usekin/dashboard/banners')
@@ -100,28 +88,6 @@ export default function EditarBannerClient({ banner }: { banner: any }) {
             <button onClick={() => setImagem('')}
               style={{ marginTop: 8, background: 'transparent', border: 'none', color: '#F0484A', cursor: 'pointer', fontSize: 13 }}>
               Remover imagem
-            </button>
-          )}
-        </div>
-
-        {/* Imagem Mobile */}
-        <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E5E5E5', padding: 24, marginBottom: 24 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 600, color: '#292929', marginBottom: 4 }}>Imagem Mobile (750x1200px)</h2>
-          <p style={{ fontSize: 13, color: '#AAAAAA', marginBottom: 16 }}>Versão vertical para celular. Se não informada, usa a imagem desktop.</p>
-          <div onClick={() => document.getElementById('upload-banner-mobile')?.click()}
-            style={{ width: '100%', height: 200, border: '2px dashed #E5E5E5', borderRadius: 8, cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: imagemMobile ? 'transparent' : '#F9F9F9', overflow: 'hidden' }}>
-            {imagemMobile
-              ? <img src={imagemMobile} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              : <span style={{ color: '#AAAAAA', fontSize: 14 }}>+ Clique para adicionar imagem mobile</span>
-            }
-          </div>
-          <input id="upload-banner-mobile" type="file" accept="image/*" style={{ display: 'none' }} onChange={handleUploadMobile} />
-          {imagemMobile && (
-            <button onClick={() => setImagemMobile('')}
-              style={{ marginTop: 8, background: 'transparent', border: 'none', color: '#F0484A', cursor: 'pointer', fontSize: 13 }}>
-              Remover imagem mobile
             </button>
           )}
         </div>
