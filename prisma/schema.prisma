@@ -249,6 +249,7 @@ model ProdutoRelacionado {
 model HeroBanner {
   id          String   @id @default(cuid())
   imagem      String?
+  imagemMobile String?
   supertitulo String?
   titulo      String
   descricao   String?
@@ -256,7 +257,7 @@ model HeroBanner {
   linkBotao   String?
   ordem       Int      @default(0)
   ativo       Boolean  @default(true)
-  criadoEm   DateTime  @default(now())
+  criadoEm   DateTime @default(now())
   atualizadoEm DateTime @updatedAt
 }
 
