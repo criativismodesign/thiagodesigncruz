@@ -35,7 +35,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white h-[70px] lg:h-[120px]">
+    <header className="sticky top-0 z-50 bg-white h-[70px] lg:h-[120px]" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="h-full flex items-center justify-between px-4 lg:px-[120px] max-w-[1920px] mx-auto">
         
         {/* Logo - Coluna Esquerda */}
