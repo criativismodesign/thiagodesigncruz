@@ -68,10 +68,10 @@ export default function HeroBanner() {
   )
 
   const banner = banners[currentSlide]
-  const imagemAtual = banner.imagem
+  const imagemAtual = (isMobile && banner.imagemMobile) ? banner.imagemMobile : banner.imagem
 
   return (
-    <section className="relative w-full overflow-hidden" style={{ height: isMobile ? 'auto' : '832px', aspectRatio: isMobile ? '9/16' : 'auto', maxHeight: isMobile ? '700px' : '832px' }}>
+    <section className="relative w-full overflow-hidden" style={{ height: isMobile ? '100svh' : '832px', maxHeight: isMobile ? '812px' : '832px' }}>
       
       {imagemAtual && (
         <div className="absolute inset-0">
