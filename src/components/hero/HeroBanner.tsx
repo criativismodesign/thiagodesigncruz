@@ -21,7 +21,7 @@ export default function HeroBanner() {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
     fetch('/api/hero-banners')
@@ -68,7 +68,8 @@ export default function HeroBanner() {
   )
 
   const banner = banners[currentSlide]
-  const imagemAtual = (isMobile && banner.imagemMobile) ? banner.imagemMobile : banner.imagem
+  const imagemMobileDisponivel = banner.imagemMobile && banner.imagemMobile.length > 0
+  const imagemAtual = (isMobile === true && imagemMobileDisponivel) ? banner.imagemMobile : banner.imagem
 
   return (
     <section className="relative w-full overflow-hidden" style={{ height: isMobile ? '100svh' : '832px', maxHeight: isMobile ? '812px' : '832px' }}>
