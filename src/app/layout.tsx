@@ -102,7 +102,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" style={{ overflowX: 'hidden' }}>
+    <html lang="pt-BR">
       <body className={`${inter.className} ${interFont.variable}`} style={{ overflowX: 'hidden', maxWidth: '100vw' }}>
         <WebsiteJsonLd />
         <OrganizationJsonLd />
