@@ -269,6 +269,7 @@ export function Header() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden p-2"
+            aria-label="Abrir menu"
           >
             <div className="w-6 h-0.5 bg-[#292929] mb-1.5"></div>
             <div className="w-6 h-0.5 bg-[#292929] mb-1.5"></div>

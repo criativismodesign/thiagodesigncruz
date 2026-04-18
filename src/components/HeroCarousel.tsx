@@ -87,11 +87,11 @@ export default function HeroCarousel({ slides }: Props) {
             src={imagemAtual || ''}
             alt={currentSlideData.titulo}
             fill
+            priority
             style={{ 
               objectFit: 'cover',
               objectPosition: 'center center'
             }}
-            priority={currentSlide === 0}
           />
         ) : (
           <div style={{
@@ -180,6 +180,7 @@ export default function HeroCarousel({ slides }: Props) {
       {/* Navigation Arrows */}
       <button
         onClick={goToPrevious}
+        aria-label="Slide anterior"
         className={`absolute z-20 rounded-full transition-colors ${isMobile ? 'bottom-6 left-6' : 'top-1/2 left-6 transform -translate-y-1/2'}`}
         style={{ 
           width: '48px',
@@ -197,6 +198,7 @@ export default function HeroCarousel({ slides }: Props) {
 
       <button
         onClick={goToNext}
+        aria-label="Próximo slide"
         className={`absolute z-20 rounded-full transition-colors ${isMobile ? 'bottom-6 right-6' : 'top-1/2 right-6 transform -translate-y-1/2'}`}
         style={{ 
           width: '48px',
@@ -223,7 +225,7 @@ export default function HeroCarousel({ slides }: Props) {
                 ? "bg-white w-8"
                 : "bg-white/50 hover:bg-white/75"
             }`}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`Ir para slide ${index + 1}`}
           />
         ))}
       </div>

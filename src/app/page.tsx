@@ -13,7 +13,9 @@ export default function Home() {
   return (
     <main>
       <HeroCarouselWrapper />
-      <OriginalCollectionSectionWrapper />
+      <div style={{ minHeight: '400px' }}>
+        <OriginalCollectionSectionWrapper />
+      </div>
       <MousepadCollectionSectionWrapper />
       <ImmortalsCollectionSectionWrapper />
       <CollectionsSectionWrapper />
