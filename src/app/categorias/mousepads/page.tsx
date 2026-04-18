@@ -16,10 +16,12 @@ export default function MousepadsPage() {
       <div style={{ 
         maxWidth: '1920px', 
         margin: '0 auto',
-        paddingLeft: '120px',
-        paddingRight: '120px'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+        paddingLeft: '16px',
+        paddingRight: '16px'
+      }}
+      className="lg:!px-[120px]"
+      >
+        <div className="flex flex-col lg:flex-row lg:items-start">
           <CategoriasFiltroLateralWrapper chaveBanner="banner-lateral-mousepads" />
           <CategoriasLadoDireitoWrapper tipo="mousepad" categoria="avulso" />
         </div>
