@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 interface BannerCategoriaProps {
   titulo: string
@@ -11,9 +12,19 @@ interface BannerCategoriaProps {
     ativo?: boolean
   }[]
   imagem?: string
+  imagemMobile?: string
 }
 
-export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/banners/banner-categoria.jpg" }: BannerCategoriaProps) {
+export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/banners/banner-categoria.jpg", imagemMobile }: BannerCategoriaProps) {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  const imagemAtual = (isMobile && imagemMobile) ? imagemMobile : imagem
+
   return (
     <div style={{ 
       position: 'relative',
@@ -24,7 +35,7 @@ export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/
     }}>
       {/* Imagem de fundo */}
       <Image
-        src={imagem}
+        src={imagemAtual}
         alt="Banner de categoria"
         fill
         style={{ objectFit: 'cover', objectPosition: 'center' }}

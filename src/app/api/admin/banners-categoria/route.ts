@@ -37,10 +37,11 @@ export async function PUT(request: Request) {
       // Novo formato
       for (const [chave, imagem] of Object.entries(body.banners)) {
         const link = body.links?.[chave] || ''
+        const imagemMobile = body.bannersMobile?.[chave] || null
         await (prisma as any).bannerConfig.upsert({
           where: { chave },
-          update: { imagem: imagem as string, link },
-          create: { chave, imagem: imagem as string, link }
+          update: { imagem: imagem as string, link, ...(imagemMobile ? { imagemMobile } : {}) },
+          create: { chave, imagem: imagem as string, link, imagemMobile }
         })
       }
     } else {

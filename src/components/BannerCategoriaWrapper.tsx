@@ -16,6 +16,7 @@ export default async function BannerCategoriaWrapper({
   noStore()
   
   let imagem = '/imagens/hero/banner-categoria.jpg'
+  let imagemMobile = ''
   
   try {
     if (colecaoSlug) {
@@ -24,10 +25,11 @@ export default async function BannerCategoriaWrapper({
     } else if (chave) {
       const banner = await prisma.bannerConfig.findUnique({ where: { chave } })
       if (banner?.imagem) imagem = banner.imagem
+      if ((banner as any)?.imagemMobile) imagemMobile = (banner as any).imagemMobile
     }
   } catch (error) {
     // usa imagem padrão
   }
 
-  return <BannerCategoria titulo={titulo} breadcrumb={breadcrumb} imagem={imagem} />
+  return <BannerCategoria titulo={titulo} breadcrumb={breadcrumb} imagem={imagem} imagemMobile={imagemMobile} />
 }
