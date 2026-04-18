@@ -5,6 +5,26 @@ import ProdutosRelacionadosWrapper from '@/components/ProdutosRelacionadosWrappe
 import NewsletterSection from '@/components/NewsletterSection'
 import BannerBoxSection from '@/components/BannerBoxSection'
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const produto = await prisma.produto.findFirst({
+    where: { slug, tipo: 'mousepad' },
+    include: { imagens: { orderBy: { ordem: 'asc' } }, colecao: true }
+  })
+  if (!produto) return { title: 'Produto não encontrado' }
+  const imagem = produto.imagens[0]?.url || ''
+  const colecao = produto.colecao?.nome ? `${produto.colecao.nome} | ` : ''
+  return {
+    title: `${produto.nome} | Mouse Pad UseKIN`,
+    description: produto.descricaoCurta || `Mouse Pad ${produto.nome} - ${colecao}UseKIN. Estampa exclusiva, superfície premium para gamers. Entrega para todo o Brasil.`,
+    openGraph: {
+      title: `${produto.nome} | Mouse Pad UseKIN`,
+      description: produto.descricaoCurta || `Mouse Pad ${produto.nome} - UseKIN`,
+      images: imagem ? [{ url: imagem }] : [],
+    }
+  }
+}
+
 function ProdutoSchema({ produto, url }: { produto: any, url: string }) {
   const schema = {
     "@context": "https://schema.org",

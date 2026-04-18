@@ -5,6 +5,26 @@ import ProdutosRelacionadosWrapper from '@/components/ProdutosRelacionadosWrappe
 import NewsletterSection from '@/components/NewsletterSection'
 import BannerBoxSection from '@/components/BannerBoxSection'
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const produto = await prisma.produto.findFirst({
+    where: { slug, tipo: 'camiseta' },
+    include: { imagens: { orderBy: { ordem: 'asc' } }, colecao: true }
+  })
+  if (!produto) return { title: 'Produto não encontrado' }
+  const imagem = produto.imagens[0]?.url || ''
+  const colecao = produto.colecao?.nome ? `${produto.colecao.nome} | ` : ''
+  return {
+    title: `${produto.nome} | Camiseta UseKIN`,
+    description: produto.descricaoCurta || `Camiseta ${produto.nome} - ${colecao}UseKIN. Estampa exclusiva, modelagem oversized premium. Entrega para todo o Brasil.`,
+    openGraph: {
+      title: `${produto.nome} | Camiseta UseKIN`,
+      description: produto.descricaoCurta || `Camiseta ${produto.nome} - UseKIN`,
+      images: imagem ? [{ url: imagem }] : [],
+    }
+  }
+}
+
 function ProdutoSchema({ produto, url }: { produto: any, url: string }) {
   const schema = {
     "@context": "https://schema.org",
