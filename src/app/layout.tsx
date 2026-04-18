@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from 'next/script'
 import "./globals.css";
 import { Inter as InterFont } from "next/font/google";
 import { Header } from "@/components/layout/header";
@@ -71,7 +72,7 @@ export const metadata: Metadata = {
       "Crie suas próprias estampas! Camisetas e mouse pads com designs exclusivos.",
   },
   verification: {
-    google: "google-site-verification-code",
+    google: "G-N4EGGQ2TS6",
   },
   themeColor: '#ffffff',
   icons: {
@@ -105,6 +106,19 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.className} ${interFont.variable}`} style={{ overflowX: 'hidden', maxWidth: '100vw' }}>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-N4EGGQ2TS6"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-N4EGGQ2TS6');
+          `}
+        </Script>
         <WebsiteJsonLd />
         <OrganizationJsonLd />
         <Providers>
