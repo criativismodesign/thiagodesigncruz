@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle, Clock, XCircle, ArrowRight } from "lucide-react";
 import { Suspense, useState } from "react";
+import Script from 'next/script';
 
 function OrderContent() {
   const searchParams = useSearchParams();
@@ -14,6 +15,7 @@ function OrderContent() {
   const isPending = paymentStatus === "pending";
   const isFailed = paymentStatus === "rejected" || paymentStatus === "failure";
   const isSuccess = !isPending && !isFailed;
+  const valorPedido = 1.0
 
   const orderIdCurto = orderId ? orderId.slice(-8).toUpperCase() : null
   const [criandoConta, setCriandoConta] = useState(false)
@@ -50,7 +52,20 @@ function OrderContent() {
   }
 
   return (
-    <div style={{ maxWidth: 560, margin: '0 auto', padding: '64px 24px', textAlign: 'center' }}>
+    <>
+      {isSuccess && (
+        <Script id="google-ads-conversion" strategy="afterInteractive">
+          {`
+            gtag('event', 'conversion', {
+              'send_to': 'AW-18100242553/bzUBCOeChZ4cEPmQ77ZD',
+              'value': 1.0,
+              'currency': 'BRL',
+              'transaction_id': '${orderId || ""}'
+            });
+          `}
+        </Script>
+      )}
+      <div style={{ maxWidth: 560, margin: '0 auto', padding: '64px 24px', textAlign: 'center' }}>
       
       {/* Ícone */}
       <div style={{ fontSize: 72, marginBottom: 24, lineHeight: 1 }}>
@@ -179,6 +194,7 @@ function OrderContent() {
         </div>
       )}
     </div>
+    </>
   );
 }
 
