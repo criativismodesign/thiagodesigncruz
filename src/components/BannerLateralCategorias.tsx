@@ -30,13 +30,15 @@ export default async function BannerLateralCategorias({ chaveBanner }: { chaveBa
     : bannerLateralLink
 
   return (
-    <div className="lg:hidden w-full my-10 flex justify-center px-4">
+    <div className="lg:hidden w-full my-10">
       {href ? (
         <a href={href} target="_blank" rel="noopener noreferrer">
-          <Image src={src} alt="Banner promocional" width={1200} height={400} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+          <Image src={src} alt="Banner promocional" width={750}
+          height={500} style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }} />
         </a>
       ) : (
-        <Image src={src} alt="Banner promocional" width={1200} height={400} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+        <Image src={src} alt="Banner promocional" width={750}
+          height={500} style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }} />
       )}
     </div>
   )
