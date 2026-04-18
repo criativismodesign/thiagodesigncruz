@@ -112,16 +112,16 @@ export default function HeroCarousel({ slides }: Props) {
         {/* Supertítulo */}
         {currentSlideData.supertitulo && (
           <p style={{
-            fontSize: isMobile ? '10px' : '12px',
+            fontSize: isMobile ? '11px' : '12px',
             fontWeight: 400,
             color: '#292929',
             textTransform: 'uppercase',
             lineHeight: 1.4,
             marginBottom: isMobile ? '12px' : '24px',
-            display: isMobile ? '-webkit-box' : 'block',
-            WebkitLineClamp: isMobile ? 2 : 'unset' as any,
-            WebkitBoxOrient: isMobile ? 'vertical' : 'unset' as any,
-            overflow: isMobile ? 'hidden' : 'visible',
+            display: '-webkit-box',
+            WebkitLineClamp: isMobile ? 3 : 999,
+            WebkitBoxOrient: 'vertical' as const,
+            overflow: 'hidden',
           }}>
             {currentSlideData.supertitulo}
           </p>
