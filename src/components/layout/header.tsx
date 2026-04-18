@@ -343,7 +343,7 @@ export function Header() {
               HOME
             </Link>
             <div className="py-2">
-              <div className="text-sm font-medium text-[#292929] mb-2">PRODUTOS</div>
+              <Link href="/categorias/todos-produtos" onClick={() => setMobileMenuOpen(false)} className="text-sm font-medium text-[#292929] mb-2 block">PRODUTOS</Link>
               <Link
                 href="/categorias/oversizeds"
                 onClick={() => setMobileMenuOpen(false)}
@@ -360,7 +360,7 @@ export function Header() {
               </Link>
             </div>
             <div className="py-2">
-              <div className="text-sm font-medium text-[#292929] mb-2">COLEÇÕES</div>
+              <Link href="/categorias/original-collection" onClick={() => setMobileMenuOpen(false)} className="text-sm font-medium text-[#292929] mb-2 block">COLEÇÕES</Link>
               {colecoes.map(colecao => (
                 <Link
                   key={colecao.id}
