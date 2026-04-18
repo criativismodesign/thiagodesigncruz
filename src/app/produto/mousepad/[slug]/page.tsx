@@ -5,6 +5,37 @@ import ProdutosRelacionadosWrapper from '@/components/ProdutosRelacionadosWrappe
 import NewsletterSection from '@/components/NewsletterSection'
 import BannerBoxSection from '@/components/BannerBoxSection'
 
+function ProdutoSchema({ produto, url }: { produto: any, url: string }) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": produto.nome,
+    "description": produto.descricaoCurta || produto.descricaoLonga || '',
+    "image": produto.imagens?.[0]?.url || '',
+    "brand": {
+      "@type": "Brand",
+      "name": "UseKIN"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": url,
+      "priceCurrency": "BRL",
+      "price": produto.precoAtual,
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "UseKIN"
+      }
+    }
+  }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
 export default async function ProdutoPage({
   params,
 }: {
@@ -47,6 +78,10 @@ export default async function ProdutoPage({
 
   return (
     <>
+      <ProdutoSchema 
+        produto={produtoAdaptado} 
+        url={`https://www.usekin.com.br/produto/mousepad/${slug}`} 
+      />
       <ProdutoPageClient produto={produtoAdaptado as any} />
       <ProdutosRelacionadosWrapper 
         produtoId={produto.id}
