@@ -3,12 +3,6 @@
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: 'Contato | UseKIN',
-  description: 'Entre em contato com a UseKIN. Tire suas dúvidas, faça pedidos personalizados ou fale com nossa equipe.'
-}
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
