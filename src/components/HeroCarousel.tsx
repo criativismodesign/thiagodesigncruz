@@ -162,8 +162,10 @@ export default function HeroCarousel({ slides }: Props) {
             padding: isMobile ? '10px 20px' : '14px 26px',
             borderRadius: '999px',
             textDecoration: 'none',
-            display: 'inline-block',
+            display: isMobile ? 'block' : 'inline-block',
             textTransform: 'uppercase',
+            textAlign: 'center' as const,
+            marginTop: isMobile ? '8px' : '0',
           }}>
             {currentSlideData.textoBotao || 'VER COLEÇÃO'}
           </a>
@@ -173,7 +175,7 @@ export default function HeroCarousel({ slides }: Props) {
       {/* Navigation Arrows */}
       <button
         onClick={goToPrevious}
-        className="absolute top-1/2 left-6 transform -translate-y-1/2 z-20 rounded-full transition-colors"
+        className={`absolute z-20 rounded-full transition-colors ${isMobile ? 'bottom-6 left-6' : 'top-1/2 left-6 transform -translate-y-1/2'}`}
         style={{ 
           width: '48px',
           height: '48px',
@@ -190,7 +192,7 @@ export default function HeroCarousel({ slides }: Props) {
 
       <button
         onClick={goToNext}
-        className="absolute top-1/2 right-6 transform -translate-y-1/2 z-20 rounded-full transition-colors"
+        className={`absolute z-20 rounded-full transition-colors ${isMobile ? 'bottom-6 right-6' : 'top-1/2 right-6 transform -translate-y-1/2'}`}
         style={{ 
           width: '48px',
           height: '48px',
