@@ -54,7 +54,9 @@ export default function ContactPage() {
 
   return (
     <div>
-      <div style={{ textAlign: 'center', marginBottom: '48px', padding: '100px 120px 0 120px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '48px', padding: '40px 16px 0 16px' }}
+      className="lg:!p-[100px_120px_0_120px]"
+      >
         <h1 style={{
           fontSize: '48px',
           fontWeight: 600,
@@ -80,12 +82,13 @@ export default function ContactPage() {
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(5, 1fr)',
-        gap: '48px',
-        padding: '0 120px 50px 120px'
-      }}>
+        gap: '24px',
+        padding: '0 16px 50px 16px'
+      }}
+      className="grid-cols-1 lg:grid-cols-5 lg:!gap-[48px] lg:!p-[0_120px_50px_120px]"
+      >
         {/* Contact Info */}
-        <div style={{ gridColumn: 'span 2', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="lg:col-span-2 flex flex-col gap-6">
           <div style={{
             borderRadius: '16px',
             border: '1px solid #E5E5E5',
@@ -210,7 +213,7 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Form */}
-        <div style={{ gridColumn: 'span 3' }}>
+        <div className="lg:col-span-3">
           <form
             onSubmit={handleSubmit}
             style={{
@@ -234,9 +237,10 @@ export default function ContactPage() {
 
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
               gap: '20px'
-            }}>
+            }}
+            className="grid-cols-1 lg:grid-cols-2"
+            >
               <div>
                 <label style={{
                   display: 'block',

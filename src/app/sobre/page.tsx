@@ -19,14 +19,14 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main style={{ padding: '100px 120px' }}>
+    <main className="px-4 py-10 lg:px-[120px] lg:py-[100px]">
       {/* Hero */}
       <div className="text-center mb-16">
         <div className="inline-flex rounded-2xl bg-[var(--primary)]/10 p-4 mb-6">
           <Palette className="h-10 w-10 text-[var(--primary)]" />
         </div>
         <h1 style={{
-          fontSize: '48px',
+          fontSize: 'clamp(28px, 5vw, 48px)',
           fontWeight: 600,
           color: '#292929',
           textTransform: 'uppercase',
@@ -104,9 +104,10 @@ export default function AboutPage() {
         </h2>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '24px'
-        }}>
+        }}
+        className="grid-cols-1 lg:grid-cols-2"
+        >
           {[
             {
               icon: Heart,
