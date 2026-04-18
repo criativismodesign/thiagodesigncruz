@@ -89,7 +89,7 @@ export default function NewsletterSection({ source = "home" }: NewsletterSection
         alignItems: "center"
       }}
       className="lg:!px-[120px] lg:!py-[79.5px]">
-        <div className="max-w-[40%]">
+        <div className="w-full lg:max-w-[40%]">
           {/* Tag LISTA VIP */}
           <div 
             className="font-light uppercase"
