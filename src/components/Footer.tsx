@@ -366,17 +366,19 @@ export default function Footer() {
       {/* PARTE 4 - FAIXA DE COPYRIGHT */}
       <div style={{ 
         width: '100%', 
-        height: '52px', 
         backgroundColor: '#DAA520', 
         display: 'flex', 
+        flexDirection: 'column',
         alignItems: 'center', 
-        justifyContent: 'space-between',
-        padding: '0 40px'
-      }}>
+        justifyContent: 'center',
+        padding: '16px 20px',
+        gap: '8px'
+      }}
+      className="lg:!flex-row lg:!justify-between lg:!h-[52px] lg:!py-0 lg:!px-[40px]">
         <span style={{ fontSize: '12px', fontWeight: 400, color: '#FFFFFF' }}>
           © 2026 Thiago Design Cruz. Todos os direitos reservados.
         </span>
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div className="flex flex-col items-center gap-1 lg:flex-row lg:gap-2">
           <Link href="/politicas/reembolso" style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '12px' }} className="hover:opacity-80 transition-opacity">
             Política de Reembolso e Devoluções
           </Link>
