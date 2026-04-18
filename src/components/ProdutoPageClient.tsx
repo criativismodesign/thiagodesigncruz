@@ -122,15 +122,12 @@ export default function ProdutoPageClient({ produto }: Props) {
   return (
     <main>
       {/* Seção foto + info */}
-      <div style={{ 
-        padding: '100px 120px', 
-        display: 'flex', 
-        gap: '48px', 
-        flexDirection: 'column' 
-      }}>
-        <div style={{ display: 'flex', gap: '48px', flexDirection: 'row' }}>
+      <div style={{ display: 'flex', gap: '48px', flexDirection: 'column' }}
+      className="px-4 py-10 lg:px-[120px] lg:py-[100px]"
+      >
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12">
           {/* LADO ESQUERDO - Imagens */}
-          <div style={{ width: '50%' }}>
+          <div className="w-full lg:w-1/2">
             {/* Imagem grande */}
             <div 
               style={{ cursor: 'pointer' }}
@@ -220,7 +217,7 @@ export default function ProdutoPageClient({ produto }: Props) {
           </div>
 
           {/* LADO DIREITO - Informações */}
-          <div style={{ width: '50%' }}>
+          <div className="w-full lg:w-1/2">
             {/* Breadcrumb */}
             <nav style={{ marginBottom: '24px' }}>
               <Link 
@@ -322,12 +319,9 @@ export default function ProdutoPageClient({ produto }: Props) {
             </div>
 
             {/* Linha de preço */}
-            <div style={{
-              display: 'flex',
-              gap: '16px',
-              alignItems: 'center',
-              marginTop: '16px'
-            }}>
+            <div style={{ display: 'flex', gap: '48px', flexDirection: 'column' }}
+      className="px-4 py-10 lg:px-[120px] lg:py-[100px]"
+      >
               <span style={{
                 fontSize: '30px',
                 color: '#292929',
