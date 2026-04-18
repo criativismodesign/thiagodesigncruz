@@ -2,6 +2,16 @@ import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 import BannerLateralCategorias from '@/components/BannerLateralCategorias'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Todos os Produtos | UseKIN',
+  description: 'Explore toda a coleção UseKIN. Camisetas oversized e mouse pads com estampas exclusivas do universo geek, anime, games e cultura pop. Entrega para todo o Brasil.',
+  openGraph: {
+    title: 'Todos os Produtos | UseKIN',
+    description: 'Camisetas e mouse pads premium com estampas exclusivas geek, anime e games.',
+  }
+}
 
 interface Props {
   searchParams: Promise<{ busca?: string }>

@@ -2,6 +2,12 @@ import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 import BannerLateralCategorias from '@/components/BannerLateralCategorias'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'My Life My Style Collection | UseKIN',
+  description: 'Coleção My Life My Style UseKIN - Street Art. Camisetas e mouse pads com personagens semirealistas e estética streetwear premium.'
+}
 
 export default function MyLifeMyStylePage() {
   return (

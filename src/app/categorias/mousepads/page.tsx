@@ -2,6 +2,12 @@ import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 import BannerLateralCategorias from '@/components/BannerLateralCategorias'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Mouse Pads e Deskpads | UseKIN',
+  description: 'Mouse pads e deskpads com estampas exclusivas geek, anime e games. Sublimação de alta durabilidade, base antiderrapante. Entrega para todo o Brasil.'
+}
 
 export default function MousepadsPage() {
   return (

@@ -2,6 +2,12 @@ import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 import BannerLateralCategorias from '@/components/BannerLateralCategorias'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Camisetas Oversized | UseKIN',
+  description: 'Camisetas oversized premium com estampas exclusivas do universo geek, anime, games e cultura pop. Modelagem ampla, tecido suedine 250g. Entrega para todo o Brasil.'
+}
 
 export default function OversizedsPage() {
   return (

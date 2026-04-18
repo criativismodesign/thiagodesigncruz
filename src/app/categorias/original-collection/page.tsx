@@ -2,6 +2,12 @@ import BannerCategoriaWrapper from '@/components/BannerCategoriaWrapper'
 import CategoriasFiltroLateralWrapper from '@/components/CategoriasFiltroLateralWrapper'
 import CategoriasLadoDireitoWrapper from '@/components/CategoriasLadoDireitoWrapper'
 import BannerLateralCategorias from '@/components/BannerLateralCategorias'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Original Collection | UseKIN',
+  description: 'A coleção original UseKIN. Peças premium com identidade visual forte, estética streetwear e estampas exclusivas do universo pop.'
+}
 
 export default function OriginalCollectionPage() {
   return (
