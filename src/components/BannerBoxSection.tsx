@@ -58,7 +58,7 @@ export default function BannerBoxSection() {
             <div
               className="font-extrabold uppercase lg:!text-[50px]"
               style={{
-                fontSize: '30px',
+                fontSize: '28px',
                 color: '#FFFFFF',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 800,
@@ -75,7 +75,7 @@ export default function BannerBoxSection() {
             <div
               className="font-light uppercase lg:!text-[50px]"
               style={{
-                fontSize: '30px',
+                fontSize: '28px',
                 color: '#FFFFFF',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 300,
