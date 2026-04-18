@@ -9,6 +9,7 @@ interface Props {
 export default function BannersCategoriaClient({ banners, links }: Props) {
   const [loading, setLoading] = useState(false)
   const [bannersState, setBannersState] = useState(banners)
+  const [bannersMobileState, setBannersMobileState] = useState<Record<string, string>>({})
   const [linksState, setLinksState] = useState<Record<string, string>>(links || {})
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, chave: string) => {
@@ -30,13 +31,26 @@ export default function BannersCategoriaClient({ banners, links }: Props) {
     }
   }
 
+  const handleUploadMobile = async (e: React.ChangeEvent<HTMLInputElement>, chave: string) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('pasta', 'banners')
+    const response = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+    const data = await response.json()
+    if (data.success) {
+      setBannersMobileState(prev => ({ ...prev, [chave]: data.url }))
+    }
+  }
+
   const handleSalvar = async () => {
     setLoading(true)
     try {
       const response = await fetch('/api/admin/banners-categoria', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ banners: bannersState, links: linksState })
+        body: JSON.stringify({ banners: bannersState, bannersMobile: bannersMobileState, links: linksState })
       })
       
       if (response.ok) {
@@ -149,6 +163,23 @@ export default function BannersCategoriaClient({ banners, links }: Props) {
                   >
                     Ver imagem atual
                   </a>
+                </div>
+              )}
+
+              {/* Upload Mobile */}
+              {!config.chave.includes('lateral') && (
+                <div style={{ marginTop: 16 }}>
+                  <p style={{ fontSize: 13, color: '#888', marginBottom: 8 }}>Imagem Mobile (750x300px)</p>
+                  <div
+                    onClick={() => document.getElementById(`upload-mobile-${config.chave}`)?.click()}
+                    style={{ width: '100%', height: 80, border: '2px dashed #E5E5E5', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', background: bannersMobileState[config.chave] ? 'transparent' : '#F9F9F9', overflow: 'hidden' }}
+                  >
+                    {bannersMobileState[config.chave]
+                      ? <img src={bannersMobileState[config.chave]} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      : <span style={{ color: '#AAAAAA', fontSize: 13 }}>+ Imagem mobile 750x300px</span>
+                    }
+                  </div>
+                  <input id={`upload-mobile-${config.chave}`} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleUploadMobile(e, config.chave)} />
                 </div>
               )}
 

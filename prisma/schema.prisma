@@ -272,6 +272,7 @@ model BannerConfig {
   id           String   @id @default(cuid())
   chave        String   @unique
   imagem       String?
+  imagemMobile String?
   link         String?  @default("")
   atualizadoEm DateTime @default(now()) @updatedAt
 }
