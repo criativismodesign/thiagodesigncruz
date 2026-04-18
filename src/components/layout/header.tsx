@@ -35,8 +35,8 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white" style={{ height: "120px" }}>
-      <div className="h-full flex items-center justify-between px-[120px] max-w-[1920px] mx-auto">
+    <header className="sticky top-0 z-50 bg-white h-[70px] lg:h-[120px]">
+      <div className="h-full flex items-center justify-between px-4 lg:px-[120px] max-w-[1920px] mx-auto">
         
         {/* Logo - Coluna Esquerda */}
         <div className="flex-shrink-0">
@@ -44,7 +44,8 @@ export function Header() {
             <img 
               src="/icons/logo.svg" 
               alt="Use KIN Logo" 
-              style={{ width: "205.57px", height: "74.75px" }}
+              style={{ width: "140px", height: "auto" }}
+              className="lg:w-[205px]"
             />
           </Link>
         </div>
@@ -331,7 +332,7 @@ export function Header() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border-b border-[#D8D8D8] lg:hidden">
-          <nav className="px-[120px] py-4 space-y-2">
+          <nav className="px-4 py-4 space-y-2">
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
