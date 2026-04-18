@@ -20,14 +20,14 @@ export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/
       width: '100%',
       aspectRatio: '1920/440',
       overflow: 'hidden',
-      marginBottom: '100px'
+      marginBottom: '40px'
     }}>
       {/* Imagem de fundo */}
       <Image
         src={imagem}
         alt="Banner de categoria"
         fill
-        style={{ objectFit: 'contain', objectPosition: 'center' }}
+        style={{ objectFit: 'cover', objectPosition: 'center' }}
       />
       
       {/* Container do conteúdo */}
@@ -39,11 +39,12 @@ export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        padding: '0 16px',
         gap: '16px'
       }}>
         {/* Título */}
         <h1 style={{
-          fontSize: '50px',
+          fontSize: 'clamp(24px, 5vw, 50px)',
           fontWeight: 600,
           color: '#292929',
           textTransform: 'uppercase',
@@ -65,7 +66,7 @@ export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/
             <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {item.ativo ? (
                 <span style={{
-                  fontSize: '18px',
+                  fontSize: 'clamp(12px, 2vw, 18px)',
                   fontWeight: 700,
                   color: '#F0484A',
                   fontFamily: 'Inter, sans-serif'
@@ -76,7 +77,7 @@ export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/
                 <Link
                   href={item.href}
                   style={{
-                    fontSize: '18px',
+                    fontSize: 'clamp(12px, 2vw, 18px)',
                     fontWeight: 700,
                     color: '#292929',
                     fontFamily: 'Inter, sans-serif',
@@ -97,7 +98,7 @@ export default function BannerCategoria({ titulo, breadcrumb, imagem = "/images/
               {/* Separador */}
               {index < breadcrumb.length - 1 && (
                 <span style={{
-                  fontSize: '18px',
+                  fontSize: 'clamp(12px, 2vw, 18px)',
                   fontWeight: 700,
                   color: '#292929',
                   fontFamily: 'Inter, sans-serif'

@@ -39,18 +39,12 @@ export default function CategoriasFiltroLateral({ colecoes, bannerLateral, banne
   ]
 
   return (
-    <div style={{
-      width: '386px',
-      backgroundColor: '#FFFFFF',
-      marginRight: '24px',
-      marginTop: '100px',
-      marginBottom: '100px',
-      position: 'sticky',
-      top: '100px'
-    }}>
+    <div style={{ backgroundColor: '#FFFFFF', marginRight: '24px' }}
+    className="w-full lg:w-[386px] lg:mt-[100px] lg:mb-[100px] lg:sticky lg:top-[100px]"
+    >
       {/* TÍTULO */}
         <h2 style={{
-          fontSize: '24px',
+          fontSize: '16px',
           fontWeight: 600,
           color: '#292929',
           textTransform: 'uppercase',
@@ -93,7 +87,7 @@ export default function CategoriasFiltroLateral({ colecoes, bannerLateral, banne
                 <Link
                   href={categoria.href}
                   style={{
-                    fontSize: '20px',
+                    fontSize: '14px',
                     fontWeight: pathname === categoria.href ? 700 : 400,
                     color: pathname === categoria.href ? '#DAA520' : '#292929',
                     fontFamily: 'Inter, sans-serif',
@@ -121,7 +115,7 @@ export default function CategoriasFiltroLateral({ colecoes, bannerLateral, banne
                   <button
                     onClick={() => setOriginalCollectionExpanded(!originalCollectionExpanded)}
                     style={{
-                      fontSize: '20px',
+                      fontSize: '14px',
                       fontWeight: 700,
                       color: '#292929',
                       backgroundColor: 'transparent',
@@ -150,7 +144,7 @@ export default function CategoriasFiltroLateral({ colecoes, bannerLateral, banne
                       key={subIndex}
                       href={sublinha.href}
                       style={{
-                        fontSize: '20px',
+                        fontSize: '14px',
                         fontWeight: pathname === sublinha.href ? 700 : 400,
                         color: pathname === sublinha.href ? '#DAA520' : '#BABABA',
                         fontFamily: 'Inter, sans-serif',
