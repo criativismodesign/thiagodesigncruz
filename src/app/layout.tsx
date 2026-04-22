@@ -17,7 +17,7 @@ const interFont = InterFont({
   display: "swap",
 });
 
-const siteUrl = "https://usekin.com.br";
+const siteUrl = "https://www.usekin.com.br";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
