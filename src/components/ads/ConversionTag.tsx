@@ -16,13 +16,19 @@ export function ConversionTag({
   return (
     <Script id="conversion-tag" strategy="afterInteractive">
       {`
-        gtag('event', 'conversion', {
-          'send_to': 'AW-18100242553/bzUBCOeChZ4cEPmQ77ZD',
-          'value': ${value},
-          'currency': '${currency}',
-          'transaction_id': '${transactionId}',
-          'new_customer': ${newCustomer}
-        });
+        try {
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'conversion', {
+              'send_to': 'AW-18100242553/bzUBCOeChZ4cEPmQ77ZD',
+              'value': ${value},
+              'currency': '${currency}',
+              'transaction_id': '${transactionId}',
+              'new_customer': ${newCustomer}
+            });
+          }
+        } catch (error) {
+          console.warn('Erro na tag de conversão Google Ads:', error);
+        }
       `}
     </Script>
   )
