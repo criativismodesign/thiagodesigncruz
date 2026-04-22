@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { payment } from "@/lib/mercadopago";
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
   try {
