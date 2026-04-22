@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { ConversionTag } from '@/components/ads/ConversionTag'
 
 export const revalidate = 30
 
@@ -85,6 +86,16 @@ export default async function AcompanharPedidoPage({ params }: { params: Promise
 
   return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '48px 24px' }}>
+
+      {/* Tag de conversão Google Ads - apenas quando pagamento confirmado */}
+      {(statusNormalizado === 'pago' || statusNormalizado === 'pagamento_confirmado' || statusNormalizado === 'em_producao' || statusNormalizado === 'em_logistica' || statusNormalizado === 'enviado' || statusNormalizado === 'entregue') && (
+        <ConversionTag 
+          value={pedido.total}
+          currency="BRL"
+          transactionId={pedido.id}
+          newCustomer={!pedido.user}
+        />
+      )}
 
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 40 }}>
