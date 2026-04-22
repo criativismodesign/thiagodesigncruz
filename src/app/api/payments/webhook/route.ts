@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     // Processar em background para não dar timeout
     const processWebhook = async () => {
       // MercadoPago sends different notification types
-      if (body.type === "payment" || body.action === "payment.updated") {
+      if (body.type === "payment" || body.action === "payment.updated" || body.action === "payment.created") {
       const paymentId = body.data?.id || body.id;
 
       if (!paymentId) {
