@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
           include: {
             product: { select: { nome: true, sku: true } }
           }
-        });
+        }).catch(() => []);
 
         const order = await prisma.order.findUnique({
           where: { id: orderId },
