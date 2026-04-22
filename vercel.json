@@ -3,5 +3,10 @@
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "redirects": []
+  "redirects": [],
+  "functions": {
+    "src/app/api/payments/webhook/route.ts": {
+      "maxDuration": 60
+    }
+  }
 }
