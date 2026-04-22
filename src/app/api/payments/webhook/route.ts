@@ -123,29 +123,29 @@ export async function POST(request: NextRequest) {
             preco: item.price,
           }))
 
+          await enviarEmailNovoPedido({
+            pedidoId: orderId,
+            clienteNome,
+            clienteEmail,
+            clienteTelefone,
+            clienteCpf,
+            produtos,
+            endereco: enderecoFormatado,
+            total: order.total,
+            frete: order.shipping,
+            formaPagamento: paymentData.payment_method_id || 'pix',
+          })
+
           if (clienteEmail) {
-            await Promise.all([
-              enviarEmailNovoPedido({
-                pedidoId: orderId,
-                clienteNome,
-                clienteEmail,
-                clienteTelefone,
-                clienteCpf,
-                produtos,
-                endereco: enderecoFormatado,
-                total: order.total,
-                frete: order.shipping,
-                formaPagamento: paymentData.payment_method_id || 'pix',
-              }),
-              enviarEmailConfirmacaoCliente({
-                pedidoId: orderId,
-                clienteNome,
-                clienteEmail,
-                produtos,
-                total: order.total,
-                frete: order.shipping,
-              })
-            ])
+            await enviarEmailConfirmacaoCliente({
+              pedidoId: orderId,
+              clienteNome,
+              clienteEmail,
+              produtos,
+              total: order.total,
+              frete: order.shipping,
+            })
+          }
 
           // Incrementar uso do cupom se aplicado
           if (order.cupomId) {
@@ -153,7 +153,6 @@ export async function POST(request: NextRequest) {
               where: { id: order.cupomId },
               data: { totalusado: { increment: 1 } }
             })
-          }
           }
         }
       }
