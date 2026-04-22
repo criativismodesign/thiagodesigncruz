@@ -6,7 +6,10 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Original Collection | UseKIN',
-  description: 'A coleção original UseKIN. Peças premium com identidade visual forte, estética streetwear e estampas exclusivas do universo pop.'
+  description: 'A coleção original UseKIN. Peças premium com identidade visual forte, estética streetwear e estampas exclusivas do universo pop.',
+  alternates: {
+    canonical: 'https://www.usekin.com.br/categorias/original-collection',
+  },
 }
 
 export default function OriginalCollectionPage() {

@@ -17,6 +17,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${produto.nome} | Mouse Pad UseKIN`,
     description: produto.descricaoCurta || `Mouse Pad ${produto.nome} - ${colecaoNome}UseKIN. Estampa exclusiva, superfície premium para gamers. Entrega para todo o Brasil.`,
+    alternates: {
+      canonical: `https://www.usekin.com.br/produto/${colecao}/mousepad/${slug}`,
+    },
     openGraph: {
       title: `${produto.nome} | Mouse Pad UseKIN`,
       description: produto.descricaoCurta || `Mouse Pad ${produto.nome} - UseKIN`,

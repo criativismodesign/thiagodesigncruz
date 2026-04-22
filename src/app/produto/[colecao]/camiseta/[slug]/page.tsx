@@ -17,6 +17,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${produto.nome} | Camiseta UseKIN`,
     description: produto.descricaoCurta || `Camiseta ${produto.nome} - ${colecaoNome}UseKIN. Estampa exclusiva, modelagem oversized premium. Entrega para todo o Brasil.`,
+    alternates: {
+      canonical: `https://www.usekin.com.br/produto/${colecao}/camiseta/${slug}`,
+    },
     openGraph: {
       title: `${produto.nome} | Camiseta UseKIN`,
       description: produto.descricaoCurta || `Camiseta ${produto.nome} - UseKIN`,
