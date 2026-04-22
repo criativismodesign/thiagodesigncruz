@@ -16,11 +16,10 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    // Responder imediatamente ao MercadoPago para evitar timeout
-    const response = NextResponse.json({ received: true });
-
-    // MercadoPago sends different notification types
-    if (body.type === "payment" || body.action === "payment.updated") {
+    // Processar em background para não dar timeout
+    const processWebhook = async () => {
+      // MercadoPago sends different notification types
+      if (body.type === "payment" || body.action === "payment.updated") {
       const paymentId = body.data?.id || body.id;
 
       if (!paymentId) {
@@ -161,7 +160,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return response;
+    }
+    // Responder imediatamente ao MP
+    processWebhook().catch(console.error)
+    return NextResponse.json({ received: true });
   } catch (error) {
     console.error("Webhook error:", error);
     // Always return 200 to MercadoPago to avoid retries
