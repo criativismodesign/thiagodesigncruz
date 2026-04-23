@@ -287,7 +287,7 @@ export async function enviarEmailStatusAtualizado({
             <p style="color: #292929; font-size: 16px; margin: 8px 0 4px;">Olá, <strong>${clienteNome}</strong>!</p>
             <p style="color: #555; font-size: 14px; line-height: 1.7; margin: 0 0 24px;">${config.mensagem}</p>
 
-            <a href="https://www.thiagodesigncruz.com.br/acompanhar/${pedidoId.slice(-8).toLowerCase()}"
+            <a href="https://www.usekin.com.br/acompanhar/${pedidoId.slice(-8).toLowerCase()}"
               style="background: #DAA520; color: #fff; padding: 14px 32px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px; display: inline-block;">
               Acompanhar Pedido
             </a>
