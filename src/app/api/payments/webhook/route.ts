@@ -16,8 +16,14 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    
+    // Responder IMEDIATAMENTE ao MP antes de qualquer processamento
+    const immediateResponse = new Response(JSON.stringify({ received: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
 
-    // Processar em background para não dar timeout
+    // Processar em background
     const processWebhook = async () => {
       // MercadoPago sends different notification types
       if (body.type === "payment" || body.action === "payment.updated" || body.action === "payment.created") {
@@ -164,7 +170,7 @@ export async function POST(request: NextRequest) {
     }
     // Responder imediatamente ao MP
     processWebhook().catch(console.error)
-    return NextResponse.json({ received: true });
+    return immediateResponse;
   } catch (error) {
     console.error("Webhook error:", error);
     // Always return 200 to MercadoPago to avoid retries
