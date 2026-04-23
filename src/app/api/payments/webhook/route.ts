@@ -9,59 +9,37 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('=== WEBHOOK RECEBIDO ===', new Date().toISOString())
-    // Return early if database is disabled
     if (!prisma) {
       return NextResponse.json({ received: true });
     }
 
     const body = await request.json();
-    
-    // Responder IMEDIATAMENTE ao MP antes de qualquer processamento
-    const immediateResponse = new Response(JSON.stringify({ received: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
 
-    // Processar em background
-    const processWebhook = async () => {
-      // MercadoPago sends different notification types
-      if (body.type === "payment" || body.action === "payment.updated" || body.action === "payment.created") {
+    if (body.type === "payment" || body.action === "payment.updated" || body.action === "payment.created") {
       const paymentId = body.data?.id || body.id;
 
       if (!paymentId) {
         return NextResponse.json({ received: true });
       }
 
-      // Fetch payment details from MercadoPago
       const paymentData = await payment.get({ id: paymentId });
-
       const orderId = paymentData.external_reference;
+      
       if (!orderId) {
         return NextResponse.json({ received: true });
       }
 
-      // Map MercadoPago status to our order status
       let orderStatus = "pending";
       switch (paymentData.status) {
-        case "approved":
-          orderStatus = "paid";
-          break;
+        case "approved": orderStatus = "paid"; break;
         case "pending":
-        case "in_process":
-          orderStatus = "pending";
-          break;
+        case "in_process": orderStatus = "pending"; break;
         case "rejected":
-        case "cancelled":
-          orderStatus = "cancelled";
-          break;
+        case "cancelled": orderStatus = "cancelled"; break;
         case "refunded":
-        case "charged_back":
-          orderStatus = "cancelled";
-          break;
+        case "charged_back": orderStatus = "cancelled"; break;
       }
 
-      // Update order in database
       await prisma.order.update({
         where: { id: orderId },
         data: {
@@ -72,44 +50,15 @@ export async function POST(request: NextRequest) {
       });
 
       if (orderStatus === "paid") {
-        console.log('=== WEBHOOK PAID - INICIANDO ENVIO DE EMAIL ===')
-        console.log('Order ID:', orderId)
         const orderItems = await prisma.orderItem.findMany({
           where: { orderId },
-          include: {
-            product: { select: { nome: true, sku: true } }
-          }
+          include: { product: { select: { nome: true, sku: true } } }
         }).catch(() => []);
 
         const order = await prisma.order.findUnique({
           where: { id: orderId },
-          include: {
-            user: { select: { name: true, email: true, phone: true, cpf: true } }
-          }
+          include: { user: { select: { name: true, email: true, phone: true, cpf: true } } }
         });
-
-        console.log('Order found:', order ? 'yes' : 'no')
-        console.log('payerEmail:', order?.payerEmail)
-        console.log('user email:', order?.user?.email)
-
-        for (const item of orderItems) {
-          try {
-            await prisma.productAnalytics.create({
-              data: {
-                event: "purchase",
-                produtoId: item.productId,
-                userId: order?.userId,
-                metadata: JSON.stringify({
-                  orderId,
-                  quantity: item.quantity,
-                  price: item.price,
-                }),
-              },
-            });
-          } catch (analyticsError) {
-            console.log('Analytics error (ignorado):', analyticsError)
-          }
-        }
 
         if (order) {
           const clienteNome = order.payerName || order.user?.name || 'Cliente'
@@ -120,7 +69,7 @@ export async function POST(request: NextRequest) {
           let enderecoFormatado = order.shippingAddress
           try {
             const e = JSON.parse(order.shippingAddress)
-            enderecoFormatado = `${e.street}, ${e.number}${e.complement ? `, ${e.complement}` : ''} — ${e.neighborhood}, ${e.city}/${e.state} — CEP ${e.zipCode}` 
+            enderecoFormatado = `${e.street}, ${e.number}${e.complement ? `, ${e.complement}` : ''} - ${e.neighborhood}, ${e.city}/${e.state} - CEP ${e.zipCode}` 
           } catch {}
 
           const produtos = orderItems.map((item: any) => ({
@@ -156,7 +105,6 @@ export async function POST(request: NextRequest) {
             })
           }
 
-          // Incrementar uso do cupom se aplicado
           if (order.cupomId) {
             await (prisma as any).cupom.update({
               where: { id: order.cupomId },
@@ -167,13 +115,9 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    }
-    // Responder imediatamente ao MP
-    processWebhook().catch(console.error)
-    return immediateResponse;
+    return NextResponse.json({ received: true });
   } catch (error) {
     console.error("Webhook error:", error);
-    // Always return 200 to MercadoPago to avoid retries
     return NextResponse.json({ received: true });
   }
 }
