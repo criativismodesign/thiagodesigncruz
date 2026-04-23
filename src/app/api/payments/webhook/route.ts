@@ -9,6 +9,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('=== WEBHOOK RECEBIDO ===', new Date().toISOString())
     // Return early if database is disabled
     if (!prisma) {
       return NextResponse.json({ received: true });
