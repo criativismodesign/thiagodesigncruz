@@ -281,12 +281,27 @@ export default function PedidosAvulsoPage() {
                 </td>
                 <td style={{ padding: '16px' }}>
                   <button
+                    onClick={() => router.push(`/login-usekin/dashboard/pedidos-avulso/${pedido.id}/editar`)}
+                    style={{
+                      background: '#2563EB',
+                      color: '#fff',
+                      padding: '6px 12px',
+                      borderRadius: '4px',
+                      border: 'none',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      marginRight: '8px'
+                    }}
+                  >
+                    Editar
+                  </button>
+                  <button
                     onClick={() => {
                       setSelectedPedido(pedido)
                       setShowDetailsModal(true)
                     }}
                     style={{
-                      background: '#2563EB',
+                      background: '#6B7280',
                       color: '#fff',
                       padding: '6px 12px',
                       borderRadius: '4px',
