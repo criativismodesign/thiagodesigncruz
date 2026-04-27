@@ -7,6 +7,7 @@ const menuItems = [
   { href: '/login-usekin/dashboard/produtos', label: 'Produtos' },
   { href: '/login-usekin/dashboard/colecoes', label: 'Coleções' },
   { href: '/login-usekin/dashboard/pedidos', label: 'Pedidos' },
+  { href: '/login-usekin/dashboard/pedidos-avulso', label: 'Pedidos Avulsos' },
   { href: '/login-usekin/dashboard/banners', label: 'Banners' },
   { href: '/login-usekin/dashboard/banners-categoria', label: 'Banners Categoria' },
   { href: '/login-usekin/dashboard/cupons', label: 'Cupons' },
