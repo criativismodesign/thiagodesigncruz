@@ -56,7 +56,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       if (body.items.length > 0) {
         await prisma.orderAvulsoItem.createMany({
           data: body.items.map((item: any) => ({
-            orderAvulsoId: id,
+            orderId: id,
             nomeProduto: item.nomeProduto,
             tamanho: item.tamanho,
             cor: item.cor,

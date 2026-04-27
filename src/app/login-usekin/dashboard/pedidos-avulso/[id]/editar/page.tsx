@@ -154,7 +154,7 @@ export default function EditarPedidoAvulsoPage() {
 
   const inputPlaceholderStyle = {
     ...inputStyle,
-    color: '#888888'
+    color: '#292929'
   }
 
   if (fetching) {
