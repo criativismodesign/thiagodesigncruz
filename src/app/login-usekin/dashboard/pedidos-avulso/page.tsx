@@ -614,10 +614,10 @@ export default function PedidosAvulsoPage() {
               <select
                 value={selectedPedido.status}
                 onChange={(e) => setSelectedPedido(prev => prev ? { ...prev, status: e.target.value } : null)}
-                style={{ padding: '12px', border: '1px solid #E5E5E5', borderRadius: '8px', width: '100%' }}
+                style={{ padding: '12px', border: '1px solid #E5E5E5', borderRadius: '8px', width: '100%', color: '#292929' }}
               >
                 {STATUS_OPTIONS.map(option => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
+                  <option key={option.value} value={option.value} style={{ color: '#292929' }}>{option.label}</option>
                 ))}
               </select>
             </div>
