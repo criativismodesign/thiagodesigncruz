@@ -289,3 +289,48 @@ model Cupom {
   criadoEm     DateTime  @default(now())
   atualizadoEm DateTime  @updatedAt
 }
+
+model OrderAvulso {
+  id               String   @id @default(cuid())
+  shortId          String   @unique @default(cuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Dados do cliente
+  clienteNome      String
+  clienteCpf       String
+  clienteEmail     String
+
+  // Dados financeiros
+  valorTotal       Float
+  valorEntrada     Float
+  valorRestante    Float
+  frete            Float    @default(0)
+
+  // Pagamento
+  transacaoId      String?
+  formaPagamento   String   @default("mercadopago")
+
+  // Endereço (opcional)
+  endereco         String?
+
+  // Status
+  status           String   @default("aguardando_entrada")
+
+  // Código de rastreio
+  trackingCode     String?
+
+  // Itens
+  items            OrderAvulsoItem[]
+}
+
+model OrderAvulsoItem {
+  id          String       @id @default(cuid())
+  orderId     String
+  order       OrderAvulso  @relation(fields: [orderId], references: [id])
+  nomeProduto String
+  tamanho     String?
+  cor         String?
+  quantidade  Int          @default(1)
+  preco       Float
+}
