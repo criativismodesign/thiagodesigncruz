@@ -143,59 +143,67 @@ export default function NovoPedidoAvulsoPage() {
             Itens do Pedido
           </h2>
           {formData.items.map((item, index) => (
-            <div key={index} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr auto', gap: '12px', marginBottom: '12px' }}>
-              <input
-                type="text"
-                placeholder="Nome do Produto"
-                value={item.nomeProduto}
-                onChange={(e) => updateItem(index, 'nomeProduto', e.target.value)}
-                style={inputPlaceholderStyle}
-              />
-              <input
-                type="text"
-                placeholder="Tamanho"
-                value={item.tamanho}
-                onChange={(e) => updateItem(index, 'tamanho', e.target.value)}
-                style={inputPlaceholderStyle}
-              />
-              <input
-                type="text"
-                placeholder="Cor"
-                value={item.cor}
-                onChange={(e) => updateItem(index, 'cor', e.target.value)}
-                style={inputPlaceholderStyle}
-              />
-              <input
-                type="number"
-                placeholder="Qtd"
-                value={item.quantidade}
-                onChange={(e) => updateItem(index, 'quantidade', parseInt(e.target.value) || 1)}
-                min="1"
-                style={inputPlaceholderStyle}
-              />
-              <input
-                type="number"
-                placeholder="Preço"
-                value={item.preco}
-                onChange={(e) => updateItem(index, 'preco', parseFloat(e.target.value) || 0)}
-                step="0.01"
-                min="0"
-                style={inputPlaceholderStyle}
-              />
-              <button
-                type="button"
-                onClick={() => removeItem(index)}
-                style={{
-                  background: '#DC2626',
-                  color: '#fff',
-                  padding: '12px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: 'pointer'
-                }}
-              >
-                X
-              </button>
+            <div key={index} style={{ marginBottom: '20px', padding: '16px', background: '#F9F9F9', borderRadius: '8px', border: '1px solid #E5E5E5' }}>
+              {/* Nome do Produto - Linha 1 */}
+              <div style={{ marginBottom: '12px' }}>
+                <input
+                  type="text"
+                  placeholder="Nome do Produto"
+                  value={item.nomeProduto}
+                  onChange={(e) => updateItem(index, 'nomeProduto', e.target.value)}
+                  style={{ ...inputPlaceholderStyle, width: '100%' }}
+                />
+              </div>
+              
+              {/* Tamanho | Cor | Quantidade | Preço | Remover - Linha 2 */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr auto', gap: '12px', alignItems: 'start' }}>
+                <input
+                  type="text"
+                  placeholder="Tamanho"
+                  value={item.tamanho}
+                  onChange={(e) => updateItem(index, 'tamanho', e.target.value)}
+                  style={inputPlaceholderStyle}
+                />
+                <input
+                  type="text"
+                  placeholder="Cor"
+                  value={item.cor}
+                  onChange={(e) => updateItem(index, 'cor', e.target.value)}
+                  style={inputPlaceholderStyle}
+                />
+                <input
+                  type="number"
+                  placeholder="Qtd"
+                  value={item.quantidade}
+                  onChange={(e) => updateItem(index, 'quantidade', parseInt(e.target.value) || 1)}
+                  min="1"
+                  style={inputPlaceholderStyle}
+                />
+                <input
+                  type="number"
+                  placeholder="Preço"
+                  value={item.preco}
+                  onChange={(e) => updateItem(index, 'preco', parseFloat(e.target.value) || 0)}
+                  step="0.01"
+                  min="0"
+                  style={inputPlaceholderStyle}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeItem(index)}
+                  style={{
+                    background: '#DC2626',
+                    color: '#fff',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    height: '48px'
+                  }}
+                >
+                  X
+                </button>
+              </div>
             </div>
           ))}
           <button

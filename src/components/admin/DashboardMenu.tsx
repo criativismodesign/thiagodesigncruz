@@ -21,7 +21,10 @@ export default function DashboardMenu() {
   return (
     <nav style={{ flex: 1, padding: '12px 0' }}>
       {menuItems.map((item) => {
-        const ativo = pathname === item.href || (item.href !== '/login-usekin/dashboard' && pathname.startsWith(item.href))
+        const ativo = pathname === item.href || 
+  (item.href !== '/login-usekin/dashboard' && 
+   pathname.startsWith(item.href + '/') &&
+   !menuItems.some(other => other.href !== item.href && pathname.startsWith(other.href)))
         return (
           <Link key={item.href} href={item.href} style={{
             display: 'block',

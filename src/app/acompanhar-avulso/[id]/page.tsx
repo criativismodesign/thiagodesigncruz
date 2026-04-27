@@ -27,6 +27,16 @@ function formatarCPF(cpf: string) {
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
 }
 
+function mascararCpf(cpf: string) {
+  const limpo = cpf.replace(/\D/g, '')
+  return limpo.slice(0,2) + '*.***.***-' + limpo.slice(-3)
+}
+
+function mascararEmail(email: string) {
+  const [usuario, dominio] = email.split('@')
+  return usuario.slice(0,2) + '***@' + dominio
+}
+
 export default async function AcompanharPedidoAvulsoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
@@ -124,8 +134,8 @@ export default async function AcompanharPedidoAvulsoPage({ params }: { params: P
         <h2 style={{ fontSize: 16, fontWeight: 700, color: '#292929', marginBottom: 16 }}>Dados do Cliente</h2>
         <div style={{ color: '#555', fontSize: 14, lineHeight: 1.8 }}>
           <div>Nome: <strong>{pedido.clienteNome}</strong></div>
-          <div>CPF: <strong>{formatarCPF(pedido.clienteCpf)}</strong></div>
-          <div>Email: <strong>{pedido.clienteEmail}</strong></div>
+          <div>CPF: <strong>{mascararCpf(pedido.clienteCpf)}</strong></div>
+          <div>Email: <strong>{mascararEmail(pedido.clienteEmail)}</strong></div>
         </div>
       </div>
 
