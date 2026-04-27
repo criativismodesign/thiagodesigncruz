@@ -30,10 +30,12 @@ export default function NovoPedidoAvulsoPage() {
     e.preventDefault()
     setLoading(true)
     
-    const valorRestante = formData.valorTotal - formData.valorEntrada
+    const valorTotalCalculado = calcularTotal()
+    const valorRestante = valorTotalCalculado - formData.valorEntrada
     
     const pedidoData = {
       ...formData,
+      valorTotal: valorTotalCalculado,
       valorRestante,
       items: formData.items.filter(item => item.nomeProduto && item.preco > 0)
     }
