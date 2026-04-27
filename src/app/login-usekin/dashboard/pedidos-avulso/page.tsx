@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { cookies } from 'next/headers'
 
 // Função para verificar admin (será movida para server component)
@@ -56,6 +57,7 @@ const STATUS_COLORS: Record<string, string> = {
 }
 
 export default function PedidosAvulsoPage() {
+  const router = useRouter()
   const [isAdmin, setIsAdmin] = useState(false)
   const [pedidos, setPedidos] = useState<OrderAvulso[]>([])
   const [loading, setLoading] = useState(true)
@@ -213,7 +215,7 @@ export default function PedidosAvulsoPage() {
           Pedidos Avulsos
         </h1>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => router.push('/login-usekin/dashboard/pedidos-avulso/novo')}
           style={{
             background: '#DAA520',
             color: '#fff',
