@@ -49,7 +49,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (body.items && Array.isArray(body.items)) {
       // Primeiro, deletar todos os itens existentes
       await prisma.orderAvulsoItem.deleteMany({
-        where: { orderAvulsoId: id }
+        where: { orderId: id }
       })
 
       // Depois, criar os novos itens
