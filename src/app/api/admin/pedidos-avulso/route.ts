@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { prisma } from '@/lib/prisma'
+import { enviarEmailNovoPedidoAvulsoAdmin, enviarEmailNovoPedidoAvulsoCliente, enviarEmailStatusAvulso } from '@/lib/email-avulso'
 
 async function verificarAdmin() {
   const cookieStore = await cookies()
@@ -89,6 +90,32 @@ export async function POST(request: Request) {
       include: {
         items: true
       }
+    })
+
+    // Enviar emails
+    await enviarEmailNovoPedidoAvulsoAdmin({
+      shortId: pedido.shortId,
+      clienteNome,
+      clienteCpf,
+      clienteEmail,
+      items: pedido.items,
+      valorTotal,
+      valorEntrada,
+      valorRestante,
+      frete,
+      transacaoId,
+      endereco
+    })
+
+    await enviarEmailNovoPedidoAvulsoCliente({
+      shortId: pedido.shortId,
+      clienteNome,
+      clienteEmail,
+      items: pedido.items,
+      valorTotal,
+      valorEntrada,
+      valorRestante,
+      frete
     })
 
     return NextResponse.json({ success: true, pedido })

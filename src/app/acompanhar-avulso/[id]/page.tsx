@@ -64,7 +64,7 @@ export default async function AcompanharPedidoAvulsoPage({ params }: { params: P
       <div style={{ textAlign: 'center', marginBottom: 40 }}>
         <div style={{ fontSize: 56, marginBottom: 16, lineHeight: 1 }}>{statusAtual.icone}</div>
         <h1 style={{ fontSize: 26, fontWeight: 700, color: '#292929', marginBottom: 8 }}>
-          Acompanhamento do Pedido Avulso
+          Olá, {pedido.clienteNome.split(' ')[0]}!
         </h1>
         <div style={{ fontSize: 14, color: '#888', marginBottom: 12 }}>
           Pedido #{pedido.shortId}
