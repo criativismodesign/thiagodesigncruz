@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  compress: true,
   images: {
     remotePatterns: [
       {
@@ -8,6 +9,13 @@ const nextConfig: NextConfig = {
         hostname: "**",
       },
     ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+    deviceSizes: [390, 768, 1280, 1920],
+    imageSizes: [64, 128, 256, 384],
+  },
+  experimental: {
+    optimizeCss: true,
   },
   async headers() {
     return [

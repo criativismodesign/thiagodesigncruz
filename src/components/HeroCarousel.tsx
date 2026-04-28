@@ -87,7 +87,9 @@ export default function HeroCarousel({ slides }: Props) {
             src={imagemAtual || ''}
             alt={currentSlideData.titulo}
             fill
-            priority
+            priority={currentSlide === 0}
+            loading={currentSlide === 0 ? 'eager' : 'lazy'}
+            quality={85}
             style={{ 
               objectFit: 'cover',
               objectPosition: 'center center'
