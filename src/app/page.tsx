@@ -1,13 +1,11 @@
 import HeroCarouselWrapper from '@/components/HeroCarouselWrapper'
-import nextDynamic from 'next/dynamic'
-
-const OriginalCollectionSectionWrapper = nextDynamic(() => import('@/components/OriginalCollectionSectionWrapper'))
-const MousepadCollectionSectionWrapper = nextDynamic(() => import('@/components/MousepadCollectionSectionWrapper'))
-const ImmortalsCollectionSectionWrapper = nextDynamic(() => import('@/components/ImmortalsCollectionSectionWrapper'))
-const CollectionsSectionWrapper = nextDynamic(() => import('@/components/CollectionsSectionWrapper'))
-const NewsletterSection = nextDynamic(() => import('@/components/NewsletterSection'))
-const OutrosModelosSectionWrapper = nextDynamic(() => import('@/components/OutrosModelosSectionWrapper'))
-const BannerBoxSection = nextDynamic(() => import('@/components/BannerBoxSection'))
+import OriginalCollectionSectionWrapper from '@/components/OriginalCollectionSectionWrapper'
+import MousepadCollectionSectionWrapper from '@/components/MousepadCollectionSectionWrapper'
+import ImmortalsCollectionSectionWrapper from '@/components/ImmortalsCollectionSectionWrapper'
+import CollectionsSectionWrapper from '@/components/CollectionsSectionWrapper'
+import NewsletterSection from '@/components/NewsletterSection'
+import OutrosModelosSectionWrapper from '@/components/OutrosModelosSectionWrapper'
+import BannerBoxSection from '@/components/BannerBoxSection'
 
 export const dynamic = 'force-dynamic'
 
