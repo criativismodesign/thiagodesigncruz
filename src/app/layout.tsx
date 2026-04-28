@@ -81,6 +81,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "IUFVWQStFMAvUouAIIONwMF8EW1m7pBQLQX8x0Il3R4",
+    other: {
+      "facebook-domain-verification": "ir9lc1qm83jk8vxwxgehpigcexrxmi"
+    }
   },
   themeColor: '#ffffff',
   icons: {
