@@ -12,6 +12,7 @@ export default async function MousepadCollectionSectionWrapper() {
       where: {
         tipo: 'mousepad',
         status: 'ativo',
+        colecaoId: { not: null },
       },
       include: { 
         imagens: { orderBy: { ordem: 'asc' } },
