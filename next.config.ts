@@ -14,10 +14,7 @@ const nextConfig: NextConfig = {
     deviceSizes: [390, 768, 1280, 1920],
     imageSizes: [64, 128, 256, 384],
   },
-  experimental: {
-    optimizeCss: true,
-  },
-  async headers() {
+    async headers() {
     return [
       {
         source: "/(.*)",
