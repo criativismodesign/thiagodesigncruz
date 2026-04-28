@@ -214,6 +214,44 @@ export default function HeroCarousel({ slides }: Props) {
         <ChevronRight size={20} color="#FFFFFF" />
       </button>
 
+      {/* Scroll Down Arrow - Mobile only */}
+      {isMobile && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '80px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 20,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            animation: 'scrollBounce 2s infinite',
+            cursor: 'pointer',
+          }}
+          onClick={() => window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })}
+        >
+          <span style={{
+            fontSize: '11px',
+            color: 'rgba(255,255,255,0.9)',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 500,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+            textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+          }}>
+            Ver mais
+          </span>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M7 10L14 17L21 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style={{ marginTop: '-14px', opacity: 0.5 }}>
+            <path d="M7 10L14 17L21 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+      )}
+
       {/* Dots Indicators - Reutilizando estilo existente */}
       <div className="absolute bottom-6 right-6 z-20 flex gap-2">
         {slides.map((_, index) => (
@@ -259,14 +297,14 @@ export default function HeroCarousel({ slides }: Props) {
         }
         .hero-supertitle {
           font-size: 28px;
-          color: #DAA520;
+          color: '#DAA520';
           font-family: 'Inter', sans-serif;
           font-weight: 300;
           margin-bottom: 8px;
         }
         .hero-title {
           font-size: 70px;
-          color: #000000;
+          color: '#000000';
           font-family: 'Inter', sans-serif;
           font-weight: 600;
           line-height: 1.1;
@@ -274,7 +312,7 @@ export default function HeroCarousel({ slides }: Props) {
         }
         .hero-description {
           font-size: 18px;
-          color: #292929;
+          color: '#292929';
           font-family: 'Inter', sans-serif;
           font-weight: 400;
           text-transform: uppercase;
@@ -284,6 +322,10 @@ export default function HeroCarousel({ slides }: Props) {
         .hero-arrow {
           width: 48px;
           height: 48px;
+        }
+        @keyframes scrollBounce {
+          0%, 100% { transform: translateX(-50%) translateY(0px); opacity: 1; }
+          50% { transform: translateX(-50%) translateY(8px); opacity: 0.7; }
         }
       `}</style>
     </div>
