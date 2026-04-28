@@ -88,6 +88,8 @@ export default function HeroCarousel({ slides }: Props) {
             alt={currentSlideData.titulo}
             fill
             priority
+            fetchPriority="high"
+            quality={80}
             style={{ 
               objectFit: 'cover',
               objectPosition: 'center center'
