@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from 'next/script'
 import "./globals.css";
-import { Inter as InterFont } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
@@ -10,11 +9,12 @@ import { Providers } from "@/components/providers";
 import { Toaster } from "sonner";
 import { WebsiteJsonLd, OrganizationJsonLd } from "@/components/seo/json-ld";
 
-const inter = Inter({ subsets: ["latin"] });
-const interFont = InterFont({ 
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  preload: true,
+  variable: '--font-inter',
 });
 
 const siteUrl = "https://www.usekin.com.br";
@@ -116,7 +116,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} ${interFont.variable}`} style={{ overflowX: 'hidden', maxWidth: '100vw' }}>
+      <body className={`${inter.className} ${inter.variable}`} style={{ overflowX: 'hidden', maxWidth: '100vw' }}>
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-N4EGGQ2TS6"
