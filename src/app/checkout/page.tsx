@@ -6,6 +6,7 @@ import { useCartStore } from "@/store/cart-store";
 import { useSession } from "next-auth/react";
 import { Loader2, Lock, CreditCard, QrCode, Barcode } from "lucide-react";
 import { toast } from "sonner";
+import { trackBeginCheckout, trackPurchase } from '@/lib/analytics';
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("pt-BR", {
@@ -36,6 +37,22 @@ export default function CheckoutPage() {
   const [cupomAplicado, setCupomAplicado] = useState<any>(null);
   const [cupomErro, setCupomErro] = useState('');
   const [cupomLoading, setCupomLoading] = useState(false);
+
+  useEffect(() => {
+    if (items.length > 0) {
+      trackBeginCheckout(
+        items.map(item => ({
+          id: item.productId,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          type: item.type,
+          size: item.size,
+        })),
+        getTotal()
+      )
+    }
+  }, [])
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -214,10 +231,34 @@ export default function CheckoutPage() {
       
       if (typeof window !== 'undefined') {
         if (data.initPoint) {
+          trackPurchase({
+            orderId: String(data.pedidoId || Date.now()),
+            total: getTotal(),
+            items: items.map(item => ({
+              id: item.productId,
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+              type: item.type,
+              size: item.size,
+            }))
+          });
           clearCart();
           window.location.href = data.initPoint;
         } else if (data.sandboxInitPoint) {
           // Clear cart only after successful redirect
+          trackPurchase({
+            orderId: String(data.pedidoId || Date.now()),
+            total: getTotal(),
+            items: items.map(item => ({
+              id: item.productId,
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+              type: item.type,
+              size: item.size,
+            }))
+          });
           clearCart();
           window.location.href = data.sandboxInitPoint;
         } else {

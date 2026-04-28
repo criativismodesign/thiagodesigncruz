@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCartStore } from '@/store/cart-store'
 import { toast } from 'sonner'
 import CalculadorFrete from './CalculadorFrete'
+import { trackViewItem, trackAddToCart } from '@/lib/analytics'
 
 interface Imagem { id: string; url: string; ordem: number; isPrincipal: boolean }
 interface Estoque { tamanho: string | null; cor: string | null; quantidade: number }
@@ -29,6 +30,16 @@ export default function ProdutoPageClient({ produto }: Props) {
   const [abaAtiva, setAbaAtiva] = useState(produto.tipo === 'camiseta' ? 'descricao' : 'informacoes')
   const [corSelecionada, setCorSelecionada] = useState<string>('')
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState<string>('')
+  
+  useEffect(() => {
+    trackViewItem({
+      id: produto.id,
+      nome: produto.nome,
+      precoAtual: produto.precoAtual,
+      tipo: produto.tipo,
+      colecao: produto.colecao,
+    })
+  }, [produto.id])
   
   const estoqueDisponivel = tamanhoSelecionado && corSelecionada
     ? produto.estoque?.find(e => e.tamanho === tamanhoSelecionado && e.cor === corSelecionada)?.quantidade || 0
@@ -114,6 +125,16 @@ export default function ProdutoPageClient({ produto }: Props) {
       size: tamanhoSelecionado || undefined,
       color: corSelecionada || undefined,
       type: produto.tipo,
+    })
+    
+    trackAddToCart({
+      id: produto.id,
+      nome: produto.nome,
+      preco: produto.precoAtual,
+      tipo: produto.tipo,
+      quantidade: quantity,
+      tamanho: tamanhoSelecionado || undefined,
+      cor: corSelecionada || undefined,
     })
     
     toast.success("Produto adicionado ao carrinho!")
